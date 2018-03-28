@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>线程锁NSLock - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。
+加锁和解锁的方法都声明在NSLocking协议中。
+1234-(void)lock;/*如果锁正在被使用，则线程进入休眠状态。*//*如果锁没有被使用，则将锁的状态变为正被使用，线程继续执行。*/-(void">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程锁NSLock">
+<meta property="og:url" content="https://zhengry.github.io/2016/12/23/线程锁NSLock/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。
+加锁和解锁的方法都声明在NSLocking协议中。
+1234-(void)lock;/*如果锁正在被使用，则线程进入休眠状态。*//*如果锁没有被使用，则将锁的状态变为正被使用，线程继续执行。*/-(void">
+<meta property="og:updated_time" content="2017-04-05T15:27:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程锁NSLock">
+<meta name="twitter:description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。
+加锁和解锁的方法都声明在NSLocking协议中。
+1234-(void)lock;/*如果锁正在被使用，则线程进入休眠状态。*//*如果锁没有被使用，则将锁的状态变为正被使用，线程继续执行。*/-(void">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-线程锁NSLock" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      线程锁NSLock
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/12/23/线程锁NSLock/" class="article-date">
+  <time datetime="2016-12-23T14:49:47.000Z" itemprop="datePublished">2016-12-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/多线程/">多线程</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。</p>
+<p>加锁和解锁的方法都声明在NSLocking协议中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(void)lock;</div><div class="line">/*如果锁正在被使用，则线程进入休眠状态。*/</div><div class="line">/*如果锁没有被使用，则将锁的状态变为正被使用，线程继续执行。*/</div><div class="line">-(void)unlock;</div></pre></td></tr></table></figure>
+<p><code>[lockObj lock];</code>和<code>[lockObj unlock];</code>之间的代码称为临界区。如果锁正在被使用，则等待该锁资源（等待执行临界区代码）的线程则进入休眠状态；将锁置为没有在被使用时，如果有等待该锁资源的正在休眠的线程，则将其唤醒。</p>
+<p>加锁的意思是：</p>
+<p><strong>假设有两个线程a和b，a、b两个线程并行执行，且都需要访问临界区代码，如果b在访问临界区时，a正在访问（此时锁正在被a使用，临界区被上锁），则b会被阻塞（休眠状态），待a执行完临界区unlock之后，b被唤醒然后继续执行。</strong></p>
+<p>加锁示例：</p>
+<ol>
+<li><p>加锁失败的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-(int)lock</div><div class="line">&#123;</div><div class="line">[countLock lock];</div><div class="line">++theCount;</div><div class="line">[countLock unlock];</div><div class="line">return theCount;/*在解锁后return前，theCount可能还是会被其他线程修改。*/</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>正确示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-(int)lock</div><div class="line">&#123;</div><div class="line">  int tmp;</div><div class="line">  [countLock lock];</div><div class="line">  tmp = ++theCount;</div><div class="line">  [countLock unlock];</div><div class="line">  return theCount;/*自动变量tmp可以在整个线程中局部利用，无需担心会被其他线程访问。*/</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/线程锁/">线程锁</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/13/collectionView注册cell和筛选项问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          collectionView注册cell和筛选项问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/28/statusBarStyle设置问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">statusBarStyle设置问题&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

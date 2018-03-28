@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS编译原理和过程 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="编译器先了解一下编译器相关的LLVM和Clang：
+LLVMLLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，进行在线编译优化、代码生成。对开发者保持开放，并兼容已有脚本。LL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS编译原理和过程">
+<meta property="og:url" content="https://zhengry.github.io/2015/10/21/iOS编译原理和过程/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="编译器先了解一下编译器相关的LLVM和Clang：
+LLVMLLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，进行在线编译优化、代码生成。对开发者保持开放，并兼容已有脚本。LL">
+<meta property="og:image" content="https://zhengry.github.io/images/编译过程.png">
+<meta property="og:image" content="https://zhengry.github.io/images/Clang.png">
+<meta property="og:image" content="https://zhengry.github.io/images/LLVM优化器.png">
+<meta property="og:image" content="https://zhengry.github.io/images/LLVM机器码生成器.png">
+<meta property="og:updated_time" content="2017-05-08T09:34:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS编译原理和过程">
+<meta name="twitter:description" content="编译器先了解一下编译器相关的LLVM和Clang：
+LLVMLLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，进行在线编译优化、代码生成。对开发者保持开放，并兼容已有脚本。LL">
+<meta name="twitter:image" content="https://zhengry.github.io/images/编译过程.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-iOS编译原理和过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS编译原理和过程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/10/21/iOS编译原理和过程/" class="article-date">
+  <time datetime="2015-10-21T15:42:40.000Z" itemprop="datePublished">2015-10-21</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/基础/">基础</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>先了解一下编译器相关的LLVM和Clang：</p>
+<h4 id="LLVM"><a href="#LLVM" class="headerlink" title="LLVM"></a>LLVM</h4><p>LLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，进行在线编译优化、代码生成。对开发者保持开放，并兼容已有脚本。LLVM的项目是一个模块化和可重复使用的编译器和工具技术的集合。LLVM是伊利诺伊大学的一个研究项目，提供一个现代化的，基于SSA的编译策略能够同时支持静态和动态的任意编程语言的编译目标。</p>
+<h4 id="Clang"><a href="#Clang" class="headerlink" title="Clang"></a>Clang</h4><p>Clang是一个C语言、C++、Objective-C、C++语言的轻量级编译器。</p>
+<p>特点：</p>
+<ul>
+<li><strong>终端用户特色：</strong>快速编译和较少内存占用；有诊断功能；兼容GCC；</li>
+<li><strong>实用工具和应用：</strong>基础架构模块库；可满足多样的客户需求代码重构，静态分析，代码生成；</li>
+<li><strong>内部设计与实现：</strong>一个简单的可移植的代码库；一个为C语言、Objective-C、C++、Objective-C设计的通用的语法解析器；与C/C++/Objective-C及它们的衍生语言具有高度一致性。</li>
+</ul>
+<h3 id="iOS编译"><a href="#iOS编译" class="headerlink" title="iOS编译"></a>iOS编译</h3><p>不管是OC还是Swift，都是采用Clang作为编译器前端，LLVM(Low level vritual machine)作为编译器后端。所以简单的编译过程如图：</p>
+<p><img src="/images/编译过程.png" alt="编译过程"></p>
+<p>编译器前端的任务：进行语法分析，语义分析，生成中间代码(intermediate representation )。在这个过程中，会进行类型检查，如果发现错误或者警告会标注出来在哪一行。</p>
+<p><img src="/images/Clang.png" alt="Clang"></p>
+<p>编译器后端任务：进行机器无关的代码优化，生成机器语言，并且进行机器相关的代码优化。iOS的编译过程，后端的处理如下：</p>
+<ul>
+<li><strong>LVVM优化器会进行BitCode的生成，链接期优化等等</strong>。</li>
+</ul>
+<p><img src="/images/LLVM优化器.png" alt="LLVM优化器"></p>
+<ul>
+<li><p><strong>LLVM机器码生成器会针对不同的架构，比如arm64等生成不同的机器码</strong>。</p>
+<p><img src="/images/LLVM机器码生成器.png" alt="LLVM机器码生成器"></p>
+</li>
+</ul>
+<h3 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h3><h4 id="基本的编译过程"><a href="#基本的编译过程" class="headerlink" title="基本的编译过程"></a>基本的编译过程</h4><p>分为四个步骤：</p>
+<ol>
+<li>预处理（Pre-process）：替换宏、删除注释、展开头文件、产生.i文件</li>
+<li>编译（Compliling）：把之前的 <strong>.i</strong> 文件转换成汇编语言，产生 <strong>.s</strong>文件。</li>
+<li>汇编（Asembly）：把汇编语言文件转换为机器码文件，产生 <strong>.o</strong> 文件。</li>
+<li>链接（Link）：对<strong>.o</strong>文件中的对于其他的库的引用的地方进行引用，生成最后的可执行文件（同时也包括多个 <strong>.o</strong> 文件进行 link）。</li>
+</ol>
+<p>xcode 是根据 target 分开进行编译的。首先切换到 pch 的目录下，然后设置环境变量，然后启动 clang 并进行一系列的配置。在这之后一般就会产生具体的 <code>.o</code>文件作为产出（一般是有多个，针对不同的平台架构分别有一个，不过一般紧接着会把这些聚合成一个通用的 library）。不同的 target 也是有编译顺序的，具体的要看 target 之间的依赖关系。</p>
+<h4 id="具体的编译过程"><a href="#具体的编译过程" class="headerlink" title="具体的编译过程"></a>具体的编译过程</h4><ol>
+<li><p>编译信息写入辅助文件，创建编译后的文件架构(name.app)</p>
+</li>
+<li><p>处理文件打包信息，例如在debug环境下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Entitlements:</div><div class="line">&#123;</div><div class="line">    &quot;application-identifier&quot; = &quot;app的bundleid&quot;;</div><div class="line">    &quot;aps-environment&quot; = development;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>执行CocoaPod编译前脚本 </p>
+<p>例如对于使用CocoaPod的工程会执行<code>CheckPods Manifest.lock</code></p>
+</li>
+<li><p>编译各个.m文件，使用<code>CompileC</code>和<code>clang</code>命令</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CompileC ClassName.o ClassName.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler</div><div class="line">export LANG=en_US.US-ASCII</div><div class="line">export PATH=&quot;...&quot;</div><div class="line">clang -x objective-c -arch x86_64 -fmessage-length=0 -fobjc-arc... -Wno-missing-field-initializers ... -DDEBUG=1 ... -isysroot iPhoneSimulator10.1.sdk -fasm-blocks ... -I 上文提到的文件 -F 所需要的Framework  -iquote 所需要的Framework  ... -c ClassName.c -o ClassName.o</div></pre></td></tr></table></figure>
+<p>这些编译命令表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">clang是实际的编译命令</div><div class="line">-x      objective-c 指定了编译的语言</div><div class="line">-arch   x86_64制定了编译的架构，类似还有arm7等</div><div class="line">-fobjc-arc 一些列-f开头的，指定了采用arc等信息。这个也就是为什么你可以对单独的一个.m文件采用非ARC编程。</div><div class="line">-Wno-missing-field-initializers 一系列以-W开头的，指的是编译的警告选项，通过这些你可以定制化编译选项</div><div class="line">-DDEBUG=1 一些列-D开头的，指的是预编译宏，通过这些宏可以实现条件编译</div><div class="line">-iPhoneSimulator10.1.sdk 制定了编译采用的iOS SDK版本</div><div class="line">-I 把编译信息写入指定的辅助文件</div><div class="line">-F 链接所需要的Framework</div><div class="line">-c ClassName.c 编译文件</div><div class="line">-o ClassName.o 编译产物</div></pre></td></tr></table></figure>
+</li>
+<li><p>链接需要的Framework，例如<code>Foundation.framework</code>,<code>AFNetworking.framework</code>,<code>ALiPay.fframework</code></p>
+</li>
+<li><p>编译xib文件</p>
+</li>
+<li><p>拷贝xib，图片等资源文件到结果目录</p>
+</li>
+<li><p>编译ImageAssets</p>
+</li>
+<li><p>处理info.plist</p>
+</li>
+<li><p>执行CocoaPod脚本</p>
+</li>
+<li><p>拷贝Swift标准库</p>
+</li>
+<li><p>创建.app文件和对其签名</p>
+</li>
+</ol>
+<h4 id="编译过程的控制"><a href="#编译过程的控制" class="headerlink" title="编译过程的控制"></a>编译过程的控制</h4><p>在 xcode 中可以通过<code>Build phases</code>,<code>Build settings</code>以及<code>Build rules</code>来进行控制。</p>
+<p><strong>Build phases：</strong>主要是用来控制从源文件到可执行文件的整个过程的，所以应该说是面向源文件的，包括编译哪些文件，以及在编译过程中执行一些自定义的脚本什么的。</p>
+<p><strong>Build rules：</strong> 主要是用来控制如何编译某种类型的源文件的，如果相对某种类型的原文件进行特定的编译，那么就应该在Build rules里进行编辑了。同时这里也会大量的运用一些 xcode 中的环境变量。</p>
+<p><strong>Build settings：</strong>是对编译工作的细节进行设定，在这个窗口里可以看见大量的设置选项，从编译到打包再到代码签名都有，这里要注意 settings 的 section 分类，一般通过右侧的 inspector 就可以很好的理解选项的意义了。</p>
+
+      
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译器"><span class="toc-number">1.</span> <span class="toc-text">编译器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LLVM"><span class="toc-number">1.1.</span> <span class="toc-text">LLVM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Clang"><span class="toc-number">1.2.</span> <span class="toc-text">Clang</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS编译"><span class="toc-number">2.</span> <span class="toc-text">iOS编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编译过程"><span class="toc-number">3.</span> <span class="toc-text">编译过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本的编译过程"><span class="toc-number">3.1.</span> <span class="toc-text">基本的编译过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#具体的编译过程"><span class="toc-number">3.2.</span> <span class="toc-text">具体的编译过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编译过程的控制"><span class="toc-number">3.3.</span> <span class="toc-text">编译过程的控制</span></a></li></ol></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译/">编译</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/11/27/常见的野指针Crash/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          常见的野指针Crash
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/31/如何让category支持属性/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何让category支持属性&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

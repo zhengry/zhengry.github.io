@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>UIImage相关问题 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="直接引用图片文件夹到项目中，图片不展示的问题
+在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。
+
+imageNa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIImage相关问题">
+<meta property="og:url" content="https://zhengry.github.io/2014/08/20/UIImage相关/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="直接引用图片文件夹到项目中，图片不展示的问题
+在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。
+
+imageNa">
+<meta property="og:updated_time" content="2017-04-05T13:50:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIImage相关问题">
+<meta name="twitter:description" content="直接引用图片文件夹到项目中，图片不展示的问题
+在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。
+
+imageNa">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-UIImage相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UIImage相关问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/08/20/UIImage相关/" class="article-date">
+  <time datetime="2014-08-20T15:22:59.000Z" itemprop="datePublished">2014-08-20</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p><strong>直接引用图片文件夹到项目中，图片不展示的问题</strong></p>
+<p>在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。</p>
+</li>
+<li><p><strong>imageNamed:</strong></p>
+</li>
+</ol>
+<blockquote>
+<p>On iOS 4 and later, if the file is in PNG format, it is not necessary to specify the .PNG filename extension. Prior to iOS 4, you must specify the filename extension.</p>
+</blockquote>
+<p>imageNamed：后面的字符串默认的图片类型是png的，如果不是png的图片就需要带上图片类型后缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UIImage *image  = [UIImage imageNamed:@&quot;x.jpg&quot;];</div></pre></td></tr></table></figure>
+<p>当然还可以用： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSString *imgPath = [[NSBundle mainBundle] pathForResource:@&quot;x&quot; ofType:@&quot;jpg&quot;]; </div><div class="line">imgView.image = [[UIImage alloc] initWithContentsOfFile:imgPath];</div></pre></td></tr></table></figure>
+<p>官方：</p>
+<blockquote>
+<p>If you have an image file that will only be displayed once and wish to ensure that it does not get added to the system’s cache, you should instead create your image using imageWithContentsOfFile:. This will keep your single-use image out of the system image cache, potentially improving the memory use characteristics of your app.</p>
+</blockquote>
+<p>imageWithContentsOfFile:方法常用于只展示一次的图片，可以避免图片被加入到系统缓存中</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/09/23/扩大button可点击范围/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          扩大button可点击范围
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/11/DPI与PPI/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">DPI与PPI&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

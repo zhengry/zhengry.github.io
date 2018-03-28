@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>collectionView注册cell和筛选项问题 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用xib创建的cell、header、footer的register问题
+通常向collectionView注册cell、header、footer时，我们会使用：
+12345[collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:cellId];[collectionView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="collectionView注册cell和筛选项问题">
+<meta property="og:url" content="https://zhengry.github.io/2017/03/13/collectionView注册cell和筛选项问题/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="使用xib创建的cell、header、footer的register问题
+通常向collectionView注册cell、header、footer时，我们会使用：
+12345[collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:cellId];[collectionView">
+<meta property="og:updated_time" content="2017-05-08T09:34:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="collectionView注册cell和筛选项问题">
+<meta name="twitter:description" content="使用xib创建的cell、header、footer的register问题
+通常向collectionView注册cell、header、footer时，我们会使用：
+12345[collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:cellId];[collectionView">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-collectionView注册cell和筛选项问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      collectionView注册cell和筛选项问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/03/13/collectionView注册cell和筛选项问题/" class="article-date">
+  <time datetime="2017-03-13T13:32:40.000Z" itemprop="datePublished">2017-03-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>使用xib创建的cell、header、footer的register问题</p>
+<p>通常向collectionView注册cell、header、footer时，我们会使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:cellId];</div><div class="line"></div><div class="line">[collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerId];</div><div class="line"></div><div class="line">[collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerId];</div></pre></td></tr></table></figure>
+<p>但是，如果cell、header、footer是使用xib创建的，就会发现这样注册到collectionView，collectionView的内容展示不出来。这时候就需要使用Nib文件来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/*cell*/</div><div class="line">UINib *cellNib = [UINib nibWithNibName:@&quot;MyCell&quot; bundle:[NSBundle mainBundle]];</div><div class="line">[collectionView registerNib:cellNib forCellWithReuseIdentifier:@&quot;myCellId&quot;];</div><div class="line"></div><div class="line">/*headerView*/</div><div class="line">UINib *headerNib = [UINib nibWithNibName:@&quot;MyHeader&quot; bundle:[NSBundle mainBundle]];</div><div class="line">[collectionView registerNib:headerNib forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@&quot;myHeaderId&quot;];</div></pre></td></tr></table></figure>
+</li>
+<li><p>多个section 每个section只能被选中一项，且每个section里的item都是可选的，怎么实现?</p>
+<p>经常会遇到这样的需求：在某个页面需要展示筛选项，筛选项有几个类，每个类里面有很多可以单选的选项，类与类之间的选项是并列可选关系，比如添加到购物车里的衣服的尺码和颜色、筛选历史订单中差评和订单商品类型等。这时如果选择使用collectionView来实现，就可以给各个类分成不同的section。</p>
+<p>首先来说说遇到的问题：</p>
+<p>比如生成了两个section，section0和section1，</p>
+<ul>
+<li>如果设置<code>collectionView.allowsMultipleSelection = YES;</code>，可以实现多选，但同时出现的问题是——每个section里的选项就不是单选了，而是可以选任意多个。</li>
+<li>如果不做设置，那么在整个collectionView中只能选择一个选项。</li>
+</ul>
+<p>解决方法步骤：</p>
+<p>1&gt;为每个section定义一个成员变量记录当前section中被选中的index；</p>
+<p>2&gt;在<code>cellForItemAtIndexPath</code>中根据（indexPath.item== 该section的成员index）来设置cell.selected = YES；</p>
+<p>3&gt;在<code>didSelectItemAtIndexPath</code>方法中设置各section的成员index之后reload collectionView</p>
+<p>4&gt;在cell中重写<code>setSelected</code>方法 设置选中和非选中效果</p>
+<p>如果需要有默认选项，给成员index设置一个默认值即可。</p>
+<p>demo地址：</p>
+<p><a href="https://github.com/zhengry/ZZCollectionView" target="_blank" rel="external">https://github.com/zhengry/ZZCollectionView</a></p>
+<p>​</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/27/presentViewController一个xib-controller产生frame错误的问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          presentViewController一个xib controller产生frame错误的问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/23/线程锁NSLock/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">线程锁NSLock&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

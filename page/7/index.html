@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS开发者笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Baylee的技术博客">
+<meta property="og:url" content="https://zhengry.github.io/page/7/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="iOS开发者笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Baylee的技术博客">
+<meta name="twitter:description" content="iOS开发者笔记">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer">
+      <article id="post-FMDB使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/24/FMDB使用/">FMDB使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/04/24/FMDB使用/" class="article-date">
+  <time datetime="2015-04-24T15:44:57.000Z" itemprop="datePublished">2015-04-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据存储/">数据存储</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>FMDB以OC的方式封装了SQLite的C语言API。所以相对使用底层语言实现的Sqlite来说，FMDB主要有以下优点：</p>
+<ul>
+<li>使用起来更加面向对象，省去了很多麻烦、冗余的C语言代码；</li>
+<li>对比苹果自带的Core Data框架，更加轻量级和灵活；</li>
+<li>提供了多线程安全的数据库操作方法，有效地防止数据混乱；</li>
+</ul>
+<p>FMDB有三个主要的类：</p>
+<ol>
+<li><p>FMDatabase</p>
+<p>一个FMDatabase对象就代表一个单独的SQLite数据库，用来执行SQL语句。</p>
+</li>
+<li><p>FMResultSet</p>
+<p>使用FMDatabase执行查询后的结果集。</p>
+</li>
+<li><p>FMDatabaseQueue</p>
+<p>用于在多线程中执行多个查询或更新，它是线程安全的。 </p>
+</li>
+</ol>
+<h3 id="FMDB的相关操作"><a href="#FMDB的相关操作" class="headerlink" title="FMDB的相关操作"></a>FMDB的相关操作</h3><h4 id="创建或打开数据库"><a href="#创建或打开数据库" class="headerlink" title="创建或打开数据库"></a>创建或打开数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FMDatabase *db = [FMDatabase databaseWithPath:path];</div><div class="line">if (![db open]) &#123;</div><div class="line">    NSLog(@&quot;数据库打开失败！&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>空字符串@”” 会在临时目录创建一个空的数据库。当FMDatabase连接关闭时，数据库文件也被删除。</p>
+<p>nil会创建一个内存中临时数据库，当FMDatabase连接关闭时，数据库会被销毁。</p>
+<h4 id="执行更新"><a href="#执行更新" class="headerlink" title="执行更新"></a>执行更新</h4><ol>
+<li><p>在FMDB中，除查询以外的所有操作，都称为“更新”：create、drop、insert、update、delete等。</p>
+</li>
+<li><p>使用<code>executeUpdate:</code>方法执行更新：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-(BOOL)executeUpdate:(NSString*)sql, ...</div><div class="line">- (BOOL)executeUpdateWithFormat:(NSString*)format, ...</div><div class="line">- (BOOL)executeUpdate:(NSString*)sql withArgumentsInArray:(NSArray *)arguments</div></pre></td></tr></table></figure>
+<p>示例  </p>
+<p>FMDB中SQL语句字符串不需要加’’:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//插入数据</div><div class="line"></div><div class="line">[db executeUpdate:@&quot;insert into test (a, b, c, d, e) values (?, ?, ?, ?, ?)&quot; ,@&quot;hi&apos;&quot;, // look!  I put in a &apos;, and I&apos;m not escaping it!</div><div class="line">       [NSString stringWithFormat:@&quot;number %d&quot;, i],</div><div class="line">       [NSNumber numberWithInt:i],</div><div class="line">       [NSDate date],</div><div class="line">       [NSNumber numberWithFloat:2.2f]];</div><div class="line"> ];</div><div class="line">//更新数据</div><div class="line">[db executeUpdate:@&quot;UPDATE t_student SET age = ? WHERE name = ?;&quot;, @20, @&quot;Jack&quot;];</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="执行查询"><a href="#执行查询" class="headerlink" title="执行查询"></a>执行查询</h4><ul>
+<li><p>查询方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (FMResultSet *)executeQuery:(NSString*)sql, ...</div><div class="line">- (FMResultSet *)executeQueryWithFormat:(NSString*)format, ...</div><div class="line">- (FMResultSet *)executeQuery:(NSString *)sql withArgumentsInArray:(NSArray *)arguments</div></pre></td></tr></table></figure>
+</li>
+<li><p>遍历结果集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">FMResultSet *rs = [db executeQuery:@&quot;SELECT * FROM t_student&quot;];</div><div class="line"></div><div class="line">// 遍历结果集</div><div class="line">while ([rs next]) &#123;</div><div class="line">    NSString *name = [rs stringForColumn:@&quot;name&quot;];</div><div class="line">    int age = [rs intForColumn:@&quot;age&quot;];</div><div class="line">    double score = [rs doubleForColumn:@&quot;score&quot;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>模糊查询</p>
+<p>查询语句中<code>%%xxx%%</code>代表包含xx字段，<code>x%</code>代表xx开头字段，<code>%x</code>代表xx结尾字段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">+(NSArray*)queryFuzzyContactInfo:(NSString *)item</div><div class="line">&#123;</div><div class="line">    FMDatabase *database = [FMDatabase databaseWithPath:SQLITEPATH1];</div><div class="line">    if (![database open]) &#123;</div><div class="line">        NSLog(@&quot;数据库打开失败&quot;);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];</div><div class="line">    </div><div class="line">    FMResultSet *resultSet = [database executeQuery:@&quot;select * from mysql1 WHERE name like &apos;%%%@%%&apos;&quot;,item];</div><div class="line">    while ([resultSet next])</div><div class="line">    &#123;</div><div class="line">        NSString * name = [resultSet stringForColumn:@&quot;name&quot;];</div><div class="line">    &#125;</div><div class="line">    return array;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="多线程异步执行多次数据操作"><a href="#多线程异步执行多次数据操作" class="headerlink" title="多线程异步执行多次数据操作"></a>多线程异步执行多次数据操作</h4><p>FMDatabase这个类是线程不安全的，如果在多个线程中同时使用一个FMDatabase实例，会造成数据混乱等问题。</p>
+<p>为了保证线程安全，FMDB提供方便快捷的FMDatabaseQueue类。</p>
+<ol>
+<li><p>FMDatabaseQueue的创建:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:path];</div></pre></td></tr></table></figure>
+</li>
+<li><p>简单使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[queue inDatabase:^(FMDatabase *db) &#123;</div><div class="line">    [db executeUpdate:@&quot;INSERT INTO t_student(name) VALUES (?)&quot;, @&quot;Jack&quot;];</div><div class="line">    [db executeUpdate:@&quot;INSERT INTO t_student(name) VALUES (?)&quot;, @&quot;Rose&quot;];</div><div class="line">    [db executeUpdate:@&quot;INSERT INTO t_student(name) VALUES (?)&quot;, @&quot;Jim&quot;];</div><div class="line">    FMResultSet *rs = [db executeQuery:@&quot;select * from t_student&quot;];</div><div class="line">    while ([rs next]) &#123;</div><div class="line">        // …</div><div class="line">    &#125;</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用事务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[queue inTransaction:^(FMDatabase *db, BOOL *rollback) &#123;</div><div class="line">    [db executeUpdate:@&quot;INSERT INTO t_student(name) VALUES (?)&quot;, @&quot;Jack&quot;];</div><div class="line">    [db executeUpdate:@&quot;INSERT INTO t_student(name) VALUES (?)&quot;, @&quot;Rose&quot;];</div><div class="line">    [db executeUpdate:@&quot;INSERT INTO t_student(name) VALUES (?)&quot;, @&quot;Jim&quot;];</div><div class="line">    FMResultSet *rs = [db executeQuery:@&quot;select * from t_student&quot;];</div><div class="line">    while ([rs next]) &#123;</div><div class="line">        // …</div><div class="line">    &#125;</div><div class="line">&#125;];</div><div class="line">/*事务回滚*/</div><div class="line">*rollback = YES;</div></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FMDB/">FMDB</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-block对对象的强弱引用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/29/block对对象的强弱引用/">block对对象的强弱引用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/03/29/block对对象的强弱引用/" class="article-date">
+  <time datetime="2015-03-29T15:09:57.000Z" itemprop="datePublished">2015-03-29</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/block/">block</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>要了解block对对象的强弱引用，首先要搞清楚block中可以引用的变量有哪些。</p>
+<p>block中可以引用变量有以下几种：</p>
+<ul>
+<li>全局变量，包括静态变量</li>
+<li>被传入block的参数</li>
+<li>当前方法内的局部变量，会被捕获为const类型的变量。它们的值将会在声明block的地方被捕获。在嵌套block中，它们的变量值将会被最外层的block捕获。</li>
+<li>当前方法内的被<code>__block</code>标记的变量会被block引用，因此是变量是可变的。</li>
+<li>在block内部声明的变量，就是当做函数里的局部变量使用。</li>
+</ul>
+<p>block的每次调用都会提供对变量的一份新的拷贝。这些变量早block范围内都会被当做const类型变量或被引用的变量。</p>
+<p>block一开始是被放在栈上的，作为一个优化，Objective-C中会用<code>Block_copy</code>向block发送一个copy消息，block被copy到堆上。</p>
+<p>block被拷贝到堆上时，会对block内部的对象变量产生强引用：</p>
+<ul>
+<li>如果你访问一个实例变量，block会对self产生一个强引用</li>
+<li>如果你访问一个实例变量的值，block会对这个变量产生一个强引用</li>
+</ul>
+<p>来看苹果文档的两个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dispatch_async(queue, ^&#123;</div><div class="line">    // instanceVariable is used by reference, a strong reference is made to self</div><div class="line">    doSomethingWithObject(instanceVariable);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">id localVariable = instanceVariable;</div><div class="line">dispatch_async(queue, ^&#123;</div><div class="line">    /*</div><div class="line">      localVariable is used by value, a strong reference is made to localVariable</div><div class="line">      (and not to self).</div><div class="line">    */</div><div class="line">    doSomethingWithObject(localVariable);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/block/">block</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-textField改变placeholder字体颜色" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/13/textField改变placeholder字体颜色/">textField改变placeholder字体颜色</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/03/13/textField改变placeholder字体颜色/" class="article-date">
+  <time datetime="2015-03-13T14:53:40.000Z" itemprop="datePublished">2015-03-13</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>change placeholder text color after iOS6：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if ([textField respondsToSelector:@selector(setAttributedPlaceholder:)]) &#123;</div><div class="line">  UIColor *color = [UIColor blackColor];</div><div class="line">  textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@&#123;NSForegroundColorAttributeName: color&#125;];</div><div class="line">&#125; else &#123;</div><div class="line">  NSLog(@&quot;Cannot set placeholder text&apos;s color, because deployment target is earlier than iOS 6.0&quot;);</div><div class="line">  // TODO: Add fall-back code to set placeholder color.</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-扩大button可点击范围" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/23/扩大button可点击范围/">扩大button可点击范围</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/09/23/扩大button可点击范围/" class="article-date">
+  <time datetime="2014-09-23T15:56:25.000Z" itemprop="datePublished">2014-09-23</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在iOS开发中，经常会遇到需要在navigationBar上添加各种按钮，在相近的位置放多个按钮时，往往需要改小按钮的frame。如果按钮小于44x44，则常常会引发按钮不方便点击的情况，这时候可以重写button的pointInside方法使按钮热区不够44×44大小的先自动缩放到44×44，来扩大按钮的点击范围，再判断触摸点是否在新的热区内。</p>
+<p>代码示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event</div><div class="line">&#123;</div><div class="line">    CGRect bounds = self.bounds;</div><div class="line">    //若原热区小于44x44，则放大热区，否则保持原大小不变</div><div class="line">    CGFloat widthDelta = MAX(44.0 - bounds.size.width, 0);</div><div class="line">    CGFloat heightDelta = MAX(44.0 - bounds.size.height, 0);</div><div class="line">    bounds = CGRectInset(bounds, -0.5 * widthDelta, -0.5 * heightDelta);</div><div class="line">    return CGRectContainsPoint(bounds, point);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-UIImage相关" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/20/UIImage相关/">UIImage相关问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/08/20/UIImage相关/" class="article-date">
+  <time datetime="2014-08-20T15:22:59.000Z" itemprop="datePublished">2014-08-20</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p><strong>直接引用图片文件夹到项目中，图片不展示的问题</strong></p>
+<p>在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。</p>
+</li>
+<li><p><strong>imageNamed:</strong></p>
+</li>
+</ol>
+<blockquote>
+<p>On iOS 4 and later, if the file is in PNG format, it is not necessary to specify the .PNG filename extension. Prior to iOS 4, you must specify the filename extension.</p>
+</blockquote>
+<p>imageNamed：后面的字符串默认的图片类型是png的，如果不是png的图片就需要带上图片类型后缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UIImage *image  = [UIImage imageNamed:@&quot;x.jpg&quot;];</div></pre></td></tr></table></figure>
+<p>当然还可以用： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSString *imgPath = [[NSBundle mainBundle] pathForResource:@&quot;x&quot; ofType:@&quot;jpg&quot;]; </div><div class="line">imgView.image = [[UIImage alloc] initWithContentsOfFile:imgPath];</div></pre></td></tr></table></figure>
+<p>官方：</p>
+<blockquote>
+<p>If you have an image file that will only be displayed once and wish to ensure that it does not get added to the system’s cache, you should instead create your image using imageWithContentsOfFile:. This will keep your single-use image out of the system image cache, potentially improving the memory use characteristics of your app.</p>
+</blockquote>
+<p>imageWithContentsOfFile:方法常用于只展示一次的图片，可以避免图片被加入到系统缓存中</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/6/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">下一页 &raquo;</a>
+      </nav>
+    </section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

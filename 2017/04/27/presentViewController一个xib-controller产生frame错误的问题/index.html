@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>presentViewController一个xib controller产生frame错误的问题 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="问题：最近写项目时，发现了一个问题：
+使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewCo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="presentViewController一个xib controller产生frame错误的问题">
+<meta property="og:url" content="https://zhengry.github.io/2017/04/27/presentViewController一个xib-controller产生frame错误的问题/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="问题：最近写项目时，发现了一个问题：
+使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewCo">
+<meta property="og:image" content="https://zhengry.github.io/images/childViewController.png">
+<meta property="og:updated_time" content="2017-05-08T09:33:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="presentViewController一个xib controller产生frame错误的问题">
+<meta name="twitter:description" content="问题：最近写项目时，发现了一个问题：
+使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewCo">
+<meta name="twitter:image" content="https://zhengry.github.io/images/childViewController.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-presentViewController一个xib-controller产生frame错误的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      presentViewController一个xib controller产生frame错误的问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2017/04/27/presentViewController一个xib-controller产生frame错误的问题/" class="article-date">
+  <time datetime="2017-04-27T07:32:40.000Z" itemprop="datePublished">2017-04-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>最近写项目时，发现了一个问题：</p>
+<p>使用<code>presentViewController</code>方法<code>present</code>到一个包含<code>childViewControllers</code>的<code>containerController</code>时，<code>containerController</code>的<code>childViewConroller</code>是一个xib创建的<code>viewControllerA</code>，<code>present</code>之后，<code>ViewControllerA</code>的frame等于ViewControllerA的xib尺寸，而不是屏幕大小（比如，ViewControllerA的xib尺寸是375x667，在7 Plus上展示的时候，得到的ViewControllerA仍然是375x667）；而同样是作为childViewController的ViewControllerB用纯代码创建，则能够按照屏幕尺寸正确展示。</p>
+<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>在xib创建的childViewController的viewDidLoad方法中重置该Controller的frame：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UIWindow *window = [UIApplication sharedApplication].keyWindow;</div><div class="line">self.view.frame = window.frame;</div><div class="line">[self.view setNeedsLayout];</div></pre></td></tr></table></figure>
+<h3 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h3><ol>
+<li><p>demo地址：<a href="https://github.com/zhengry/PresentTest" target="_blank" rel="external">https://github.com/zhengry/PresentTest</a></p>
+</li>
+<li><p>demo说明：</p>
+<p>在414x736尺寸屏幕上测试（xib尺寸和测试屏幕大小不同就可以），</p>
+<p>FirstChildViewController使用375x667尺寸的xib创建，SecondChildViewController使用320x480尺寸的xib创建，ThirdChildViewController使用纯代码创建。</p>
+<p>在containerController中添加childViewController：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">FirstChildViewController *first = [[FirstChildViewController alloc] initWithNibName:@&quot;FirstChildViewController&quot; bundle:nil];</div><div class="line"></div><div class="line">SecondChildViewController *second = [[SecondChildViewController alloc] initWithNibName:@&quot;SecondChildViewController&quot; bundle:nil];</div><div class="line"></div><div class="line">ThirdChildViewController *third = [[ThirdChildViewController alloc] init];</div><div class="line"></div><div class="line">[self addChildViewController:first];</div><div class="line">[self addChildViewController:second];</div><div class="line">[self addChildViewController:third];</div></pre></td></tr></table></figure>
+<p>给每个子Controller添加了tap手势，可以点击切换不同的Controller查看展示出来的Controller大小。</p>
+<p>在ViewController中present到containerController：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ContainerViewController *container = [[ContainerViewController alloc] init];</div><div class="line">[self presentViewController:container animated:YES completion:nil];</div></pre></td></tr></table></figure>
+<p>在没有重置frame时，presentViewController之后，FirstChildViewController的view尺寸是（375，667）；SecondChildViewController的view尺寸是（320，480），只有ThirdChildViewController是按7 Plus屏幕大小正确呈现。</p>
+<p>​</p>
+<p>在两个xib创建的子controller的<code>viewDidLoad</code>方法添加如下代码，重置子controller的frame：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">NSLog(@&quot;重置前firstChildController--%@&quot;,self.view);</div><div class="line">UIWindow *window = [UIApplication sharedApplication].keyWindow;</div><div class="line">self.view.frame = window.frame;</div><div class="line">[self.view setNeedsLayout];</div><div class="line">NSLog(@&quot;重置后firstChildController--%@&quot;,self.view);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">NSLog(@&quot;重置前secondChildController--%@&quot;,self.view);</div><div class="line">UIWindow *window = [UIApplication sharedApplication].keyWindow;</div><div class="line">self.view.frame = window.frame;</div><div class="line">[self.view setNeedsLayout];</div><div class="line">NSLog(@&quot;重置后secondChildController--%@&quot;,self.view);</div></pre></td></tr></table></figure>
+<p>在ThirdChildViewController的viewDidLoad方法里直接打印self.view。</p>
+<p>得到的打印结果：</p>
+<p><img src="/images/childViewController.png" alt="childViewController"></p>
+<p>可以看出，用xib创建的子controller的frame被重置后，都能够按照屏幕尺寸正确展示。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题："><span class="toc-number">1.</span> <span class="toc-text">问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方法："><span class="toc-number">2.</span> <span class="toc-text">解决方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#demo"><span class="toc-number">3.</span> <span class="toc-text">demo</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/03/Xcode报错处理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Xcode报错处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/13/collectionView注册cell和筛选项问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">collectionView注册cell和筛选项问题&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

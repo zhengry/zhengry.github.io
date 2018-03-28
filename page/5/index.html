@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS开发者笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Baylee的技术博客">
+<meta property="og:url" content="https://zhengry.github.io/page/5/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="iOS开发者笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Baylee的技术博客">
+<meta name="twitter:description" content="iOS开发者笔记">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer">
+      <article id="post-textView限制输入问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/26/textView限制输入问题/">textView限制输入问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/02/26/textView限制输入问题/" class="article-date">
+  <time datetime="2016-02-26T13:32:40.000Z" itemprop="datePublished">2016-02-26</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一般限制输入字符的方法是要实现<code>textView</code>的代理方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text&#123;</div><div class="line">    </div><div class="line">    NSString *str = [NSString stringWithFormat:@&quot;%@%@&quot;, textView.text, text];</div><div class="line">    if (str.length &gt; MaxNumberOfDescriptionChars)</div><div class="line">    &#123;</div><div class="line">        textView.text = [textView.text substringToIndex:MaxNumberOfDescriptionChars];</div><div class="line">        return NO;</div><div class="line">    &#125;</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//常常由于联想输入的缘故，会有很多字符一起输入</div><div class="line">-(void)textViewDidChange:(UITextView *)textView&#123;</div><div class="line">    //该判断用于联想输入</div><div class="line">    if (textView.text.length &gt; MaxNumberOfDescriptionChars)</div><div class="line">    &#123;</div><div class="line">        textView.text = [textView.text 	substringToIndex:MaxNumberOfDescriptionChars];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样实现的效果是：在用户使用键盘输入时，输入到最大字符限制时，不能继续输入</p>
+<p><strong>问题在于：</strong></p>
+<p>在用户使用复制粘贴输入时，一旦超过字符限制，就会崩溃。</p>
+<p>有人想到用<code>teview.text</code> 和 粘贴板上的字符<code>[UIPasteboard generalPasteboard].string</code> 进行匹配的方法来区别用户是输入还是粘贴输入，但还是有问题：</p>
+<p>如果用户是几个字符几个字符地粘贴，就没办法进行字符匹配。</p>
+<p><strong>解决办法：</strong></p>
+<p>上述两个代理方法只实现<strong>第二个</strong>。可以避免上述问题。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-常见的非野指针类crash及解决方案" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/28/常见的非野指针类crash及解决方案/">常见的非野指针类crash及解决方案</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/28/常见的非野指针类crash及解决方案/" class="article-date">
+  <time datetime="2015-12-28T15:58:09.000Z" itemprop="datePublished">2015-12-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Crash/">Crash</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="集合类Crash"><a href="#集合类Crash" class="headerlink" title="集合类Crash"></a>集合类Crash</h3><ol>
+<li><p>数组越界</p>
+<p>解决方法：</p>
+<p>从数组中取某个index的元素时，先对index和数组元素个数进行判断：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if(index &lt; self.array.count)&#123;</div><div class="line">  id obj = self.array[index];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在使用数组时，要特别注意对边界条件的判断。</p>
+</li>
+<li><p>向数组中插入空对象</p>
+<p>解决方法：向数组中插入数据时，先判断是否为nil</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if(obj)&#123;</div><div class="line">  [array insertObject:obj atIndex:0];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>调用可变字典<code>setObject:ForKey</code>方法，<code>key</code>或者<code>value</code>为空</p>
+<p>解决方法：</p>
+<ul>
+<li><p>调用<code>NSMutableDictionary</code>的<code>setValue:ForKey:</code>方法而不是<code>setObject:ForKey:</code>方法，少用字面量语法。</p>
+<p><code>NSDictionary</code>内部对value做了处理，<code>[mutableDictionary setValue:nil ForKey:@&quot;name&quot;]</code>不会崩溃。</p>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>set之前先对<code>key</code>和<code>value</code>进行非空判断，可以NSMutableArray以及NSMutableDictionary自定义一些安全的扩展方法，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-(id)objectAtIndexSafely:(NSUInteger)index &#123;</div><div class="line"> if (index &gt;= self.count) &#123;</div><div class="line">     return nil;</div><div class="line"> &#125;</div><div class="line"> return [self objectAtIndex:index];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)setObjectSafely:(id)anObject forKey:(id &lt;NSCopying&gt;)aKey &#123;</div><div class="line"> if (!aKey || !anObject) &#123;</div><div class="line">  return;   </div><div class="line"> &#125;</div><div class="line"> [self setObject:anObject forKey:aKey];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><p>一边遍历数组，一边修改数组内容，或者多线程环境中，一个线程在读另外一个线程在写，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for(id item in self.itemArray)&#123;</div><div class="line">  if (item != self.currentItem) &#123; </div><div class="line">    [self.itemArray removeItem:item]; </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方法：</p>
+<ol>
+<li><p>遍历时需要修改原数组的时候可以遍历原数组的一个拷贝，如：保证多线程中读写操作的原子性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">NSMutableArray *copyArray = [NSMutableArray arrayWithArray:self.items]; </div><div class="line">for(id item in copyArray) &#123;</div><div class="line">  if (item != self.currentItem) &#123;</div><div class="line">    [self.items removeGuideViewItem:item];</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>方法：加锁，信号量，GCD串行队列，GCD dispatch_barrier_async方法等，dispatch_barrier_async用法</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="KVC类Crash"><a href="#KVC类Crash" class="headerlink" title="KVC类Crash"></a>KVC类Crash</h3><p>crash提示：</p>
+<ul>
+<li>调用setNilValueForKey抛出异常： Terminating app due to uncaught exception ‘NSInvalidArgumentException’, reason: ‘[ setNilValueForKey]: could not set nil as the value for the key age.’ </li>
+<li>在类中找不到对应的key： Terminating app due to uncaught exception ‘NSUnknownKeyException’, reason: ‘[<viewcontroller 0x7ff968f700=""> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key undefined.’</viewcontroller></li>
+</ul>
+<p>解决方法：</p>
+<ol>
+<li><p>重写setNilValueForKey方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-(void)setNilValueForKey:(NSString *)key&#123; </div><div class="line">	NSLog(@&quot;不能将%@设成nil&quot;,key);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>重写setValue:forUndefinedKey:方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-(void)setValue:(id)value forUndefinedKey:(NSString *)key&#123; 		NSLog(@&quot;出现异常，该key不存在%@&quot;,key);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="KVO类Crash"><a href="#KVO类Crash" class="headerlink" title="KVO类Crash"></a>KVO类Crash</h3><p><strong>KVO 对同一keypath多次removeObserver</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Terminating app due to uncaught exception &apos;NSRangeException&apos;, reason: &apos;Cannot remove an observer &lt;UIView 0x7f9a90f0a0d0&gt; for the key path &quot;frame&quot; from &lt;ViewController 0x7f9a90e07010&gt; because it is not registered as an observer.&apos;</div></pre></td></tr></table></figure>
+<p>场景</p>
+<p>当对同一个keypath进行两次removeObserver时会导致程序crash，这种情况常常出现在父类有一个KVO，父类在dealloc中remove了一次，子类又remove了一次</p>
+<p>解决方案：</p>
+<ol>
+<li>try&amp;catch(容易掩盖问题)</li>
+<li>确保addObserver和removeObserver一定要成对出现，推荐使用FaceBook开源的第三方库FBKVOController</li>
+<li>可以分别在父类以及本类中定义各自的context字符串，比如在本类中定义context为@”myContext”;然后在dealloc中remove observer时指定移除的自身添加的observer。这样iOS就能知道移除的是自己的KVO，而不是父类中的KVO，避免二次remove造成crash。</li>
+</ol>
+<h3 id="找不到指定的方法"><a href="#找不到指定的方法" class="headerlink" title="找不到指定的方法"></a>找不到指定的方法</h3><p>crash提示：unrecognized selector sent to instance 0x1f7987d0’</p>
+<p>解决方法：</p>
+<ol>
+<li><p>头文件声明方法但是在.m文件中没有实现/把方法名修改但是没有在头文件中同步</p>
+</li>
+<li><p>调用代理类的方法的时候没有判断代理类是否已经实现对应的方法而直接调用，编译可以通过但是运行时会crash</p>
+</li>
+<li><p>对于id类型的对象没有判断类型直接强转调用方法</p>
+</li>
+<li><p><code>@property (nonatomic, copy) NSMutableArray *mutableArray;</code>用copy修饰的可变属性在赋值之后会变成不可变属性，比如这里调用addObject方法之后就会crash</p>
+</li>
+<li><p>在低版本的系统用了高版本才有的api 如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if([str containsString:@&quot;a&quot;])&#123;</div><div class="line">  /*在iOS8以后才支持，iOS8以下调用会crash*/	</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Crash/">Crash</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-Method-Swizzling——方法混写" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/25/Method-Swizzling——方法混写/">Method Swizzling——方法混写</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/25/Method-Swizzling——方法混写/" class="article-date">
+  <time datetime="2015-12-25T15:32:40.000Z" itemprop="datePublished">2015-12-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/runtime/">runtime</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在OC语言的runtime特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的SEL，这个SEL对应着一个IMP(一个IMP可以对应多个SEL)，通过这个IMP找到对应的方法调用。</p>
+<p>在每个类中都有一个Dispatch Table，这个Dispatch Table本质是将类中的SEL和IMP(可以理解为函数指针)进行对应。而Method Swizzling就是对这个table进行操作，交换两个SEL的IMP。</p>
+<p>在实现Method Swizzling时，核心代码主要就是一个runtime的C语言API：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT void method_exchangeImplementations(Method m1, Method m2)</div></pre></td></tr></table></figure>
+<p>在项目中，我们经常需要增加友盟统计之类的功能，在用户进入某些页面时添加一次打点统计，我们可能会考虑逐个页面添加或者使用继承。但是当需要打点的页面很多时，逐个添加的话工作量太大，让所有controller继承一个基类controller并在基类方法里添加打点统计的话也需要给controller逐个修改继承关系，而且可定制性差，不利于代码的后期维护。如果考虑使用category扩展controller的打点统计方法，Method Swizzling就派上用场了。</p>
+<p>我们先给UIViewController添加一个Category，然后在Category中的+(void)load方法中添加Method Swizzling方法，我们用来替换的方法也写在这个Category中。由于load类方法是程序运行时这个类被加载到内存中就调用的一个方法，这个方法只会被调用一次，并且不需要我们手动调用。</p>
+<p>在category中添加代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">@implementation UIViewController (ZZClick)</div><div class="line"> </div><div class="line">+ (void)load &#123;</div><div class="line">  [super load];</div><div class="line"></div><div class="line">  Method formalMethod = class_getInstanceMethod([self class], @selector(viewDidLoad));</div><div class="line">  Method clickMethod = class_getInstanceMethod([self class], @selector(swizzlingViewDidLoad));</div><div class="line">  </div><div class="line">  /*在这里通过class_addMethod()的验证，如果self实现了这个方法，class_addMethod()函数将会返回NO，我们就可以对其进行交换了*/</div><div class="line">  if (!class_addMethod([self class], @selector(viewDidLoad), method_getImplementation(clickMethod), method_getTypeEncoding(clickMethod))) &#123;</div><div class="line">      method_exchangeImplementations(formalMethod, clickMethod);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/*跟系统viewDidLoad方法进行交换的方法，增加打点统计*/</div><div class="line">- (void)swizzlingViewDidLoad &#123;</div><div class="line">  NSString *str = [NSString stringWithFormat:@&quot;%@&quot;, self.class];</div><div class="line">  /*我们在这里加一个判断，将系统的UIViewController的对象剔除掉*/</div><div class="line">  if(![str containsString:@&quot;UI&quot;])&#123;</div><div class="line">      NSLog(@&quot;统计打点 : %@&quot;, self.class);</div><div class="line">  &#125;</div><div class="line">/*这里并不会递归，因为方法被交换后，这里调用的是controller里实现的viewDidLoad的实现。*/</div><div class="line">  [self swizzlingViewDidLoad];</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/runtime/">runtime</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-常见的野指针Crash" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/27/常见的野指针Crash/">常见的野指针Crash</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/11/27/常见的野指针Crash/" class="article-date">
+  <time datetime="2015-11-27T14:56:49.000Z" itemprop="datePublished">2015-11-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Crash/">Crash</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：</p>
+<ol>
+<li><p>定义property该用strong/weak修饰误用成assign</p>
+</li>
+<li><p>在objc_setAssociatedObject方法中该用<code>OBJC_ASSOCIATION_RETAIN_NONATOMIC</code>修饰的对象误用成<code>OBJC_ASSOCIATION_ASSIGN</code></p>
+</li>
+<li><p>Core Foundation层对象Toll-Free Bridging到Foundation层中，已经用了__bridge_transfer关键字转移了对象的所有权之后，又对CoreFoundation层对象调用了一次CFRelease，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CFUUIDRef uuid = CFUUIDCreate(NULL);</div><div class="line">CFStringRef cfString = CFUUIDCreateString(NULL, uuid);	NSString *string = (__bridge_transfer NSString *)cfString;	CFRelease(cfString);</div></pre></td></tr></table></figure>
+</li>
+<li><p>block回调之前并没有判空而是直接调用</p>
+</li>
+<li><p>NSNotification/KVO 只addObserver并没有removeObserver</p>
+</li>
+</ol>
+<p>解决方法：</p>
+<ol>
+<li><p>关于内存管理语义的使用（包括Toll-Free Bridging中）：</p>
+<ul>
+<li>深刻了解property中各种关键字修饰内存语义的区别，正确运用，例如delegate属性一般都用weak修饰（可以引入静态代码检查和commit检查 对assign关键字做警告）</li>
+<li>Toll-Free Bridging中三个关于内存语义关键字的含义：<ul>
+<li><code>(__bridge T) op</code>：告诉编译器在 bridge 的时候不要做任何事</li>
+<li><code>(__bridge_retained T) op</code>：（ ObjC 转 CF 的时候使用）告诉编译器在 bridge 的时候 retain 对象，开发者需要在CF一端负责释放对象</li>
+<li><code>(__bridge_transfer T) op</code>：（ CF 转 ObjC 的时候使用）告诉编译器转移 CF 对象的所有权，开发者不再需要在CF一端负责释放对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>debug阶段启动僵尸对象模式，使用enbale Zombie Objects帮助辅助定位问题</p>
+<p>原理:在对象释放（retainCount为0)时，使用一个内置的Zombie对象，替代原来被释放的对象。无论向该对象发送什么消息（函数调用），都会触发异常，抛出调试信息。</p>
+</li>
+<li><p>block的使用问题：</p>
+<p>block回调之前先做判空，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if(self.blockName)&#123; </div><div class="line">  self.blockName(sender == self.isUser ? YES : NO, self.viewModel);	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>对于NSNotificatio/KVO addObserver和removeObserver一定要成对出现</p>
+<p>​</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Crash/">Crash</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-iOS编译原理和过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/21/iOS编译原理和过程/">iOS编译原理和过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/10/21/iOS编译原理和过程/" class="article-date">
+  <time datetime="2015-10-21T15:42:40.000Z" itemprop="datePublished">2015-10-21</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/基础/">基础</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>先了解一下编译器相关的LLVM和Clang：</p>
+<h4 id="LLVM"><a href="#LLVM" class="headerlink" title="LLVM"></a>LLVM</h4><p>LLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，进行在线编译优化、代码生成。对开发者保持开放，并兼容已有脚本。LLVM的项目是一个模块化和可重复使用的编译器和工具技术的集合。LLVM是伊利诺伊大学的一个研究项目，提供一个现代化的，基于SSA的编译策略能够同时支持静态和动态的任意编程语言的编译目标。</p>
+<h4 id="Clang"><a href="#Clang" class="headerlink" title="Clang"></a>Clang</h4><p>Clang是一个C语言、C++、Objective-C、C++语言的轻量级编译器。</p>
+<p>特点：</p>
+<ul>
+<li><strong>终端用户特色：</strong>快速编译和较少内存占用；有诊断功能；兼容GCC；</li>
+<li><strong>实用工具和应用：</strong>基础架构模块库；可满足多样的客户需求代码重构，静态分析，代码生成；</li>
+<li><strong>内部设计与实现：</strong>一个简单的可移植的代码库；一个为C语言、Objective-C、C++、Objective-C设计的通用的语法解析器；与C/C++/Objective-C及它们的衍生语言具有高度一致性。</li>
+</ul>
+<h3 id="iOS编译"><a href="#iOS编译" class="headerlink" title="iOS编译"></a>iOS编译</h3><p>不管是OC还是Swift，都是采用Clang作为编译器前端，LLVM(Low level vritual machine)作为编译器后端。所以简单的编译过程如图：</p>
+<p><img src="/images/编译过程.png" alt="编译过程"></p>
+<p>编译器前端的任务：进行语法分析，语义分析，生成中间代码(intermediate representation )。在这个过程中，会进行类型检查，如果发现错误或者警告会标注出来在哪一行。</p>
+<p><img src="/images/Clang.png" alt="Clang"></p>
+<p>编译器后端任务：进行机器无关的代码优化，生成机器语言，并且进行机器相关的代码优化。iOS的编译过程，后端的处理如下：</p>
+<ul>
+<li><strong>LVVM优化器会进行BitCode的生成，链接期优化等等</strong>。</li>
+</ul>
+<p><img src="/images/LLVM优化器.png" alt="LLVM优化器"></p>
+<ul>
+<li><p><strong>LLVM机器码生成器会针对不同的架构，比如arm64等生成不同的机器码</strong>。</p>
+<p><img src="/images/LLVM机器码生成器.png" alt="LLVM机器码生成器"></p>
+</li>
+</ul>
+<h3 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h3><h4 id="基本的编译过程"><a href="#基本的编译过程" class="headerlink" title="基本的编译过程"></a>基本的编译过程</h4><p>分为四个步骤：</p>
+<ol>
+<li>预处理（Pre-process）：替换宏、删除注释、展开头文件、产生.i文件</li>
+<li>编译（Compliling）：把之前的 <strong>.i</strong> 文件转换成汇编语言，产生 <strong>.s</strong>文件。</li>
+<li>汇编（Asembly）：把汇编语言文件转换为机器码文件，产生 <strong>.o</strong> 文件。</li>
+<li>链接（Link）：对<strong>.o</strong>文件中的对于其他的库的引用的地方进行引用，生成最后的可执行文件（同时也包括多个 <strong>.o</strong> 文件进行 link）。</li>
+</ol>
+<p>xcode 是根据 target 分开进行编译的。首先切换到 pch 的目录下，然后设置环境变量，然后启动 clang 并进行一系列的配置。在这之后一般就会产生具体的 <code>.o</code>文件作为产出（一般是有多个，针对不同的平台架构分别有一个，不过一般紧接着会把这些聚合成一个通用的 library）。不同的 target 也是有编译顺序的，具体的要看 target 之间的依赖关系。</p>
+<h4 id="具体的编译过程"><a href="#具体的编译过程" class="headerlink" title="具体的编译过程"></a>具体的编译过程</h4><ol>
+<li><p>编译信息写入辅助文件，创建编译后的文件架构(name.app)</p>
+</li>
+<li><p>处理文件打包信息，例如在debug环境下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Entitlements:</div><div class="line">&#123;</div><div class="line">    &quot;application-identifier&quot; = &quot;app的bundleid&quot;;</div><div class="line">    &quot;aps-environment&quot; = development;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>执行CocoaPod编译前脚本 </p>
+<p>例如对于使用CocoaPod的工程会执行<code>CheckPods Manifest.lock</code></p>
+</li>
+<li><p>编译各个.m文件，使用<code>CompileC</code>和<code>clang</code>命令</p>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">CompileC ClassName.o ClassName.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler</div><div class="line">export LANG=en_US.US-ASCII</div><div class="line">export PATH=&quot;...&quot;</div><div class="line">clang -x objective-c -arch x86_64 -fmessage-length=0 -fobjc-arc... -Wno-missing-field-initializers ... -DDEBUG=1 ... -isysroot iPhoneSimulator10.1.sdk -fasm-blocks ... -I 上文提到的文件 -F 所需要的Framework  -iquote 所需要的Framework  ... -c ClassName.c -o ClassName.o</div></pre></td></tr></table></figure>
+<p>这些编译命令表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">clang是实际的编译命令</div><div class="line">-x      objective-c 指定了编译的语言</div><div class="line">-arch   x86_64制定了编译的架构，类似还有arm7等</div><div class="line">-fobjc-arc 一些列-f开头的，指定了采用arc等信息。这个也就是为什么你可以对单独的一个.m文件采用非ARC编程。</div><div class="line">-Wno-missing-field-initializers 一系列以-W开头的，指的是编译的警告选项，通过这些你可以定制化编译选项</div><div class="line">-DDEBUG=1 一些列-D开头的，指的是预编译宏，通过这些宏可以实现条件编译</div><div class="line">-iPhoneSimulator10.1.sdk 制定了编译采用的iOS SDK版本</div><div class="line">-I 把编译信息写入指定的辅助文件</div><div class="line">-F 链接所需要的Framework</div><div class="line">-c ClassName.c 编译文件</div><div class="line">-o ClassName.o 编译产物</div></pre></td></tr></table></figure>
+</li>
+<li><p>链接需要的Framework，例如<code>Foundation.framework</code>,<code>AFNetworking.framework</code>,<code>ALiPay.fframework</code></p>
+</li>
+<li><p>编译xib文件</p>
+</li>
+<li><p>拷贝xib，图片等资源文件到结果目录</p>
+</li>
+<li><p>编译ImageAssets</p>
+</li>
+<li><p>处理info.plist</p>
+</li>
+<li><p>执行CocoaPod脚本</p>
+</li>
+<li><p>拷贝Swift标准库</p>
+</li>
+<li><p>创建.app文件和对其签名</p>
+</li>
+</ol>
+<h4 id="编译过程的控制"><a href="#编译过程的控制" class="headerlink" title="编译过程的控制"></a>编译过程的控制</h4><p>在 xcode 中可以通过<code>Build phases</code>,<code>Build settings</code>以及<code>Build rules</code>来进行控制。</p>
+<p><strong>Build phases：</strong>主要是用来控制从源文件到可执行文件的整个过程的，所以应该说是面向源文件的，包括编译哪些文件，以及在编译过程中执行一些自定义的脚本什么的。</p>
+<p><strong>Build rules：</strong> 主要是用来控制如何编译某种类型的源文件的，如果相对某种类型的原文件进行特定的编译，那么就应该在Build rules里进行编辑了。同时这里也会大量的运用一些 xcode 中的环境变量。</p>
+<p><strong>Build settings：</strong>是对编译工作的细节进行设定，在这个窗口里可以看见大量的设置选项，从编译到打包再到代码签名都有，这里要注意 settings 的 section 分类，一般通过右侧的 inspector 就可以很好的理解选项的意义了。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/编译/">编译</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/4/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">下一页 &raquo;</a>
+      </nav>
+    </section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

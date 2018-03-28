@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>键盘弹出textField上滑展示，键盘消失textField回到原位 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="场景：在某个view中间的位置有个textField，在弹出键盘进行输入时，键盘会遮住textField输入框，这时需要将textField往上移动。编辑完成后，键盘消失，让textField归位。
+实现方法有两种,第二种方法比较简单：
+方法一：textField放在ScrollView上步骤：
+
+textField要放在UIScrollView上
+UIScrollView的contentSize">
+<meta property="og:type" content="article">
+<meta property="og:title" content="键盘弹出textField上滑展示，键盘消失textField回到原位">
+<meta property="og:url" content="https://zhengry.github.io/2016/03/25/键盘弹出textField上滑展示，键盘消失textField回到原位/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="场景：在某个view中间的位置有个textField，在弹出键盘进行输入时，键盘会遮住textField输入框，这时需要将textField往上移动。编辑完成后，键盘消失，让textField归位。
+实现方法有两种,第二种方法比较简单：
+方法一：textField放在ScrollView上步骤：
+
+textField要放在UIScrollView上
+UIScrollView的contentSize">
+<meta property="og:updated_time" content="2017-05-08T09:39:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="键盘弹出textField上滑展示，键盘消失textField回到原位">
+<meta name="twitter:description" content="场景：在某个view中间的位置有个textField，在弹出键盘进行输入时，键盘会遮住textField输入框，这时需要将textField往上移动。编辑完成后，键盘消失，让textField归位。
+实现方法有两种,第二种方法比较简单：
+方法一：textField放在ScrollView上步骤：
+
+textField要放在UIScrollView上
+UIScrollView的contentSize">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-键盘弹出textField上滑展示，键盘消失textField回到原位" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      键盘弹出textField上滑展示，键盘消失textField回到原位
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/25/键盘弹出textField上滑展示，键盘消失textField回到原位/" class="article-date">
+  <time datetime="2016-03-25T12:56:40.000Z" itemprop="datePublished">2016-03-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>场景：在某个view中间的位置有个textField，在弹出键盘进行输入时，键盘会遮住textField输入框，这时需要将textField往上移动。编辑完成后，键盘消失，让textField归位。</p>
+<p>实现方法有两种,第二种方法比较简单：</p>
+<h4 id="方法一：textField放在ScrollView上"><a href="#方法一：textField放在ScrollView上" class="headerlink" title="方法一：textField放在ScrollView上"></a>方法一：textField放在ScrollView上</h4><p>步骤：</p>
+<ol>
+<li>textField要放在UIScrollView上</li>
+<li>UIScrollView的contentSize要比当前view的frame大，确保能够在键盘弹出时上滑（可以在键盘弹出时增大ScrollView的contentSize）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">/*在viewDidLoad中添加textField*/</div><div class="line">- (void)viewDidLoad </div><div class="line">&#123;</div><div class="line">    [super viewDidLoad];</div><div class="line"></div><div class="line">    /*注册键盘show、hide通知*/</div><div class="line">    [[NSNotificationCenter defaultCenter] addObserver:self </div><div class="line">                                             selector:@selector(keyboardWillShow:) </div><div class="line">                                                 name:UIKeyboardWillShowNotification  object:self.view.window];</div><div class="line">   </div><div class="line">    [[NSNotificationCenter defaultCenter] addObserver:self </div><div class="line">                                             selector:@selector(keyboardWillHide:) </div><div class="line">                                                 name:UIKeyboardWillHideNotification  object:self.view.window];</div><div class="line"> </div><div class="line">  	/*用一个BOOL变量来标识键盘的状态*/  </div><div class="line">  	keyboardIsShown = NO;</div><div class="line">    /*在需要的场景下resize ScrollView的contentSize，确保它比当前view大*/</div><div class="line">    CGSize scrollContentSize = CGSizeMake(320, 345);</div><div class="line">    self.scrollView.contentSize = scrollContentSize;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)keyboardWillHide:(NSNotification *)n</div><div class="line">&#123;</div><div class="line">    NSDictionary* userInfo = [n userInfo];</div><div class="line"></div><div class="line">    // get the size of the keyboard</div><div class="line">    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;</div><div class="line">    </div><div class="line">  /* resize the scrollview*/</div><div class="line">    CGRect viewFrame = self.scrollView.frame;</div><div class="line">  	</div><div class="line">  /*如果有tabBar，还需要注意减去tabBar的高度*/</div><div class="line">    viewFrame.size.height += (keyboardSize.height - kTabBarHeight);</div><div class="line">     [UIView animateKeyframesWithDuration:0.2 delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState animations:^&#123;</div><div class="line">        [self.scrollView setFrame:viewFrame];</div><div class="line">    &#125; completion:nil];</div><div class="line">    keyboardIsShown = NO;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)keyboardWillShow:(NSNotification *)notification</div><div class="line">&#123;</div><div class="line">    if (keyboardIsShown) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    NSDictionary* userInfo = [notification userInfo];</div><div class="line">    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;</div><div class="line">    CGRect viewFrame = self.scrollView.frame;</div><div class="line">    viewFrame.size.height -= (keyboardSize.height - kTabBarHeight);</div><div class="line">    </div><div class="line">  	[UIView animateKeyframesWithDuration:0.2 delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState animations:^&#123;</div><div class="line">        [self.scrollView setFrame:viewFrame];</div><div class="line">    &#125; completion:nil];</div><div class="line">    keyboardIsShown = YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="方法二：简单实现"><a href="#方法二：简单实现" class="headerlink" title="方法二：简单实现"></a>方法二：简单实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//开始编辑时 视图上移 如果输入框不被键盘遮挡则不上移。</div><div class="line">- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField&#123;</div><div class="line">    CGFloat rects = self.view.height - (textField.bottom + 216 +50);</div><div class="line">    if (rects &lt;= 0) &#123;</div><div class="line">        [UIView animateWithDuration:0.3 animations:^&#123;</div><div class="line">            CGRect frame = self.view.frame;</div><div class="line">            frame.origin.y = rects;</div><div class="line">            self.view.frame = frame;</div><div class="line">        &#125;];</div><div class="line">    &#125;</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//结束编辑时键盘下去 视图下移动画</div><div class="line">-(BOOL)textFieldShouldEndEditing:(UITextField *)textField&#123;</div><div class="line">    [UIView animateWithDuration:0.3 animations:^&#123;</div><div class="line">        CGRect frame = self.view.frame;</div><div class="line">        frame.origin.y = 0.0;</div><div class="line">        self.view.frame = frame;</div><div class="line">    &#125;];</div><div class="line">    return YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#方法一：textField放在ScrollView上"><span class="toc-number">1.</span> <span class="toc-text">方法一：textField放在ScrollView上</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#方法二：简单实现"><span class="toc-number">2.</span> <span class="toc-text">方法二：简单实现</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/27/dispatch_once()工作原理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          dispatch_once()工作原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/24/gif动画效果实现方式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">gif动画效果实现方式&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

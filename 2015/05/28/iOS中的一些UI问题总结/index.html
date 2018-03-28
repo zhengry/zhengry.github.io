@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS中的一些UI问题总结 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="tableView使用section，sectionHeader从section = 1开始展示的问题：
+实现heightForHeaderInSection代理方法，return一个高度即可解决。
+
+label高度自适应：
+1234567- (CGFloat)boundingRectWithStr:(NSString *)str withFont:(UIFont *)font&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中的一些UI问题总结">
+<meta property="og:url" content="https://zhengry.github.io/2015/05/28/iOS中的一些UI问题总结/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="tableView使用section，sectionHeader从section = 1开始展示的问题：
+实现heightForHeaderInSection代理方法，return一个高度即可解决。
+
+label高度自适应：
+1234567- (CGFloat)boundingRectWithStr:(NSString *)str withFont:(UIFont *)font&amp;#123;">
+<meta property="og:updated_time" content="2017-04-05T14:03:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS中的一些UI问题总结">
+<meta name="twitter:description" content="tableView使用section，sectionHeader从section = 1开始展示的问题：
+实现heightForHeaderInSection代理方法，return一个高度即可解决。
+
+label高度自适应：
+1234567- (CGFloat)boundingRectWithStr:(NSString *)str withFont:(UIFont *)font&amp;#123;">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-iOS中的一些UI问题总结" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS中的一些UI问题总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/05/28/iOS中的一些UI问题总结/" class="article-date">
+  <time datetime="2015-05-28T13:27:40.000Z" itemprop="datePublished">2015-05-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p><strong>tableView使用section，sectionHeader从section = 1开始展示的问题：</strong></p>
+<p>实现<code>heightForHeaderInSection</code>代理方法，return一个高度即可解决。</p>
+</li>
+<li><p><strong>label高度自适应：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (CGFloat)boundingRectWithStr:(NSString *)str withFont:(UIFont *)font</div><div class="line">&#123;</div><div class="line">    NSDictionary *attribute = @&#123;NSFontAttributeName: font&#125;;  </div><div class="line">    CGSize retSize = [str boundingRectWithSize:CGSizeMake(MAXFLOAT, Height) options:</div><div class="line">NSStringDrawingTruncatesLastVisibleLine| NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;</div><div class="line">    return retSize.height;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>调用category的方法报错：selector not recognized:</strong></p>
+<p>解决方法：Build Settings –&gt; Linking-&gt;  Other Linker Flags 中加上 -ObjC 或者-all_load </p>
+<p>——记得引用category文件啊！！！！——</p>
+<p>原因：</p>
+<p>之所以使用该标志，和Objective-C的一个重要特性：类别（category)有关。Unix的标准静态库实现和Objective-C的动态特性之间有一些冲突：Objective-C没有为每个函数（或者方法）定义链接符号，它 只为每个类创建链接符号。这样当在一个静态库中使用类别来扩展已有类的时候，链接器不知道如何把类原有的方法和类别中的方法整合起来，就会导致你调用类别 中的方法时，出现”selector not recognized”，也就是找不到方法定义的错误。为了解决这个问题，引入了-ObjC标志，它的作用就是将静态库中所有的和对象相关的文件都加载进 来。</p>
+<p> 本来这样就可以解决问题了，不过在64 位的Mac系统或者iOS系统下，链接器有一个bug，会导致只包含有类别的静态库无法使用-ObjC标志来加载文件。变通方法是使用-all_load 或者-force_load标志，它们的作用都是加载静态库中所有文件，不过all_load作用于所有的库，而-force_load后面必须要指定具 体的文件。</p>
+</li>
+<li><p><strong>UIScreen的bounds,frame,scale属性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">CGRect bound = [[UIScreen mainScreen] bounds];  // 返回的是带有状态栏的Rect  </div><div class="line"></div><div class="line">CGRect frame = [[UIScreen mainScreen] applicationFrame];  // 返回的是不带有状态栏的Rect  </div><div class="line"></div><div class="line">float scale = [[UIScreenmainScreen] scale]; // 得到设备的自然分辨率</div></pre></td></tr></table></figure>
+<p>scale属性的值有两个：</p>
+<p>scale = 1; 的时候是代表当前设备是320*480的分辨率（就是iphone4之前的设备）</p>
+<p>scale = 2; 的时候是代表分辨率为640*960的分辨率</p>
+<p>​</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/06/11/github配置SSH-keys/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          github配置SSH keys
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/04/26/Sqlite数据库语句/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Sqlite数据库语句&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

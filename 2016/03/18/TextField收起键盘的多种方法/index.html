@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>TextField收起键盘的多种方法 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="常见的textField键盘收起方法有：
+
+点击return按钮收起键盘
+1234-(void)textFieldShouldReturn:(UITextField *)textField&amp;#123;	return [textField resignFirstResponder];  &amp;#125;
+
+点击键盘之外的view收起键盘（view继承于UIControl）
+1[self.view end">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TextField收起键盘的多种方法">
+<meta property="og:url" content="https://zhengry.github.io/2016/03/18/TextField收起键盘的多种方法/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="常见的textField键盘收起方法有：
+
+点击return按钮收起键盘
+1234-(void)textFieldShouldReturn:(UITextField *)textField&amp;#123;	return [textField resignFirstResponder];  &amp;#125;
+
+点击键盘之外的view收起键盘（view继承于UIControl）
+1[self.view end">
+<meta property="og:updated_time" content="2017-05-08T09:32:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TextField收起键盘的多种方法">
+<meta name="twitter:description" content="常见的textField键盘收起方法有：
+
+点击return按钮收起键盘
+1234-(void)textFieldShouldReturn:(UITextField *)textField&amp;#123;	return [textField resignFirstResponder];  &amp;#125;
+
+点击键盘之外的view收起键盘（view继承于UIControl）
+1[self.view end">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-TextField收起键盘的多种方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TextField收起键盘的多种方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/18/TextField收起键盘的多种方法/" class="article-date">
+  <time datetime="2016-03-18T08:29:07.000Z" itemprop="datePublished">2016-03-18</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>常见的textField键盘收起方法有：</p>
+<ol>
+<li><p>点击return按钮收起键盘</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(void)textFieldShouldReturn:(UITextField *)textField</div><div class="line">&#123;</div><div class="line">	return [textField resignFirstResponder];  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>点击键盘之外的view收起键盘（view继承于UIControl）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[self.view endEditing:YES];</div></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</div><div class="line">&#123;</div><div class="line">  [self.textField resignFirstResponder];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：如果textField是放在scrollview上的话，由于ScrollView会截获手势来响应自身的滑动事件，所以这两个方法是失效的。</p>
+</li>
+<li><p>统一收起键盘（在需要收起键盘的地方加上，比如可以给controller.view添加手势target）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[[UIApplication sharedApplication] keyWindow] endEditing:YES];​</div></pre></td></tr></table></figure>
+</li>
+<li><p>用resignFirstResponder来收起键盘</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>总结：</p>
+<p>如果textField放在普通的view上，可以在view中实现touchBegan方法，用<code>[self.view endEditing:YES];</code>或者<code>[textField resignFirstResponder];</code>来收起键盘；</p>
+<p>如果textField放在ScrollView上，可以给controller.view增加UITapGesture target，调用3或4方法收起键盘。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/24/gif动画效果实现方式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          gif动画效果实现方式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/02/26/textView限制输入问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">textView限制输入问题&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

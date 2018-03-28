@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>gif动画效果实现方式 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="gif 图片的展示方式有几种：webView方法、逐桢展示、第三方
+
+webView展示：
+123456789101112131415161718//获取gif图片的尺寸CGRect frame = CGRectZero;//图片可以是jpg格式，也可能是gif格式    frame.size = [UIImage imageNamed:@&amp;quot;x.jpg&amp;quot;].size;// 读取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gif动画效果实现方式">
+<meta property="og:url" content="https://zhengry.github.io/2016/03/24/gif动画效果实现方式/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="gif 图片的展示方式有几种：webView方法、逐桢展示、第三方
+
+webView展示：
+123456789101112131415161718//获取gif图片的尺寸CGRect frame = CGRectZero;//图片可以是jpg格式，也可能是gif格式    frame.size = [UIImage imageNamed:@&amp;quot;x.jpg&amp;quot;].size;// 读取">
+<meta property="og:updated_time" content="2017-05-08T09:37:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="gif动画效果实现方式">
+<meta name="twitter:description" content="gif 图片的展示方式有几种：webView方法、逐桢展示、第三方
+
+webView展示：
+123456789101112131415161718//获取gif图片的尺寸CGRect frame = CGRectZero;//图片可以是jpg格式，也可能是gif格式    frame.size = [UIImage imageNamed:@&amp;quot;x.jpg&amp;quot;].size;// 读取">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-gif动画效果实现方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      gif动画效果实现方式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/24/gif动画效果实现方式/" class="article-date">
+  <time datetime="2016-03-24T15:13:43.000Z" itemprop="datePublished">2016-03-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>gif 图片的展示方式有几种：webView方法、逐桢展示、第三方</p>
+<ol>
+<li><p><strong>webView展示：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//获取gif图片的尺寸</div><div class="line">CGRect frame = CGRectZero;</div><div class="line"></div><div class="line">//图片可以是jpg格式，也可能是gif格式    </div><div class="line">frame.size = [UIImage imageNamed:@&quot;x.jpg&quot;].size;</div><div class="line"></div><div class="line">// 读取gif图片数据</div><div class="line">NSData gif = [NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@&quot;x&quot; ofType:@&quot;jpg&quot;]]; </div><div class="line">UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];</div><div class="line"></div><div class="line">/*这里注意：如果不用上面获取的gif图片的尺寸，而是自定义view的frame，当设置的frame小于gif本身的尺寸大小时，图片展示时不像UIImageView那样自动 缩放，而是只展示gif的一部分。另外，当frame的宽度是整个屏幕宽度，x坐标从0开始，如果gif的尺寸大于屏幕宽度，gif的展示将按gif图本身的宽高比展示。假设gif尺寸为（500，300）,屏幕尺寸为（320，568），如果frame的x,y都为0，gif的展示为（0，0，320，320/500.0*300)*/</div><div class="line"></div><div class="line">webView.userInteractionEnabled = NO;</div><div class="line"></div><div class="line">/*中间设置的type类型一定要有image/xxx,后面的xxx可以是png、jpg、gif，即使gif的格式是jpg也没关系*/</div><div class="line">[webView loadData:gif MIMEType:@&quot;image/jpg&quot; textEncodingName:nil baseURL:nil]; </div><div class="line"></div><div class="line">[self.view addSubview:webView];</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>逐桢展示（animation效果）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">   UIImageView *gifView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 0, self.view.frame.size.width - 40,300)];</div><div class="line">   NSMutableArray *gifArray = [[NSMutableArray alloc] initWithCapacity:20];</div><div class="line">   for (NSInteger i = 0; i &lt; 20; i++) &#123;</div><div class="line">       UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@&quot;%ld.jpg&quot;,(long)i]];</div><div class="line">       [gifArray addObject:image];</div><div class="line">   &#125;</div><div class="line">   gifView.image = gifArray.lastObject;</div><div class="line"></div><div class="line">/*注意这个数组里存放的数据类型是UIImage*/</div><div class="line">   gifView.animationImages = gifArray;</div><div class="line">   </div><div class="line">/* 一个动画循环的时间 */</div><div class="line">gifView.animationDuration = 10;</div><div class="line"></div><div class="line">/*动画重复次数，0表示无限循环*/</div><div class="line">   gifView.animationRepeatCount = 0;</div><div class="line">   [gifView startAnimating];</div><div class="line">/*需要触发停止动画时可用[gifView stopAnimating];*/</div><div class="line">   [self.view addSubview:gifView];</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>第三方 </strong></p>
+</li>
+</ol>
+<p>貌似有不少第三方,这个OLImage这个用起来还是挺简单的，而且图片的大小是铺满的填充效果gitHub地址：<a href="https://github.com/dtorres/OLImageView" target="_blank" rel="external">https://github.com/dtorres/OLImageView</a><br>在当前controller或view中导入OLImageView.h和OLImage.h两个头文件即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">   self.gifView = [[OLImageView alloc] initWithFrame:CGRectMake(0, 100, 300, 300)];</div><div class="line">   self.gifView.center = self.view.center;</div><div class="line">   NSString *imgPath = [[NSBundle mainBundle] pathForResource:@&quot;x&quot; ofType:@&quot;jpg&quot;];/*gif图路径*/</div><div class="line">/*NSData转为UIImage*/</div><div class="line">   self.gifView.image = [OLImage  imageWithData:data];</div><div class="line">   [self.view addSubview:self.gifView];</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动画/">动画</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/25/键盘弹出textField上滑展示，键盘消失textField回到原位/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          键盘弹出textField上滑展示，键盘消失textField回到原位
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/18/TextField收起键盘的多种方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TextField收起键盘的多种方法&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

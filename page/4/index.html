@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="iOS开发者笔记">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Baylee的技术博客">
+<meta property="og:url" content="https://zhengry.github.io/page/4/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="iOS开发者笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Baylee的技术博客">
+<meta name="twitter:description" content="iOS开发者笔记">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer">
+      <article id="post-iOS语音播报功能" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/11/iOS语音播报功能/">iOS语音播报功能</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/04/11/iOS语音播报功能/" class="article-date">
+  <time datetime="2016-04-11T11:32:40.000Z" itemprop="datePublished">2016-04-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/音视频/">音视频</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">AVSpeechSynthesizer *speechSynthesizer = [[AVSpeechSynthesizer alloc]init];</div><div class="line">AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:@&quot;语音播报的内容&quot;];</div><div class="line">utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@&quot;zh-CN&quot;];</div><div class="line">CGFloat rate = 0.5;</div><div class="line">utterance.rate = rate;</div><div class="line">utterance.preUtteranceDelay = 0.0;</div><div class="line">[speechSynthesizer speakUtterance:utterance];</div></pre></td></tr></table></figure>
+<p>值得注意的是，在不同的iOS版本的设备上语音速度有所不同。正常的语速设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">CGFloat rate = 0.5;//iOS10及以上版本默认0.5的速度基本正常</div><div class="line">if (IOS_VERSION &gt;= 9.0 &amp;&amp; IOS_VERSION &lt; 10.0) &#123;</div><div class="line">        rate = 0.52;//iOS9上速度略慢</div><div class="line">    &#125;else if (IOS_VERSION &gt;= 8.0 &amp;&amp; IOS_VERSION &lt; 9.0)&#123;</div><div class="line">        rate = 0.15;//iOS8的语音播报速度非常快</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>语音播报最常见的应用是后台播报，比如支付宝、微信等收到转账时会有语音提醒到账。很容易想到使用APNs来推送消息，收到推送后语音播报推送内容。在后台语音的功能实现上，可能会考虑开启background modes中的Audio and AirPlay模式。开启后台audio模式的确可以对收到的语音实时播报，但你要是去上架，就会被拒。我们来看看苹果官方对于Audio and AirPlay模式的功能描述：&gt;The app plays audible content to the user or records audio while in the background. (This content includes streaming audio or video content using AirPlay.) </p>
+<p>The user must grant permission for apps to use the microphone prior to the first use.</p>
+<p>由此我们可以看出，开启后台语音必须满足后台持续的语音流，比如音乐播放、录音等。而我们要实现的后台语音播报功能则是在不定时收到推送时才语音播报。这个方法只能pass。</p>
+<p>实现方式：</p>
+<p>iOS10以前的只能实现在app运行中收到消息时播报，iOS10以后可以通过Notification Service Extension来实现。</p>
+<p><img src="/images/add extension.png" alt="add extension"></p>
+<p>在生成的.m文件的`*</p>
+<p>-(void)didReceiveNotificationRequest:(UNNotificationRequest <em>)request withContentHandler:(void (^)(UNNotificationContent </em> _Nonnull))contentHandler*`方法中对消息内容进行播报即可。</p>
+<p>添加Notification Service Extension之后可能出现的问题及解决方法：</p>
+<ol>
+<li><p>添加了notification extension之后，提示：</p>
+<p><img src="/Users/zry/Documents/blog/source/images/extension证书报错.png" alt="extension证书报错"></p>
+<p>即使证书设置的完全相同，仍然报错。</p>
+<p>解决方法：在钥匙串访问里找到Apple Worldwide Developer Relations Certification Authority证书，修改始终信任为系统默认，重新编译即可。</p>
+</li>
+<li><p>最低版本支持iOS8.0的项目，添加了支持iOS10以上的extension（Notification Service Extension）之后，无法运行在iOS8的手机上：<em>This app contains an app extension that specifies an extension point identifier that is not supported on this version of iOS for the value of the NSExtensionPointIdentifier key in its Info.plist. </em> 报出下面的弹窗：</p>
+<p><img src="/Users/zry/Documents/blog/source/images/Extension在ios8安装错误.png" alt="Extension在ios8安装错误"></p>
+<p>解决方法：</p>
+<p><img src="/Users/zry/Documents/blog/source/images/extension在ios8安装错误解决方法.png" alt="extension在ios8安装错误解决方法">    </p>
+<p>修改general里面的<em>deployment target</em>为10.0即可。</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语音播报/">语音播报</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-dispatch_once()工作原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/27/dispatch_once()工作原理/">dispatch_once()工作原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/27/dispatch_once()工作原理/" class="article-date">
+  <time datetime="2016-03-27T07:32:40.000Z" itemprop="datePublished">2016-03-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/API/">API</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。苹果提供了 <code>dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);</code>函数来避免这个问题。在实现单例类的时候，我们通常会下面的代码来初始化单例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-(instancetype)sharedInstance</div><div class="line">&#123;  </div><div class="line">   static SharedObject *sharedObject = nil;  </div><div class="line">   static dispatch_once_t predicate;  </div><div class="line">   dispatch_once(&amp;predicate, ^&#123;  </div><div class="line">       sharedObject = [[SharedObject alloc] init];  </div><div class="line">   &#125;);  </div><div class="line">   return sharedObject;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要理解<code>dispatch_once()</code>怎么确保单例类对象只被初始化一次，也就是要搞清楚<code>dispatch_once()</code>是怎么根据predicate指针来判断block是否执行完成的呢？</p>
+<ul>
+<li>首先，predicate指针所指向的变量的类型为<code>dispatch_once_t</code>，而<code>dispatch_once_t</code>变量初始化时必须设置为0</li>
+<li><code>dispatch_once()</code>在进行predicate（断言）判定时，<code>dispatch_once_t</code>变量的值只有为0时，才会执行block，因此初次调用时，block会被调用一次</li>
+<li>当block执行完毕后，系统会将<code>dispatch_once_t</code>变量的值置为-1，因此再次调用<code>dispatch_once()</code>的时候，就会跳过block</li>
+<li><code>dispatch_once_t</code>是一个只能为0或-1的Int值，默认为0，执行完block，被置为-1。若置为其他值，会报错EXC_BAD_ACCESS</li>
+</ul>
+<p>这也就是<code>dispatch_once()</code>对block只执行一次的工作原理。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-键盘弹出textField上滑展示，键盘消失textField回到原位" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/25/键盘弹出textField上滑展示，键盘消失textField回到原位/">键盘弹出textField上滑展示，键盘消失textField回到原位</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/25/键盘弹出textField上滑展示，键盘消失textField回到原位/" class="article-date">
+  <time datetime="2016-03-25T12:56:40.000Z" itemprop="datePublished">2016-03-25</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>场景：在某个view中间的位置有个textField，在弹出键盘进行输入时，键盘会遮住textField输入框，这时需要将textField往上移动。编辑完成后，键盘消失，让textField归位。</p>
+<p>实现方法有两种,第二种方法比较简单：</p>
+<h4 id="方法一：textField放在ScrollView上"><a href="#方法一：textField放在ScrollView上" class="headerlink" title="方法一：textField放在ScrollView上"></a>方法一：textField放在ScrollView上</h4><p>步骤：</p>
+<ol>
+<li>textField要放在UIScrollView上</li>
+<li>UIScrollView的contentSize要比当前view的frame大，确保能够在键盘弹出时上滑（可以在键盘弹出时增大ScrollView的contentSize）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">/*在viewDidLoad中添加textField*/</div><div class="line">- (void)viewDidLoad </div><div class="line">&#123;</div><div class="line">    [super viewDidLoad];</div><div class="line"></div><div class="line">    /*注册键盘show、hide通知*/</div><div class="line">    [[NSNotificationCenter defaultCenter] addObserver:self </div><div class="line">                                             selector:@selector(keyboardWillShow:) </div><div class="line">                                                 name:UIKeyboardWillShowNotification  object:self.view.window];</div><div class="line">   </div><div class="line">    [[NSNotificationCenter defaultCenter] addObserver:self </div><div class="line">                                             selector:@selector(keyboardWillHide:) </div><div class="line">                                                 name:UIKeyboardWillHideNotification  object:self.view.window];</div><div class="line"> </div><div class="line">  	/*用一个BOOL变量来标识键盘的状态*/  </div><div class="line">  	keyboardIsShown = NO;</div><div class="line">    /*在需要的场景下resize ScrollView的contentSize，确保它比当前view大*/</div><div class="line">    CGSize scrollContentSize = CGSizeMake(320, 345);</div><div class="line">    self.scrollView.contentSize = scrollContentSize;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)keyboardWillHide:(NSNotification *)n</div><div class="line">&#123;</div><div class="line">    NSDictionary* userInfo = [n userInfo];</div><div class="line"></div><div class="line">    // get the size of the keyboard</div><div class="line">    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;</div><div class="line">    </div><div class="line">  /* resize the scrollview*/</div><div class="line">    CGRect viewFrame = self.scrollView.frame;</div><div class="line">  	</div><div class="line">  /*如果有tabBar，还需要注意减去tabBar的高度*/</div><div class="line">    viewFrame.size.height += (keyboardSize.height - kTabBarHeight);</div><div class="line">     [UIView animateKeyframesWithDuration:0.2 delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState animations:^&#123;</div><div class="line">        [self.scrollView setFrame:viewFrame];</div><div class="line">    &#125; completion:nil];</div><div class="line">    keyboardIsShown = NO;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)keyboardWillShow:(NSNotification *)notification</div><div class="line">&#123;</div><div class="line">    if (keyboardIsShown) &#123;</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line">    NSDictionary* userInfo = [notification userInfo];</div><div class="line">    CGSize keyboardSize = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;</div><div class="line">    CGRect viewFrame = self.scrollView.frame;</div><div class="line">    viewFrame.size.height -= (keyboardSize.height - kTabBarHeight);</div><div class="line">    </div><div class="line">  	[UIView animateKeyframesWithDuration:0.2 delay:0 options:UIViewKeyframeAnimationOptionBeginFromCurrentState animations:^&#123;</div><div class="line">        [self.scrollView setFrame:viewFrame];</div><div class="line">    &#125; completion:nil];</div><div class="line">    keyboardIsShown = YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="方法二：简单实现"><a href="#方法二：简单实现" class="headerlink" title="方法二：简单实现"></a>方法二：简单实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//开始编辑时 视图上移 如果输入框不被键盘遮挡则不上移。</div><div class="line">- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField&#123;</div><div class="line">    CGFloat rects = self.view.height - (textField.bottom + 216 +50);</div><div class="line">    if (rects &lt;= 0) &#123;</div><div class="line">        [UIView animateWithDuration:0.3 animations:^&#123;</div><div class="line">            CGRect frame = self.view.frame;</div><div class="line">            frame.origin.y = rects;</div><div class="line">            self.view.frame = frame;</div><div class="line">        &#125;];</div><div class="line">    &#125;</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//结束编辑时键盘下去 视图下移动画</div><div class="line">-(BOOL)textFieldShouldEndEditing:(UITextField *)textField&#123;</div><div class="line">    [UIView animateWithDuration:0.3 animations:^&#123;</div><div class="line">        CGRect frame = self.view.frame;</div><div class="line">        frame.origin.y = 0.0;</div><div class="line">        self.view.frame = frame;</div><div class="line">    &#125;];</div><div class="line">    return YES;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-gif动画效果实现方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/24/gif动画效果实现方式/">gif动画效果实现方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/24/gif动画效果实现方式/" class="article-date">
+  <time datetime="2016-03-24T15:13:43.000Z" itemprop="datePublished">2016-03-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>gif 图片的展示方式有几种：webView方法、逐桢展示、第三方</p>
+<ol>
+<li><p><strong>webView展示：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//获取gif图片的尺寸</div><div class="line">CGRect frame = CGRectZero;</div><div class="line"></div><div class="line">//图片可以是jpg格式，也可能是gif格式    </div><div class="line">frame.size = [UIImage imageNamed:@&quot;x.jpg&quot;].size;</div><div class="line"></div><div class="line">// 读取gif图片数据</div><div class="line">NSData gif = [NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@&quot;x&quot; ofType:@&quot;jpg&quot;]]; </div><div class="line">UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];</div><div class="line"></div><div class="line">/*这里注意：如果不用上面获取的gif图片的尺寸，而是自定义view的frame，当设置的frame小于gif本身的尺寸大小时，图片展示时不像UIImageView那样自动 缩放，而是只展示gif的一部分。另外，当frame的宽度是整个屏幕宽度，x坐标从0开始，如果gif的尺寸大于屏幕宽度，gif的展示将按gif图本身的宽高比展示。假设gif尺寸为（500，300）,屏幕尺寸为（320，568），如果frame的x,y都为0，gif的展示为（0，0，320，320/500.0*300)*/</div><div class="line"></div><div class="line">webView.userInteractionEnabled = NO;</div><div class="line"></div><div class="line">/*中间设置的type类型一定要有image/xxx,后面的xxx可以是png、jpg、gif，即使gif的格式是jpg也没关系*/</div><div class="line">[webView loadData:gif MIMEType:@&quot;image/jpg&quot; textEncodingName:nil baseURL:nil]; </div><div class="line"></div><div class="line">[self.view addSubview:webView];</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>逐桢展示（animation效果）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">   UIImageView *gifView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 0, self.view.frame.size.width - 40,300)];</div><div class="line">   NSMutableArray *gifArray = [[NSMutableArray alloc] initWithCapacity:20];</div><div class="line">   for (NSInteger i = 0; i &lt; 20; i++) &#123;</div><div class="line">       UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@&quot;%ld.jpg&quot;,(long)i]];</div><div class="line">       [gifArray addObject:image];</div><div class="line">   &#125;</div><div class="line">   gifView.image = gifArray.lastObject;</div><div class="line"></div><div class="line">/*注意这个数组里存放的数据类型是UIImage*/</div><div class="line">   gifView.animationImages = gifArray;</div><div class="line">   </div><div class="line">/* 一个动画循环的时间 */</div><div class="line">gifView.animationDuration = 10;</div><div class="line"></div><div class="line">/*动画重复次数，0表示无限循环*/</div><div class="line">   gifView.animationRepeatCount = 0;</div><div class="line">   [gifView startAnimating];</div><div class="line">/*需要触发停止动画时可用[gifView stopAnimating];*/</div><div class="line">   [self.view addSubview:gifView];</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p><strong>第三方 </strong></p>
+</li>
+</ol>
+<p>貌似有不少第三方,这个OLImage这个用起来还是挺简单的，而且图片的大小是铺满的填充效果gitHub地址：<a href="https://github.com/dtorres/OLImageView" target="_blank" rel="external">https://github.com/dtorres/OLImageView</a><br>在当前controller或view中导入OLImageView.h和OLImage.h两个头文件即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">   self.gifView = [[OLImageView alloc] initWithFrame:CGRectMake(0, 100, 300, 300)];</div><div class="line">   self.gifView.center = self.view.center;</div><div class="line">   NSString *imgPath = [[NSBundle mainBundle] pathForResource:@&quot;x&quot; ofType:@&quot;jpg&quot;];/*gif图路径*/</div><div class="line">/*NSData转为UIImage*/</div><div class="line">   self.gifView.image = [OLImage  imageWithData:data];</div><div class="line">   [self.view addSubview:self.gifView];</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/动画/">动画</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-TextField收起键盘的多种方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/18/TextField收起键盘的多种方法/">TextField收起键盘的多种方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/18/TextField收起键盘的多种方法/" class="article-date">
+  <time datetime="2016-03-18T08:29:07.000Z" itemprop="datePublished">2016-03-18</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>常见的textField键盘收起方法有：</p>
+<ol>
+<li><p>点击return按钮收起键盘</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(void)textFieldShouldReturn:(UITextField *)textField</div><div class="line">&#123;</div><div class="line">	return [textField resignFirstResponder];  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>点击键盘之外的view收起键盘（view继承于UIControl）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[self.view endEditing:YES];</div></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</div><div class="line">&#123;</div><div class="line">  [self.textField resignFirstResponder];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>注意：如果textField是放在scrollview上的话，由于ScrollView会截获手势来响应自身的滑动事件，所以这两个方法是失效的。</p>
+</li>
+<li><p>统一收起键盘（在需要收起键盘的地方加上，比如可以给controller.view添加手势target）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[[UIApplication sharedApplication] keyWindow] endEditing:YES];​</div></pre></td></tr></table></figure>
+</li>
+<li><p>用resignFirstResponder来收起键盘</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>总结：</p>
+<p>如果textField放在普通的view上，可以在view中实现touchBegan方法，用<code>[self.view endEditing:YES];</code>或者<code>[textField resignFirstResponder];</code>来收起键盘；</p>
+<p>如果textField放在ScrollView上，可以给controller.view增加UITapGesture target，调用3或4方法收起键盘。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">下一页 &raquo;</a>
+      </nav>
+    </section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

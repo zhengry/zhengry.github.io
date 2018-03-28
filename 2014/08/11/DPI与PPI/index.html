@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DPI与PPI - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DPI是每英寸的点数，可以简单理解为点的密度。
+PPI是每英寸的像素数，可以简单理解为像素密度。
+
+点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。
+使用UIScreen获取的bounds和frame，都是点的尺寸，而非像素尺寸。例如，在视网膜屏的iPhone4上，我获取的applicationFrame">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DPI与PPI">
+<meta property="og:url" content="https://zhengry.github.io/2014/08/11/DPI与PPI/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="DPI是每英寸的点数，可以简单理解为点的密度。
+PPI是每英寸的像素数，可以简单理解为像素密度。
+
+点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。
+使用UIScreen获取的bounds和frame，都是点的尺寸，而非像素尺寸。例如，在视网膜屏的iPhone4上，我获取的applicationFrame">
+<meta property="og:updated_time" content="2017-04-05T13:41:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DPI与PPI">
+<meta name="twitter:description" content="DPI是每英寸的点数，可以简单理解为点的密度。
+PPI是每英寸的像素数，可以简单理解为像素密度。
+
+点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。
+使用UIScreen获取的bounds和frame，都是点的尺寸，而非像素尺寸。例如，在视网膜屏的iPhone4上，我获取的applicationFrame">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-DPI与PPI" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DPI与PPI
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/08/11/DPI与PPI/" class="article-date">
+  <time datetime="2014-08-11T07:32:40.000Z" itemprop="datePublished">2014-08-11</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/基础/">基础</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>DPI是每英寸的点数，可以简单理解为点的密度。</li>
+<li>PPI是每英寸的像素数，可以简单理解为像素密度。</li>
+</ul>
+<p>点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。</p>
+<p>使用UIScreen获取的bounds和frame，都是<strong>点的尺寸</strong>，而非像素尺寸。例如，在视网膜屏的iPhone4上，我获取的applicationFrame大小是320x460，很明显它代表的是点的数量。假如你要显示一张图，如果该图原大小是100x200，那么显示在这样的屏幕上，它的实际显示出来的尺寸将只有原来大小的一半，但它的像素数并未改变。更加需要考虑的是，如果你要对这张图进行缩放，那么缩放率该按照实际显示尺寸计算，还是按照实际像素数计算？答案是前者。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/08/20/UIImage相关/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          UIImage相关问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/27/HTTP协议/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HTTP协议&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

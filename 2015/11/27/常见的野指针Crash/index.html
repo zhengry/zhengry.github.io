@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>常见的野指针Crash - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：
+
+定义property该用strong/weak修饰误用成assign
+
+在objc_setAssociatedObject方法中该用OBJC_ASSOCIATION_RETAIN_NONATOMIC修饰的对象误用成OBJC_ASSOCIATION_ASSIGN
+
+Cor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见的野指针Crash">
+<meta property="og:url" content="https://zhengry.github.io/2015/11/27/常见的野指针Crash/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：
+
+定义property该用strong/weak修饰误用成assign
+
+在objc_setAssociatedObject方法中该用OBJC_ASSOCIATION_RETAIN_NONATOMIC修饰的对象误用成OBJC_ASSOCIATION_ASSIGN
+
+Cor">
+<meta property="og:updated_time" content="2017-05-08T09:43:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常见的野指针Crash">
+<meta name="twitter:description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：
+
+定义property该用strong/weak修饰误用成assign
+
+在objc_setAssociatedObject方法中该用OBJC_ASSOCIATION_RETAIN_NONATOMIC修饰的对象误用成OBJC_ASSOCIATION_ASSIGN
+
+Cor">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-常见的野指针Crash" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      常见的野指针Crash
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/11/27/常见的野指针Crash/" class="article-date">
+  <time datetime="2015-11-27T14:56:49.000Z" itemprop="datePublished">2015-11-27</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Crash/">Crash</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：</p>
+<ol>
+<li><p>定义property该用strong/weak修饰误用成assign</p>
+</li>
+<li><p>在objc_setAssociatedObject方法中该用<code>OBJC_ASSOCIATION_RETAIN_NONATOMIC</code>修饰的对象误用成<code>OBJC_ASSOCIATION_ASSIGN</code></p>
+</li>
+<li><p>Core Foundation层对象Toll-Free Bridging到Foundation层中，已经用了__bridge_transfer关键字转移了对象的所有权之后，又对CoreFoundation层对象调用了一次CFRelease，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CFUUIDRef uuid = CFUUIDCreate(NULL);</div><div class="line">CFStringRef cfString = CFUUIDCreateString(NULL, uuid);	NSString *string = (__bridge_transfer NSString *)cfString;	CFRelease(cfString);</div></pre></td></tr></table></figure>
+</li>
+<li><p>block回调之前并没有判空而是直接调用</p>
+</li>
+<li><p>NSNotification/KVO 只addObserver并没有removeObserver</p>
+</li>
+</ol>
+<p>解决方法：</p>
+<ol>
+<li><p>关于内存管理语义的使用（包括Toll-Free Bridging中）：</p>
+<ul>
+<li>深刻了解property中各种关键字修饰内存语义的区别，正确运用，例如delegate属性一般都用weak修饰（可以引入静态代码检查和commit检查 对assign关键字做警告）</li>
+<li>Toll-Free Bridging中三个关于内存语义关键字的含义：<ul>
+<li><code>(__bridge T) op</code>：告诉编译器在 bridge 的时候不要做任何事</li>
+<li><code>(__bridge_retained T) op</code>：（ ObjC 转 CF 的时候使用）告诉编译器在 bridge 的时候 retain 对象，开发者需要在CF一端负责释放对象</li>
+<li><code>(__bridge_transfer T) op</code>：（ CF 转 ObjC 的时候使用）告诉编译器转移 CF 对象的所有权，开发者不再需要在CF一端负责释放对象</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>debug阶段启动僵尸对象模式，使用enbale Zombie Objects帮助辅助定位问题</p>
+<p>原理:在对象释放（retainCount为0)时，使用一个内置的Zombie对象，替代原来被释放的对象。无论向该对象发送什么消息（函数调用），都会触发异常，抛出调试信息。</p>
+</li>
+<li><p>block的使用问题：</p>
+<p>block回调之前先做判空，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if(self.blockName)&#123; </div><div class="line">  self.blockName(sender == self.isUser ? YES : NO, self.viewModel);	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>对于NSNotificatio/KVO addObserver和removeObserver一定要成对出现</p>
+<p>​</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Crash/">Crash</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/12/25/Method-Swizzling——方法混写/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          Method Swizzling——方法混写
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/10/21/iOS编译原理和过程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS编译原理和过程&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

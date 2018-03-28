@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>TCP/IP - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、TCP/IP：通信规则的协议族计算机和网络设备要相互通信，双方就必须基于相同的方法。比如，如何探测到通信目标、由哪一边先发起通信、使用哪种语言进行通信、怎样结束通信等规则都需要事先确定。不同硬件、操作系统之间的通信，所有的这一切都需要一种规则——协议。
+TCP/IP是互联网相关的各类协议族的总称。
+二、TCP/IP的分层管理TCP/IP协议族按层次分别为：应用层、传输层、网络层和数据链路层。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP/IP">
+<meta property="og:url" content="https://zhengry.github.io/2014/05/22/TCP:IP/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="一、TCP/IP：通信规则的协议族计算机和网络设备要相互通信，双方就必须基于相同的方法。比如，如何探测到通信目标、由哪一边先发起通信、使用哪种语言进行通信、怎样结束通信等规则都需要事先确定。不同硬件、操作系统之间的通信，所有的这一切都需要一种规则——协议。
+TCP/IP是互联网相关的各类协议族的总称。
+二、TCP/IP的分层管理TCP/IP协议族按层次分别为：应用层、传输层、网络层和数据链路层。">
+<meta property="og:image" content="https://zhengry.github.io/../images/传输流.png">
+<meta property="og:image" content="https://zhengry.github.io/../images/HTTP通信过程.png">
+<meta property="og:updated_time" content="2017-04-05T14:03:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TCP/IP">
+<meta name="twitter:description" content="一、TCP/IP：通信规则的协议族计算机和网络设备要相互通信，双方就必须基于相同的方法。比如，如何探测到通信目标、由哪一边先发起通信、使用哪种语言进行通信、怎样结束通信等规则都需要事先确定。不同硬件、操作系统之间的通信，所有的这一切都需要一种规则——协议。
+TCP/IP是互联网相关的各类协议族的总称。
+二、TCP/IP的分层管理TCP/IP协议族按层次分别为：应用层、传输层、网络层和数据链路层。">
+<meta name="twitter:image" content="https://zhengry.github.io/../images/传输流.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-TCP:IP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TCP/IP
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2014/05/22/TCP:IP/" class="article-date">
+  <time datetime="2014-05-22T14:10:23.000Z" itemprop="datePublished">2014-05-22</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/网络/">网络</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="一、TCP-IP：通信规则的协议族"><a href="#一、TCP-IP：通信规则的协议族" class="headerlink" title="一、TCP/IP：通信规则的协议族"></a>一、TCP/IP：通信规则的协议族</h4><p>计算机和网络设备要相互通信，双方就必须基于相同的方法。比如，如何探测到通信目标、由哪一边先发起通信、使用哪种语言进行通信、怎样结束通信等规则都需要事先确定。不同硬件、操作系统之间的通信，所有的这一切都需要一种规则——协议。</p>
+<p>TCP/IP是互联网相关的各类协议族的总称。</p>
+<h4 id="二、TCP-IP的分层管理"><a href="#二、TCP-IP的分层管理" class="headerlink" title="二、TCP/IP的分层管理"></a>二、TCP/IP的分层管理</h4><p>TCP/IP协议族按层次分别为：应用层、传输层、网络层和数据链路层。</p>
+<ul>
+<li><p>应用层：决定了向用户提供应用服务时通信的活动。</p>
+<p>比如：FTP（File Transfer Protocol，文件传输协议）、DNS(Domain Name System，域名系统)服务、HTTP协议</p>
+</li>
+<li><p>传输层：提供处于网络连接中的两台计算机之前的数据传输。</p>
+<p>比如：TCP（Transmission Control Protocol，传输控制协议）、UDP（User Data Protocol，用户数据报协议）</p>
+</li>
+<li><p>网络层：处理在网络上流动的数据包。该层规定了通过怎样的路径到达对方计算机，并把数据包传送给对方。 类似于快递员根据你的地址（MAC地址）选择合适的路线（传输路线）把包裹（数据包）送到你家。</p>
+</li>
+<li><p>数据链路层：用来处理连接网络的硬件部分。</p>
+<p>比如网卡、光纤、硬件的设备驱动等。</p>
+</li>
+</ul>
+<p>分层的好处：<strong>高内聚，低耦合</strong>。如果只有一个协议，某个地方需要修改设计时，需要把所有部分整体替换掉。但是分层之后，只需要修改要变动的层。另外，各层也只需要考虑分派给自己的任务。</p>
+<h4 id="三、TCP-IP通信传输流"><a href="#三、TCP-IP通信传输流" class="headerlink" title="三、TCP/IP通信传输流"></a>三、TCP/IP通信传输流</h4><p><img src="../images/传输流.png" alt="传输流"></p>
+<p>利用TCP/IP协议族进行网络通信时，会通过分层顺序与对方进行通信。发送端从应用层往下走，接收端则从数据链路层往上走。</p>
+<p>以HTTP为例，发送端在层与层之间传输数据时，每经过一层必定会被打伤一个该层所属的首部信息（header）。反之，接收层在层与层之间呢传输数据时，每经过一层时会把对应的首部消去。</p>
+<p><img src="../images/HTTP通信过程.png" alt="HTTP通信过程"></p>
+<p>应用层的HTTP数据在经过传输层（TCP Layer）的时候，会加上TCP的header，变成了TCP Segment；传输层的Segment在经过网络层（IP Layer）的时候，会加上IP的header，变成一个IP Packet；网络层的IP Packet在经过链路层（Link Layer）的时候会加上Link Layer的header，变成一个Frame，最后Frame会在物理层将数字信号转化为物理信号传输。（Segment、Packet、Frame都是不同层的包，英译汉之后它们都叫包。。。）</p>
+<p>所以对每层的学习，就是要学习每一层的header。</p>
+
+      
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、TCP-IP：通信规则的协议族"><span class="toc-number">1.</span> <span class="toc-text">一、TCP/IP：通信规则的协议族</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、TCP-IP的分层管理"><span class="toc-number">2.</span> <span class="toc-text">二、TCP/IP的分层管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、TCP-IP通信传输流"><span class="toc-number">3.</span> <span class="toc-text">三、TCP/IP通信传输流</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TCP-IP/">TCP/IP</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/05/27/HTTP协议/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          HTTP协议
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

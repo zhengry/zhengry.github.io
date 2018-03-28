@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>常见的非野指针类crash及解决方案 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="集合类Crash
+数组越界
+解决方法：
+从数组中取某个index的元素时，先对index和数组元素个数进行判断：
+123if(index &amp;lt; self.array.count)&amp;#123;  id obj = self.array[index];&amp;#125;
+在使用数组时，要特别注意对边界条件的判断。
+
+向数组中插入空对象
+解决方法：向数组中插入数据时，先判断是否为nil
+123if(obj">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见的非野指针类crash及解决方案">
+<meta property="og:url" content="https://zhengry.github.io/2015/12/28/常见的非野指针类crash及解决方案/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="集合类Crash
+数组越界
+解决方法：
+从数组中取某个index的元素时，先对index和数组元素个数进行判断：
+123if(index &amp;lt; self.array.count)&amp;#123;  id obj = self.array[index];&amp;#125;
+在使用数组时，要特别注意对边界条件的判断。
+
+向数组中插入空对象
+解决方法：向数组中插入数据时，先判断是否为nil
+123if(obj">
+<meta property="og:updated_time" content="2017-05-08T09:43:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常见的非野指针类crash及解决方案">
+<meta name="twitter:description" content="集合类Crash
+数组越界
+解决方法：
+从数组中取某个index的元素时，先对index和数组元素个数进行判断：
+123if(index &amp;lt; self.array.count)&amp;#123;  id obj = self.array[index];&amp;#125;
+在使用数组时，要特别注意对边界条件的判断。
+
+向数组中插入空对象
+解决方法：向数组中插入数据时，先判断是否为nil
+123if(obj">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-常见的非野指针类crash及解决方案" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      常见的非野指针类crash及解决方案
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/12/28/常见的非野指针类crash及解决方案/" class="article-date">
+  <time datetime="2015-12-28T15:58:09.000Z" itemprop="datePublished">2015-12-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Crash/">Crash</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="集合类Crash"><a href="#集合类Crash" class="headerlink" title="集合类Crash"></a>集合类Crash</h3><ol>
+<li><p>数组越界</p>
+<p>解决方法：</p>
+<p>从数组中取某个index的元素时，先对index和数组元素个数进行判断：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if(index &lt; self.array.count)&#123;</div><div class="line">  id obj = self.array[index];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在使用数组时，要特别注意对边界条件的判断。</p>
+</li>
+<li><p>向数组中插入空对象</p>
+<p>解决方法：向数组中插入数据时，先判断是否为nil</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if(obj)&#123;</div><div class="line">  [array insertObject:obj atIndex:0];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>调用可变字典<code>setObject:ForKey</code>方法，<code>key</code>或者<code>value</code>为空</p>
+<p>解决方法：</p>
+<ul>
+<li><p>调用<code>NSMutableDictionary</code>的<code>setValue:ForKey:</code>方法而不是<code>setObject:ForKey:</code>方法，少用字面量语法。</p>
+<p><code>NSDictionary</code>内部对value做了处理，<code>[mutableDictionary setValue:nil ForKey:@&quot;name&quot;]</code>不会崩溃。</p>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><p>set之前先对<code>key</code>和<code>value</code>进行非空判断，可以NSMutableArray以及NSMutableDictionary自定义一些安全的扩展方法，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">-(id)objectAtIndexSafely:(NSUInteger)index &#123;</div><div class="line"> if (index &gt;= self.count) &#123;</div><div class="line">     return nil;</div><div class="line"> &#125;</div><div class="line"> return [self objectAtIndex:index];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(void)setObjectSafely:(id)anObject forKey:(id &lt;NSCopying&gt;)aKey &#123;</div><div class="line"> if (!aKey || !anObject) &#123;</div><div class="line">  return;   </div><div class="line"> &#125;</div><div class="line"> [self setObject:anObject forKey:aKey];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><p>一边遍历数组，一边修改数组内容，或者多线程环境中，一个线程在读另外一个线程在写，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for(id item in self.itemArray)&#123;</div><div class="line">  if (item != self.currentItem) &#123; </div><div class="line">    [self.itemArray removeItem:item]; </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方法：</p>
+<ol>
+<li><p>遍历时需要修改原数组的时候可以遍历原数组的一个拷贝，如：保证多线程中读写操作的原子性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">NSMutableArray *copyArray = [NSMutableArray arrayWithArray:self.items]; </div><div class="line">for(id item in copyArray) &#123;</div><div class="line">  if (item != self.currentItem) &#123;</div><div class="line">    [self.items removeGuideViewItem:item];</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>方法：加锁，信号量，GCD串行队列，GCD dispatch_barrier_async方法等，dispatch_barrier_async用法</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="KVC类Crash"><a href="#KVC类Crash" class="headerlink" title="KVC类Crash"></a>KVC类Crash</h3><p>crash提示：</p>
+<ul>
+<li>调用setNilValueForKey抛出异常： Terminating app due to uncaught exception ‘NSInvalidArgumentException’, reason: ‘[ setNilValueForKey]: could not set nil as the value for the key age.’ </li>
+<li>在类中找不到对应的key： Terminating app due to uncaught exception ‘NSUnknownKeyException’, reason: ‘[<viewcontroller 0x7ff968f700=""> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key undefined.’</viewcontroller></li>
+</ul>
+<p>解决方法：</p>
+<ol>
+<li><p>重写setNilValueForKey方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-(void)setNilValueForKey:(NSString *)key&#123; </div><div class="line">	NSLog(@&quot;不能将%@设成nil&quot;,key);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>重写setValue:forUndefinedKey:方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-(void)setValue:(id)value forUndefinedKey:(NSString *)key&#123; 		NSLog(@&quot;出现异常，该key不存在%@&quot;,key);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="KVO类Crash"><a href="#KVO类Crash" class="headerlink" title="KVO类Crash"></a>KVO类Crash</h3><p><strong>KVO 对同一keypath多次removeObserver</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Terminating app due to uncaught exception &apos;NSRangeException&apos;, reason: &apos;Cannot remove an observer &lt;UIView 0x7f9a90f0a0d0&gt; for the key path &quot;frame&quot; from &lt;ViewController 0x7f9a90e07010&gt; because it is not registered as an observer.&apos;</div></pre></td></tr></table></figure>
+<p>场景</p>
+<p>当对同一个keypath进行两次removeObserver时会导致程序crash，这种情况常常出现在父类有一个KVO，父类在dealloc中remove了一次，子类又remove了一次</p>
+<p>解决方案：</p>
+<ol>
+<li>try&amp;catch(容易掩盖问题)</li>
+<li>确保addObserver和removeObserver一定要成对出现，推荐使用FaceBook开源的第三方库FBKVOController</li>
+<li>可以分别在父类以及本类中定义各自的context字符串，比如在本类中定义context为@”myContext”;然后在dealloc中remove observer时指定移除的自身添加的observer。这样iOS就能知道移除的是自己的KVO，而不是父类中的KVO，避免二次remove造成crash。</li>
+</ol>
+<h3 id="找不到指定的方法"><a href="#找不到指定的方法" class="headerlink" title="找不到指定的方法"></a>找不到指定的方法</h3><p>crash提示：unrecognized selector sent to instance 0x1f7987d0’</p>
+<p>解决方法：</p>
+<ol>
+<li><p>头文件声明方法但是在.m文件中没有实现/把方法名修改但是没有在头文件中同步</p>
+</li>
+<li><p>调用代理类的方法的时候没有判断代理类是否已经实现对应的方法而直接调用，编译可以通过但是运行时会crash</p>
+</li>
+<li><p>对于id类型的对象没有判断类型直接强转调用方法</p>
+</li>
+<li><p><code>@property (nonatomic, copy) NSMutableArray *mutableArray;</code>用copy修饰的可变属性在赋值之后会变成不可变属性，比如这里调用addObject方法之后就会crash</p>
+</li>
+<li><p>在低版本的系统用了高版本才有的api 如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if([str containsString:@&quot;a&quot;])&#123;</div><div class="line">  /*在iOS8以后才支持，iOS8以下调用会crash*/	</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#集合类Crash"><span class="toc-number">1.</span> <span class="toc-text">集合类Crash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KVC类Crash"><span class="toc-number">2.</span> <span class="toc-text">KVC类Crash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KVO类Crash"><span class="toc-number">3.</span> <span class="toc-text">KVO类Crash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#找不到指定的方法"><span class="toc-number">4.</span> <span class="toc-text">找不到指定的方法</span></a></li></ol>
+      </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Crash/">Crash</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/02/26/textView限制输入问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          textView限制输入问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/25/Method-Swizzling——方法混写/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Method Swizzling——方法混写&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

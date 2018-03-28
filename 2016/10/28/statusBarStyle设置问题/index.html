@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>statusBarStyle设置问题 - Baylee的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在一些支持iOS6、iOS7的项目中，经常转换statusBarStyle。常用的有效方法：
+
+
+info.plist文件中添加：View controller-based status bar appearance为NO；
+
+在viewController中实现：
+1234-(UIStatusBarStyle)preferredStatusBarStyle&amp;#123;    return UIS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="statusBarStyle设置问题">
+<meta property="og:url" content="https://zhengry.github.io/2016/10/28/statusBarStyle设置问题/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="在一些支持iOS6、iOS7的项目中，经常转换statusBarStyle。常用的有效方法：
+
+
+info.plist文件中添加：View controller-based status bar appearance为NO；
+
+在viewController中实现：
+1234-(UIStatusBarStyle)preferredStatusBarStyle&amp;#123;    return UIS">
+<meta property="og:updated_time" content="2017-04-05T13:51:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="statusBarStyle设置问题">
+<meta name="twitter:description" content="在一些支持iOS6、iOS7的项目中，经常转换statusBarStyle。常用的有效方法：
+
+
+info.plist文件中添加：View controller-based status bar appearance为NO；
+
+在viewController中实现：
+1234-(UIStatusBarStyle)preferredStatusBarStyle&amp;#123;    return UIS">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/webfonts/ptserif/main.css">
+  <link rel="stylesheet" href="/webfonts/ptserif/source-code-pro.css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo logo-text" href="/">Baylee的技术博客</a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+     
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-statusBarStyle设置问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      statusBarStyle设置问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/10/28/statusBarStyle设置问题/" class="article-date">
+  <time datetime="2016-10-28T14:55:39.000Z" itemprop="datePublished">2016-10-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在一些支持iOS6、iOS7的项目中，经常转换statusBarStyle。常用的有效方法：</p>
+<ul>
+<li><ol>
+<li><p>info.plist文件中添加：View controller-based status bar appearance为NO；</p>
+</li>
+<li><p>在viewController中实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(UIStatusBarStyle)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    return UIStatusBarStyleLightContent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ViewController的<code>viewDidLoad</code>中增加调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[self setNeedsStatusBarAppearanceUpdate];</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><strong>Note：这种方法在有navigationController的时候不奏效</strong>。</p>
+</li>
+<li><p><strong>UINavigationController</strong>并不会转发preferredStatusBarStyle方法给它的childViewControllers，而是在屏幕顶层自己管理statusBar的状态。所以在那vigationContrller的childViewController中实现preferredStatusBarStyle并不奏效。</p>
+<p>修改方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.navigationController.navigationBar.barStyle = UIBarStyleBlack;</div></pre></td></tr></table></figure>
+<p>还有一种方法就是在APPDelegate的didFinishLaunchingWithOptions方法里添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];</div></pre></td></tr></table></figure>
+<p>除此之外，还可以给UINavigationController增加一个category：</p>
+<p>在category中实现方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (UIStatusBarStyle)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    return UIStatusBarStyleLightContent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/23/线程锁NSLock/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          线程锁NSLock
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/23/iOS之关联/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS之关联&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Baylee&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
