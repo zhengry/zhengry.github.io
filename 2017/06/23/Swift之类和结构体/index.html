@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="在Swift中，类和结构体既相似又各有不同。
 基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。">
-<meta property="og:updated_time" content="2018-03-30T09:45:28.252Z">
+<meta property="og:updated_time" content="2018-03-30T18:21:59.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift之类和结构体">
 <meta name="twitter:description" content="在Swift中，类和结构体既相似又各有不同。
@@ -415,8 +415,6 @@
 <p>注意：</p>
 <p><code>tenEighty</code> 和 <code>alsoTenEighty</code>被声明为常量而不是变量。然而你依然可以修改<code>tenEighty.frameRate</code> 和<code>alsoTenEighty.frameRate</code>。因为<code>tenEighty</code>和<code>alsoTenEighty</code>这两个常量的值并未改变。他们并不存储这个<code>VideoMode</code>实例，而仅仅是对<code>VideoMode</code>实例的引用。所以改变的是被引用的<code>VideoMode</code>的<code>frameRate</code>属性，而不是引用<code>VideoMode</code>的常量。</p>
 </li>
-</ol>
-<ol>
 <li><p>类的继承</p>
 <p>类不同于结构体和枚举的重要一点就是继承。继承可以重写类的实例方法和类型方法。被override的方法前需要加上<code>override</code>关键字来标记重写。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</div><div class="line">    <span class="keyword">var</span> voice: <span class="type">String</span>?</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">printDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span><span class="string">"this is A instance method."</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AA</span>: <span class="title">A</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> language: <span class="type">String</span> = <span class="string">"English"</span></div><div class="line">    <span class="comment">// 重写父类方法</span></div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">printDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"this is a new instance method"</span>)</div><div class="line">        <span class="keyword">super</span>.printDesc()<span class="comment">//调用父类方法</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
