@@ -5,34 +5,16 @@
   
   <title>C/C++中的void和void* - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="voidvoid关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：void a;，它只有如下两个应用：
-
-作为函数返回值，表示函数没有返回值
-作为函数参数的限定，表示函数没有形参
-
-void*void*的含义void*表示空指针类型，也就是任意类型的指针，或表示“该指针与一地址值相关，但是不清楚在此地址上的对象的类型”。
-C、C++中不能有任意类型的变量。但是，可">
+  <meta name="description" content="voidvoid关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：void a;，它只有如下两个应用：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C/C++中的void和void*">
 <meta property="og:url" content="https://zhengry.github.io/2016/04/18/C:C++中的void和void*/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="voidvoid关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：void a;，它只有如下两个应用：
-
-作为函数返回值，表示函数没有返回值
-作为函数参数的限定，表示函数没有形参
-
-void*void*的含义void*表示空指针类型，也就是任意类型的指针，或表示“该指针与一地址值相关，但是不清楚在此地址上的对象的类型”。
-C、C++中不能有任意类型的变量。但是，可">
-<meta property="og:updated_time" content="2017-04-05T13:49:45.000Z">
+<meta property="og:description" content="voidvoid关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：void a;，它只有如下两个应用：">
+<meta property="og:updated_time" content="2018-03-29T09:05:48.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C/C++中的void和void*">
-<meta name="twitter:description" content="voidvoid关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：void a;，它只有如下两个应用：
-
-作为函数返回值，表示函数没有返回值
-作为函数参数的限定，表示函数没有形参
-
-void*void*的含义void*表示空指针类型，也就是任意类型的指针，或表示“该指针与一地址值相关，但是不清楚在此地址上的对象的类型”。
-C、C++中不能有任意类型的变量。但是，可">
+<meta name="twitter:description" content="voidvoid关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：void a;，它只有如下两个应用：">
   
   
     <link rel="icon" href="/favicon.png">
@@ -88,19 +70,20 @@ C、C++中不能有任意类型的变量。但是，可">
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/基础/">基础</a>
+    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="void"><a href="#void" class="headerlink" title="void"></a>void</h3><p>void关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：<code>void a;</code>，它只有如下两个应用：</p>
+        <h4 id="void"><a href="#void" class="headerlink" title="void"></a>void</h4><p>void关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：<code>void a;</code>，它只有如下两个应用：</p>
+<a id="more"></a>
 <ul>
 <li>作为函数返回值，表示函数没有返回值</li>
 <li>作为函数参数的限定，表示函数没有形参</li>
 </ul>
-<h3 id="void-1"><a href="#void-1" class="headerlink" title="void*"></a>void*</h3><h4 id="void-的含义"><a href="#void-的含义" class="headerlink" title="void*的含义"></a><code>void*</code>的含义</h4><p>void*表示空指针类型，也就是任意类型的指针，或表示“该指针与一地址值相关，但是不清楚在此地址上的对象的类型”。</p>
+<h4 id="void-1"><a href="#void-1" class="headerlink" title="void*"></a>void*</h4><p>void*表示空指针类型，也就是任意类型的指针，或表示“该指针与一地址值相关，但是不清楚在此地址上的对象的类型”。</p>
 <p>C、C++中不能有任意类型的变量。但是，可以有任意类型的指针，因为所有指针类型的变量，无论是<code>int*</code>、<code>char*</code>、<code>string*</code>、<code>Student*</code>等等，他们的本质都是存放了一个地址值，他们所占的内存空间大小都是相同的。</p>
 <p>指针所占空间的大小是由编译器来决定的，准确地说是跟编译器的目标平台有关。如果目标平台是32位，那么<code>sizeof(void*)</code>就是4，如果是64位的，那么<code>sizeof(void*)</code>就是8。</p>
 <h4 id="对指针操作的理解"><a href="#对指针操作的理解" class="headerlink" title="对指针操作的理解"></a>对指针操作的理解</h4><p>在指针的相关操作中会涉及到两个值：</p>
@@ -113,7 +96,7 @@ C、C++中不能有任意类型的变量。但是，可">
 <li><code>int*</code>从指定地址向后寻找4字节作为变量的存储单元 </li>
 <li><code>double*</code>从指定地址向后寻找8字节作为变量的存储单元</li>
 </ul>
-<h4 id="void-的使用"><a href="#void-的使用" class="headerlink" title="void*的使用"></a><code>void*</code>的使用</h4><p>由于<code>void*</code>所指向的类型不确定，其只存储了一个起始地址，而其所指向的空间的大小是不确定的，所以不允许对其进行如下操作：</p>
+<h4 id="void-的使用"><a href="#void-的使用" class="headerlink" title="void*的使用"></a><code>void*</code>的使用</h4><h5 id="不允许的操作"><a href="#不允许的操作" class="headerlink" title="不允许的操作"></a>不允许的操作</h5><p>由于<code>void*</code>所指向的类型不确定，其只存储了一个起始地址，而其所指向的空间的大小是不确定的，所以不允许对其进行如下操作：</p>
 <ul>
 <li><p>解引用（<code>*vp;//错误引用</code>）</p>
 </li>
@@ -122,8 +105,7 @@ C、C++中不能有任意类型的变量。但是，可">
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> *a;</div><div class="line">a++;<span class="comment">/*a向后移动了一个int类型所占的大小*/</span></div><div class="line"><span class="keyword">double</span> *b;</div><div class="line">b++;<span class="comment">/*b向后移动了一个double类型所占的大小*/</span></div><div class="line"><span class="keyword">void</span> *c;</div><div class="line">(type*)c++;</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><code>void*</code>指针只支持几种有限的操作：</p>
-<ul>
+<h5 id="void-指针支持的操作"><a href="#void-指针支持的操作" class="headerlink" title="void*指针支持的操作"></a><code>void*</code>指针支持的操作</h5><ul>
 <li><p>向函数传递<code>void*</code>指针或从函数返回<code>void*</code>指针；</p>
 </li>
 <li><p>给另一个<code>void*</code>指针赋值</p>
@@ -139,13 +121,13 @@ C、C++中不能有任意类型的变量。但是，可">
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#void"><span class="toc-number">1.</span> <span class="toc-text">void</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-1"><span class="toc-number">2.</span> <span class="toc-text">void*</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#void-的含义"><span class="toc-number">2.1.</span> <span class="toc-text">void*的含义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对指针操作的理解"><span class="toc-number">2.2.</span> <span class="toc-text">对指针操作的理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#void-的使用"><span class="toc-number">2.3.</span> <span class="toc-text">void*的使用</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#void"><span class="toc-number">1.</span> <span class="toc-text">void</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#void-1"><span class="toc-number">2.</span> <span class="toc-text">void*</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对指针操作的理解"><span class="toc-number">3.</span> <span class="toc-text">对指针操作的理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#void-的使用"><span class="toc-number">4.</span> <span class="toc-text">void*的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#不允许的操作"><span class="toc-number">4.1.</span> <span class="toc-text">不允许的操作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#void-指针支持的操作"><span class="toc-number">4.2.</span> <span class="toc-text">void*指针支持的操作</span></a></li></ol></li></ol>
       </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/">C/C++</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/指针/">指针</a></li></ul>
 
       </footer>
     

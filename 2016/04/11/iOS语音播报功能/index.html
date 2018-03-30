@@ -5,23 +5,20 @@
   
   <title>iOS语音播报功能 - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：
-1234567AVSpeechSynthesizer *speechSynthesizer = [[AVSpeechSynthesizer alloc]init];AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithS">
+  <meta name="description" content="如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS语音播报功能">
 <meta property="og:url" content="https://zhengry.github.io/2016/04/11/iOS语音播报功能/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：
-1234567AVSpeechSynthesizer *speechSynthesizer = [[AVSpeechSynthesizer alloc]init];AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithS">
+<meta property="og:description" content="如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：">
 <meta property="og:image" content="https://zhengry.github.io/images/add extension.png">
 <meta property="og:image" content="https://zhengry.github.io/Users/zry/Documents/blog/source/images/extension证书报错.png">
 <meta property="og:image" content="https://zhengry.github.io/Users/zry/Documents/blog/source/images/Extension在ios8安装错误.png">
 <meta property="og:image" content="https://zhengry.github.io/Users/zry/Documents/blog/source/images/extension在ios8安装错误解决方法.png">
-<meta property="og:updated_time" content="2017-09-30T06:45:32.000Z">
+<meta property="og:updated_time" content="2018-03-29T09:24:32.321Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS语音播报功能">
-<meta name="twitter:description" content="如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：
-1234567AVSpeechSynthesizer *speechSynthesizer = [[AVSpeechSynthesizer alloc]init];AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithS">
+<meta name="twitter:description" content="如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：">
 <meta name="twitter:image" content="https://zhengry.github.io/images/add extension.png">
   
   
@@ -85,26 +82,31 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：</p>
+        <p>如果要在App内简单地实现语音播报功能，使用AVSpeechSynthesizer就可以实现：<a id="more"></a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">AVSpeechSynthesizer *speechSynthesizer = [[AVSpeechSynthesizer alloc]init];</div><div class="line">AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:@&quot;语音播报的内容&quot;];</div><div class="line">utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@&quot;zh-CN&quot;];</div><div class="line">CGFloat rate = 0.5;</div><div class="line">utterance.rate = rate;</div><div class="line">utterance.preUtteranceDelay = 0.0;</div><div class="line">[speechSynthesizer speakUtterance:utterance];</div></pre></td></tr></table></figure>
 <p>值得注意的是，在不同的iOS版本的设备上语音速度有所不同。正常的语速设置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">CGFloat rate = 0.5;//iOS10及以上版本默认0.5的速度基本正常</div><div class="line">if (IOS_VERSION &gt;= 9.0 &amp;&amp; IOS_VERSION &lt; 10.0) &#123;</div><div class="line">        rate = 0.52;//iOS9上速度略慢</div><div class="line">    &#125;else if (IOS_VERSION &gt;= 8.0 &amp;&amp; IOS_VERSION &lt; 9.0)&#123;</div><div class="line">        rate = 0.15;//iOS8的语音播报速度非常快</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>语音播报最常见的应用是后台播报，比如支付宝、微信等收到转账时会有语音提醒到账。很容易想到使用APNs来推送消息，收到推送后语音播报推送内容。在后台语音的功能实现上，可能会考虑开启background modes中的Audio and AirPlay模式。开启后台audio模式的确可以对收到的语音实时播报，但你要是去上架，就会被拒。我们来看看苹果官方对于Audio and AirPlay模式的功能描述：&gt;The app plays audible content to the user or records audio while in the background. (This content includes streaming audio or video content using AirPlay.) </p>
+<p>语音播报最常见的应用是后台播报，比如支付宝、微信等收到转账时会有语音提醒到账。很容易想到使用APNs来推送消息，收到推送后语音播报推送内容。在后台语音的功能实现上，可能会考虑开启background modes中的Audio and AirPlay模式。开启后台audio模式的确可以对收到的语音实时播报，但你要是去上架，就会被拒。我们来看看苹果官方对于Audio and AirPlay模式的功能描述：</p>
+<blockquote>
+<p>The app plays audible content to the user or records audio while in the background. (This content includes streaming audio or video content using AirPlay.) </p>
 <p>The user must grant permission for apps to use the microphone prior to the first use.</p>
+</blockquote>
 <p>由此我们可以看出，开启后台语音必须满足后台持续的语音流，比如音乐播放、录音等。而我们要实现的后台语音播报功能则是在不定时收到推送时才语音播报。这个方法只能pass。</p>
 <p>实现方式：</p>
 <p>iOS10以前的只能实现在app运行中收到消息时播报，iOS10以后可以通过Notification Service Extension来实现。</p>
 <p><img src="/images/add extension.png" alt="add extension"></p>
-<p>在生成的.m文件的`*</p>
-<p>-(void)didReceiveNotificationRequest:(UNNotificationRequest <em>)request withContentHandler:(void (^)(UNNotificationContent </em> _Nonnull))contentHandler*`方法中对消息内容进行播报即可。</p>
-<p>添加Notification Service Extension之后可能出现的问题及解决方法：</p>
-<ol>
+<p>在生成的.m文件的<code>-(void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler</code>方法中对消息内容进行播报即可。</p>
+<h5 id="添加Notification-Service-Extension之后可能出现的问题及解决方法："><a href="#添加Notification-Service-Extension之后可能出现的问题及解决方法：" class="headerlink" title="添加Notification Service Extension之后可能出现的问题及解决方法："></a>添加Notification Service Extension之后可能出现的问题及解决方法：</h5><ol>
 <li><p>添加了notification extension之后，提示：</p>
 <p><img src="/Users/zry/Documents/blog/source/images/extension证书报错.png" alt="extension证书报错"></p>
 <p>即使证书设置的完全相同，仍然报错。</p>
 <p>解决方法：在钥匙串访问里找到Apple Worldwide Developer Relations Certification Authority证书，修改始终信任为系统默认，重新编译即可。</p>
 </li>
-<li><p>最低版本支持iOS8.0的项目，添加了支持iOS10以上的extension（Notification Service Extension）之后，无法运行在iOS8的手机上：<em>This app contains an app extension that specifies an extension point identifier that is not supported on this version of iOS for the value of the NSExtensionPointIdentifier key in its Info.plist. </em> 报出下面的弹窗：</p>
+<li><p>最低版本支持iOS8.0的项目，添加了支持iOS10以上的extension（Notification Service Extension）之后，无法运行在iOS8的手机上：</p>
+<blockquote>
+<p>*This app contains an app extension that specifies an extension point identifier that is not supported on this version of iOS for the value of the NSExtensionPointIdentifier key in its Info.plist.</p>
+</blockquote>
+<p>报出下面的弹窗：</p>
 <p><img src="/Users/zry/Documents/blog/source/images/Extension在ios8安装错误.png" alt="Extension在ios8安装错误"></p>
 <p>解决方法：</p>
 <p><img src="/Users/zry/Documents/blog/source/images/extension在ios8安装错误解决方法.png" alt="extension在ios8安装错误解决方法">    </p>
@@ -114,6 +116,11 @@
 
       
     </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#添加Notification-Service-Extension之后可能出现的问题及解决方法："><span class="toc-number">1.</span> <span class="toc-text">添加Notification Service Extension之后可能出现的问题及解决方法：</span></a></li></ol>
+      </div>
     
     
       <footer class="article-footer">

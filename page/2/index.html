@@ -78,20 +78,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。</p>
-<p>加锁和解锁的方法都声明在NSLocking协议中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(void)lock;</div><div class="line">/*如果锁正在被使用，则线程进入休眠状态。*/</div><div class="line">/*如果锁没有被使用，则将锁的状态变为正被使用，线程继续执行。*/</div><div class="line">-(void)unlock;</div></pre></td></tr></table></figure>
-<p><code>[lockObj lock];</code>和<code>[lockObj unlock];</code>之间的代码称为临界区。如果锁正在被使用，则等待该锁资源（等待执行临界区代码）的线程则进入休眠状态；将锁置为没有在被使用时，如果有等待该锁资源的正在休眠的线程，则将其唤醒。</p>
-<p>加锁的意思是：</p>
-<p><strong>假设有两个线程a和b，a、b两个线程并行执行，且都需要访问临界区代码，如果b在访问临界区时，a正在访问（此时锁正在被a使用，临界区被上锁），则b会被阻塞（休眠状态），待a执行完临界区unlock之后，b被唤醒然后继续执行。</strong></p>
-<p>加锁示例：</p>
-<ol>
-<li><p>加锁失败的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-(int)lock</div><div class="line">&#123;</div><div class="line">[countLock lock];</div><div class="line">++theCount;</div><div class="line">[countLock unlock];</div><div class="line">return theCount;/*在解锁后return前，theCount可能还是会被其他线程修改。*/</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>正确示例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-(int)lock</div><div class="line">&#123;</div><div class="line">  int tmp;</div><div class="line">  [countLock lock];</div><div class="line">  tmp = ++theCount;</div><div class="line">  [countLock unlock];</div><div class="line">  return theCount;/*自动变量tmp可以在整个线程中局部利用，无需担心会被其他线程访问。*/</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
-</ol>
-
+        
+          <p class="article-more-link">
+            <a href="/2016/12/23/线程锁NSLock/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -134,39 +125,19 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+    <a class="article-category-link" href="/categories/基础/">基础</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在一些支持iOS6、iOS7的项目中，经常转换statusBarStyle。常用的有效方法：</p>
-<ul>
-<li><ol>
-<li><p>info.plist文件中添加：View controller-based status bar appearance为NO；</p>
-</li>
-<li><p>在viewController中实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(UIStatusBarStyle)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    return UIStatusBarStyleLightContent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>ViewController的<code>viewDidLoad</code>中增加调用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[self setNeedsStatusBarAppearanceUpdate];</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><strong>Note：这种方法在有navigationController的时候不奏效</strong>。</p>
-</li>
-<li><p><strong>UINavigationController</strong>并不会转发preferredStatusBarStyle方法给它的childViewControllers，而是在屏幕顶层自己管理statusBar的状态。所以在那vigationContrller的childViewController中实现preferredStatusBarStyle并不奏效。</p>
-<p>修改方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.navigationController.navigationBar.barStyle = UIBarStyleBlack;</div></pre></td></tr></table></figure>
-<p>还有一种方法就是在APPDelegate的didFinishLaunchingWithOptions方法里添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];</div></pre></td></tr></table></figure>
-<p>除此之外，还可以给UINavigationController增加一个category：</p>
-<p>在category中实现方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (UIStatusBarStyle)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    return UIStatusBarStyleLightContent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ul>
-
+        <p>在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/10/28/statusBarStyle设置问题/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -209,7 +180,7 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/API/">API</a>
+    <a class="article-category-link" href="/categories/基础/">基础</a>
   </div>
 
       
@@ -217,38 +188,18 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。iOS中有两个与之相关的运行时函数：<code>objc_setAssociatedObject</code> 和<code>objc_getAssociatedObject</code>。</p>
-<p>在iOS中，关联常用来实现以下功能：</p>
-<h4 id="在类的定义之外为类增加额外的存储空间"><a href="#在类的定义之外为类增加额外的存储空间" class="headerlink" title="在类的定义之外为类增加额外的存储空间"></a>在类的定义之外为类增加额外的存储空间</h4><p>使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制兼容性的时候是非常有用。</p>
-<p>关联是基于关键字的，因此，我们可以为任何对象增加任意多的关联，每个都使用不同的关键字即可。关联是可以保证被关联的对象在关联对象的整个生命周期都是可用的。</p>
-<ol>
-<li><p>创建关联</p>
-<p>创建关联要使用到Objective-C的运行时函数：objc_setAssociatedObject来把一个对象与另外一个对象进行关联。该函数需要四个参数：源对象，关键字，关联的对象和一个关联策略。当然，此处的关键字和关联策略是需要进一步讨论的。</p>
-<ul>
-<li><p>关键字是一个void类型的指针。每一个关联的关键字必须是唯一的。通常都是会采用静态变量来作为关键字。</p>
-</li>
-<li><p>关联策略表明了相关的对象是通过赋值，保留引用还是复制的方式进行关联的；还有这种关联是原子的还是非原子的。这里的关联策略和声明属性时的很类似。这种关联策略是通过使用预先定义好的常量来表示的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">static char myViewKey;  </div><div class="line">NSArray * array =[[NSArray alloc] initWidthObjects:@&quot;One&quot;, @&quot;Two&quot;, @&quot;Three&quot;, nil];  </div><div class="line"></div><div class="line">/*为了演示的目的，这里使用initWithFormat:来确保字符串可以被销毁*/</div><div class="line">NSString * myView = [[NSString alloc] initWithFormat:@&quot;@&quot;,@&quot;First three numbers&quot;];  </div><div class="line">objc_setAssociatedObject(array, &amp;myViewKey, myView, OBJC_ASSOCIATION_RETAIN);     </div><div class="line">[overview release];  </div><div class="line"></div><div class="line">/*myView仍然是可用的(被alloc，引用计数为1，被retain，引用计数+1，被release一次，引用计数-1，现在的引用计数为1) */</div><div class="line">[array release];  </div><div class="line">//myView 不可用</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>获取相关联的对象</p>
-<p>​    获取相关联的对象时使用Objective-C函数<code>objc_getAssociatedObject</code>。接着上面列表的代码，我们可以使用如下代码来获取与array相关联的字符串：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NSString * associatedObject = (NSString *)objc_getAssociatedObject(array, &amp;myViewKey);</div></pre></td></tr></table></figure>
-</li>
-<li><p>断开关联</p>
-<p>断开关联是使用objc_setAssociatedObject函数，传入nil值即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objc_setAssociatedObject(array, &amp;overviewKey, nil, OBJC_ASSOCIATION_ASSIGN); /*被关联的对象为nil，此时关联策略也就无关紧要了*/</div></pre></td></tr></table></figure>
-<p>使用函数objc_removeAssociatedObjects可以断开所有关联。通常情况下不建议使用这个函数，因为他会断开所有关联。只有在需要把对象恢复到“原始状态”的时候才会使用这个函数。</p>
-</li>
-</ol>
-
+        
+          <p class="article-more-link">
+            <a href="/2016/09/23/iOS之关联/#more">Read More</a>
+          </p>
+        
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/runtime/">runtime</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/属性/">属性</a></li></ul>
 
       </footer>
     
@@ -284,7 +235,7 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Swift/">Swift</a>
+    <a class="article-category-link" href="/categories/Swift笔记/">Swift笔记</a>
   </div>
 
       
@@ -292,58 +243,18 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>枚举类型的知识点：<strong>基本语法、关联值、原始值、枚举类型和方法、递归枚举</strong>。</p>
-<h3 id="枚举语法"><a href="#枚举语法" class="headerlink" title="枚举语法"></a>枚举语法</h3><ul>
-<li>枚举类型名大写开头</li>
-<li>多个成员值可以出现在同一行，用逗号隔开</li>
-<li>枚举类型跟其他自定义类型一样，可以通过类型推断来进行初始化。</li>
-<li>已知成员类型，可以省略枚举类型名</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 枚举类型名大写开头</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">CompassPoint</span> </span>&#123; </div><div class="line">    <span class="keyword">case</span> north</div><div class="line">    <span class="keyword">case</span> south</div><div class="line">    <span class="keyword">case</span> east</div><div class="line">    <span class="keyword">case</span> west</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 多个成员值可以出现在同一行上，用逗号隔开</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Planet</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> mercury, venus, earth, mars, jupiter, saturn, uranus, neptune</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 类型推断和省略枚举类型名</span></div><div class="line"><span class="keyword">var</span> directionToHead = <span class="type">CompassPoint</span>.west     <span class="comment">//初始化使用类型推断</span></div><div class="line">directionToHead = .east     <span class="comment">//已知类型时，可以省略枚举类型名</span></div></pre></td></tr></table></figure>
-<h5 id="使用Swift语句匹配枚举值"><a href="#使用Swift语句匹配枚举值" class="headerlink" title="使用Swift语句匹配枚举值"></a>使用Swift语句匹配枚举值</h5><p>在判断一个枚举类型的值时，switch语句必须穷举所有情况，以确保了枚举成员不会被意外遗漏。</p>
-<p>不需要匹配每个枚举成员时，可以使用一个default分支来涵盖所有未明确处理的枚举成员。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//穷举匹配</span></div><div class="line">directionToHead = .south</div><div class="line"><span class="keyword">switch</span> directionToHead &#123;</div><div class="line">    <span class="keyword">case</span> .north:</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Lots of planets have a north"</span>)</div><div class="line">    <span class="keyword">case</span> .south:</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Watch out for penguins"</span>)</div><div class="line">    <span class="keyword">case</span> .east:</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Where the sun rises"</span>)</div><div class="line">    <span class="keyword">case</span> .west:</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Where the skies are blue"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 打印 "Watch out for penguins”</span></div><div class="line"></div><div class="line"><span class="comment">// 使用default分支匹配</span></div><div class="line"><span class="keyword">let</span> somePlanet = <span class="type">Planet</span>.earth</div><div class="line"><span class="keyword">switch</span> somePlanet &#123;</div><div class="line"><span class="keyword">case</span> .earth:</div><div class="line">    <span class="built_in">print</span>(<span class="string">"Mostly harmless"</span>)</div><div class="line"><span class="keyword">default</span>:</div><div class="line">    <span class="built_in">print</span>(<span class="string">"Not a safe place for humans"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 打印 "Mostly harmless”</span></div></pre></td></tr></table></figure>
-<p><strong>与Objective-C不同的是：</strong></p>
-<blockquote>
-<p>Swift 的枚举成员在被创建时不会被赋予一个默认的整型值。在上面的CompassPoint例子中，north，south，east和west不会被隐式地赋值为0，1，2和3。相反，这些枚举成员本身就是完备的值，这些值的类型是已经明确定义好的CompassPoint类型。</p>
-<p>Swift中的枚举不必给每个枚举成员提供一个值。如果给枚举成员提供一个值，则该值的类型可能是字符串、字符、整型或浮点型。</p>
-</blockquote>
-<h3 id="原始值"><a href="#原始值" class="headerlink" title="原始值"></a>原始值</h3><p>原始值是在定义枚举类型时被预先填充的值，对于一个特定的枚举成员，它的原始值是是始终不变的。如上所述，Swift中不必给每个枚举成员提供一个值。如果给枚举成员提供一个值，则该值的类型可能是字符串、字符、整型或浮点型。</p>
-<ul>
-<li><p>指定原始值类型</p>
-<p>指定Int类型，会给每个成员设置一个该类型的原始值</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//指定原始值类型</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">TextAlignment</span>: <span class="title">Int</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="keyword">left</span>	<span class="comment">//原始值为0</span></div><div class="line">    <span class="keyword">case</span> <span class="keyword">right</span>	<span class="comment">//原始值为1</span></div><div class="line">    <span class="keyword">case</span> center	<span class="comment">//原始值为2</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>指定原始值</p>
-<p>使用rawValue获取成员变量的原始值；</p>
-<p>每个带原始值的枚举类型都可以用rawValue参数创建，并返回可空枚举。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">TextAlignment</span>: <span class="title">Int</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="keyword">left</span> = <span class="number">20</span></div><div class="line">    <span class="keyword">case</span> <span class="keyword">right</span> = <span class="number">30</span></div><div class="line">    <span class="keyword">case</span> center = <span class="number">50</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//枚举成员转换成原始值</span></div><div class="line"><span class="keyword">let</span> myRawValue = <span class="type">TextAlignment</span>.<span class="keyword">left</span></div><div class="line"><span class="comment">//myRawValue为20</span></div><div class="line"></div><div class="line"><span class="comment">//由原始值获取枚举成员</span></div><div class="line"><span class="keyword">let</span> textRawValue = <span class="number">60</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> myAlignment = <span class="type">TextAlignment</span>(rawValue: textRawValue)&#123;</div><div class="line">    <span class="comment">//转化成功</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"successfully converted <span class="subst">\(textRawValue)</span> into a TextAlignment"</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="comment">//转化失败</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"<span class="subst">\(textRawValue)</span> has no corresponding TextAlignment case"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>字符串原始值</p>
-<p>如果只声明枚举为字符串类型不指定原始值，Swift会自动给成员指定默认的字符串原始值。也可以只指定部分原始值。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ProgrammingLanguage</span>: <span class="title">String</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> swift = <span class="string">"swift"</span></div><div class="line">    <span class="keyword">case</span> objectiveC = <span class="string">"Objective-C"</span></div><div class="line">    <span class="keyword">case</span> <span class="built_in">c</span> = <span class="string">"c"</span></div><div class="line">    <span class="keyword">case</span> java = <span class="string">"java"</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 这里可以只给objectiveC指定原始值，因为其他case默认原始值和指定的值完全一样。</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ProgrammingLanguage</span>: <span class="title">String</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> swift </div><div class="line">    <span class="keyword">case</span> objectiveC = <span class="string">"Objective-C"</span></div><div class="line">    <span class="keyword">case</span> <span class="built_in">c</span> </div><div class="line">    <span class="keyword">case</span> java </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ul>
-<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>方法是和类型关联的函数。在Swift中，方法不仅可以与类关联，也可以和枚举关联。</p>
-<p>特点：枚举的方法会接受一个隐式参数self，self类型即枚举类型；在Swift中，枚举类型为值类型，值类型的方法不能对self进行修改。<strong>如果需要值类型的方法修改self，需要标记这个方法为<code>mutating</code></strong>，否则会产生编译错误。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Lightbulb</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> on</div><div class="line">    <span class="keyword">case</span> off</div><div class="line">    </div><div class="line">    <span class="comment">// 获取表面温度</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">surfaceTemperature</span><span class="params">(forAmbientTemperature ambient: Double)</span></span> -&gt; <span class="type">Double</span>&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">            <span class="keyword">case</span> .on:</div><div class="line">            	<span class="keyword">return</span> ambient + <span class="number">150</span></div><div class="line">            <span class="keyword">case</span> .off:</div><div class="line">            	<span class="keyword">return</span> ambient</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 开关方法:对self进行修改的方法需要用mutating标记</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">toggle</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">            <span class="keyword">case</span> .on:</div><div class="line">            	<span class="keyword">self</span> = .off</div><div class="line">            <span class="keyword">case</span> .off:</div><div class="line">            	<span class="keyword">self</span> = .on</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> bulb = <span class="type">Lightbulb</span>.on</div><div class="line"><span class="keyword">var</span> ambientTemperature = <span class="number">77.0</span></div><div class="line"><span class="keyword">var</span> bulbTemperature = bulb.surfaceTemperature(forAmbientTemperature:ambientTemperature)</div><div class="line"><span class="built_in">print</span>(<span class="string">"the bulb's surface temperature is <span class="subst">\(bulbTemperature)</span>"</span>)</div></pre></td></tr></table></figure>
-<h3 id="关联值"><a href="#关联值" class="headerlink" title="关联值"></a>关联值</h3><p>关联值给枚举类型带来了一些变化，因为原始值只是给成员绑定不同的静态值，<strong>不同的成员可以有不同类型的关联值</strong>。比如我们创建一个枚举类型来记录一些基本图形的尺寸，每种图形都有不同的属性。正方形需要一个边长就够了，长方形需要宽和高两个值等：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ShapeDimensions</span></span>&#123;</div><div class="line">   <span class="keyword">case</span> square(side: <span class="type">Double</span>)<span class="comment">// 正方形的关联值：边长</span></div><div class="line">   <span class="keyword">case</span> rectangle(width: <span class="type">Double</span>, height: <span class="type">Double</span>)<span class="comment">// 长方形的关联值：宽高</span></div><div class="line">   <span class="keyword">case</span> point</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">area</span><span class="params">()</span></span>-&gt;<span class="type">Double</span>&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">            <span class="keyword">case</span> .square(side: side):</div><div class="line">            	<span class="keyword">return</span> side * side</div><div class="line">            <span class="keyword">case</span> .rectangle(width: width, height: height):</div><div class="line">            	<span class="keyword">return</span> width * height</div><div class="line">            <span class="keyword">case</span> .point</div><div class="line">            	<span class="keyword">return</span> <span class="number">0</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> squareShape = <span class="type">ShapeDimensions</span>.square(side: <span class="number">12.0</span>)</div><div class="line"><span class="keyword">var</span> rectShape = <span class="type">ShapeDimensions</span>.rectangle(width: <span class="number">3.0</span>, height: <span class="number">5.0</span>)</div><div class="line"><span class="keyword">var</span> pointShape = <span class="type">ShapeDimensions</span>.point</div><div class="line"><span class="built_in">print</span>(<span class="string">"point's area = <span class="subst">\(pointShape.area()</span>)"</span>)</div></pre></td></tr></table></figure>
-<p>关联值可以被提取出来作为switch语句 的一部分。可以在switch的case分支代码中提取每个关联值作为一个常量（用let前缀）或作为一个变量（用var前缀）来使用：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Barcode</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> upc(<span class="type">Int</span>,<span class="type">Int</span>,<span class="type">Int</span>,<span class="type">Int</span>)</div><div class="line">    <span class="keyword">case</span> qrCode(<span class="type">String</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> productCode = <span class="type">Barcode</span>.upc(<span class="number">8</span>,<span class="number">83734</span>,<span class="number">75744</span>,<span class="number">4</span>)</div><div class="line"><span class="comment">//同一个商品可以被分配一个不同类型的条形码</span></div><div class="line">productCode = .qrCode(<span class="string">"ABCDEGH"</span>)</div><div class="line"></div><div class="line"><span class="keyword">switch</span> productBarcode&#123;</div><div class="line">    <span class="keyword">case</span> .upc(<span class="keyword">let</span> numberSystem, <span class="keyword">let</span> manufacturer, <span class="keyword">let</span> product, <span class="keyword">let</span> check):</div><div class="line">        <span class="built_in">print</span>(<span class="string">"UPC:<span class="subst">\(numberSystem)</span>, <span class="subst">\(manufacturer)</span>, <span class="subst">\(product)</span>, <span class="subst">\(check)</span>."</span>)</div><div class="line">    <span class="keyword">case</span> .qrCode(<span class="keyword">let</span> productCode):</div><div class="line">        <span class="built_in">print</span>(<span class="string">"QR code:<span class="subst">\(productCode)</span>"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果一个枚举成员的所有关联值都被提取为常量，或者都被提取为变量，为了简洁，你可以只在成员名称前标注一个let或者var：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">switch</span> productBarcode &#123;</div><div class="line"><span class="keyword">case</span> <span class="keyword">let</span> .upc(numberSystem, manufacturer, product, check):</div><div class="line">    <span class="built_in">print</span>(<span class="string">"UPC: <span class="subst">\(numberSystem)</span>, <span class="subst">\(manufacturer)</span>, <span class="subst">\(product)</span>, <span class="subst">\(check)</span>."</span>)</div><div class="line"><span class="keyword">case</span> <span class="keyword">let</span> .qrCode(productCode):</div><div class="line">    <span class="built_in">print</span>(<span class="string">"QR code: <span class="subst">\(productCode)</span>."</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="递归枚举"><a href="#递归枚举" class="headerlink" title="递归枚举"></a>递归枚举</h3><p>枚举成员可以有不同的关联值，那么成员可以关联自己类型的关联值吗？这就涉及到递归枚举了。在Swift中，编译器必须知道程序中每种类型的每个实例占据多少内存空间，当编译器需要判断一个枚举实例需要多少内存的时候，会查看每种枚举值，并找出需要最多内存的那个。如果给枚举成员附上枚举类型的关联值，则这个枚举类型需要无穷内存。为了解决这个问题，Swift引入了一个间接层，不需要再判断递归的成员需要多少内存，而是用关键字<code>indirect</code>告诉编译器把枚举的数据放到一个指针指向的地方，则编译器会保存一个指向关联数据的指针，把数据放在内存中的其他地方，而不是让枚举类型的实例有足够的空间存放数据。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 用indirect标记枚举类型</span></div><div class="line"><span class="keyword">indirect</span> <span class="class"><span class="keyword">enum</span> <span class="title">FamilyTree</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> noKnownParents</div><div class="line">    <span class="keyword">case</span> oneKnownParent(name: <span class="type">String</span>, ancestors: <span class="type">FamilyTree</span>)</div><div class="line">    <span class="keyword">case</span> twoKnownParents(fatherName: <span class="type">String</span>, fatherAncestors: <span class="type">FamilyTree</span>,</div><div class="line">                         motherName: <span class="type">String</span>, motherAncestors: <span class="type">FamilyTree</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>还可以把递归的成员单独标记为间接：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">FamilyTree</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> noKnownParents</div><div class="line">    <span class="keyword">indirect</span> <span class="keyword">case</span> oneKnownParent(name: <span class="type">String</span>, ancestors: <span class="type">FamilyTree</span>)</div><div class="line">    <span class="keyword">indirect</span> <span class="keyword">case</span> twoKnownparents(father: <span class="type">String</span>, fatherAncestors: <span class="type">FamilyTree</span>,</div><div class="line">                                  mother: <span class="type">String</span>, motherAncestors: <span class="type">FamilyTree</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> fredAncestors = <span class="type">FamilyTree</span>.twoKnownParents(father: <span class="string">"Fred Sr"</span>, </div><div class="line">                                               fatherAncestors: .oneKnownParent(name:<span class="string">"Beth"</span>, fatherAncestors: .noKnownParents),</div><div class="line">                                               mother:<span class="string">"Marsha"</span>,</div><div class="line">                                               motherAncestors: .noKnownParents</div><div class="line">                                              )</div></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2016/09/11/Swift枚举类型/#more">Read More</a>
+          </p>
+        
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/枚举/">枚举</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语法/">语法</a></li></ul>
 
       </footer>
     
@@ -386,74 +297,18 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="一、NSOperation和NSOperationQueue实现多线程"><a href="#一、NSOperation和NSOperationQueue实现多线程" class="headerlink" title="一、NSOperation和NSOperationQueue实现多线程"></a>一、NSOperation和NSOperationQueue实现多线程</h3><p>步骤：</p>
+        <p>利用NSOperation和NSOperationQueue实现多线程步骤：</p>
 <ol>
-<li>先将需要执行的操作封装到一个NSOperation对象中</li>
-<li>将NSOperation对象添加到NSOperationQueue中</li>
-<li>系统会自动将NSOperation中封装的操作放到一条新线程中执行</li>
-</ol>
-<p>默认情况下，NSOperation并不具备封装操作的能力，必须使用它的子类，使用NSOperation子类的方法有以下三种：</p>
-<ul>
-<li>NSInvocationOperation</li>
-<li>NSBlockOperation</li>
-<li>自定义子类继承NSOperation，实现内部相应的方法</li>
-</ul>
-<h3 id="二、NSInvocationOperation"><a href="#二、NSInvocationOperation" class="headerlink" title="二、NSInvocationOperation"></a>二、NSInvocationOperation</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">/*初始化NSInvocationOperation对象，基于一个对象和selector来创建操作*/</div><div class="line">NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(run:) object:@&quot;zh&quot;];</div><div class="line"></div><div class="line">/*调用start会马上执行封装好的操作——调用run:方法，并把@&quot;zh&quot;作为方法参数*/</div><div class="line">[operation start];</div></pre></td></tr></table></figure>
-<p>注意：默认情况下，调用start方法后并不会开辟一条新线程去执行操作，而是在当前线程同步执行操作。只有将operation放到一个NSOperationQueue中，才会异步执行操作。</p>
-<h3 id="三、NSBlockOperation"><a href="#三、NSBlockOperation" class="headerlink" title="三、NSBlockOperation"></a>三、NSBlockOperation</h3><ol>
-<li><p>同步执行一个操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^()&#123;</div><div class="line">	NSLog(@&quot;执行了一个操作&quot;);</div><div class="line">  &#125;];</div><div class="line">/*开始执行任务*/</div><div class="line">[operation start];</div></pre></td></tr></table></figure>
-<p>还是在当前线程同步执行操作。</p>
+<li><p>先将需要执行的操作封装到一个NSOperation对象中</p>
 </li>
-<li><p>并发执行多个操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^()&#123;</div><div class="line"> 　　NSLog(@&quot;执行操作1，线程：%@&quot;, [NSThread currentThread]);</div><div class="line">&#125;]; </div><div class="line"></div><div class="line">/*addExecutionBlock添加新的操作*/</div><div class="line">[operation addExecutionBlock:^() &#123;</div><div class="line">  	NSLog(@&quot;执行了新的操作2，线程：%@&quot;, [NSThread currentThread]);</div><div class="line">&#125;];</div><div class="line"> </div><div class="line">[operation addExecutionBlock:^() &#123;</div><div class="line">　　NSLog(@&quot;执行了新的操作3，线程：%@&quot;, [NSThread currentThread]);</div><div class="line">&#125;];</div><div class="line"> </div><div class="line">[operation addExecutionBlock:^() &#123;</div><div class="line">  	NSLog(@&quot;执行了新的操作4，线程：%@&quot;, [NSThread currentThread]);</div><div class="line">&#125;];</div><div class="line"> </div><div class="line">/*开始执行任务，并发执行4个block*/ </div><div class="line">[operation start];</div></pre></td></tr></table></figure>
-<p>上述的block并发地执行，也就是在不同的线程执行。</p>
+<li><p>将NSOperation对象添加到NSOperationQueue中</p>
 </li>
-<li><p>其他操作</p>
-<ul>
-<li><p>取消操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[operation cancel];</div></pre></td></tr></table></figure>
-</li>
-<li><p>操作完成后添加其他处理:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">operation.completionBlock = ^() &#123;</div><div class="line">    NSLog(@&quot;执行完毕&quot;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="四、自定义NSOperation"><a href="#四、自定义NSOperation" class="headerlink" title="四、自定义NSOperation"></a>四、自定义NSOperation</h3><p>如果NSInvocationOperation和NSBlockOperation不能满足需求，我们可以直接新建子类继承NSOperation，并添加任何需要执行的操作。如果只是简单地自定义NSOperation，只需要重载-(void)main这个方法，在这个方法里面添加需要执行的操作。</p>
-<h3 id="五、添加操作到NSOperationQueue"><a href="#五、添加操作到NSOperationQueue" class="headerlink" title="五、添加操作到NSOperationQueue"></a>五、添加操作到NSOperationQueue</h3><p>线程间的通信主要是主线程与分线程之间进行的，主线程到分线程，NSOperation子类也有相应带参数的方法；而分线程到主线程，比如更新UI，它也有很方便的获取主队列（被添加到主队列的操作默认会在主线程执行）的方法：<code>[NSOperationQueue mainQueue]</code>。</p>
-<p><strong>添加到NSOperationQueue的操作 会自动异步执行调度方法。</strong></p>
-<ol>
-<li><p>添加到NSOperationQueue：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/*初始化*/</div><div class="line">NSOperation *operation = [[NSInvocationOperation 	alloc]initWithTarget:self </div><div class="line">selector:@selector(run:) object:@&quot;Invocation&quot;];</div><div class="line"> /*放到队列里面去*/</div><div class="line">NSOperationQueue *queue = [[NSOperationQueue alloc]init];</div><div class="line">/*只要把操作放到队列，会自动异步执行调度方法*/</div><div class="line">[queue addOperation:operation];</div></pre></td></tr></table></figure>
-</li>
-<li><p>添加多个操作到NSOperationQueue</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">/*NSOperationQueue本质就是GCD里面的并发队列*/</div><div class="line">/*操作就是GCD里面异步执行的任务*/</div><div class="line">NSOperationQueue *queue = [[NSOperationQueue alloc]init];</div><div class="line">/*把多个操作放到队列里面*/</div><div class="line">for (int i = 0; i &lt; 20; i++) &#123;</div><div class="line">  NSOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self </div><div class="line">       selector:@selector(downloadImage:) object:[NSString stringWithFormat:@&quot;Invocation%d&quot;,i]];</div><div class="line">  [queue addOperation:operation];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>使用NSBlockOperation更简单</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">NSOperationQueue *queue = [[NSOperationQueue alloc]init];</div><div class="line">  for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">    [queue addOperationWithBlock:^&#123;</div><div class="line">      NSLog(@&quot;%@------%d&quot;,[NSThread currentThread],i);</div><div class="line">    &#125;];</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>线程间通信，比如回到主线程更新UI：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">NSOperationQueue *q = [[NSOperationQueue alloc]init];</div><div class="line">  [q addOperationWithBlock:^&#123;</div><div class="line">    NSLog(@&quot;耗时操作--%@&quot;,[NSThread currentThread]);</div><div class="line">    [[NSOperationQueue mainQueue] addOperationWithBlock:^&#123;</div><div class="line">      NSLog(@&quot;更新UI-----%@&quot;,[NSThread currentThread]);</div><div class="line">    &#125;];</div><div class="line">  &#125;];NSOperationQueue的一些其他操作</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="六、NSOperationQueue的一些高级操作"><a href="#六、NSOperationQueue的一些高级操作" class="headerlink" title="六、NSOperationQueue的一些高级操作"></a>六、NSOperationQueue的一些高级操作</h3><p>这些高级操作包括：队列的挂起、队列的取消、添加操作、设置最大并发数和设置操作的依赖关系。</p>
-<ol>
-<li><p>线程的挂起</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">#pragma mark - 高级操作：线程的挂起</div><div class="line">/*暂停继续(对队列的暂停和继续)，挂起的是队列，不会影响已经在执行的操作*/</div><div class="line">- (IBAction)pause:(UIButton *)sender &#123;</div><div class="line">  /*判断操作的数量，当前队列里面是不是有操作？*/</div><div class="line">  if (self.opQueue.operationCount == 0) &#123;</div><div class="line">    NSLog(@&quot;当前队列没有操作&quot;);</div><div class="line">    return;</div><div class="line">  &#125;</div><div class="line"> </div><div class="line">  self.opQueue.suspended = !self.opQueue.isSuspended;</div><div class="line">  if (self.opQueue.suspended) &#123;</div><div class="line">    NSLog(@&quot;暂停&quot;);</div><div class="line">  &#125;else&#123;</div><div class="line">    NSLog(@&quot;继续&quot;);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>队列的取消，只能取消队列里的所有操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">#pragma mark - 高级操作：取消队列里的所有操作</div><div class="line">- (IBAction)cancelAll:(UIButton *)sender &#123;</div><div class="line">  /*只能取消所有队列的里面的操作，正在执行的无法取消*/</div><div class="line">  /*取消操作并不会影响队列的挂起状态*/</div><div class="line">  [self.opQueue cancelAllOperations];</div><div class="line">  NSLog(@&quot;取消队列里所有的操作&quot;);</div><div class="line">  /*取消队列的挂起状态*/</div><div class="line">  /*（只要是取消了队列的操作，我们就把队列处于不挂起状态,以便于后续的开始）*/</div><div class="line">  self.opQueue.suspended = NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>设置最大并发数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">@property (nonatomic,strong)NSOperationQueue *opQueue;</div><div class="line"> </div><div class="line">/*重写getter方法实现懒加载*/</div><div class="line">- (NSOperationQueue*)opQueue&#123;</div><div class="line">  if (_opQueue == nil) &#123;</div><div class="line">    _opQueue = [[NSOperationQueue alloc]init]; </div><div class="line">  &#125;</div><div class="line">  return _opQueue;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">#pragma mark - 高级操作:最大并发数</div><div class="line">  /*设置最大的并发数量（并非线程的数量）*/</div><div class="line">  self.opQueue.maxConcurrentOperationCount = 2;</div><div class="line">  /*把多个操作放到队列里面*/</div><div class="line">  for (int i = 0; i &lt; 10; i++) &#123;</div><div class="line">    NSBlockOperation *op = [NSBlockOperation blockOperationWithBlock:^&#123;</div><div class="line">      [NSThread sleepForTimeInterval:3.0];</div><div class="line">      NSLog(@&quot;%@------%d&quot;,[NSThread currentThread],i);</div><div class="line">    &#125;];</div><div class="line">    /*把Block操作放到队列*/</div><div class="line">    [self.opQueue addOperation:op];</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>设置操作依赖关系</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">  * 例子</div><div class="line">  *</div><div class="line">  * 1.下载一个小说压缩包</div><div class="line">  *  2.解压缩，删除压缩包</div><div class="line">  * 3.更新UI</div><div class="line">  */</div><div class="line"> </div><div class="line">  NSBlockOperation *op1 = [NSBlockOperation blockOperationWithBlock:^&#123;</div><div class="line">    NSLog(@&quot;1.下载一个小说压缩包,%@&quot;,[NSThread currentThread]);</div><div class="line"> </div><div class="line">  &#125;];</div><div class="line"> </div><div class="line">  NSBlockOperation *op2 = [NSBlockOperation blockOperationWithBlock:^&#123;</div><div class="line">    NSLog(@&quot;2.解压缩，删除压缩包,%@&quot;,[NSThread currentThread]);</div><div class="line"> </div><div class="line">  &#125;];</div><div class="line"> </div><div class="line">  NSBlockOperation *op3 = [NSBlockOperation blockOperationWithBlock:^&#123;</div><div class="line">    NSLog(@&quot;3.更新UI,%@&quot;,[NSThread currentThread]);</div><div class="line"> </div><div class="line">  &#125;];</div><div class="line"> </div><div class="line">  /*指定任务之间的依赖关系 --依赖关系可以跨队列(可以再子线程下载，在主线程更新UI)*/</div><div class="line"> </div><div class="line">  [op2 addDependency:op1];</div><div class="line">  [op3 addDependency:op2];</div><div class="line">  /*[op1 addDependency:op3];  一定不能出现循环依赖*/</div><div class="line">  /*waitUntilFinished  类似GCD中的调度组的通知*/</div><div class="line">  /*NO不等待，直接执行输出come here*/</div><div class="line">  /*YES等待任务执行完再执行输出come here*/</div><div class="line">  [self.opQueue addOperations:@[op1,op2] waitUntilFinished:YES];</div><div class="line"> </div><div class="line">  /*在主线程更新UI*/</div><div class="line">  [[NSOperationQueue mainQueue] addOperation:op3];</div><div class="line">  [op3 addDependency:op2];</div><div class="line">  NSLog(@&quot;come here&quot;);</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>参考链接：<a href="http://www.imlifengfeng.com/blog/?p=533" target="_blank" rel="external">http://www.imlifengfeng.com/blog/?p=533</a></p>
-
+<li><p>系统会自动将NSOperation中封装的操作放到一条新线程中执行</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/07/23/多线程之NSOperation:NSOperationQueue/#more">Read More</a>
+          </p>
+        
       
     </div>
     

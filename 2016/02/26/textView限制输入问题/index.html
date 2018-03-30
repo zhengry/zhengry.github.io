@@ -5,19 +5,16 @@
   
   <title>textView限制输入问题 - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一般限制输入字符的方法是要实现textView的代理方法：
-12345678910111213141516171819-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text&amp;#123;        NSString *str = [">
+  <meta name="description" content="一般限制输入字符的方法是要实现textView的代理方法：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="textView限制输入问题">
 <meta property="og:url" content="https://zhengry.github.io/2016/02/26/textView限制输入问题/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="一般限制输入字符的方法是要实现textView的代理方法：
-12345678910111213141516171819-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text&amp;#123;        NSString *str = [">
-<meta property="og:updated_time" content="2017-05-08T09:41:04.000Z">
+<meta property="og:description" content="一般限制输入字符的方法是要实现textView的代理方法：">
+<meta property="og:updated_time" content="2018-03-30T08:19:20.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="textView限制输入问题">
-<meta name="twitter:description" content="一般限制输入字符的方法是要实现textView的代理方法：
-12345678910111213141516171819-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text&amp;#123;        NSString *str = [">
+<meta name="twitter:description" content="一般限制输入字符的方法是要实现textView的代理方法：">
   
   
     <link rel="icon" href="/favicon.png">
@@ -73,7 +70,7 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+    <a class="article-category-link" href="/categories/基础/">基础</a>
   </div>
 
       
@@ -81,6 +78,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>一般限制输入字符的方法是要实现<code>textView</code>的代理方法：</p>
+<a id="more"></a>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text&#123;</div><div class="line">    </div><div class="line">    NSString *str = [NSString stringWithFormat:@&quot;%@%@&quot;, textView.text, text];</div><div class="line">    if (str.length &gt; MaxNumberOfDescriptionChars)</div><div class="line">    &#123;</div><div class="line">        textView.text = [textView.text substringToIndex:MaxNumberOfDescriptionChars];</div><div class="line">        return NO;</div><div class="line">    &#125;</div><div class="line">    return YES;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//常常由于联想输入的缘故，会有很多字符一起输入</div><div class="line">-(void)textViewDidChange:(UITextView *)textView&#123;</div><div class="line">    //该判断用于联想输入</div><div class="line">    if (textView.text.length &gt; MaxNumberOfDescriptionChars)</div><div class="line">    &#123;</div><div class="line">        textView.text = [textView.text 	substringToIndex:MaxNumberOfDescriptionChars];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这样实现的效果是：在用户使用键盘输入时，输入到最大字符限制时，不能继续输入</p>
 <p><strong>问题在于：</strong></p>
@@ -96,7 +94,7 @@
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
 
       </footer>
     

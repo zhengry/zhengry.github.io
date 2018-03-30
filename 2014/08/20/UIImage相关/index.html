@@ -5,25 +5,16 @@
   
   <title>UIImage相关问题 - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="直接引用图片文件夹到项目中，图片不展示的问题
-在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。
-
-imageNa">
+  <meta name="description" content="直接引用图片文件夹到项目中，图片不展示的问题在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UIImage相关问题">
 <meta property="og:url" content="https://zhengry.github.io/2014/08/20/UIImage相关/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="直接引用图片文件夹到项目中，图片不展示的问题
-在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。
-
-imageNa">
-<meta property="og:updated_time" content="2017-04-05T13:50:26.000Z">
+<meta property="og:description" content="直接引用图片文件夹到项目中，图片不展示的问题在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。">
+<meta property="og:updated_time" content="2018-03-30T08:20:51.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UIImage相关问题">
-<meta name="twitter:description" content="直接引用图片文件夹到项目中，图片不展示的问题
-在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。
-
-imageNa">
+<meta name="twitter:description" content="直接引用图片文件夹到项目中，图片不展示的问题在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -79,21 +70,15 @@ imageNa">
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+    <a class="article-category-link" href="/categories/基础/">基础</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><p><strong>直接引用图片文件夹到项目中，图片不展示的问题</strong></p>
-<p>在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。</p>
-</li>
-<li><p><strong>imageNamed:</strong></p>
-</li>
-</ol>
-<blockquote>
+        <h4 id="直接引用图片文件夹到项目中，图片不展示的问题"><a href="#直接引用图片文件夹到项目中，图片不展示的问题" class="headerlink" title="直接引用图片文件夹到项目中，图片不展示的问题"></a>直接引用图片文件夹到项目中，图片不展示的问题</h4><p>在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。<a id="more"></a></p>
+<h4 id="imageNamed"><a href="#imageNamed" class="headerlink" title="imageNamed:"></a>imageNamed:</h4><blockquote>
 <p>On iOS 4 and later, if the file is in PNG format, it is not necessary to specify the .PNG filename extension. Prior to iOS 4, you must specify the filename extension.</p>
 </blockquote>
 <p>imageNamed：后面的字符串默认的图片类型是png的，如果不是png的图片就需要带上图片类型后缀</p>
@@ -108,6 +93,11 @@ imageNa">
 
       
     </div>
+    
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#直接引用图片文件夹到项目中，图片不展示的问题"><span class="toc-number">1.</span> <span class="toc-text">直接引用图片文件夹到项目中，图片不展示的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#imageNamed"><span class="toc-number">2.</span> <span class="toc-text">imageNamed:</span></a></li></ol>
+      </div>
     
     
       <footer class="article-footer">

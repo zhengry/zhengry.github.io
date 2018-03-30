@@ -5,34 +5,16 @@
   
   <title>常见的野指针Crash - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：
-
-定义property该用strong/weak修饰误用成assign
-
-在objc_setAssociatedObject方法中该用OBJC_ASSOCIATION_RETAIN_NONATOMIC修饰的对象误用成OBJC_ASSOCIATION_ASSIGN
-
-Cor">
+  <meta name="description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的 Crash场景：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="常见的野指针Crash">
 <meta property="og:url" content="https://zhengry.github.io/2015/11/27/常见的野指针Crash/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：
-
-定义property该用strong/weak修饰误用成assign
-
-在objc_setAssociatedObject方法中该用OBJC_ASSOCIATION_RETAIN_NONATOMIC修饰的对象误用成OBJC_ASSOCIATION_ASSIGN
-
-Cor">
-<meta property="og:updated_time" content="2017-05-08T09:43:56.000Z">
+<meta property="og:description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的 Crash场景：">
+<meta property="og:updated_time" content="2018-03-29T08:16:52.425Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="常见的野指针Crash">
-<meta name="twitter:description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：
-
-定义property该用strong/weak修饰误用成assign
-
-在objc_setAssociatedObject方法中该用OBJC_ASSOCIATION_RETAIN_NONATOMIC修饰的对象误用成OBJC_ASSOCIATION_ASSIGN
-
-Cor">
+<meta name="twitter:description" content="在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的 Crash场景：">
   
   
     <link rel="icon" href="/favicon.png">
@@ -88,14 +70,15 @@ Cor">
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Crash/">Crash</a>
+    <a class="article-category-link" href="/categories/Debug/">Debug</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的Crash场景：</p>
+        <p>在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的 Crash场景：</p>
+<a id="more"></a>
 <ol>
 <li><p>定义property该用strong/weak修饰误用成assign</p>
 </li>
@@ -109,8 +92,7 @@ Cor">
 <li><p>NSNotification/KVO 只addObserver并没有removeObserver</p>
 </li>
 </ol>
-<p>解决方法：</p>
-<ol>
+<h5 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h5><ol>
 <li><p>关于内存管理语义的使用（包括Toll-Free Bridging中）：</p>
 <ul>
 <li>深刻了解property中各种关键字修饰内存语义的区别，正确运用，例如delegate属性一般都用weak修饰（可以引入静态代码检查和commit检查 对assign关键字做警告）</li>
@@ -137,10 +119,15 @@ Cor">
       
     </div>
     
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#解决方法："><span class="toc-number">1.</span> <span class="toc-text">解决方法：</span></a></li></ol>
+      </div>
+    
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Crash/">Crash</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/野指针-crash/">野指针,crash</a></li></ul>
 
       </footer>
     

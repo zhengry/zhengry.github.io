@@ -5,37 +5,16 @@
   
   <title>枚举类型enumeration - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="枚举类型的知识点：基本语法、关联值、原始值、枚举类型和方法、递归枚举。
-枚举语法
-枚举类型名大写开头
-多个成员值可以出现在同一行，用逗号隔开
-枚举类型跟其他自定义类型一样，可以通过类型推断来进行初始化。
-已知成员类型，可以省略枚举类型名
-
-1234567891011121314151617// 枚举类型名大写开头enum CompassPoint &amp;#123;     case north">
+  <meta name="description" content="枚举类型的知识点：基本语法、关联值、原始值、枚举类型和方法、递归枚举。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="枚举类型enumeration">
 <meta property="og:url" content="https://zhengry.github.io/2016/09/11/Swift枚举类型/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="枚举类型的知识点：基本语法、关联值、原始值、枚举类型和方法、递归枚举。
-枚举语法
-枚举类型名大写开头
-多个成员值可以出现在同一行，用逗号隔开
-枚举类型跟其他自定义类型一样，可以通过类型推断来进行初始化。
-已知成员类型，可以省略枚举类型名
-
-1234567891011121314151617// 枚举类型名大写开头enum CompassPoint &amp;#123;     case north">
-<meta property="og:updated_time" content="2018-03-22T08:04:49.991Z">
+<meta property="og:description" content="枚举类型的知识点：基本语法、关联值、原始值、枚举类型和方法、递归枚举。">
+<meta property="og:updated_time" content="2018-03-30T08:07:56.879Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="枚举类型enumeration">
-<meta name="twitter:description" content="枚举类型的知识点：基本语法、关联值、原始值、枚举类型和方法、递归枚举。
-枚举语法
-枚举类型名大写开头
-多个成员值可以出现在同一行，用逗号隔开
-枚举类型跟其他自定义类型一样，可以通过类型推断来进行初始化。
-已知成员类型，可以省略枚举类型名
-
-1234567891011121314151617// 枚举类型名大写开头enum CompassPoint &amp;#123;     case north">
+<meta name="twitter:description" content="枚举类型的知识点：基本语法、关联值、原始值、枚举类型和方法、递归枚举。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -91,7 +70,7 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/Swift/">Swift</a>
+    <a class="article-category-link" href="/categories/Swift笔记/">Swift笔记</a>
   </div>
 
       
@@ -99,6 +78,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>枚举类型的知识点：<strong>基本语法、关联值、原始值、枚举类型和方法、递归枚举</strong>。</p>
+<a id="more"></a>
 <h3 id="枚举语法"><a href="#枚举语法" class="headerlink" title="枚举语法"></a>枚举语法</h3><ul>
 <li>枚举类型名大写开头</li>
 <li>多个成员值可以出现在同一行，用逗号隔开</li>
@@ -115,22 +95,14 @@
 <p>Swift中的枚举不必给每个枚举成员提供一个值。如果给枚举成员提供一个值，则该值的类型可能是字符串、字符、整型或浮点型。</p>
 </blockquote>
 <h3 id="原始值"><a href="#原始值" class="headerlink" title="原始值"></a>原始值</h3><p>原始值是在定义枚举类型时被预先填充的值，对于一个特定的枚举成员，它的原始值是是始终不变的。如上所述，Swift中不必给每个枚举成员提供一个值。如果给枚举成员提供一个值，则该值的类型可能是字符串、字符、整型或浮点型。</p>
-<ul>
-<li><p>指定原始值类型</p>
-<p>指定Int类型，会给每个成员设置一个该类型的原始值</p>
+<h5 id="指定原始值类型"><a href="#指定原始值类型" class="headerlink" title="指定原始值类型"></a>指定原始值类型</h5><p>指定Int类型，会给每个成员设置一个该类型的原始值</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//指定原始值类型</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">TextAlignment</span>: <span class="title">Int</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="keyword">left</span>	<span class="comment">//原始值为0</span></div><div class="line">    <span class="keyword">case</span> <span class="keyword">right</span>	<span class="comment">//原始值为1</span></div><div class="line">    <span class="keyword">case</span> center	<span class="comment">//原始值为2</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>指定原始值</p>
-<p>使用rawValue获取成员变量的原始值；</p>
+<h5 id="指定原始值"><a href="#指定原始值" class="headerlink" title="指定原始值"></a>指定原始值</h5><p>使用rawValue获取成员变量的原始值；</p>
 <p>每个带原始值的枚举类型都可以用rawValue参数创建，并返回可空枚举。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">TextAlignment</span>: <span class="title">Int</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="keyword">left</span> = <span class="number">20</span></div><div class="line">    <span class="keyword">case</span> <span class="keyword">right</span> = <span class="number">30</span></div><div class="line">    <span class="keyword">case</span> center = <span class="number">50</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//枚举成员转换成原始值</span></div><div class="line"><span class="keyword">let</span> myRawValue = <span class="type">TextAlignment</span>.<span class="keyword">left</span></div><div class="line"><span class="comment">//myRawValue为20</span></div><div class="line"></div><div class="line"><span class="comment">//由原始值获取枚举成员</span></div><div class="line"><span class="keyword">let</span> textRawValue = <span class="number">60</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> myAlignment = <span class="type">TextAlignment</span>(rawValue: textRawValue)&#123;</div><div class="line">    <span class="comment">//转化成功</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"successfully converted <span class="subst">\(textRawValue)</span> into a TextAlignment"</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="comment">//转化失败</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"<span class="subst">\(textRawValue)</span> has no corresponding TextAlignment case"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>字符串原始值</p>
-<p>如果只声明枚举为字符串类型不指定原始值，Swift会自动给成员指定默认的字符串原始值。也可以只指定部分原始值。</p>
+<h5 id="字符串原始值"><a href="#字符串原始值" class="headerlink" title="字符串原始值"></a>字符串原始值</h5><p>如果只声明枚举为字符串类型不指定原始值，Swift会自动给成员指定默认的字符串原始值。也可以只指定部分原始值。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ProgrammingLanguage</span>: <span class="title">String</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> swift = <span class="string">"swift"</span></div><div class="line">    <span class="keyword">case</span> objectiveC = <span class="string">"Objective-C"</span></div><div class="line">    <span class="keyword">case</span> <span class="built_in">c</span> = <span class="string">"c"</span></div><div class="line">    <span class="keyword">case</span> java = <span class="string">"java"</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 这里可以只给objectiveC指定原始值，因为其他case默认原始值和指定的值完全一样。</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">ProgrammingLanguage</span>: <span class="title">String</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> swift </div><div class="line">    <span class="keyword">case</span> objectiveC = <span class="string">"Objective-C"</span></div><div class="line">    <span class="keyword">case</span> <span class="built_in">c</span> </div><div class="line">    <span class="keyword">case</span> java </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>​</p>
-</li>
-</ul>
 <h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>方法是和类型关联的函数。在Swift中，方法不仅可以与类关联，也可以和枚举关联。</p>
 <p>特点：枚举的方法会接受一个隐式参数self，self类型即枚举类型；在Swift中，枚举类型为值类型，值类型的方法不能对self进行修改。<strong>如果需要值类型的方法修改self，需要标记这个方法为<code>mutating</code></strong>，否则会产生编译错误。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Lightbulb</span></span>&#123;</div><div class="line">    <span class="keyword">case</span> on</div><div class="line">    <span class="keyword">case</span> off</div><div class="line">    </div><div class="line">    <span class="comment">// 获取表面温度</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">surfaceTemperature</span><span class="params">(forAmbientTemperature ambient: Double)</span></span> -&gt; <span class="type">Double</span>&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">            <span class="keyword">case</span> .on:</div><div class="line">            	<span class="keyword">return</span> ambient + <span class="number">150</span></div><div class="line">            <span class="keyword">case</span> .off:</div><div class="line">            	<span class="keyword">return</span> ambient</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 开关方法:对self进行修改的方法需要用mutating标记</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">toggle</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">switch</span> <span class="keyword">self</span>&#123;</div><div class="line">            <span class="keyword">case</span> .on:</div><div class="line">            	<span class="keyword">self</span> = .off</div><div class="line">            <span class="keyword">case</span> .off:</div><div class="line">            	<span class="keyword">self</span> = .on</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> bulb = <span class="type">Lightbulb</span>.on</div><div class="line"><span class="keyword">var</span> ambientTemperature = <span class="number">77.0</span></div><div class="line"><span class="keyword">var</span> bulbTemperature = bulb.surfaceTemperature(forAmbientTemperature:ambientTemperature)</div><div class="line"><span class="built_in">print</span>(<span class="string">"the bulb's surface temperature is <span class="subst">\(bulbTemperature)</span>"</span>)</div></pre></td></tr></table></figure>
@@ -149,13 +121,13 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#枚举语法"><span class="toc-number">1.</span> <span class="toc-text">枚举语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#使用Swift语句匹配枚举值"><span class="toc-number">1.0.1.</span> <span class="toc-text">使用Swift语句匹配枚举值</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原始值"><span class="toc-number">2.</span> <span class="toc-text">原始值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法"><span class="toc-number">3.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关联值"><span class="toc-number">4.</span> <span class="toc-text">关联值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归枚举"><span class="toc-number">5.</span> <span class="toc-text">递归枚举</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#枚举语法"><span class="toc-number">1.</span> <span class="toc-text">枚举语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#使用Swift语句匹配枚举值"><span class="toc-number">1.0.1.</span> <span class="toc-text">使用Swift语句匹配枚举值</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原始值"><span class="toc-number">2.</span> <span class="toc-text">原始值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#指定原始值类型"><span class="toc-number">2.0.1.</span> <span class="toc-text">指定原始值类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#指定原始值"><span class="toc-number">2.0.2.</span> <span class="toc-text">指定原始值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#字符串原始值"><span class="toc-number">2.0.3.</span> <span class="toc-text">字符串原始值</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法"><span class="toc-number">3.</span> <span class="toc-text">方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关联值"><span class="toc-number">4.</span> <span class="toc-text">关联值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#递归枚举"><span class="toc-number">5.</span> <span class="toc-text">递归枚举</span></a></li></ol>
       </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/枚举/">枚举</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语法/">语法</a></li></ul>
 
       </footer>
     

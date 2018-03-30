@@ -3,36 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>HTTP协议 - Baylee的技术博客</title>
+  <title>HTTP基础 - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先，来看看在TCP/IP协议族中跟HTTP协议密不可分三个协议。
-一、IP协议（网络层）
-TCP/IP协议族中的IP指的的就是网际协议（不是IP地址哦）。
-IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。
-
-IP地址：指明了节点被分配到的地址。
-MAC地址：">
+  <meta name="description" content="在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTP协议">
+<meta property="og:title" content="HTTP基础">
 <meta property="og:url" content="https://zhengry.github.io/2014/05/27/HTTP协议/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="首先，来看看在TCP/IP协议族中跟HTTP协议密不可分三个协议。
-一、IP协议（网络层）
-TCP/IP协议族中的IP指的的就是网际协议（不是IP地址哦）。
-IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。
-
-IP地址：指明了节点被分配到的地址。
-MAC地址：">
-<meta property="og:updated_time" content="2017-04-05T14:03:15.000Z">
+<meta property="og:description" content="在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。">
+<meta property="og:updated_time" content="2018-03-29T09:19:00.949Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTP协议">
-<meta name="twitter:description" content="首先，来看看在TCP/IP协议族中跟HTTP协议密不可分三个协议。
-一、IP协议（网络层）
-TCP/IP协议族中的IP指的的就是网际协议（不是IP地址哦）。
-IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。
-
-IP地址：指明了节点被分配到的地址。
-MAC地址：">
+<meta name="twitter:title" content="HTTP基础">
+<meta name="twitter:description" content="在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -76,7 +58,7 @@ MAC地址：">
         
   
     <h1 class="article-title" itemprop="name">
-      HTTP协议
+      HTTP基础
     </h1>
   
 
@@ -88,15 +70,16 @@ MAC地址：">
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/网络/">网络</a>
+    <a class="article-category-link" href="/categories/网络基础/">网络基础</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先，来看看在TCP/IP协议族中跟HTTP协议密不可分三个协议。</p>
-<h3 id="一、IP协议（网络层）"><a href="#一、IP协议（网络层）" class="headerlink" title="一、IP协议（网络层）"></a>一、IP协议（网络层）</h3><ol>
+        <p>在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。</p>
+<a id="more"></a>
+<h4 id="IP协议（网络层）"><a href="#IP协议（网络层）" class="headerlink" title="IP协议（网络层）"></a>IP协议（网络层）</h4><ol>
 <li><p>TCP/IP协议族中的IP指的的就是网际<strong>协议</strong>（不是IP地址哦）。</p>
 <p>IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。</p>
 <ul>
@@ -112,7 +95,7 @@ MAC地址：">
 <p>在传输过程中，要经过很多计算机和网络设备中转，所以，计算机和路由器等网络设备只能获取很粗略的传输路线。</p>
 </li>
 </ol>
-<h3 id="二、TCP协议（传输层）"><a href="#二、TCP协议（传输层）" class="headerlink" title="二、TCP协议（传输层）"></a>二、TCP协议（传输层）</h3><ol>
+<h4 id="TCP协议（传输层）"><a href="#TCP协议（传输层）" class="headerlink" title="TCP协议（传输层）"></a>TCP协议（传输层）</h4><ol>
 <li><p>提供可靠的字节流服务。</p>
 <p>字节流服务：为了方便传输，将大块数据分割成以报文段（Segment）为单位的数据包进行管理，并确认数据能够准确可靠地送达到对方。</p>
 </li>
@@ -129,9 +112,9 @@ MAC地址：">
 </ol>
 </li>
 </ol>
-<h3 id="三、DNS服务（应用层）"><a href="#三、DNS服务（应用层）" class="headerlink" title="三、DNS服务（应用层）"></a>三、DNS服务（应用层）</h3><p>DNS协议提供域名到IP地址之间的解析服务。</p>
+<h4 id="DNS服务（应用层）"><a href="#DNS服务（应用层）" class="headerlink" title="DNS服务（应用层）"></a>DNS服务（应用层）</h4><p>DNS协议提供域名到IP地址之间的解析服务。</p>
 <p>用户通常通过使用主机名或域名来访问对方的计算机，但计算机则擅长处理数字式的IP。</p>
-<h3 id="四、HTTP通信过程"><a href="#四、HTTP通信过程" class="headerlink" title="四、HTTP通信过程"></a>四、HTTP通信过程</h3><ul>
+<h4 id="HTTP通信过程"><a href="#HTTP通信过程" class="headerlink" title="HTTP通信过程"></a>HTTP通信过程</h4><ul>
 <li>请求过程<ol>
 <li>客户端发起对某个网页的请求</li>
 <li>DNS负责解析请求网页的IP地址</li>
@@ -144,7 +127,7 @@ MAC地址：">
 </li>
 <li>以上是请求的通信过程，响应的过程同样是利用TCP/IP通信协议向用户进行回转。</li>
 </ul>
-<h3 id="五、HTTP协议"><a href="#五、HTTP协议" class="headerlink" title="五、HTTP协议"></a>五、HTTP协议</h3><ol>
+<h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><ol>
 <li><p>请求从客户端发出，最后服务器端响应该请求并返回</p>
 <p><strong>请求报文</strong>包括请求方法、请求URI、协议版本、可选的请求首部字段和内容实体。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">POST /form/entey  HTTP/1.1			**依次是请求方法 URI和协议版本</div><div class="line">Host: hackr.jp					**请求首部字段</div><div class="line">Connection: keep_alive				**请求首部字段</div><div class="line">Content_Type: application/x-www_form_urlencoded	**请求首部字段</div><div class="line">Content-Length: 16				**请求首部字段</div><div class="line">name=jiang&amp;age = 16				**内容实体</div></pre></td></tr></table></figure>
@@ -199,7 +182,7 @@ MAC地址：">
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、IP协议（网络层）"><span class="toc-number">1.</span> <span class="toc-text">一、IP协议（网络层）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、TCP协议（传输层）"><span class="toc-number">2.</span> <span class="toc-text">二、TCP协议（传输层）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、DNS服务（应用层）"><span class="toc-number">3.</span> <span class="toc-text">三、DNS服务（应用层）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、HTTP通信过程"><span class="toc-number">4.</span> <span class="toc-text">四、HTTP通信过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、HTTP协议"><span class="toc-number">5.</span> <span class="toc-text">五、HTTP协议</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#IP协议（网络层）"><span class="toc-number">1.</span> <span class="toc-text">IP协议（网络层）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP协议（传输层）"><span class="toc-number">2.</span> <span class="toc-text">TCP协议（传输层）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DNS服务（应用层）"><span class="toc-number">3.</span> <span class="toc-text">DNS服务（应用层）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP通信过程"><span class="toc-number">4.</span> <span class="toc-text">HTTP通信过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP协议"><span class="toc-number">5.</span> <span class="toc-text">HTTP协议</span></a></li></ol>
       </div>
     
     

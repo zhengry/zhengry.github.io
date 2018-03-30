@@ -50,61 +50,6 @@
   </div>
 </header>
     <section id="main" class="outer">
-      <article id="post-如何让category支持属性" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/31/如何让category支持属性/">如何让category支持属性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-meta">
-      <a href="/2015/08/31/如何让category支持属性/" class="article-date">
-  <time datetime="2015-08-31T15:03:46.000Z" itemprop="datePublished">2015-08-31</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/基础/">基础</a>
-  </div>
-
-      
-    </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>category不能增加类的属性，这是category和extention的重要区别之一。但是通过category给类增加属性并非不可实现，比如用runtime设置关联就是一种可行的实现方式。</p>
-<p>首先在category头文件中声明属性：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@interface NSObject (nameTest)</div><div class="line">@property (nonatomic, copy) NSString *name;</div><div class="line">@end</div></pre></td></tr></table></figure>
-<p>在.m文件中增加关联：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">@implementation NSObject (nameTest)</div><div class="line">// 定义关联的key</div><div class="line">static const char *key = &quot;name&quot;;</div><div class="line">- (NSString *)name</div><div class="line">&#123;</div><div class="line">    // 根据关联的key，获取关联的值。</div><div class="line">    return objc_getAssociatedObject(self, key);</div><div class="line">&#125;</div><div class="line">- (void)setName:(NSString *)name</div><div class="line">&#123;</div><div class="line">    // 第一个参数：给哪个对象添加关联</div><div class="line">    // 第二个参数：关联的key，通过这个key获取</div><div class="line">    // 第三个参数：关联的value</div><div class="line">    // 第四个参数:关联的策略</div><div class="line">    objc_setAssociatedObject(self, key, name, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    
-      <footer class="article-footer">
-        
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Category/">Category</a></li></ul>
-
-      </footer>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-    
       <article id="post-如何访问并修改一个类的私有属性" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -133,29 +78,18 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>要访问一个类的私有属性，很容易想到使用KVC，其实还有种方法就是利用runtime。但runtime有个短板在于，在ARC下，不支持对基本数据类型的变量进行修改。</p>
-<p>示例：</p>
-<p>新建Person类，声明name和age两个私有实例变量或property属性并初始化，重写description方法。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">@interface Person()</div><div class="line">&#123;</div><div class="line">    NSString *_name;</div><div class="line">&#125;</div><div class="line">@property (nonatomic, assign) NSInteger age;</div><div class="line">@end</div><div class="line"></div><div class="line">@implementation Person</div><div class="line">-(instancetype)init</div><div class="line">&#123;</div><div class="line">    self = [super init];</div><div class="line">    if (self) &#123;</div><div class="line">        _name = @&quot;郑郑&quot;;</div><div class="line">        _age = 17;</div><div class="line">    &#125;</div><div class="line">    return self;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(NSString *)description</div><div class="line">&#123;</div><div class="line">    return [NSString stringWithFormat:@&quot;niceGirl name=%@,age = %ld&quot;,_name,_age];</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
-<ol>
-<li><p>使用KVC对Person的私有变量进行修改：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">_niceGirl = [[Person alloc] init];</div><div class="line">/*KVC方法访问修改*/</div><div class="line">[_niceGirl setValue:@&quot;冰冰棒&quot; forKey:@&quot;name&quot;];</div><div class="line">[_niceGirl setValue:@18 forKey:@&quot;age&quot;];</div><div class="line">NSLog(@&quot;KVC修改后——%@&quot;,_niceGirl);</div><div class="line"></div><div class="line">/*打印结果*/</div><div class="line">/*修改前**——niceGirl name=郑郑,age = 17 */</div><div class="line">/*KVC修改后——niceGirl name=冰冰棒,age = 18 */</div></pre></td></tr></table></figure>
-<p>KVC支持对私有实例变量、属性进行修改，包括基本数据类型和Objective-C类型。</p>
-<p>​</p>
-</li>
-<li><p>使用runtime对私有变量进行修改：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">/*利用runtime访问修改*/</div><div class="line">unsigned int count = 0;</div><div class="line">/*获取ivarlist*/</div><div class="line">Ivar *members = class_copyIvarList([Person class], &amp;count);</div><div class="line">for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">    Ivar ivar = members[i];</div><div class="line">    // 将IVar变量转化为字符串,这里获得了属性名</div><div class="line">    const char *memberName = ivar_getName(ivar);</div><div class="line">    if (memberName) &#123;</div><div class="line">        NSString *ivarName = [NSString stringWithUTF8String:memberName];</div><div class="line">        if ([ivarName containsString:@&quot;name&quot;]) &#123;</div><div class="line">            object_setIvar(_niceGirl, ivar, @&quot;小糊涂&quot;);</div><div class="line">        &#125;</div><div class="line">      /*</div><div class="line">      else if ([ivarName containsString:@&quot;age&quot;])&#123;</div><div class="line">            object_setIvar(_niceGirl, ivar, @20);</div><div class="line">			// object_setInstanceVariable(_niceGirl, memberName,(__bridge void *)(@24));</div><div class="line">        &#125;</div><div class="line">        */</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">NSLog(@&quot;runtime修改后——%@&quot;,_niceGirl);</div><div class="line"></div><div class="line">/*打印结果(runtime没有修改年龄)*/</div><div class="line">/*修改前——niceGirl name=郑郑,age = 17*/</div></pre></td></tr></table></figure>
-<p>NOTE：</p>
-<p><code>object_setIvar(id obj, Ivar ivar, id value)</code>方法不能实现对基本数据类型的修改，在ARC下<code>Ivar object_setInstanceVariable(id obj, const char *name, void *value)</code>不可用，所以也不能实现对私有变量的修改。</p>
-</li>
-</ol>
-
+        
+          <p class="article-more-link">
+            <a href="/2015/08/27/如何访问并修改一个类的私有属性/#more">Read More</a>
+          </p>
+        
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/KVO/">KVO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/runtime/">runtime</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/属性/">属性</a></li></ul>
 
       </footer>
     
@@ -201,36 +135,18 @@
         <h4 id="实操步骤："><a href="#实操步骤：" class="headerlink" title="实操步骤："></a>实操步骤：</h4><ol>
 <li><p>判断是否已有SSH</p>
 <p><code>cd ~/.ssh</code></p>
-</li>
-<li><p>删掉之前的SSH keys</p>
-<p>Finder 前往文件夹~/.ssh 删掉<code>id_rsa</code>和<code>id_rsa.pub</code>文件</p>
-</li>
-<li><p>配置git名 </p>
-<p><code>git config --global user.name &quot;zhengruyan&quot;</code></p>
-</li>
-<li><p>配置git邮箱</p>
-<p><code>git config --global user.email &quot;your_email_address&quot;</code></p>
-</li>
-<li><p>重新生成<code>SSH keys</code></p>
-<p><code>ssh-keygen -t rsa -C &quot;you_email_address&quot;</code></p>
-</li>
-<li><p>复制SSH keys：</p>
-<p><code>cat ~/.ssh/id_rsa.pub</code></p>
-<p>将回车后得到的字符串copy：</p>
-<p><img src="/images/ssh_keys_1.png" alt="ssh_keys_1"></p>
-</li>
-<li><p>添加SSH keys到你的gitbub</p>
-<p>登录你的gitbub，在account setting中添加SSH keys ，名字可以随意 粘贴你复制的SSH keys，搞定！</p>
-</li>
-</ol>
-
+        
+          <p class="article-more-link">
+            <a href="/2015/06/11/github配置SSH-keys/#more">Read More</a>
+          </p>
+        
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GitHub/">GitHub</a></li></ul>
 
       </footer>
     
@@ -266,37 +182,19 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+    <a class="article-category-link" href="/categories/debug/">debug</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><p><strong>tableView使用section，sectionHeader从section = 1开始展示的问题：</strong></p>
-<p>实现<code>heightForHeaderInSection</code>代理方法，return一个高度即可解决。</p>
-</li>
-<li><p><strong>label高度自适应：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (CGFloat)boundingRectWithStr:(NSString *)str withFont:(UIFont *)font</div><div class="line">&#123;</div><div class="line">    NSDictionary *attribute = @&#123;NSFontAttributeName: font&#125;;  </div><div class="line">    CGSize retSize = [str boundingRectWithSize:CGSizeMake(MAXFLOAT, Height) options:</div><div class="line">NSStringDrawingTruncatesLastVisibleLine| NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;</div><div class="line">    return retSize.height;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-<li><p><strong>调用category的方法报错：selector not recognized:</strong></p>
-<p>解决方法：Build Settings –&gt; Linking-&gt;  Other Linker Flags 中加上 -ObjC 或者-all_load </p>
-<p>——记得引用category文件啊！！！！——</p>
-<p>原因：</p>
-<p>之所以使用该标志，和Objective-C的一个重要特性：类别（category)有关。Unix的标准静态库实现和Objective-C的动态特性之间有一些冲突：Objective-C没有为每个函数（或者方法）定义链接符号，它 只为每个类创建链接符号。这样当在一个静态库中使用类别来扩展已有类的时候，链接器不知道如何把类原有的方法和类别中的方法整合起来，就会导致你调用类别 中的方法时，出现”selector not recognized”，也就是找不到方法定义的错误。为了解决这个问题，引入了-ObjC标志，它的作用就是将静态库中所有的和对象相关的文件都加载进 来。</p>
-<p> 本来这样就可以解决问题了，不过在64 位的Mac系统或者iOS系统下，链接器有一个bug，会导致只包含有类别的静态库无法使用-ObjC标志来加载文件。变通方法是使用-all_load 或者-force_load标志，它们的作用都是加载静态库中所有文件，不过all_load作用于所有的库，而-force_load后面必须要指定具 体的文件。</p>
-</li>
-<li><p><strong>UIScreen的bounds,frame,scale属性</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">CGRect bound = [[UIScreen mainScreen] bounds];  // 返回的是带有状态栏的Rect  </div><div class="line"></div><div class="line">CGRect frame = [[UIScreen mainScreen] applicationFrame];  // 返回的是不带有状态栏的Rect  </div><div class="line"></div><div class="line">float scale = [[UIScreenmainScreen] scale]; // 得到设备的自然分辨率</div></pre></td></tr></table></figure>
-<p>scale属性的值有两个：</p>
-<p>scale = 1; 的时候是代表当前设备是320*480的分辨率（就是iphone4之前的设备）</p>
-<p>scale = 2; 的时候是代表分辨率为640*960的分辨率</p>
-<p>​</p>
-</li>
-</ol>
-
+        <h5 id="tableView使用section，sectionHeader从section-1开始展示的问题："><a href="#tableView使用section，sectionHeader从section-1开始展示的问题：" class="headerlink" title="tableView使用section，sectionHeader从section = 1开始展示的问题："></a>tableView使用section，sectionHeader从section = 1开始展示的问题：</h5><p>实现<code>heightForHeaderInSection</code>代理方法，return一个高度即可解决。</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/05/28/iOS中的一些UI问题总结/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -347,12 +245,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>在iOS中使用sqlite时，经常用到的Sqlite语句主要有以下几种：</p>
-<p><img src="/images/sqlite_creat.png" alt="sqlite_creat"></p>
-<p><img src="/images/sqlite_insert.png" alt="sqlite_insert"></p>
-<p><img src="/images/sqlite_update.png" alt="sqlite_update"></p>
-<p><img src="/images/sqlite_delete.png" alt="sqlite_delete"></p>
-<p><img src="/images/sqlite_select.png" alt="sqlite_select"></p>
-
+        
+          <p class="article-more-link">
+            <a href="/2015/04/26/Sqlite数据库语句/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -360,6 +257,65 @@
       <footer class="article-footer">
         
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Sqlite/">Sqlite</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+    
+      <article id="post-FMDB使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/24/FMDB使用/">FMDB使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2015/04/24/FMDB使用/" class="article-date">
+  <time datetime="2015-04-24T15:44:57.000Z" itemprop="datePublished">2015-04-24</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据存储/">数据存储</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>FMDB以OC的方式封装了SQLite的C语言API。所以相对使用底层语言实现的Sqlite来说，FMDB主要有以下优点：</p>
+<ul>
+<li><p>使用起来更加面向对象，省去了很多麻烦、冗余的C语言代码；</p>
+</li>
+<li><p>对比苹果自带的Core Data框架，更加轻量级和灵活；</p>
+        
+          <p class="article-more-link">
+            <a href="/2015/04/24/FMDB使用/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
 
       </footer>
     

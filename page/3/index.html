@@ -78,73 +78,18 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>知识点：<strong>存储属性、计算属性（setter、getter）、类型属性、属性观察（property observation）、属性访问控制</strong>。</p>
-<h3 id="存储属性"><a href="#存储属性" class="headerlink" title="存储属性"></a>存储属性</h3><p>存储属性就是存储在特定类或结构体实例里的常量或变量。只能用于类和结构体。分为变量存储属性和常量存储属性。</p>
-<p><strong>定义存储属性的时候指定默认值，也可以在构造过程中设置或修改存储属性的值，甚至修改常量存储属性的值。</strong></p>
-<p><em>关于构造过程中常量属性的修改说明：</em></p>
-<p><strong><em>你可以在构造过程中的任意时间点给常量属性指定一个值，只要在构造过程结束时是一个确定的值。一旦常量属性被赋值，它将永远不可修改。对于类的实例，它的常量属性只能在定义它的类的构造过程中修改，不能在子类中修改。</em></strong></p>
-<p>示例：定义一个结构体<code>FixedLengthRange</code>，用于描述整数的范围，且这个范围值在被创建后不能被修改。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">FixedLengthRange</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> firstValue: <span class="type">Int</span></div><div class="line">    <span class="keyword">let</span> length: <span class="type">Int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//length在创建实例的时候被初始化，之后无法修改它的值</span></div><div class="line"><span class="keyword">var</span> rangeOfThreeItems = <span class="type">FixedLengthRange</span>(firstValue: <span class="number">0</span>, length: <span class="number">3</span>)</div><div class="line"><span class="comment">//该区间表示整数0，1，2</span></div><div class="line"></div><div class="line">rangeOfThreeItems.firstValue = <span class="number">6</span></div><div class="line"><span class="comment">//该区间现在表示整数6，7，8</span></div></pre></td></tr></table></figure>
-<h4 id="常量结构体的存储属性"><a href="#常量结构体的存储属性" class="headerlink" title="常量结构体的存储属性"></a>常量结构体的存储属性</h4><p>如果创建结构体实例赋值给一个常量，则无法修改该实例的任何属性，即使有属性被声明为变量。<strong>因为结构体属于值类型，当值类型的实例被声明为常量的时候，它的所有属性也就成了常量</strong>：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> rangeOfFourItems = <span class="type">FixedLengthRange</span>(firstValue: <span class="number">0</span>, length: <span class="number">4</span>)</div><div class="line"><span class="comment">// 该区间表示整数0，1，2，3</span></div><div class="line">rangeOfFourItems.firstValue = <span class="number">5</span></div><div class="line"><span class="comment">//尽管 firstValue 是个变量属性，这里还是会报错</span></div></pre></td></tr></table></figure>
-<h4 id="延迟存储属性"><a href="#延迟存储属性" class="headerlink" title="延迟存储属性"></a>延迟存储属性</h4><ol>
-<li><p>延迟存储属性是指当第一次被调用的时候才会计算其初始值的属性。</p>
-<p> 延迟存储属性是指当第一次被调用的时候才会计算其初始值的属性。在属性声明前使用<code>lazy</code>来标示一个延迟存储属性。</p>
-</li>
-<li><p>必须将延迟存储属性声明成变量（使用<code>var</code>关键字）</p>
-<p> <strong>因为属性的初始值可能在实例构造完成之后才会得到。而常量属性在构造过程完成之前必须要有初始值，因此无法声明成延迟属性。</strong></p>
-</li>
-<li><p>延迟存储属性只会被计算一次。</p>
-<p>  <strong>如果一个被标记为<code>lazy</code>的属性在没有初始化时就同时被多个线程访问，则无法保证该属性只会被初始化一次。</strong></p>
-</li>
-<li><p>使用场景：当属性的值依赖于在实例的构造过程结束后才会知道影响值的外部因素时，或者当获得属性的初始值需要复杂或大量计算时，可以使用延迟存储属性以便只在需要的时候计算它。</p>
-</li>
-</ol>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataImporter</span> </span>&#123;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    DataImporter 是一个负责将外部文件中的数据导入的类。</div><div class="line">    这个类的初始化会消耗不少时间。</div><div class="line">    */</div><div class="line">    <span class="keyword">var</span> fileName = <span class="string">"data.txt"</span></div><div class="line">    <span class="comment">// 这里会提供数据导入功能</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataManager</span> </span>&#123;</div><div class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> importer = <span class="type">DataImporter</span>()</div><div class="line">    <span class="keyword">var</span> data = [<span class="type">String</span>]()</div><div class="line">    <span class="comment">// 这里会提供数据管理功能</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> manager = <span class="type">DataManager</span>()</div><div class="line">manager.data.append(<span class="string">"Some data"</span>)</div><div class="line">manager.data.append(<span class="string">"Some more data"</span>)</div><div class="line"><span class="comment">// DataImporter 实例的 importer 属性还没有被创建</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//由于使用了 lazy ，importer 属性只有在第一次被访问的时候才被创建:</span></div><div class="line"></div><div class="line"><span class="built_in">print</span>(manager.importer.fileName)</div><div class="line"><span class="comment">// DataImporter 实例的 importer 属性现在被创建了</span></div><div class="line"><span class="comment">// 输出 "data.txt”</span></div></pre></td></tr></table></figure>
-<h4 id="存储属性和实例变量"><a href="#存储属性和实例变量" class="headerlink" title="存储属性和实例变量"></a>存储属性和实例变量</h4><p>在Swift中，属性没有对应的实例变量，属性的后端存储也无法直接访问。</p>
-<h3 id="计算属性"><a href="#计算属性" class="headerlink" title="计算属性"></a>计算属性</h3><ol>
-<li>可用于类、结构体和枚举。</li>
-<li>计算属性不直接存储值，而是提供一个getter和一个可选的setter，来间接获取和设置其他属性或变量的值。</li>
-</ol>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">0.0</span>, y = <span class="number">0.0</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Size</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> width = <span class="number">0.0</span>, height = <span class="number">0.0</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Rect</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> origin = <span class="type">Point</span>()</div><div class="line">    <span class="keyword">var</span> size = <span class="type">Size</span>()</div><div class="line">    <span class="keyword">var</span> center: <span class="type">Point</span> &#123;</div><div class="line">        <span class="keyword">get</span> &#123;</div><div class="line">            <span class="keyword">let</span> centerX = origin.x + (size.width / <span class="number">2</span>)</div><div class="line">            <span class="keyword">let</span> centerY = origin.y + (size.height / <span class="number">2</span>)</div><div class="line">            <span class="keyword">return</span> <span class="type">Point</span>(x: centerX, y: centerY)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">set</span>(newCenter) &#123;</div><div class="line">            origin.x = newCenter.x - (size.width / <span class="number">2</span>)</div><div class="line">            origin.y = newCenter.y - (size.height / <span class="number">2</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> square = <span class="type">Rect</span>(origin: <span class="type">Point</span>(x: <span class="number">0.0</span>, y: <span class="number">0.0</span>),</div><div class="line">    size: <span class="type">Size</span>(width: <span class="number">10.0</span>, height: <span class="number">10.0</span>))</div><div class="line"><span class="keyword">let</span> initialSquareCenter = square.center</div><div class="line">square.center = <span class="type">Point</span>(x: <span class="number">15.0</span>, y: <span class="number">15.0</span>)</div><div class="line"><span class="built_in">print</span>(<span class="string">"square.origin is now at (<span class="subst">\(square.origin.x)</span>, <span class="subst">\(square.origin.y)</span>)"</span>)</div><div class="line"><span class="comment">// 打印 "square.origin is now at (10.0, 10.0)”</span></div></pre></td></tr></table></figure>
-<h4 id="简化setter声明"><a href="#简化setter声明" class="headerlink" title="简化setter声明"></a>简化setter声明</h4><p>如果计算属性的setter没有定义表示新值的参数名，可以使用默认名称。简化用法：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">AlternativeRect</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> origin = <span class="type">Point</span>()</div><div class="line">    <span class="keyword">var</span> size = <span class="type">Size</span>()</div><div class="line">    <span class="keyword">var</span> center：<span class="type">Point</span>&#123;</div><div class="line">        <span class="keyword">get</span>&#123;</div><div class="line">            <span class="keyword">let</span> centerX = origin.x + (size.width / <span class="number">2</span>)</div><div class="line">            <span class="keyword">let</span> centerY = origin.y + (size.height / <span class="number">2</span>)</div><div class="line">            <span class="keyword">return</span> <span class="type">Point</span>(x: centerX, y: centerY)</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">set</span>&#123;</div><div class="line">            origin.x = newValue.x -(size.width / <span class="number">2</span>)</div><div class="line">            origin.y = newValue.y - (size.height / <span class="number">2</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="只读计算属性（只有getter，没有setter）"><a href="#只读计算属性（只有getter，没有setter）" class="headerlink" title="只读计算属性（只有getter，没有setter）"></a>只读计算属性（只有getter，没有setter）</h4><p>只读计算属性总是返回一个值，可以通过点运算符访问，但不能设置新的值。</p>
-<p><strong>必须使用<code>var</code>关键字定义计算属性，包括只读计算属性，因为它们的值不是固定的。<code>let</code>关键字只用来声明常量属性，表示初始化后再也无法修改的值。</strong></p>
-<p>示例：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Cuboid</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> width = <span class="number">0.0</span>,height = <span class="number">0.0</span>,depth = <span class="number">0.0</span></div><div class="line">    <span class="keyword">var</span> volume: <span class="type">Double</span>&#123;</div><div class="line">        <span class="keyword">return</span> width *height * depth</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> fourByFiveByTwo = <span class="type">Cuboid</span>(width: <span class="number">4.0</span>, height: <span class="number">5.0</span>, depth: <span class="number">2.0</span>)</div><div class="line"><span class="built_in">print</span>(<span class="string">"the volume of fourByFiveByTwo is <span class="subst">\(fourByFiveByTwo.volume)</span>"</span>)</div></pre></td></tr></table></figure></p>
-<h3 id="属性观察器（property-observation）"><a href="#属性观察器（property-observation）" class="headerlink" title="属性观察器（property observation）"></a>属性观察器（property observation）</h3><p>属性观察器监控和响应属性值的变化，每次属性被设置值的时候都会调用属性观察器，即使新值和当前值相同的时候也不例外。</p>
-<p>可为属性添加的观察器：</p>
-<ul>
-<li><code>willSet</code>在新的值被设置之前调用</li>
-<li><code>didSet</code>在新的值被设置之后立即调用</li>
-</ul>
-<p><code>willSet</code>观察器会将新的属性值作为常量参数传入，在<code>willSet</code>的实现代码中可以为这个参数指定一个名称，如果不指定则参数仍然可用，这时使用默认名称<code>newValue</code>表示。</p>
-<p>同样<code>didSet</code>观察器会将旧的属性值作为参数传入，可以为该参数命名或者使用默认参数名<code>oldValue</code>。如果在didSet方法中再次对该属性赋值，那么新值会覆盖旧的值。</p>
-<p><strong>父类的属性在子类的构造器中被赋值时，它在父类中的<code>willSet</code>和<code>didSet</code>观察器会被调用，随后才会调用子类的观察器。在父类初始化方法调用之前，子类给属性赋值时，观察器不会被调用。</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">StepCounter</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> totalSteps: <span class="type">Int</span> = <span class="number">0</span> &#123;</div><div class="line">        <span class="keyword">willSet</span>(newTotalSteps) &#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"About to set totalSteps to <span class="subst">\(newTotalSteps)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">didSet</span> &#123;</div><div class="line">            <span class="keyword">if</span> totalSteps &gt; oldValue  &#123;</div><div class="line">                <span class="built_in">print</span>(<span class="string">"Added <span class="subst">\(totalSteps - oldValue)</span> steps"</span>)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> stepCounter = <span class="type">StepCounter</span>()</div><div class="line">stepCounter.totalSteps = <span class="number">200</span></div><div class="line"><span class="comment">// About to set totalSteps to 200</span></div><div class="line"><span class="comment">// Added 200 steps</span></div><div class="line">stepCounter.totalSteps = <span class="number">360</span></div><div class="line"><span class="comment">// About to set totalSteps to 360</span></div><div class="line"><span class="comment">// Added 160 steps</span></div><div class="line">stepCounter.totalSteps = <span class="number">896</span></div><div class="line"><span class="comment">// About to set totalSteps to 896</span></div><div class="line"><span class="comment">// Added 536 steps</span></div></pre></td></tr></table></figure>
-<p><strong>如果将属性通过<code>in-out</code>方式传入函数，<code>willSet</code>和<code>didSet</code>也会调用。这是因为<code>in-out</code>参数采用了拷入拷出模式：即在函数内部使用的是参数的 copy，函数结束后，又对参数重新赋值。</strong></p>
-<h3 id="全局变量和局部变量"><a href="#全局变量和局部变量" class="headerlink" title="全局变量和局部变量"></a>全局变量和局部变量</h3><p>全局变量是在函数、方法、闭包或任何类型之外定义的变量。<br>局部变量是在函数、方法、或闭包内部定义的变量。</p>
-<p>全局变量和局部变量都属于存储型变量，为特定类型的值提供存储空间，并允许读取和写入。</p>
-<p>在全局或局部范围都可以定义计算型变量、为存储型变量定义观察器。计算型变量跟计算属性一样，返回一个计算结果而不是存储值，声明格式也完全一样。</p>
-<p><strong>全局的常量或变量都是延迟计算的，跟延迟存储属性相似。不同点在于，全局的常量或变量不需要标记<code>lazy</code>修饰符。局部范围的常量或变量从不延迟计算。</strong></p>
-<h3 id="类型属性"><a href="#类型属性" class="headerlink" title="类型属性"></a>类型属性</h3><p>定义：为类型本身定义属性，无论创建多少该类的实例，这些属性都只有唯一一份。</p>
-<p>使用场景：用于定义某个类型所有实例共享的数据。比如所有实例都能用的一个常量，或者所有实例都能访问的一个变量。</p>
-<p>类型：存储型类型属性可以是变量或常量，计算型类型属性只能定义成变量。</p>
-<p><strong>存储类型属性必须有默认值，因为类型没有构造器，无法在初始化过程中给类型属性赋值。存储型类型属性是延迟初始化的，它们只有在第一次被访问时才会被初始化。即使被多个线程同时访问，系统也保证只会对其进行一次初始化，并且不需要使用<code>lazy</code>修饰符。</strong></p>
-<p>使用：Swift中，类型属性是作为类型定义的一部分写在类型最外层的花括号内，因此它的作用作为也就在类型支持的范围内。</p>
-<p>使用关键字<code>static</code>来定义类型属性。在为类定义计算型类型属性时，可以改用关键字<code>class</code>来支持子类对父类的实现进行重写。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SomeStructure</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> storedTypeProperty = <span class="string">"Some value."</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> comeputedTypeProperty :<span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">SomeEnumeration</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> storedTypeProperty = <span class="string">"Some value."</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> computedTypeProperty： <span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">6</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> storedTypeProperty = <span class="string">"Some value."</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> computedTypeProperty : <span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">12</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//子类可以重写的类型属性</span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">overrideableComputedTypeProperty</span>: <span class="title">Int</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">25</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//子类重写父类的类型属性</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnotherClass</span>: <span class="title">SomeClass</span></span>&#123;</div><div class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">overrideableComputedTypeProperty</span>: <span class="title">Int</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">10</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">print</span>(<span class="type">SomeStructure</span>.storedTypeProperty)</div><div class="line"><span class="type">SomeStructure</span>.storedTypeProperty = <span class="string">"Another value."</span></div><div class="line"><span class="built_in">print</span>(<span class="type">SomeEnumeration</span>.comeputedTypeProperty)</div><div class="line"><span class="built_in">print</span>(<span class="type">SomeClass</span>.computedTypeProperty)</div><div class="line"><span class="built_in">print</span>(<span class="type">AnotherClass</span>.overrideableComputedTypeProperty)</div></pre></td></tr></table></figure>
-<h3 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h3><p>访问控制指给某些组件访问其他组件的一定级别的访问权限。<br>模块（module）：分发代码的单位，import关键字可以把一个模块引入另一个模块。</p>
-<p>源代码文件（source file）：表示一个文件，并且存在于特定的模块。</p>
-<p>Swift的五个访问层级：<br>| 访问层级             | 描述                                                         | 对……可见                           | 能在……中继承                       |<br>| ——————– | ———————————————————— | ———————————- | ———————————- |<br>| open                 | 实体对模块内的所有文件以及引入了该模块的文件都可见，并且可以继承 | 所在模块以及引入实体所在模块的模块 | 所在模块以及引入实体所在模块的模块 |<br>| public               | 实体对模块内的所有文件以及引入了该模块的文件都可见           | 所在模块以及引入实体所在模块的模块 | 所在的模块                         |<br>| internal（默认层级） | 实体对模块内的文件可见                                       | 所在的模块                         | 所在的模块                         |<br>| fileprivate          | 实体只对所在的源文件可见                                     | 所在的源文件                       | 所在的文件                         |<br>| private              | 实体只对所在的作用域可见                                     | 所在的作用域                       | 所在的作用域                       |<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">var</span> language: <span class="type">String</span> = <span class="string">"Chinese"</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">PrintDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"People's language is <span class="subst">\(language)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h4 id="控制setter和getter方法的可见度"><a href="#控制setter和getter方法的可见度" class="headerlink" title="控制setter和getter方法的可见度"></a>控制setter和getter方法的可见度</h4><p>默认情况下，setter和getter的可见度相同。</p>
-<p>改写可见度示例：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zombie</span></span>&#123;</div><div class="line">    <span class="keyword">internal</span> <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> isFallingApart = <span class="literal">false</span>  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
+        
+          <p class="article-more-link">
+            <a href="/2016/07/02/Swift之属性/#more">Read More</a>
+          </p>
+        
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/属性/">属性</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语法/">语法</a></li></ul>
 
       </footer>
     
@@ -187,133 +132,19 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="一、GCD概念"><a href="#一、GCD概念" class="headerlink" title="一、GCD概念"></a>一、GCD概念</h3><p><strong>Grand Central Dispatch</strong>,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。<br><strong>优点：</strong>由于线程管理是作为系统的一部分实现的，因此可统一管理，也可执行任务，更有效率。</p>
-<p><code>dispatch_async(queueName,^{ 执行的任务})；</code></p>
-<p>在GCD之前，Cocoa框架提供了NSObject类的<code>performSelectorInBackground:WithObject</code>和<code>performSelectorOnMainThread</code>实例方法等简单的多线程编程技术。</p>
-<p><strong>比较：</strong>GCD比<code>performSelector</code>简洁，<code>performSelector</code>比NSThread简洁易用</p>
-<h3 id="二、程序的执行"><a href="#二、程序的执行" class="headerlink" title="二、程序的执行"></a>二、程序的执行</h3><p>一个应用程序本质上就是汇集的CPU命令列和数据。应用程序启动后，首先便将包含在应用程序中的CPU命令列配置到内存中，CPU从应用程序指定的地址开始，一个一个执行CPU命令列。一个CPU一次只能执行一个命令，不能执行某处分开的并列的两个指令。<br>一个CPU执行的CPU命令列为一条无分叉路径就是<strong>线程</strong>。</p>
-<h3 id="三、多线程编程"><a href="#三、多线程编程" class="headerlink" title="三、多线程编程"></a>三、多线程编程</h3><p>现在一个物理的CPU芯片实际上有64个（64核）CPU，如果一个CPU核虚拟为两个CPU核工作，那么一台计算机就可以使用多个CPU核。即使用多线程。</p>
-<ol>
-<li><p><strong>上下文切换</strong>：切换执行路径</p>
-<p>由于使用多线程的程序可以在某个线程和其他线程之间反复多次进行上下文切换，因此看上去就像一个CPU核能够并列地执行多个线程一样。在具有多个CPU核的情况下，则是真的提供了多个CPU核并执行多个线程的技术。</p>
-</li>
-<li><p>多线程编程的优缺点：</p>
-<ul>
-<li><p>缺点：</p>
-<p>1）数据竞争：多个线程更新相同的资源导致数据不一致</p>
-<p>2）死锁：停止等待时间的线程会导致多个线程相互持续等待</p>
-<p>3）内存消耗：使用太多线程会大量消耗内存</p>
-</li>
-<li><p>优点：</p>
-<p>1）在执行长时间的处理时仍能保证用户界面的响应性能。</p>
-<p>2）大大简化了复杂的多线程编程的源代码</p>
-</li>
-</ul>
-</li>
-<li><p>示例：在应用程序启动时，最先执行的线程即主线程，负责描绘用户界面，处理触摸屏幕的事件等。如果在主线程进行长时间的处理，如AR用画像的识别或数据库访问，就会妨碍主线程的执行（阻塞）。在iOS应用中，会妨碍主线中被成为RunLoop的主循环的执行。从而导致用户界面不能更新，应用程序的画面长时间停滞等问题。</p>
-</li>
-</ol>
-<h3 id="四、Dispatch-Queue"><a href="#四、Dispatch-Queue" class="headerlink" title="四、Dispatch Queue"></a>四、Dispatch Queue</h3><p>队列分为串行队列和并行队列，可以向一个Dispatch Queue中添加多个执行操作。Dispatch Queue按执行任务的追加顺序（FIFO 先进先出）执行处理。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//在block中添加执行任务</div><div class="line">dispatch_async(queue,block1);</div><div class="line">dispatch_async(queue,block2);</div><div class="line">dispatch_async(queue,block3);</div><div class="line">dispatch_async(queue,block4);</div></pre></td></tr></table></figure>
-<ol>
-<li><p>在执行处理时存在两种Dispatch Queue：</p>
-<ul>
-<li><strong>Serial Dispatch Queue</strong>：需要等待现在执行中的处理结束后才能继续执行，串行队列，单线程执行。</li>
-<li><strong>Concurrent Dispatch Queue</strong>：不需要等待现在执行中的处理结束就可以继续执行，并行队列，多线程并行执行。</li>
-</ul>
-</li>
-<li><p>比较Serial Dispatch Queue和Concurrent Dispatch Queue使用场景：</p>
-<ul>
-<li><strong>Serial</strong>：不能改变执行的处理顺序 / 不想并行执行多个处理 / 多个线程更新相同资源导致数据竞争时</li>
-<li><strong>Concurrent</strong>：想并行执行不发生数据竞争等问题的处理时 / 不在意执行得到的结果的顺序时</li>
-</ul>
-</li>
-<li><p>create参数 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;queueNameString&quot;,Null );</div><div class="line">dispatch_queue_t concurrentQueue = dispatch_queue_create(Null, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure>
-<p><code>dispatch_queue_t</code>为队列类型。<code>dispatch_queue_create</code>的两个参数：<br>第一个用来指定Queue的名称，可以为NULL。推荐使用应用程序ID这种逆序全称域名。这个名称在<strong>Xcode</strong>和<strong>Instruments</strong>的调试器中作为Dispatch Queue的名称表示，也出现在应用程序崩溃时所产生的CrashLog中，方便调试。<strong>第二个用来区分是串行队列还是并行队列，为NULL或DISPATCH_QUEUE_SERIAL时是串行队列，为DISPATCH_QUEUE_CONCURRENT时为并行队列</strong>。</p>
-</li>
-<li><p>队列的执行</p>
-<ul>
-<li><p>Serial Dispatch Queue只能执行一个追加处理</p>
-</li>
-<li><p>Concurrent Dispatch Queue可以并行执行多个追加处理</p>
-<p>注意：</p>
-</li>
-</ul>
-<ol>
-<li>虽然Serial Dispatch Queue和Concurrent Dispatch Queue受到系统资源的限制，但是dispatch_queue_create函数可以生成任意多个Dispatch Queue</li>
-<li>当生成多个Serial Dispatch Queue时，多个Serial Dispatch Queue并行执行</li>
-<li>一旦生成Serial Dispatch Queue并追加处理，系统对于一个Serial Dispatch Queue就只生成并使用一个线程。</li>
-<li>对于Concurrent Dispatch Queue来说，不管生成多少，由于XNU内核只使用有效管理的线程，因此不会发生Serial Dispatch Queue那些问题。</li>
-</ol>
-</li>
-</ol>
-<h3 id="五、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue"><a href="#五、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue" class="headerlink" title="五、系统提供的Main Dispatch Queue和Global Dispatch Queue"></a>五、系统提供的Main Dispatch Queue和Global Dispatch Queue</h3><ol>
-<li><p>Main Dispatch Queue——在主线程执行的Serial Dispatch Queue</p>
-<p>追加到该Queue的处理在主线程的RunLoop中执行。添加用户界面更新等必须在主线程执行的处理到Main Dispatch Queue。跟NSObject类的performSelectorOnMainThread实例方法相同。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/*Main Dispatch Queue*/</div><div class="line">dispatch_queue_t mainDispatchQueue = dispatch_get_main_queue();</div></pre></td></tr></table></figure>
-</li>
-<li><p>Global Dispatch Queue——一种Concurrent Dispatch Queue</p>
-<p>有四个优先级 High/default/low/background</p>
-<p>获取方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">/*High*/</div><div class="line">dispatch_queue_t GlobalDispatchQueueHigh = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0); </div><div class="line">/*Default*/</div><div class="line">dispatch_queue_t GlobalDispatchQueueDefault = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,  0);</div><div class="line">/*Low*/</div><div class="line">dispatch_queue_t GlobalDispatchQueueLow = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW,  0);</div><div class="line">/*Background*/</div><div class="line">dispatch_queue_t GlobalDispatchQueueBACKGROUND = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND,  0);</div></pre></td></tr></table></figure>
-</li>
-<li><p>使用Main Dispatch Queue和Global Dispatch Queue示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^&#123;</div><div class="line">    /*可并行执行的处理*/</div><div class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">        /*只能在主线程执行的处理*/</div><div class="line">        &#125;)；</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="六、其他常用GCD函数"><a href="#六、其他常用GCD函数" class="headerlink" title="六、其他常用GCD函数"></a>六、其他常用GCD函数</h3><ol>
-<li><p>dispatch_after——在指定时间后执行某个处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW,3ull * NSEC_PER_SEC);</div><div class="line">dispatch_after(time,dispatch_main_queue(),^&#123;</div><div class="line">  NSLog(@&quot;waited at least three seconds.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>：<code>dispatch_after</code>函数并不是在指定时间后执行处理，而只是在指定时间追加到Dispatch Queue。</p>
-<p>在上面的代码示例中，因为Main Dispatch Queue在主线程的RunLoop中执行，所以在比如每隔1/60秒执行的RunLoop中，Block最快在3秒后执行，最慢在3秒+1/60秒后执行，并且在Main Dispatch Queue有大量处理追加或者主线程的处理本身有延迟时，这个时间会更长。所以，<strong>这个函数只能大致延迟执行处理</strong>。</p>
-<p><code>dispatch_time_t</code>类型用来指定时间，通常使用<code>dispatch_time</code>函数或者<code>dispatch_walltime</code>函数生成。</p>
-<ul>
-<li><p><code>dispatch_time</code>函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_time(dispatch_time_t when, int64_t delta)</div></pre></td></tr></table></figure>
-<p>能够获取从第一个参数<code>dispatch_time_t</code>类型值中执行的时间开始，到第二个参数执行的毫微秒单位时间后的时间。</p>
-</li>
-<li><p><code>dispatch_walltime</code>函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_walltime(const struct timespec *_Nullable when, int64_t delta);</div></pre></td></tr></table></figure>
-<p>该函数用于计算绝对时间。可作为粗略的闹钟功能使用。</p>
-<p><code>timespec</code> 类型的时间可以通过NSDate类对象生成：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">dispatch_time_t getDispatchTimeByDate(NSDate *date)</div><div class="line">&#123;</div><div class="line">    NSTimeInterval interval;</div><div class="line">    double second,subsecond;</div><div class="line">    struct timespec time;</div><div class="line">    dispatch_time_t milestone;</div><div class="line">    </div><div class="line">    interval = [date timeIntervalSince1970];</div><div class="line">    subsecond = modf(interval, &amp;second);</div><div class="line">    time.tv_sec = second;</div><div class="line">    time.tv_nsec = subsecond * NSEC_PER_SEC;</div><div class="line">    milestone = dispatch_walltime(&amp;time, 0);</div><div class="line">    return milestone;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>DisPatch Group</p>
-<p>当你想要执行完多个处理后追加一个结束处理，通常可以使用串行队列完成。但在并行队列中要想实现效果，可以使用Dispatch Group：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block1&quot;);</div><div class="line">&#125;);</div><div class="line">    </div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block2&quot;);</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block3&quot;);</div><div class="line">&#125;);</div><div class="line"> /*block1、block2、block3都打印结束才会打印end*/   </div><div class="line">dispatch_group_notify(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;end&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>无论像什么样的Dispatch Queue中追加处理，使用Dispatch Group都可以监视这些处理执行的结束，一旦检测到所有处理执行结束，就可将结束的处理追加到Dispatch Queue中。</p>
-<p>也可以使用<code>dispatch_group_wait</code>函数仅等待全部处理执行结束：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block1&quot;);</div><div class="line">&#125;);</div><div class="line">    </div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block2&quot;);</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block3&quot;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">/*第二个参数为等待的时间（超时），DISPATCH_TIME_FOREVER：永久等待*/  </div><div class="line">dispatch_group_wait(group, DISPATCH_TIME_FOREVER);</div></pre></td></tr></table></figure>
-<p>只要属于Dispatch Group的处理尚未执行结束，就会一直等待，中途不能取消。</p>
-<p>如同<code>dispatch_after</code>函数中那样，执行等待时间为5秒时应做如下处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 5ull *NSEC_PER_SEC);</div><div class="line">long result = dispatch_group_wait(group, time);</div><div class="line">if (result == 0) &#123;</div><div class="line">    /*数据Dispatch Group的处理全部执行结束*/</div><div class="line">&#125;else&#123;</div><div class="line">    /*属于Dispatch Group的某一个处理还在执行中*/</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果<code>dispatch_group_wait</code>函数的范围值不为0，就意味着虽然经过了执行时间，但属于Dispatch Group的某个处理还在执行中，如果返回值为0，那么全部处理执行结束。当等待时间为DISPATCH_TIME_FOREVER、由<code>dispatch_group_wait</code>函数返回时，由于属于Dispatch Group的处理必定全部执行结束，因此返回值恒为0。</p>
-<p>执行DISPATCH_TIME_NOW，则不用任何等待即可判定属于Dispatch Group的处理是否执行结束：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">long result = dispatch_group_wait(group,DISPATCH_TIME_NOW);</div></pre></td></tr></table></figure>
-<p>在主线程的RunLoop的每次循环中，可检查执行是否结束，从而不耗费多余的等待时间，虽然这样也可以，但一般在这种情况下，还是推荐用<code>dispatch_group_notify</code>函数追加结束处理到Main Dispatch Queue，简化代码实现。</p>
-<p><strong>等待的意思</strong>：一旦调用<code>dispatch_group_wait</code>函数，该函数就处于调用的状态而不返回。即执行<code>dispatch_group_wait</code>函数的现在的线程（当前线程）停止。在经过<code>dispatch_group_wait</code>函数中指定的时间或属于指定Dispatch Group的处理全部执行结束之前，执行该函数的线程停止。</p>
-</li>
-<li><p>dispatch_barrier_async</p>
-<p>该函数会等待追加到Concurrent Dispatch Queue上的并行执行的处理全部结束之后，再将执行的处理追加到该Concurrent Dispatch Queue中。然后在由<code>dispatch_barrier_async</code>函数追加的处理执行完毕后，Concurrent Dispatch Queue才恢复为一般的动作，追加到该Concurrent Dispatch Queue的处理又开始并行执行。</p>
-<p>使用Concurrent Dispatch Queue和<code>dispatch_barrier_async</code>函数可实现高效率的数据库访问和文件访问。</p>
-<p>在访问数据库或文件时，使用Serial Dispatch Queue可避免数据竞争的问题，写入处理确实不可与其他的写入处理以及包含读取处理的其他某些处理并行执行。但是如果多个读取处理并行执行不会出现问题。为了高效访问，读取处理可以追加到Concurrent Dispatch Queue中，利用<code>dispatch_barrier_async</code>函数追加写入处理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">/*block1、2、3、4并行执行*/</div><div class="line">dispatch_async(queue, block1_for_reading);</div><div class="line">dispatch_async(queue, block2_for_reading);</div><div class="line">dispatch_async(queue, block3_for_reading);</div><div class="line">dispatch_async(queue, block4_for_reading);</div><div class="line"></div><div class="line">/*上面的四个reading操作完成后</div><div class="line">*dispatch_barrier_async同时只执行一个处理</div><div class="line">*处理结束后，再追加后面的三个reading操作到queue*/</div><div class="line">dispatch_barrier_async(queue, block_for_writing);</div><div class="line"></div><div class="line">/*block5、6、7并行执行*/</div><div class="line">dispatch_async(queue, block5_for_reading);</div><div class="line">dispatch_async(queue, block6_for_reading);</div><div class="line">dispatch_async(queue, block7_for_reading);</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="七、线程阻塞"><a href="#七、线程阻塞" class="headerlink" title="七、线程阻塞"></a>七、线程阻塞</h3><p>线程阻塞：通常是指一个线程在执行过程中暂停，以等待某个条件的触发。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(dispatch_get_main_queue(),block);</div></pre></td></tr></table></figure>
-<p><strong>死锁原因</strong>：对于<code>dispatch_sync(currentQueue,block)</code>;如果currentQueue是串行队列，在当前线程调用<code>sync</code>函数，block会添加到currentQueue的队尾等待执行。同时sync会阻塞当前队列——按照串行队列的顺序，队列要处理block之前的任务才能执行block；按照<code>sync</code>函数规则，队列要处理完block操作才能继续往下执行。这就是死锁。</p>
-
+        <p><strong>Grand Central Dispatch</strong>,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/06/20/多线程之GCD/#more">Read More</a>
+          </p>
+        
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD/">GCD</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD-多线程/">GCD,多线程</a></li></ul>
 
       </footer>
     
@@ -349,21 +180,19 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+    <a class="article-category-link" href="/categories/基础/">基础</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <p>iOS8.3以后，不再推荐使用UIActionSheet，改用style为<code>UIAlertControllerStyleActionSheet</code>的UIAlertController来实现。使用中偶然发现了一个问题：使用普通的控件点击弹出alertController时，弹出不会延迟。但在使用点击UITableViewCell弹出UIAlertController时，无论cell的<code>selectionStyle</code>使用<code>UITableViewCellSelectionStyleDefault</code>还是<code>UITableViewCellStyleNone</code>都会出现弹出延迟问题，只是使用<code>UITableViewCellStyleNone</code>时延迟更明显。</p>
-<p>解决方法有两种：</p>
-<p>第一种：在<code>didSelectRowAtIndexPath</code>方法里设置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[tableView deselectRowAtIndexPath:indexPath animated:NO];</div></pre></td></tr></table></figure>
-<p>第二种：在弹出alertController时，显式使用主线程队列</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">         [self presentViewController:alertController animated:YES completion:nil];</div><div class="line">    &#125;);</div></pre></td></tr></table></figure>
-<p>demo地址：<a href="https://github.com/zhengry/AlertDelayDemo" target="_blank" rel="external">https://github.com/zhengry/AlertDelayDemo</a></p>
-
+        <p>iOS8.3以后，不再推荐使用UIActionSheet，改用style为<code>UIAlertControllerStyleActionSheet</code>的UIAlertController来实现。使用中偶然发现了一个问题：
+        
+          <p class="article-more-link">
+            <a href="/2016/05/11/UIAlertController弹出延迟问题/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -413,48 +242,12 @@
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="（1）概念"><a href="#（1）概念" class="headerlink" title="（1）概念"></a>（1）概念</h4><p>​    RunLoop是让线程能随时处理事件但不退出的机制。RunLoop 实际上是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行Event Loop 的逻辑。线程执行了这个函数后，就会一直处于这个函数内部 “接受消息-&gt;等待-&gt;处理” 的循环中，直到这个循环结束（比如传入 quit 的消息），函数返回。让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒。</p>
-<p>​    在主线程中，<code>Main RunLoop</code>直接配合任务的执行，负责处理UI时间、定时器以及其他相关时间。当自己启动一个线程，如果只是用于处理单一的事件，则该线程在执行完之后就退出了。所以当我们需要让该线程监听某项事务时，就得让线程一直不退出，RunLoop就是这么一个循环，没有事件源的时候，一直休眠；有事件源进来的时候就处理事件。</p>
-<h4 id="（2）特点和作用"><a href="#（2）特点和作用" class="headerlink" title="（2）特点和作用"></a>（2）特点和作用</h4><ol>
-<li>当有事件发生时,RunLoop会根据具体的事件类型通知应用程序作出响应；</li>
-<li>当没有事件发生时,RunLoop会进入休眠状态,从而达到省电的目的;</li>
-<li>当事件再次发生时,RunLoop会被重新唤醒,处理事件，调用解耦，节约了CPU时间。</li>
-</ol>
-<h4 id="（3）什么时候使用RunLoop？"><a href="#（3）什么时候使用RunLoop？" class="headerlink" title="（3）什么时候使用RunLoop？"></a>（3）什么时候使用RunLoop？</h4><p>当需要和该线程进行交互的时候才会使用RunLoop.比如，在一个单独的线程中需要长久的监测某个事件。</p>
-<h4 id="（4）怎么用？"><a href="#（4）怎么用？" class="headerlink" title="（4）怎么用？"></a>（4）怎么用？</h4><ol>
-<li><p><strong>添加事件源</strong>：</p>
-<p>每一个线程都有其对应的RunLoop，但是默认非主线程的RunLoop是没有运行的，需要为RunLoop添加至少一个事件源，然后去run它。RunLoop接收两种源事件:<code>input sources</code>和<code>timer sources</code>。</p>
-<p><img src="/images/runloopMode.png" alt="runloopMode"></p>
-<p>当RunLoop即将启动或已经启动通知观察者之前，RunLoop还要找到对应的Mode,以及判断Mode里面有没有source/timer/observer，如果没有就会直接返回。</p>
-<ul>
-<li><code>CFRunLoopModeRef</code>代表RunLoop的运行模式,一个RunLoop包含若干个Mode,每个Mode又包含若干个Source/Timer/Observer；</li>
-<li>每次RunLoop启动时，只能指定其中一个 Mode，这个Mode被称作 <code>CurrentMode</code>；</li>
-<li>如果需要切换Mode，只能先退出Loop，再重新指定一个Mode进入，每一个Mode都是相互独立的；</li>
-<li><code>[NSRunLoop currentRunLoop];</code> // 获得当前线程的RunLoop对象。</li>
-</ul>
-</li>
-<li><p><strong>循环驱动</strong>： </p>
-<p>RunLoop,是线程进入和被线程用来响应事件以及调用事件处理函数的地方.需要在代码中使用控制语句实现RunLoop的循环,也就是说,需要代码提供while或者for循环来驱动RunLoop.在这个循环中,使用一个RunLoop对象执行接收消息,调用对应的处理函数.</p>
-</li>
-</ol>
-<h4 id="（5）Runloop常见的获取方式"><a href="#（5）Runloop常见的获取方式" class="headerlink" title="（5）Runloop常见的获取方式"></a>（5）Runloop常见的获取方式</h4><ul>
-<li><p><strong>Core Foundation</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">CFRunLoopGetCurrent(); //获得当前线程的RunLoop对象</div><div class="line">CFRunLoopGetMain(); //获得主线程的RunLoop对象</div></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Foundation</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[NSRunLoop currentRunLoop]; //获得当前线程的RunLoop对象</div><div class="line">[NSRunLoop mainRunLoop]; //获得主线程的RunLoop对象</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="（6）常见用法和示例"><a href="#（6）常见用法和示例" class="headerlink" title="（6）常见用法和示例"></a>（6）常见用法和示例</h4><ul>
-<li><p><strong>定时器</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSTimer *timer = [NSTimer timerWithTimeInterval:3.0 target:self selector:@selector(goOn) userInfo:nil repeats:YES];</div><div class="line">[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];</div></pre></td></tr></table></figure>
-<p>在前面我们讲到有五种模式，其中<code>NSRunLoopCommonModes</code>不是一种真正的模式，它就是一种标记，表示如果其它四种之一被标记为<code>CommonModes</code>，就会在该模式下工作。在主线程RunLoop中<code>kCFRunLoopDefaultMode</code> 和 <code>UITrackingRunLoopMode</code>这两个 Mode 都已经被标记为”Common”属性，所以该代码在这两种模式下都能正常工作。此时你无论怎样拖拽tableview，定时器都会正常工作。</p>
-</li>
-<li><p><strong>添加事件源启动runloop</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//1.给RunLoop对象增加一个port,相当于增加一个Source，看到这如果你对AFNetworking有一定的了解的话，你会发现该作者就是这样干的</div><div class="line">[[NSRunLoop currentRunLoop]addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];</div><div class="line"></div><div class="line">//2.让RunLoop跑起来</div><div class="line">[[NSRunLoop currentRunLoop]run];</div></pre></td></tr></table></figure>
-</li>
-</ul>
-
+        <p>RunLoop是让线程能随时处理事件但不退出的机制。RunLoop 实际上是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行Event Loop 的逻辑。
+        
+          <p class="article-more-link">
+            <a href="/2016/04/28/RunLoop/#more">Read More</a>
+          </p>
+        
       
     </div>
     
@@ -497,59 +290,26 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/基础/">基础</a>
+    <a class="article-category-link" href="/categories/C-C/">C/C++</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="void"><a href="#void" class="headerlink" title="void"></a>void</h3><p>void关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：<code>void a;</code>，它只有如下两个应用：</p>
-<ul>
-<li>作为函数返回值，表示函数没有返回值</li>
-<li>作为函数参数的限定，表示函数没有形参</li>
-</ul>
-<h3 id="void-1"><a href="#void-1" class="headerlink" title="void*"></a>void*</h3><h4 id="void-的含义"><a href="#void-的含义" class="headerlink" title="void*的含义"></a><code>void*</code>的含义</h4><p>void*表示空指针类型，也就是任意类型的指针，或表示“该指针与一地址值相关，但是不清楚在此地址上的对象的类型”。</p>
-<p>C、C++中不能有任意类型的变量。但是，可以有任意类型的指针，因为所有指针类型的变量，无论是<code>int*</code>、<code>char*</code>、<code>string*</code>、<code>Student*</code>等等，他们的本质都是存放了一个地址值，他们所占的内存空间大小都是相同的。</p>
-<p>指针所占空间的大小是由编译器来决定的，准确地说是跟编译器的目标平台有关。如果目标平台是32位，那么<code>sizeof(void*)</code>就是4，如果是64位的，那么<code>sizeof(void*)</code>就是8。</p>
-<h4 id="对指针操作的理解"><a href="#对指针操作的理解" class="headerlink" title="对指针操作的理解"></a>对指针操作的理解</h4><p>在指针的相关操作中会涉及到两个值：</p>
-<ul>
-<li>所指向的数据的起始地址    </li>
-<li>所指向的数据所占空间的大小</li>
-</ul>
-<p>指针存储所指向数据的起始地址，所指向的数据的类型决定了指针所指向空间的大小，编译器根据指针的类型从指针指向的起始地址向后寻址。指针类型不同则寻址范围也不同。比如：</p>
-<ul>
-<li><code>int*</code>从指定地址向后寻找4字节作为变量的存储单元 </li>
-<li><code>double*</code>从指定地址向后寻找8字节作为变量的存储单元</li>
-</ul>
-<h4 id="void-的使用"><a href="#void-的使用" class="headerlink" title="void*的使用"></a><code>void*</code>的使用</h4><p>由于<code>void*</code>所指向的类型不确定，其只存储了一个起始地址，而其所指向的空间的大小是不确定的，所以不允许对其进行如下操作：</p>
-<ul>
-<li><p>解引用（<code>*vp;//错误引用</code>）</p>
-</li>
-<li><p>算术运算</p>
-<p>对指针进行算术操作时，必须知道它所指向类型所占空间的大小。如果要进行算术运算，必须进行类型转换</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> *a;</div><div class="line">a++;<span class="comment">/*a向后移动了一个int类型所占的大小*/</span></div><div class="line"><span class="keyword">double</span> *b;</div><div class="line">b++;<span class="comment">/*b向后移动了一个double类型所占的大小*/</span></div><div class="line"><span class="keyword">void</span> *c;</div><div class="line">(type*)c++;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><code>void*</code>指针只支持几种有限的操作：</p>
-<ul>
-<li><p>向函数传递<code>void*</code>指针或从函数返回<code>void*</code>指针；</p>
-</li>
-<li><p>给另一个<code>void*</code>指针赋值</p>
-</li>
-<li><p>任何指针都可以赋值给<code>void*</code>指针</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> *vp;</div><div class="line">type *p;</div><div class="line">vp = p;</div></pre></td></tr></table></figure>
-<p>如果<code>void*</code>指针赋值给其他类型的指针需要进行类型转换</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">type *p = (type*)vp;</div></pre></td></tr></table></figure></li>
-</ul>
-
+        <h4 id="void"><a href="#void" class="headerlink" title="void"></a>void</h4><p>void关键字表示空类型，就是不存在的意思。C/C++静态语言的特性不允许定义空类型的变量：<code>void a;</code>，它只有如下两个应用：</p>
+        
+          <p class="article-more-link">
+            <a href="/2016/04/18/C:C++中的void和void*/#more">Read More</a>
+          </p>
+        
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/">C/C++</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/指针/">指针</a></li></ul>
 
       </footer>
     

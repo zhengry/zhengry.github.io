@@ -5,19 +5,16 @@
   
   <title>textField改变placeholder字体颜色 - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="change placeholder text color after iOS6：
-1234567if ([textField respondsToSelector:@selector(setAttributedPlaceholder:)]) &amp;#123;  UIColor *color = [UIColor blackColor];  textField.attributedPlaceholde">
+  <meta name="description" content="change placeholder text color after iOS6：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="textField改变placeholder字体颜色">
 <meta property="og:url" content="https://zhengry.github.io/2015/03/13/textField改变placeholder字体颜色/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="change placeholder text color after iOS6：
-1234567if ([textField respondsToSelector:@selector(setAttributedPlaceholder:)]) &amp;#123;  UIColor *color = [UIColor blackColor];  textField.attributedPlaceholde">
-<meta property="og:updated_time" content="2017-05-08T09:32:20.000Z">
+<meta property="og:description" content="change placeholder text color after iOS6：">
+<meta property="og:updated_time" content="2018-03-30T08:17:52.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="textField改变placeholder字体颜色">
-<meta name="twitter:description" content="change placeholder text color after iOS6：
-1234567if ([textField respondsToSelector:@selector(setAttributedPlaceholder:)]) &amp;#123;  UIColor *color = [UIColor blackColor];  textField.attributedPlaceholde">
+<meta name="twitter:description" content="change placeholder text color after iOS6：">
   
   
     <link rel="icon" href="/favicon.png">
@@ -73,7 +70,7 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/UI事件/">UI事件</a>
+    <a class="article-category-link" href="/categories/基础/">基础</a>
   </div>
 
       
@@ -81,15 +78,15 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>change placeholder text color after iOS6：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if ([textField respondsToSelector:@selector(setAttributedPlaceholder:)]) &#123;</div><div class="line">  UIColor *color = [UIColor blackColor];</div><div class="line">  textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@&#123;NSForegroundColorAttributeName: color&#125;];</div><div class="line">&#125; else &#123;</div><div class="line">  NSLog(@&quot;Cannot set placeholder text&apos;s color, because deployment target is earlier than iOS 6.0&quot;);</div><div class="line">  // TODO: Add fall-back code to set placeholder color.</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if ([textField respondsToSelector:@selector(setAttributedPlaceholder:)]) &#123;</div><div class="line"></div><div class="line">  UIColor *color = [UIColor blackColor];</div><div class="line">  textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@&#123;NSForegroundColorAttributeName: color&#125;];</div><div class="line">&#125; else &#123;</div><div class="line">  NSLog(@&quot;Cannot set placeholder text&apos;s color, because deployment target is earlier than iOS 6.0&quot;);</div><div class="line">  // TODO: Add fall-back code to set placeholder color.</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/keyboard/">keyboard</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
 
       </footer>
     
@@ -98,10 +95,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2015/03/29/block对对象的强弱引用/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/03/25/键盘弹出textField上滑展示，键盘消失textField回到原位/" id="article-nav-newer" class="article-nav-link-wrap">
       <div class="article-nav-title"><span>&lt;</span>&nbsp;
         
-          block对对象的强弱引用
+          键盘弹出textField上滑展示，键盘消失textField回到原位
         
       </div>
     </a>

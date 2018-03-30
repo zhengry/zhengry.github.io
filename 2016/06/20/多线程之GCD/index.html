@@ -5,19 +5,16 @@
   
   <title>多线程之GCD - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、GCD概念Grand Central Dispatch,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。优点：由于线程管理是作为系统的一部分实现的，因此可统一管理，也可执行任务，更有效率。
-dispatch_async(queueName,^{ 执行的">
+  <meta name="description" content="Grand Central Dispatch,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="多线程之GCD">
 <meta property="og:url" content="https://zhengry.github.io/2016/06/20/多线程之GCD/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="一、GCD概念Grand Central Dispatch,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。优点：由于线程管理是作为系统的一部分实现的，因此可统一管理，也可执行任务，更有效率。
-dispatch_async(queueName,^{ 执行的">
-<meta property="og:updated_time" content="2017-05-08T09:40:23.000Z">
+<meta property="og:description" content="Grand Central Dispatch,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。">
+<meta property="og:updated_time" content="2018-03-29T08:39:57.781Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多线程之GCD">
-<meta name="twitter:description" content="一、GCD概念Grand Central Dispatch,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。优点：由于线程管理是作为系统的一部分实现的，因此可统一管理，也可执行任务，更有效率。
-dispatch_async(queueName,^{ 执行的">
+<meta name="twitter:description" content="Grand Central Dispatch,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -80,12 +77,14 @@ dispatch_async(queueName,^{ 执行的">
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="一、GCD概念"><a href="#一、GCD概念" class="headerlink" title="一、GCD概念"></a>一、GCD概念</h3><p><strong>Grand Central Dispatch</strong>,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。<br><strong>优点：</strong>由于线程管理是作为系统的一部分实现的，因此可统一管理，也可执行任务，更有效率。</p>
+        <p><strong>Grand Central Dispatch</strong>,异步执行任务的技术之一。一般将应用程序中记述的线程管理用的代码在系统级中实现。开发者只需要将想要执行的任务追加到适当的Dispatch Queue中，GCD就可以生成必要的线程并计划执行任务。</p>
+<a id="more"></a>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><p>**由于线程管理是作为系统的一部分实现的，因此可统一管理，也可执行任务，更有效率。</p>
 <p><code>dispatch_async(queueName,^{ 执行的任务})；</code></p>
 <p>在GCD之前，Cocoa框架提供了NSObject类的<code>performSelectorInBackground:WithObject</code>和<code>performSelectorOnMainThread</code>实例方法等简单的多线程编程技术。</p>
-<p><strong>比较：</strong>GCD比<code>performSelector</code>简洁，<code>performSelector</code>比NSThread简洁易用</p>
-<h3 id="二、程序的执行"><a href="#二、程序的执行" class="headerlink" title="二、程序的执行"></a>二、程序的执行</h3><p>一个应用程序本质上就是汇集的CPU命令列和数据。应用程序启动后，首先便将包含在应用程序中的CPU命令列配置到内存中，CPU从应用程序指定的地址开始，一个一个执行CPU命令列。一个CPU一次只能执行一个命令，不能执行某处分开的并列的两个指令。<br>一个CPU执行的CPU命令列为一条无分叉路径就是<strong>线程</strong>。</p>
-<h3 id="三、多线程编程"><a href="#三、多线程编程" class="headerlink" title="三、多线程编程"></a>三、多线程编程</h3><p>现在一个物理的CPU芯片实际上有64个（64核）CPU，如果一个CPU核虚拟为两个CPU核工作，那么一台计算机就可以使用多个CPU核。即使用多线程。</p>
+<h5 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h5><p>GCD比<code>performSelector</code>简洁，<code>performSelector</code>比NSThread简洁易用</p>
+<h4 id="一、程序的执行"><a href="#一、程序的执行" class="headerlink" title="一、程序的执行"></a>一、程序的执行</h4><p>一个应用程序本质上就是汇集的CPU命令列和数据。应用程序启动后，首先便将包含在应用程序中的CPU命令列配置到内存中，CPU从应用程序指定的地址开始，一个一个执行CPU命令列。一个CPU一次只能执行一个命令，不能执行某处分开的并列的两个指令。<br>一个CPU执行的CPU命令列为一条无分叉路径就是<strong>线程</strong>。</p>
+<h4 id="二、多线程编程"><a href="#二、多线程编程" class="headerlink" title="二、多线程编程"></a>二、多线程编程</h4><p>现在一个物理的CPU芯片实际上有64个（64核）CPU，如果一个CPU核虚拟为两个CPU核工作，那么一台计算机就可以使用多个CPU核。即使用多线程。</p>
 <ol>
 <li><p><strong>上下文切换</strong>：切换执行路径</p>
 <p>由于使用多线程的程序可以在某个线程和其他线程之间反复多次进行上下文切换，因此看上去就像一个CPU核能够并列地执行多个线程一样。在具有多个CPU核的情况下，则是真的提供了多个CPU核并执行多个线程的技术。</p>
@@ -106,42 +105,37 @@ dispatch_async(queueName,^{ 执行的">
 <li><p>示例：在应用程序启动时，最先执行的线程即主线程，负责描绘用户界面，处理触摸屏幕的事件等。如果在主线程进行长时间的处理，如AR用画像的识别或数据库访问，就会妨碍主线程的执行（阻塞）。在iOS应用中，会妨碍主线中被成为RunLoop的主循环的执行。从而导致用户界面不能更新，应用程序的画面长时间停滞等问题。</p>
 </li>
 </ol>
-<h3 id="四、Dispatch-Queue"><a href="#四、Dispatch-Queue" class="headerlink" title="四、Dispatch Queue"></a>四、Dispatch Queue</h3><p>队列分为串行队列和并行队列，可以向一个Dispatch Queue中添加多个执行操作。Dispatch Queue按执行任务的追加顺序（FIFO 先进先出）执行处理。</p>
+<h4 id="三、Dispatch-Queue"><a href="#三、Dispatch-Queue" class="headerlink" title="三、Dispatch Queue"></a>三、Dispatch Queue</h4><p>队列分为串行队列和并行队列，可以向一个Dispatch Queue中添加多个执行操作。Dispatch Queue按执行任务的追加顺序（FIFO 先进先出）执行处理。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//在block中添加执行任务</div><div class="line">dispatch_async(queue,block1);</div><div class="line">dispatch_async(queue,block2);</div><div class="line">dispatch_async(queue,block3);</div><div class="line">dispatch_async(queue,block4);</div></pre></td></tr></table></figure>
-<ol>
-<li><p>在执行处理时存在两种Dispatch Queue：</p>
-<ul>
-<li><strong>Serial Dispatch Queue</strong>：需要等待现在执行中的处理结束后才能继续执行，串行队列，单线程执行。</li>
-<li><strong>Concurrent Dispatch Queue</strong>：不需要等待现在执行中的处理结束就可以继续执行，并行队列，多线程并行执行。</li>
+<h5 id="在执行处理时存在两种Dispatch-Queue："><a href="#在执行处理时存在两种Dispatch-Queue：" class="headerlink" title="在执行处理时存在两种Dispatch Queue："></a>在执行处理时存在两种Dispatch Queue：</h5><ul>
+<li>Serial Dispatch Queue：需要等待现在执行中的处理结束后才能继续执行，串行队列，单线程执行。</li>
+<li>Concurrent Dispatch Queue：不需要等待现在执行中的处理结束就可以继续执行，并行队列，多线程并行执行。</li>
 </ul>
-</li>
-<li><p>比较Serial Dispatch Queue和Concurrent Dispatch Queue使用场景：</p>
-<ul>
+<h5 id="比较Serial-Dispatch-Queue和Concurrent-Dispatch-Queue使用场景："><a href="#比较Serial-Dispatch-Queue和Concurrent-Dispatch-Queue使用场景：" class="headerlink" title="比较Serial Dispatch Queue和Concurrent Dispatch Queue使用场景："></a>比较Serial Dispatch Queue和Concurrent Dispatch Queue使用场景：</h5><ul>
 <li><strong>Serial</strong>：不能改变执行的处理顺序 / 不想并行执行多个处理 / 多个线程更新相同资源导致数据竞争时</li>
 <li><strong>Concurrent</strong>：想并行执行不发生数据竞争等问题的处理时 / 不在意执行得到的结果的顺序时</li>
 </ul>
-</li>
-<li><p>create参数 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;queueNameString&quot;,Null );</div><div class="line">dispatch_queue_t concurrentQueue = dispatch_queue_create(Null, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure>
+<h5 id="create参数"><a href="#create参数" class="headerlink" title="create参数"></a>create参数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t serialQueue = dispatch_queue_create(&quot;queueNameString&quot;,Null );</div><div class="line">dispatch_queue_t concurrentQueue = dispatch_queue_create(Null, DISPATCH_QUEUE_CONCURRENT);</div></pre></td></tr></table></figure>
 <p><code>dispatch_queue_t</code>为队列类型。<code>dispatch_queue_create</code>的两个参数：<br>第一个用来指定Queue的名称，可以为NULL。推荐使用应用程序ID这种逆序全称域名。这个名称在<strong>Xcode</strong>和<strong>Instruments</strong>的调试器中作为Dispatch Queue的名称表示，也出现在应用程序崩溃时所产生的CrashLog中，方便调试。<strong>第二个用来区分是串行队列还是并行队列，为NULL或DISPATCH_QUEUE_SERIAL时是串行队列，为DISPATCH_QUEUE_CONCURRENT时为并行队列</strong>。</p>
-</li>
-<li><p>队列的执行</p>
-<ul>
+<h5 id="队列的执行"><a href="#队列的执行" class="headerlink" title="队列的执行"></a>队列的执行</h5><ul>
 <li><p>Serial Dispatch Queue只能执行一个追加处理</p>
 </li>
 <li><p>Concurrent Dispatch Queue可以并行执行多个追加处理</p>
-<p>注意：</p>
+<p><em>注意：</em></p>
 </li>
 </ul>
 <ol>
-<li>虽然Serial Dispatch Queue和Concurrent Dispatch Queue受到系统资源的限制，但是dispatch_queue_create函数可以生成任意多个Dispatch Queue</li>
-<li>当生成多个Serial Dispatch Queue时，多个Serial Dispatch Queue并行执行</li>
-<li>一旦生成Serial Dispatch Queue并追加处理，系统对于一个Serial Dispatch Queue就只生成并使用一个线程。</li>
-<li>对于Concurrent Dispatch Queue来说，不管生成多少，由于XNU内核只使用有效管理的线程，因此不会发生Serial Dispatch Queue那些问题。</li>
-</ol>
+<li><p>虽然Serial Dispatch Queue和Concurrent Dispatch Queue受到系统资源的限制，但是dispatch_queue_create函数可以生成任意多个Dispatch Queue</p>
+</li>
+<li><p>当生成多个Serial Dispatch Queue时，多个Serial Dispatch Queue并行执行</p>
+</li>
+<li><p>一旦生成Serial Dispatch Queue并追加处理，系统对于一个Serial Dispatch Queue就只生成并使用一个线程。</p>
+</li>
+<li><p>对于Concurrent Dispatch Queue来说，不管生成多少，由于XNU内核只使用有效管理的线程，因此不会发生Serial Dispatch Queue那些问题。</p>
+<p>​</p>
 </li>
 </ol>
-<h3 id="五、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue"><a href="#五、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue" class="headerlink" title="五、系统提供的Main Dispatch Queue和Global Dispatch Queue"></a>五、系统提供的Main Dispatch Queue和Global Dispatch Queue</h3><ol>
+<h4 id="四、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue"><a href="#四、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue" class="headerlink" title="四、系统提供的Main Dispatch Queue和Global Dispatch Queue"></a>四、系统提供的Main Dispatch Queue和Global Dispatch Queue</h4><ol>
 <li><p>Main Dispatch Queue——在主线程执行的Serial Dispatch Queue</p>
 <p>追加到该Queue的处理在主线程的RunLoop中执行。添加用户界面更新等必须在主线程执行的处理到Main Dispatch Queue。跟NSObject类的performSelectorOnMainThread实例方法相同。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/*Main Dispatch Queue*/</div><div class="line">dispatch_queue_t mainDispatchQueue = dispatch_get_main_queue();</div></pre></td></tr></table></figure>
@@ -155,27 +149,17 @@ dispatch_async(queueName,^{ 执行的">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^&#123;</div><div class="line">    /*可并行执行的处理*/</div><div class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</div><div class="line">        /*只能在主线程执行的处理*/</div><div class="line">        &#125;)；</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<h3 id="六、其他常用GCD函数"><a href="#六、其他常用GCD函数" class="headerlink" title="六、其他常用GCD函数"></a>六、其他常用GCD函数</h3><ol>
-<li><p>dispatch_after——在指定时间后执行某个处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW,3ull * NSEC_PER_SEC);</div><div class="line">dispatch_after(time,dispatch_main_queue(),^&#123;</div><div class="line">  NSLog(@&quot;waited at least three seconds.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="五、其他常用GCD函数"><a href="#五、其他常用GCD函数" class="headerlink" title="五、其他常用GCD函数"></a>五、其他常用GCD函数</h4><h5 id="dispatch-after——在指定时间后执行某个处理"><a href="#dispatch-after——在指定时间后执行某个处理" class="headerlink" title="dispatch_after——在指定时间后执行某个处理"></a>dispatch_after——在指定时间后执行某个处理</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW,3ull * NSEC_PER_SEC);</div><div class="line">dispatch_after(time,dispatch_main_queue(),^&#123;</div><div class="line">  NSLog(@&quot;waited at least three seconds.&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p><strong>注意</strong>：<code>dispatch_after</code>函数并不是在指定时间后执行处理，而只是在指定时间追加到Dispatch Queue。</p>
 <p>在上面的代码示例中，因为Main Dispatch Queue在主线程的RunLoop中执行，所以在比如每隔1/60秒执行的RunLoop中，Block最快在3秒后执行，最慢在3秒+1/60秒后执行，并且在Main Dispatch Queue有大量处理追加或者主线程的处理本身有延迟时，这个时间会更长。所以，<strong>这个函数只能大致延迟执行处理</strong>。</p>
 <p><code>dispatch_time_t</code>类型用来指定时间，通常使用<code>dispatch_time</code>函数或者<code>dispatch_walltime</code>函数生成。</p>
-<ul>
-<li><p><code>dispatch_time</code>函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_time(dispatch_time_t when, int64_t delta)</div></pre></td></tr></table></figure>
+<h5 id="dispatch-time函数"><a href="#dispatch-time函数" class="headerlink" title="dispatch_time函数:"></a><code>dispatch_time</code>函数:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_time(dispatch_time_t when, int64_t delta)</div></pre></td></tr></table></figure>
 <p>能够获取从第一个参数<code>dispatch_time_t</code>类型值中执行的时间开始，到第二个参数执行的毫微秒单位时间后的时间。</p>
-</li>
-<li><p><code>dispatch_walltime</code>函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_walltime(const struct timespec *_Nullable when, int64_t delta);</div></pre></td></tr></table></figure>
+<h5 id="dispatch-walltime函数"><a href="#dispatch-walltime函数" class="headerlink" title="dispatch_walltime函数:"></a><code>dispatch_walltime</code>函数:</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_walltime(const struct timespec *_Nullable when, int64_t delta);</div></pre></td></tr></table></figure>
 <p>该函数用于计算绝对时间。可作为粗略的闹钟功能使用。</p>
 <p><code>timespec</code> 类型的时间可以通过NSDate类对象生成：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">dispatch_time_t getDispatchTimeByDate(NSDate *date)</div><div class="line">&#123;</div><div class="line">    NSTimeInterval interval;</div><div class="line">    double second,subsecond;</div><div class="line">    struct timespec time;</div><div class="line">    dispatch_time_t milestone;</div><div class="line">    </div><div class="line">    interval = [date timeIntervalSince1970];</div><div class="line">    subsecond = modf(interval, &amp;second);</div><div class="line">    time.tv_sec = second;</div><div class="line">    time.tv_nsec = subsecond * NSEC_PER_SEC;</div><div class="line">    milestone = dispatch_walltime(&amp;time, 0);</div><div class="line">    return milestone;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-<li><p>DisPatch Group</p>
-<p>当你想要执行完多个处理后追加一个结束处理，通常可以使用串行队列完成。但在并行队列中要想实现效果，可以使用Dispatch Group：</p>
+<h5 id="DisPatch-Group"><a href="#DisPatch-Group" class="headerlink" title="DisPatch Group"></a>DisPatch Group</h5><p>当你想要执行完多个处理后追加一个结束处理，通常可以使用串行队列完成。但在并行队列中要想实现效果，可以使用Dispatch Group：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);</div><div class="line">dispatch_group_t group = dispatch_group_create();</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block1&quot;);</div><div class="line">&#125;);</div><div class="line">    </div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block2&quot;);</div><div class="line">&#125;);</div><div class="line">dispatch_group_async(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;block3&quot;);</div><div class="line">&#125;);</div><div class="line"> /*block1、block2、block3都打印结束才会打印end*/   </div><div class="line">dispatch_group_notify(group, queue, ^&#123;</div><div class="line">    NSLog(@&quot;end&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>无论像什么样的Dispatch Queue中追加处理，使用Dispatch Group都可以监视这些处理执行的结束，一旦检测到所有处理执行结束，就可将结束的处理追加到Dispatch Queue中。</p>
 <p>也可以使用<code>dispatch_group_wait</code>函数仅等待全部处理执行结束：</p>
@@ -188,15 +172,11 @@ dispatch_async(queueName,^{ 执行的">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">long result = dispatch_group_wait(group,DISPATCH_TIME_NOW);</div></pre></td></tr></table></figure>
 <p>在主线程的RunLoop的每次循环中，可检查执行是否结束，从而不耗费多余的等待时间，虽然这样也可以，但一般在这种情况下，还是推荐用<code>dispatch_group_notify</code>函数追加结束处理到Main Dispatch Queue，简化代码实现。</p>
 <p><strong>等待的意思</strong>：一旦调用<code>dispatch_group_wait</code>函数，该函数就处于调用的状态而不返回。即执行<code>dispatch_group_wait</code>函数的现在的线程（当前线程）停止。在经过<code>dispatch_group_wait</code>函数中指定的时间或属于指定Dispatch Group的处理全部执行结束之前，执行该函数的线程停止。</p>
-</li>
-<li><p>dispatch_barrier_async</p>
-<p>该函数会等待追加到Concurrent Dispatch Queue上的并行执行的处理全部结束之后，再将执行的处理追加到该Concurrent Dispatch Queue中。然后在由<code>dispatch_barrier_async</code>函数追加的处理执行完毕后，Concurrent Dispatch Queue才恢复为一般的动作，追加到该Concurrent Dispatch Queue的处理又开始并行执行。</p>
+<h5 id="dispatch-barrier-async"><a href="#dispatch-barrier-async" class="headerlink" title="dispatch_barrier_async"></a>dispatch_barrier_async</h5><p>该函数会等待追加到Concurrent Dispatch Queue上的并行执行的处理全部结束之后，再将执行的处理追加到该Concurrent Dispatch Queue中。然后在由<code>dispatch_barrier_async</code>函数追加的处理执行完毕后，Concurrent Dispatch Queue才恢复为一般的动作，追加到该Concurrent Dispatch Queue的处理又开始并行执行。</p>
 <p>使用Concurrent Dispatch Queue和<code>dispatch_barrier_async</code>函数可实现高效率的数据库访问和文件访问。</p>
 <p>在访问数据库或文件时，使用Serial Dispatch Queue可避免数据竞争的问题，写入处理确实不可与其他的写入处理以及包含读取处理的其他某些处理并行执行。但是如果多个读取处理并行执行不会出现问题。为了高效访问，读取处理可以追加到Concurrent Dispatch Queue中，利用<code>dispatch_barrier_async</code>函数追加写入处理：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">/*block1、2、3、4并行执行*/</div><div class="line">dispatch_async(queue, block1_for_reading);</div><div class="line">dispatch_async(queue, block2_for_reading);</div><div class="line">dispatch_async(queue, block3_for_reading);</div><div class="line">dispatch_async(queue, block4_for_reading);</div><div class="line"></div><div class="line">/*上面的四个reading操作完成后</div><div class="line">*dispatch_barrier_async同时只执行一个处理</div><div class="line">*处理结束后，再追加后面的三个reading操作到queue*/</div><div class="line">dispatch_barrier_async(queue, block_for_writing);</div><div class="line"></div><div class="line">/*block5、6、7并行执行*/</div><div class="line">dispatch_async(queue, block5_for_reading);</div><div class="line">dispatch_async(queue, block6_for_reading);</div><div class="line">dispatch_async(queue, block7_for_reading);</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="七、线程阻塞"><a href="#七、线程阻塞" class="headerlink" title="七、线程阻塞"></a>七、线程阻塞</h3><p>线程阻塞：通常是指一个线程在执行过程中暂停，以等待某个条件的触发。</p>
+<h4 id="六、线程阻塞"><a href="#六、线程阻塞" class="headerlink" title="六、线程阻塞"></a>六、线程阻塞</h4><p>线程阻塞：通常是指一个线程在执行过程中暂停，以等待某个条件的触发。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dispatch_sync(dispatch_get_main_queue(),block);</div></pre></td></tr></table></figure>
 <p><strong>死锁原因</strong>：对于<code>dispatch_sync(currentQueue,block)</code>;如果currentQueue是串行队列，在当前线程调用<code>sync</code>函数，block会添加到currentQueue的队尾等待执行。同时sync会阻塞当前队列——按照串行队列的顺序，队列要处理block之前的任务才能执行block；按照<code>sync</code>函数规则，队列要处理完block操作才能继续往下执行。这就是死锁。</p>
 
@@ -205,13 +185,13 @@ dispatch_async(queueName,^{ 执行的">
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、GCD概念"><span class="toc-number">1.</span> <span class="toc-text">一、GCD概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、程序的执行"><span class="toc-number">2.</span> <span class="toc-text">二、程序的执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、多线程编程"><span class="toc-number">3.</span> <span class="toc-text">三、多线程编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、Dispatch-Queue"><span class="toc-number">4.</span> <span class="toc-text">四、Dispatch Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue"><span class="toc-number">5.</span> <span class="toc-text">五、系统提供的Main Dispatch Queue和Global Dispatch Queue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、其他常用GCD函数"><span class="toc-number">6.</span> <span class="toc-text">六、其他常用GCD函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#七、线程阻塞"><span class="toc-number">7.</span> <span class="toc-text">七、线程阻塞</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#优点"><span class="toc-number">1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#比较"><span class="toc-number">2.</span> <span class="toc-text">比较</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一、程序的执行"><span class="toc-number"></span> <span class="toc-text">一、程序的执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、多线程编程"><span class="toc-number"></span> <span class="toc-text">二、多线程编程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、Dispatch-Queue"><span class="toc-number"></span> <span class="toc-text">三、Dispatch Queue</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#在执行处理时存在两种Dispatch-Queue："><span class="toc-number">1.</span> <span class="toc-text">在执行处理时存在两种Dispatch Queue：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#比较Serial-Dispatch-Queue和Concurrent-Dispatch-Queue使用场景："><span class="toc-number">2.</span> <span class="toc-text">比较Serial Dispatch Queue和Concurrent Dispatch Queue使用场景：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#create参数"><span class="toc-number">3.</span> <span class="toc-text">create参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#队列的执行"><span class="toc-number">4.</span> <span class="toc-text">队列的执行</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、系统提供的Main-Dispatch-Queue和Global-Dispatch-Queue"><span class="toc-number"></span> <span class="toc-text">四、系统提供的Main Dispatch Queue和Global Dispatch Queue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#五、其他常用GCD函数"><span class="toc-number"></span> <span class="toc-text">五、其他常用GCD函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#dispatch-after——在指定时间后执行某个处理"><span class="toc-number">1.</span> <span class="toc-text">dispatch_after——在指定时间后执行某个处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dispatch-time函数"><span class="toc-number">2.</span> <span class="toc-text">dispatch_time函数:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dispatch-walltime函数"><span class="toc-number">3.</span> <span class="toc-text">dispatch_walltime函数:</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DisPatch-Group"><span class="toc-number">4.</span> <span class="toc-text">DisPatch Group</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dispatch-barrier-async"><span class="toc-number">5.</span> <span class="toc-text">dispatch_barrier_async</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#六、线程阻塞"><span class="toc-number"></span> <span class="toc-text">六、线程阻塞</span></a>
       </div>
     
     
       <footer class="article-footer">
         
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD/">GCD</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GCD-多线程/">GCD,多线程</a></li></ul>
 
       </footer>
     

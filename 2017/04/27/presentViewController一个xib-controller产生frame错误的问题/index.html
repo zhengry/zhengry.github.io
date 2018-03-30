@@ -5,20 +5,20 @@
   
   <title>presentViewController一个xib controller产生frame错误的问题 - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题：最近写项目时，发现了一个问题：
-使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewCo">
+  <meta name="description" content="最近写项目时，发现了一个问题：
+使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewContr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="presentViewController一个xib controller产生frame错误的问题">
 <meta property="og:url" content="https://zhengry.github.io/2017/04/27/presentViewController一个xib-controller产生frame错误的问题/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="问题：最近写项目时，发现了一个问题：
-使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewCo">
+<meta property="og:description" content="最近写项目时，发现了一个问题：
+使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewContr">
 <meta property="og:image" content="https://zhengry.github.io/images/childViewController.png">
-<meta property="og:updated_time" content="2017-05-08T09:33:58.000Z">
+<meta property="og:updated_time" content="2018-03-29T09:28:47.705Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="presentViewController一个xib controller产生frame错误的问题">
-<meta name="twitter:description" content="问题：最近写项目时，发现了一个问题：
-使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewCo">
+<meta name="twitter:description" content="最近写项目时，发现了一个问题：
+使用presentViewController方法present到一个包含childViewControllers的containerController时，containerController的childViewConroller是一个xib创建的viewControllerA，present之后，ViewControllerA的frame等于ViewContr">
 <meta name="twitter:image" content="https://zhengry.github.io/images/childViewController.png">
   
   
@@ -75,18 +75,18 @@
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/渲染/">渲染</a>
+    <a class="article-category-link" href="/categories/基础：/">基础：</a>
   </div>
 
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>最近写项目时，发现了一个问题：</p>
-<p>使用<code>presentViewController</code>方法<code>present</code>到一个包含<code>childViewControllers</code>的<code>containerController</code>时，<code>containerController</code>的<code>childViewConroller</code>是一个xib创建的<code>viewControllerA</code>，<code>present</code>之后，<code>ViewControllerA</code>的frame等于ViewControllerA的xib尺寸，而不是屏幕大小（比如，ViewControllerA的xib尺寸是375x667，在7 Plus上展示的时候，得到的ViewControllerA仍然是375x667）；而同样是作为childViewController的ViewControllerB用纯代码创建，则能够按照屏幕尺寸正确展示。</p>
-<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><p>在xib创建的childViewController的viewDidLoad方法中重置该Controller的frame：</p>
+        <p>最近写项目时，发现了一个问题：</p>
+<p>使用<code>presentViewController</code>方法<code>present</code>到一个包含<code>childViewControllers</code>的<code>containerController</code>时，<code>containerController</code>的<code>childViewConroller</code>是一个xib创建的<code>viewControllerA</code>，<code>present</code>之后，<code>ViewControllerA</code>的frame等于ViewControllerA的xib尺寸，而不是屏幕大小<a id="more"></a>（比如，ViewControllerA的xib尺寸是375x667，在7 Plus上展示的时候，得到的ViewControllerA仍然是375x667）；而同样是作为childViewController的ViewControllerB用纯代码创建，则能够按照屏幕尺寸正确展示。</p>
+<h4 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h4><p>在xib创建的childViewController的viewDidLoad方法中重置该Controller的frame：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UIWindow *window = [UIApplication sharedApplication].keyWindow;</div><div class="line">self.view.frame = window.frame;</div><div class="line">[self.view setNeedsLayout];</div></pre></td></tr></table></figure>
-<h3 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h3><ol>
+<h5 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h5><ol>
 <li><p>demo地址：<a href="https://github.com/zhengry/PresentTest" target="_blank" rel="external">https://github.com/zhengry/PresentTest</a></p>
 </li>
 <li><p>demo说明：</p>
@@ -114,7 +114,7 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题："><span class="toc-number">1.</span> <span class="toc-text">问题：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方法："><span class="toc-number">2.</span> <span class="toc-text">解决方法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#demo"><span class="toc-number">3.</span> <span class="toc-text">demo</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方法："><span class="toc-number">1.</span> <span class="toc-text">解决方法：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#demo"><span class="toc-number">1.1.</span> <span class="toc-text">demo</span></a></li></ol></li></ol>
       </div>
     
     

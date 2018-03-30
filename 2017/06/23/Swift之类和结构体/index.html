@@ -6,30 +6,18 @@
   <title>Swift之类和结构体 - Baylee的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="在Swift中，类和结构体既相似又各有不同。
-基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。
-基本语法
-结构体和类都可以添加属性和方法
-
-12345678910111213141516171819// 结构体struct Resolution &amp;#123;    var width = 0    var height = 0    func PrintD">
+基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift之类和结构体">
 <meta property="og:url" content="https://zhengry.github.io/2017/06/23/Swift之类和结构体/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="在Swift中，类和结构体既相似又各有不同。
-基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。
-基本语法
-结构体和类都可以添加属性和方法
-
-12345678910111213141516171819// 结构体struct Resolution &amp;#123;    var width = 0    var height = 0    func PrintD">
-<meta property="og:updated_time" content="2018-03-23T09:00:22.035Z">
+基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。">
+<meta property="og:updated_time" content="2018-03-30T08:07:45.334Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift之类和结构体">
 <meta name="twitter:description" content="在Swift中，类和结构体既相似又各有不同。
-基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。
-基本语法
-结构体和类都可以添加属性和方法
-
-12345678910111213141516171819// 结构体struct Resolution &amp;#123;    var width = 0    var height = 0    func PrintD">
+基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。">
   
   
     <link rel="icon" href="/favicon.png">
@@ -84,17 +72,21 @@
   <time datetime="2017-06-23T13:22:47.000Z" itemprop="datePublished">2017-06-23</time>
 </a>
       
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/swift笔记/">swift笔记</a>
+  </div>
+
       
     </div>
     <div class="article-entry" itemprop="articleBody">
       
         <p>在Swift中，类和结构体既相似又各有不同。</p>
 <p>基本知识点：<strong>基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择</strong>。</p>
-<h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><ol>
-<li>结构体和类都可以添加属性和方法</li>
-</ol>
+<a id="more"></a>
+<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ol>
+<li><p>结构体和类都可以添加属性和方法</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 结构体</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Resolution</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> width = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> height = <span class="number">0</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">PrintDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"this is a structure instance method"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">VideoMode</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> resolution = <span class="type">Resolution</span>()</div><div class="line">    <span class="keyword">var</span> interlaced = <span class="literal">false</span></div><div class="line">    <span class="keyword">var</span> frameRate = <span class="number">0.0</span></div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">PrintVideoDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"this is a VideoMode instaince method"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
+</li>
 <li><p>点语法访问或赋值</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> someResolution = <span class="type">Resolution</span>()</div><div class="line"><span class="keyword">let</span> someVideoMode = <span class="type">VideoMode</span>()</div></pre></td></tr></table></figure>
 </li>
@@ -116,9 +108,9 @@
 <li><p>类的继承</p>
 <p>类不同于结构体和枚举的重要一点就是继承。继承可以重写类的实例方法和类型方法。被override的方法前需要加上<code>override</code>关键字来标记重写。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</div><div class="line">    <span class="keyword">var</span> voice: <span class="type">String</span>?</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">printDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span><span class="string">"this is A instance method."</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AA</span>: <span class="title">A</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> language: <span class="type">String</span> = <span class="string">"English"</span></div><div class="line">    <span class="comment">// 重写父类方法</span></div><div class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">printDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"this is a new instance method"</span>)</div><div class="line">        <span class="keyword">super</span>.printDesc()<span class="comment">//调用父类方法</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="恒等运算符"><a href="#恒等运算符" class="headerlink" title="恒等运算符"></a>恒等运算符</h5></li>
+</li>
 </ol>
-<p>因为类是引用类型，有可能有多个常量和变量同时引用同一个类实例。如果能够判定两个常量或者变量是否引用同一个类实例会很有帮助。运用等价于<code>===</code>和不等价于<code>!==</code>这两个运算符可以检测两个常量或者变量是否引用同一个实例。</p>
+<h5 id="恒等运算符"><a href="#恒等运算符" class="headerlink" title="恒等运算符"></a>恒等运算符</h5><p>因为类是引用类型，有可能有多个常量和变量同时引用同一个类实例。如果能够判定两个常量或者变量是否引用同一个类实例会很有帮助。运用等价于<code>===</code>和不等价于<code>!==</code>这两个运算符可以检测两个常量或者变量是否引用同一个实例。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if tenEighty === alsoTenEighty &#123;</div><div class="line">    print(&quot;tenEighty and alsoTenEighty refer to the same Resolution instance.&quot;)</div><div class="line">&#125;</div><div class="line">//打印 &quot;tenEighty and alsoTenEighty refer to the same Resolution instance.&quot;</div></pre></td></tr></table></figure>
 <p><code>===</code>不同于<code>==</code>：</p>
 <p>等价于<code>===</code>表示两个类类型的常量或者变量引用同一个类实例。等于<code>==</code>表示两个实例的值相等或相同。</p>
@@ -166,12 +158,14 @@
     
       <div class="article-toc">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本语法"><span class="toc-number">1.</span> <span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#恒等运算符"><span class="toc-number">1.0.1.</span> <span class="toc-text">恒等运算符</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型方法"><span class="toc-number">2.</span> <span class="toc-text">类型方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutating方法"><span class="toc-number">3.</span> <span class="toc-text">mutating方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类和结构体比较"><span class="toc-number">4.</span> <span class="toc-text">类和结构体比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类和结构体的选择"><span class="toc-number">5.</span> <span class="toc-text">类和结构体的选择</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本语法"><span class="toc-number">1.</span> <span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#恒等运算符"><span class="toc-number">1.1.</span> <span class="toc-text">恒等运算符</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型方法"><span class="toc-number"></span> <span class="toc-text">类型方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutating方法"><span class="toc-number"></span> <span class="toc-text">mutating方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类和结构体比较"><span class="toc-number"></span> <span class="toc-text">类和结构体比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类和结构体的选择"><span class="toc-number"></span> <span class="toc-text">类和结构体的选择</span></a>
       </div>
     
     
       <footer class="article-footer">
         
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语法/">语法</a></li></ul>
+
       </footer>
     
   </div>
