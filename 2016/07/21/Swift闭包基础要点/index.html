@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="闭包是自包含的函数代码块，可以捕获和存储其所在上下文中任意常量和变量的引用，被称为包裹常量和变量。Swift会自动管理在捕获过程中涉及的内存操作。
+闭包的形式：
+
+全局函数：一个有名字但不会捕获任何值的闭包
+嵌套函数：一个有名字并可以捕获其封闭函数域内值的闭包
+闭包表达式：一个利用轻量级语法所写的可以捕获上下文中变量或常量值的匿名闭包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift闭包基础要点">
+<meta property="og:url" content="https://zhengry.github.io/2016/07/21/Swift闭包基础要点/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="闭包是自包含的函数代码块，可以捕获和存储其所在上下文中任意常量和变量的引用，被称为包裹常量和变量。Swift会自动管理在捕获过程中涉及的内存操作。
+闭包的形式：
+
+全局函数：一个有名字但不会捕获任何值的闭包
+嵌套函数：一个有名字并可以捕获其封闭函数域内值的闭包
+闭包表达式：一个利用轻量级语法所写的可以捕获上下文中变量或常量值的匿名闭包">
+<meta property="og:updated_time" content="2018-03-31T15:08:07.411Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift闭包基础要点">
+<meta name="twitter:description" content="闭包是自包含的函数代码块，可以捕获和存储其所在上下文中任意常量和变量的引用，被称为包裹常量和变量。Swift会自动管理在捕获过程中涉及的内存操作。
+闭包的形式：
+
+全局函数：一个有名字但不会捕获任何值的闭包
+嵌套函数：一个有名字并可以捕获其封闭函数域内值的闭包
+闭包表达式：一个利用轻量级语法所写的可以捕获上下文中变量或常量值的匿名闭包">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2016/07/21/Swift闭包基础要点/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Swift闭包基础要点 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/07/21/Swift闭包基础要点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift闭包基础要点</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-21T21:08:12+08:00">2016-07-21</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>闭包是自包含的函数代码块，可以捕获和存储其所在上下文中任意常量和变量的引用，被称为包裹常量和变量。Swift会自动管理在捕获过程中涉及的内存操作。</p>
+<p>闭包的形式：</p>
+<ul>
+<li>全局函数：一个有名字但不会捕获任何值的闭包</li>
+<li>嵌套函数：一个有名字并可以捕获其封闭函数域内值的闭包</li>
+<li>闭包表达式：一个利用轻量级语法所写的可以捕获上下文中变量或常量值的匿名闭包<a id="more"></a></li>
+</ul>
+<h4 id="闭包表达式"><a href="#闭包表达式" class="headerlink" title="闭包表达式"></a>闭包表达式</h4><p>闭包表达式一般形式：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    (parameters)-&gt;returnType <span class="keyword">in</span></div><div class="line">    statements</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>示例：</p>
+<p>Swift标准库提供了<code>sorted(by:)</code>方法，它会根据你所提供的用于排序的闭包函数将已知类型数组中的值进行排序。一旦排序完成，<code>sorted(by:)</code>方法会返回一个与原数组大小相同，包含同类型元素且元素已正确排序的新数组。下面的闭包表达式使用<code>sorted(by:)</code>方法对一个Sring类型的数组进行字母逆序排序：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> names = [<span class="string">"Baylee"</span>,<span class="string">"Tom"</span>,<span class="string">"Barry"</span>,<span class="string">"Diniella"</span>]</div><div class="line"><span class="comment">//sorted(by:)函数的参数需要是个闭包，这是个内联闭包</span></div><div class="line">reverseNames = names.sorted(by:&#123;(s1: <span class="type">String</span>, s2: <span class="type">String</span>) -&gt; <span class="type">Bool</span> <span class="keyword">in</span></div><div class="line">    <span class="keyword">return</span> s1 &gt; s2  <span class="comment">//statements</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>说明：如果第一个字符串（s1）大于第二个字符串（s2），backward(<em>:</em>:) 函数会返回 true，表示在新的数组中 s1 应该出现在 s2 前。对于字符串中的字符来说，“大于”表示“按照字母顺序较晚出现”。这意味着字母 “B” 大于字母 “A” ，字符串 “Tom” 大于字符串 “Tim”。该闭包将进行字母逆序排序，”Barry” 将会排在 “Alex” 之前。</p>
+<h4 id="根据上下文推断类型"><a href="#根据上下文推断类型" class="headerlink" title="根据上下文推断类型"></a>根据上下文推断类型</h4><p>因为排序闭包函数是作为<code>sorted(by:)</code>方法的参数传入的，Swift可以推断其参数和返回值的型。<code>sorted(by:)</code>方法被一个字符串数组调用，因此其参数必须是<code>(String, String) -&gt; Bool</code>类型的函数。这意味着<code>(String, String)</code>和<code>Bool</code>类型并不需要作为闭包表达式定义的一部分。因为所有的类型都可以被正确推断：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">reverseNames = names.sorted(by: &#123; s1,s2 <span class="keyword">in</span> <span class="keyword">return</span> s1 &gt; s2 &#125; )</div><div class="line"><span class="built_in">print</span>(reverseNames)</div><div class="line"><span class="comment">//输出：["Tom", "Diniella", "Baylee", "Barry"]</span></div></pre></td></tr></table></figure></p>
+<h4 id="单表达式闭包隐式返回"><a href="#单表达式闭包隐式返回" class="headerlink" title="单表达式闭包隐式返回"></a>单表达式闭包隐式返回</h4><p>单行表达式闭包可以通过省略<code>return</code>关键字来隐式返回单行表达式的结果：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">reverseNames = names.sorted(by:&#123; s1, s2 <span class="keyword">in</span> s1 &gt; s2&#125;)</div></pre></td></tr></table></figure></p>
+<h4 id="参数名称缩写"><a href="#参数名称缩写" class="headerlink" title="参数名称缩写"></a>参数名称缩写</h4><p>Swift自动为内联闭包提供了参数名称缩写功能，可以直接通过$0,$1,$2来顺序调用闭包的参数。</p>
+<p>如果你在闭包表达式中使用参数名称缩写，则可以在闭包定义中省略参数列表，并且对应参数名称缩写的类型会通过函数类型进行推断。in关键字也同样可以被省略，因为此时表达式完全由闭包函数体构成：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//$0,$1表示闭包中第一个和第二个String类型的参数</span></div><div class="line">reverseNames = names.sorted(by:&#123; $<span class="number">0</span> &gt; $<span class="number">1</span> &#125;)</div></pre></td></tr></table></figure></p>
+<h4 id="运算符方法"><a href="#运算符方法" class="headerlink" title="运算符方法"></a>运算符方法</h4><p>Swift的String类型定义了关于<code>&gt;</code>的字符串实现，其作为一个函数接受两个<code>String</code>类型的参数并返回<code>Bool</code>类型的值。而这正好与<code>sorted(by:)</code>方法的参数需要的函数类型相符，所以可以简单地传递一个大于号（<code>&gt;</code>）,Swift可以自动推断出你想使用大于号的字符串函数实现：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">reverseNames = names.sorted(by: &gt;)</div></pre></td></tr></table></figure></p>
+<h4 id="尾随闭包"><a href="#尾随闭包" class="headerlink" title="尾随闭包"></a>尾随闭包</h4><p>如果你需要将一个很长的闭包表达式作为最后一个参数传递给函数，可以使用尾随闭包来增强函数的可读性。尾随闭包是一个书写在函数括号之后的闭包表达式，函数支持将其作为最后一个参数调用。在使用尾随闭包时，你不用写出它的参数标签：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">someFunctionThatTakesAClosure</span><span class="params">(closure: <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">    <span class="comment">// 函数体部分</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 不使用尾随闭包进行函数调用</span></div><div class="line">someFunctionThatTakesAClosure(closure: &#123;</div><div class="line">    <span class="comment">// 闭包主体部分</span></div><div class="line">&#125;)</div><div class="line"></div><div class="line"><span class="comment">// 使用尾随闭包进行函数调用</span></div><div class="line">someFunctionThatTakesAClosure() &#123;</div><div class="line">    <span class="comment">// 闭包主体部分</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在闭包表达式语法一节中作为 sorted(by:) 方法参数的字符串排序闭包可以改写为：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">reversedNames = names.sorted() &#123; $<span class="number">0</span> &gt; $<span class="number">1</span> &#125;</div></pre></td></tr></table></figure></p>
+<p>如果闭包表达式是函数或方法的唯一参数，则当你使用尾随闭包时，你甚至可以把 () 省略掉：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">reversedNames = names.sorted &#123; $<span class="number">0</span> &gt; $<span class="number">1</span> &#125;</div></pre></td></tr></table></figure></p>
+<p>Swift的<code>Array</code>类型有一个<code>map(_:)</code>方法，这个方法获取一个闭包表达式作为其唯一参数。该闭包函数会为数组中的每一个元素调用一次，并返回该元素所映射的值。具体的映射方式和返回值类型由闭包来指定。</p>
+<p>当提供给数组的闭包应用于每个数组元素后，<code>map(_:)</code>方法将会返回一个新的数组，数组中包含了与原数组中的元素一一对应的映射后的值。<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> digitNames = [<span class="number">0</span>:<span class="string">"zero"</span>,<span class="number">1</span>:<span class="string">"one"</span>,<span class="number">2</span>:<span class="string">"two"</span>,<span class="number">3</span>:<span class="string">"three"</span>,<span class="number">4</span>:<span class="string">"four"</span>,<span class="number">5</span>:<span class="string">"five"</span>,<span class="number">6</span>:<span class="string">"six"</span>,<span class="number">7</span>:<span class="string">"seven"</span>,<span class="number">8</span>:<span class="string">"eight"</span>,<span class="number">9</span>:<span class="string">"nine"</span>]</div><div class="line"></div><div class="line"><span class="comment">//将被转换成String的整型数组</span></div><div class="line"><span class="keyword">let</span> numbers = [<span class="number">16</span>,<span class="number">58</span>,<span class="number">510</span>]</div><div class="line"><span class="keyword">let</span> strings = numbers.<span class="built_in">map</span>&#123;</div><div class="line">    (number) -&gt; <span class="type">String</span> <span class="keyword">in</span></div><div class="line">    <span class="keyword">var</span> number = number</div><div class="line">    <span class="keyword">var</span> output = <span class="string">""</span></div><div class="line">    <span class="keyword">repeat</span>&#123;</div><div class="line">        <span class="comment">//digitNames下标后跟着一个叹号，因为字典下标返回一个可选值，标明该键不存在时会查找失败。叹号用于强制解包存储在下标的可选类型的返回值中的String类型的值。</span></div><div class="line">        output = digitNames[number % <span class="number">10</span>]! + output</div><div class="line">        number /= <span class="number">10</span></div><div class="line">    &#125;<span class="keyword">while</span> number &gt; <span class="number">0</span></div><div class="line">    <span class="keyword">return</span> output</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="值捕获"><a href="#值捕获" class="headerlink" title="值捕获"></a>值捕获</h4><p>闭包可以在其被定义的上下文中捕获常量和变量。可以捕获值的闭包的最简单的形式就是嵌套函数。嵌套函数可以捕获其他外部函数所有的参数以及定义的常量和变量。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">makeIncrementer</span><span class="params">(forIncrement amount: Int)</span></span> -&gt; () -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">var</span> runningTotal = <span class="number">0</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">incrementer</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        runningTotal += amount</div><div class="line">        <span class="keyword">return</span> runningTotal</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> incrementer</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>捕获引用保证了 runningTotal 和 amount 变量在调用完 makeIncrementer 后不会消失，并且保证了在下一次执行 incrementer 函数时，runningTotal 依旧存在。</p>
+<p>调用<code>makeIncrementer</code>:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> incrementByTen = makeIncrementer(forIncrement: <span class="number">10</span>)</div><div class="line">incrementByTen()</div><div class="line"><span class="comment">// 返回的值为10</span></div><div class="line">incrementByTen()</div><div class="line"><span class="comment">// 返回的值为20</span></div><div class="line">incrementByTen()</div><div class="line"><span class="comment">// 返回的值为30</span></div></pre></td></tr></table></figure></p>
+<p>如果你创建了另一个 incrementer，它会有属于自己的引用，指向一个全新、独立的 runningTotal 变量：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> incrementBySeven = makeIncrementer(forIncrement: <span class="number">7</span>)</div><div class="line">incrementBySeven()</div><div class="line"><span class="comment">// 返回的值为7</span></div></pre></td></tr></table></figure></p>
+<p>再次调用原来的 incrementByTen 会继续增加它自己的 runningTotal 变量，该变量和 incrementBySeven 中捕获的变量没有任何联系：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">incrementByTen()</div><div class="line"><span class="comment">// 返回的值为40</span></div></pre></td></tr></table></figure></p>
+<p><strong>如果你将闭包赋值给一个类实例的属性，并且该闭包通过访问该实例或其成员而捕获了该实例，你将在闭包和该实例间创建一个循环强引用。Swift 使用捕获列表来打破这种循环强引用</strong></p>
+<h4 id="闭包是引用类型"><a href="#闭包是引用类型" class="headerlink" title="闭包是引用类型"></a>闭包是引用类型</h4><p>无论你将函数或闭包赋值给一个常量还是变量，你实际上都是将常量或变量的值设置为对应函数或闭包的引用。这也意味着如果你将闭包赋值给了两个不同的常量或变量，两个值都会指向同一个闭包：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> alsoIncrementByTen = incrementByTen</div><div class="line">alsoIncrementByTen()</div><div class="line"><span class="comment">// 返回的值为50</span></div></pre></td></tr></table></figure></p>
+<h4 id="逃逸闭包"><a href="#逃逸闭包" class="headerlink" title="逃逸闭包"></a>逃逸闭包</h4><p>当一个闭包作为参数传到一个函数中，但是这个闭包在函数返回之后才被执行，我们称该闭包从函数中逃逸。当你定义接受闭包作为参数的函数时，你可以在参数名之前标注 @escaping，用来指明这个闭包是允许“逃逸”出这个函数的。</p>
+<p>一种能使闭包“逃逸”出函数的方法是，将这个闭包保存在一个函数外部定义的变量中。举个例子，很多启动异步操作的函数接受一个闭包参数作为 completion handler。这类函数会在异步操作开始之后立刻返回，但是闭包直到异步操作结束后才会被调用。在这种情况下，闭包需要“逃逸”出函数，因为闭包需要在函数返回之后被调用：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> completionHandlers: [() -&gt; <span class="type">Void</span>] = []</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">someFunctionWithEscapingClosure</span><span class="params">(completionHandler: @escaping <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">    completionHandlers.append(completionHandler)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>someFunctionWithEscapingClosure(_:)</code>函数接受一个闭包作为参数，该闭包被添加到一个函数外定义的数组中。如果你不将这个参数标记为<code>@escaping</code>，就会得到一个编译错误。将一个闭包标记为 @escaping 意味着你必须在闭包中显式地引用 self。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">someFunctionWithNonescapingClosure</span><span class="params">(closure: <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">    closure()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">10</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</div><div class="line">        someFunctionWithEscapingClosure &#123; <span class="keyword">self</span>.x = <span class="number">100</span> &#125;</div><div class="line">        someFunctionWithNonescapingClosure &#123; x = <span class="number">200</span> &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> instance = <span class="type">SomeClass</span>()</div><div class="line">instance.doSomething()</div><div class="line"><span class="built_in">print</span>(instance.x)</div><div class="line"><span class="comment">// 打印出 "200"</span></div><div class="line"></div><div class="line">completionHandlers.first?()</div><div class="line"><span class="built_in">print</span>(instance.x)</div><div class="line"><span class="comment">// 打印出 "100"</span></div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">传递到 someFunctionWithEscapingClosure(_:) 中的闭包是一个逃逸闭包，</div><div class="line">这意味着它需要显式地引用 self。相对的，传递到</div><div class="line">someFunctionWithNonescapingClosure(_:)</div><div class="line">中的闭包是一个非逃逸闭包，这意味着它可以隐式引用 self</div><div class="line">*/</div></pre></td></tr></table></figure>
+<h4 id="自动闭包"><a href="#自动闭包" class="headerlink" title="自动闭包?????"></a>自动闭包?????</h4><p>自动闭包是一种自动创建的闭包，用于包装传递给函数作为参数的表达式。这种闭包不接受任何参数，当它被调用时，会返回被包装在其中的表达式的值。可以省略闭包的花括号，而用一个普通的表达式来代替显式的闭包。</p>
+<p>自动闭包能够延迟求值，因为直到调用这个闭包，代码段才会被执行。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> customersInLine = [<span class="string">"Chris"</span>, <span class="string">"Alex"</span>, <span class="string">"Ewa"</span>, <span class="string">"Barry"</span>, <span class="string">"Daniella"</span>]</div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "5"</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> customerProvider = &#123; customersInLine.remove(at: <span class="number">0</span>) &#125;</div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "5"</span></div><div class="line"></div><div class="line"><span class="built_in">print</span>(<span class="string">"Now serving <span class="subst">\(customerProvider()</span>)!"</span>)</div><div class="line"><span class="comment">// Prints "Now serving Chris!"</span></div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "4"</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2016/07/21/Swift闭包基础要点/" title="Swift闭包基础要点">https://zhengry.github.io/2016/07/21/Swift闭包基础要点/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift-闭包/" rel="tag"># Swift-闭包</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/03/Swift函数基本用法/" rel="next" title="Swift函数基本用法">
+                <i class="fa fa-chevron-left"></i> Swift函数基本用法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/23/多线程之NSOperation:NSOperationQueue/" rel="prev" title="多线程之NSOperation/NSOperationQueue">
+                多线程之NSOperation/NSOperationQueue <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#闭包表达式"><span class="nav-number">1.</span> <span class="nav-text">闭包表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据上下文推断类型"><span class="nav-number">2.</span> <span class="nav-text">根据上下文推断类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单表达式闭包隐式返回"><span class="nav-number">3.</span> <span class="nav-text">单表达式闭包隐式返回</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数名称缩写"><span class="nav-number">4.</span> <span class="nav-text">参数名称缩写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运算符方法"><span class="nav-number">5.</span> <span class="nav-text">运算符方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#尾随闭包"><span class="nav-number">6.</span> <span class="nav-text">尾随闭包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#值捕获"><span class="nav-number">7.</span> <span class="nav-text">值捕获</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#闭包是引用类型"><span class="nav-number">8.</span> <span class="nav-text">闭包是引用类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逃逸闭包"><span class="nav-number">9.</span> <span class="nav-text">逃逸闭包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自动闭包"><span class="nav-number">10.</span> <span class="nav-text">自动闭包?????</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
