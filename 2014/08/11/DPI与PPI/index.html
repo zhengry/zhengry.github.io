@@ -105,20 +105,29 @@
 
   <meta name="description" content="DPI是每英寸的点数，可以简单理解为点的密度。
 
-PPI是每英寸的像素数，可以简单理解为像素密度。">
+PPI是每英寸的像素数，可以简单理解为像素密度。
+
+
+点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DPI与PPI">
 <meta property="og:url" content="https://zhengry.github.io/2014/08/11/DPI与PPI/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="DPI是每英寸的点数，可以简单理解为点的密度。
 
-PPI是每英寸的像素数，可以简单理解为像素密度。">
-<meta property="og:updated_time" content="2018-03-30T09:38:36.631Z">
+PPI是每英寸的像素数，可以简单理解为像素密度。
+
+
+点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。">
+<meta property="og:updated_time" content="2018-04-01T08:57:51.012Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DPI与PPI">
 <meta name="twitter:description" content="DPI是每英寸的点数，可以简单理解为点的密度。
 
-PPI是每英寸的像素数，可以简单理解为像素密度。">
+PPI是每英寸的像素数，可以简单理解为像素密度。
+
+
+点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。">
 
 
 
@@ -399,10 +408,9 @@ PPI是每英寸的像素数，可以简单理解为像素密度。">
 <li><p>DPI是每英寸的点数，可以简单理解为点的密度。</p>
 </li>
 <li><p>PPI是每英寸的像素数，可以简单理解为像素密度。</p>
-<a id="more"></a>
 </li>
 </ul>
-<p>点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。</p>
+<p>点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。<a id="more"></a></p>
 <p>使用UIScreen获取的bounds和frame，都是<strong>点的尺寸</strong>，而非像素尺寸。例如，在视网膜屏的iPhone4上，我获取的applicationFrame大小是320x460，很明显它代表的是点的数量。假如你要显示一张图，如果该图原大小是100x200，那么显示在这样的屏幕上，它的实际显示出来的尺寸将只有原来大小的一半，但它的像素数并未改变。更加需要考虑的是，如果你要对这张图进行缩放，那么缩放率该按照实际显示尺寸计算，还是按照实际像素数计算？答案是前者。</p>
 
       

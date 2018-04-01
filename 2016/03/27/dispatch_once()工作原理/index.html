@@ -103,16 +103,16 @@
 
 
 
-  <meta name="description" content="在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。">
+  <meta name="description" content="在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。苹果提供了 dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);函数来避免这个问">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dispatch_once()工作原理">
 <meta property="og:url" content="https://zhengry.github.io/2016/03/27/dispatch_once()工作原理/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。">
-<meta property="og:updated_time" content="2018-03-30T09:38:15.446Z">
+<meta property="og:description" content="在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。苹果提供了 dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);函数来避免这个问">
+<meta property="og:updated_time" content="2018-04-01T08:57:38.490Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dispatch_once()工作原理">
-<meta name="twitter:description" content="在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。">
+<meta name="twitter:description" content="在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。苹果提供了 dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);函数来避免这个问">
 
 
 
@@ -389,8 +389,8 @@
       
 
       
-        <p>在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。<a id="more"></a>苹果提供了 <code>dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);</code>函数来避免这个问题。在实现单例类的时候，我们通常会下面的代码来初始化单例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-(instancetype)sharedInstance</div><div class="line">&#123;  </div><div class="line">   static SharedObject *sharedObject = nil;  </div><div class="line">   static dispatch_once_t predicate;  </div><div class="line">   dispatch_once(&amp;predicate, ^&#123;  </div><div class="line">       sharedObject = [[SharedObject alloc] init];  </div><div class="line">   &#125;);  </div><div class="line">   return sharedObject;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。苹果提供了 <code>dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);</code>函数来避免这个问题。在实现单例类的时候，我们通常会下面的代码来初始化单例：<a id="more"></a></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">instancetype</span>)sharedInstance</div><div class="line">&#123;  </div><div class="line">   <span class="keyword">static</span> SharedObject *sharedObject = <span class="literal">nil</span>;  </div><div class="line">   <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> predicate;  </div><div class="line">   <span class="built_in">dispatch_once</span>(&amp;predicate, ^&#123;  </div><div class="line">       sharedObject = [[SharedObject alloc] init];  </div><div class="line">   &#125;);  </div><div class="line">   <span class="keyword">return</span> sharedObject;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>要理解<code>dispatch_once()</code>怎么确保单例类对象只被初始化一次，也就是要搞清楚<code>dispatch_once()</code>是怎么根据predicate指针来判断block是否执行完成的呢？</p>
 <ul>
 <li>首先，predicate指针所指向的变量的类型为<code>dispatch_once_t</code>，而<code>dispatch_once_t</code>变量初始化时必须设置为0</li>

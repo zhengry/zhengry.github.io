@@ -392,7 +392,7 @@
 
       
         
-          <h5 id="tableView使用section，sectionHeader从section-1开始展示的问题："><a href="#tableView使用section，sectionHeader从section-1开始展示的问题：" class="headerlink" title="tableView使用section，sectionHeader从section = 1开始展示的问题："></a>tableView使用section，sectionHeader从section = 1开始展示的问题：</h5><p>实现<code>heightForHeaderInSection</code>代理方法，return一个高度即可解决。</p>
+          <h5 id="tableView使用section，sectionHeader从section-1开始展示的问题："><a href="#tableView使用section，sectionHeader从section-1开始展示的问题：" class="headerlink" title="tableView使用section，sectionHeader从section = 1开始展示的问题："></a>tableView使用section，sectionHeader从section = 1开始展示的问题：</h5><p>实现<code>heightForHeaderInSection</code>代理方法，return一个高度即可解决。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/05/28/iOS中的一些UI问题总结/#more" rel="contents">
@@ -689,6 +689,8 @@
 <li><p>使用起来更加面向对象，省去了很多麻烦、冗余的C语言代码；</p>
 </li>
 <li><p>对比苹果自带的Core Data框架，更加轻量级和灵活；</p>
+</li>
+<li><p>提供了多线程安全的数据库操作方法，有效地防止数据混乱。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/04/24/FMDB使用/#more" rel="contents">
@@ -836,6 +838,10 @@
         
           <p>要了解block对对象的强弱引用，首先要搞清楚block中可以引用的变量有哪些。</p>
 <p>block中可以引用变量有以下几种：</p>
+<ul>
+<li>全局变量，包括静态变量</li>
+<li>被传入block的参数</li>
+<li>当前方法内的局部变量，会被捕获为const类型的变量。它们的值将会在声明block的地方被捕获。在嵌套block中，它们的变量值将会被最外层的block捕获。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/03/29/block对对象的强弱引用/#more" rel="contents">
@@ -1569,6 +1575,9 @@
 <li><p>DPI是每英寸的点数，可以简单理解为点的密度。</p>
 </li>
 <li><p>PPI是每英寸的像素数，可以简单理解为像素密度。</p>
+</li>
+</ul>
+<p>点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/08/11/DPI与PPI/#more" rel="contents">
@@ -1715,6 +1724,9 @@
       
         
           <p>在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。</p>
+<h4 id="IP协议（网络层）"><a href="#IP协议（网络层）" class="headerlink" title="IP协议（网络层）"></a>IP协议（网络层）</h4><ol>
+<li><p>TCP/IP协议族中的IP指的的就是网际<strong>协议</strong>（不是IP地址哦）。</p>
+<p>IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2014/05/27/HTTP基础/#more" rel="contents">

@@ -103,16 +103,28 @@
 
 
 
-  <meta name="description" content="在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：">
+  <meta name="description" content="在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：
+方法一
+info.plist文件中添加：View controller-based status bar appearance为NO；
+
+在viewController中实现：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="statusBarStyle设置问题">
 <meta property="og:url" content="https://zhengry.github.io/2016/10/28/statusBarStyle设置问题/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：">
-<meta property="og:updated_time" content="2018-03-30T10:56:26.700Z">
+<meta property="og:description" content="在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：
+方法一
+info.plist文件中添加：View controller-based status bar appearance为NO；
+
+在viewController中实现：">
+<meta property="og:updated_time" content="2018-04-01T09:05:01.513Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="statusBarStyle设置问题">
-<meta name="twitter:description" content="在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：">
+<meta name="twitter:description" content="在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：
+方法一
+info.plist文件中添加：View controller-based status bar appearance为NO；
+
+在viewController中实现：">
 
 
 
@@ -390,25 +402,26 @@
 
       
         <p>在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：</p>
-<a id="more"></a>
 <h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><ol>
-<li>info.plist文件中添加：View controller-based status bar appearance为NO；</li>
-<li>在viewController中实现：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(UIStatusBarStyle)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    return UIStatusBarStyleLightContent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ol>
-<li>ViewController的<code>viewDidLoad</code>中增加调用：</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[self setNeedsStatusBarAppearanceUpdate];</div></pre></td></tr></table></figure>
+<li><p>info.plist文件中添加：View controller-based status bar appearance为NO；</p>
+</li>
+<li><p>在viewController中实现：<a id="more"></a></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(<span class="built_in">UIStatusBarStyle</span>)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">UIStatusBarStyleLightContent</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>ViewController的<code>viewDidLoad</code>中增加调用：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">self</span> setNeedsStatusBarAppearanceUpdate];</div></pre></td></tr></table></figure>
 <p><strong>Note：这种方法在有navigationController的时候不奏效</strong>。</p>
+</li>
+</ol>
 <h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p><strong>UINavigationController</strong>并不会转发<code>preferredStatusBarStyle</code>方法给它的<code>childViewControllers</code>，而是在屏幕顶层自己管理<code>statusBar</code>的状态。所以在那<code>vigationContrller</code>的<code>childViewController</code>中实现<code>preferredStatusBarStyle</code>并不奏效。</p>
 <p>修改方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.navigationController.navigationBar.barStyle = UIBarStyleBlack;</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.navigationController.navigationBar.barStyle = <span class="built_in">UIBarStyleBlack</span>;</div></pre></td></tr></table></figure>
 <h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><p>在APPDelegate的didFinishLaunchingWithOptions方法里添加：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[<span class="built_in">UINavigationBar</span> appearance] setBarStyle:<span class="built_in">UIBarStyleBlack</span>];</div></pre></td></tr></table></figure>
 <h4 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h4><p>给UINavigationController增加一个category：</p>
 <p>在category中实现方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (UIStatusBarStyle)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    return UIStatusBarStyleLightContent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">UIStatusBarStyle</span>)preferredStatusBarStyle</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">UIStatusBarStyleLightContent</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>​</p>
 
       

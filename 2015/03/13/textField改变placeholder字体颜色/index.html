@@ -109,7 +109,7 @@
 <meta property="og:url" content="https://zhengry.github.io/2015/03/13/textField改变placeholder字体颜色/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="change placeholder text color after iOS6：">
-<meta property="og:updated_time" content="2018-03-30T09:46:24.758Z">
+<meta property="og:updated_time" content="2018-04-01T09:05:34.302Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="textField改变placeholder字体颜色">
 <meta name="twitter:description" content="change placeholder text color after iOS6：">
@@ -391,7 +391,7 @@
       
         <p>change placeholder text color after iOS6：</p>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if ([textField respondsToSelector:@selector(setAttributedPlaceholder:)]) &#123;</div><div class="line"></div><div class="line">  UIColor *color = [UIColor blackColor];</div><div class="line">  textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:placeholderText attributes:@&#123;NSForegroundColorAttributeName: color&#125;];</div><div class="line">&#125; else &#123;</div><div class="line">  NSLog(@&quot;Cannot set placeholder text&apos;s color, because deployment target is earlier than iOS 6.0&quot;);</div><div class="line">  // TODO: Add fall-back code to set placeholder color.</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ([textField respondsToSelector:<span class="keyword">@selector</span>(setAttributedPlaceholder:)]) &#123;</div><div class="line"></div><div class="line">  <span class="built_in">UIColor</span> *color = [<span class="built_in">UIColor</span> blackColor];</div><div class="line">  textField.attributedPlaceholder = [[<span class="built_in">NSAttributedString</span> alloc] initWithString:placeholderText attributes:@&#123;<span class="built_in">NSForegroundColorAttributeName</span>: color&#125;];</div><div class="line">&#125; <span class="keyword">else</span> &#123;</div><div class="line">  <span class="built_in">NSLog</span>(<span class="string">@"Cannot set placeholder text's color, because deployment target is earlier than iOS 6.0"</span>);</div><div class="line">  <span class="comment">// <span class="doctag">TODO:</span> Add fall-back code to set placeholder color.</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
 

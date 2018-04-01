@@ -393,6 +393,7 @@
       
         
           <p>总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。</p>
+<h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><p>在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/11/推送+后台语音播报功能实现/#more" rel="contents">
@@ -538,7 +539,13 @@
 
       
         
-          <p>记录下最近自己在项目中遇到的Xcode报错及处理方法：
+          <p>记录下最近自己在项目中遇到的Xcode报错及处理方法：</p>
+<ol>
+<li><p>在podfile文件中删除了某个第三方库的引用，但cocoapods的xcconfig文件还保留着对该第三方库的配置，Xcode提示：</p>
+<blockquote>
+<p>file:///Users/…/XXXTests.debug.xcconfig: warning: Missing file: /Users/…/XXXTests.debug.xcconfig is missing from working copy</p>
+</blockquote>
+<p>解决方法：执行<code>pod install</code>方法后重新编译
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/03/Xcode报错处理/#more" rel="contents">
@@ -831,7 +838,7 @@
 
       
         
-          <h4 id="使用xib创建的cell、header、footer的register问题"><a href="#使用xib创建的cell、header、footer的register问题" class="headerlink" title="使用xib创建的cell、header、footer的register问题"></a>使用xib创建的cell、header、footer的register问题</h4><p>通常向collectionView注册cell、header、footer时，我们会使用：</p>
+          <h4 id="使用xib创建的cell、header、footer的register问题"><a href="#使用xib创建的cell、header、footer的register问题" class="headerlink" title="使用xib创建的cell、header、footer的register问题"></a>使用xib创建的cell、header、footer的register问题</h4><p>通常向collectionView注册cell、header、footer时，我们会使用：
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/03/13/collectionView注册cell和筛选项问题/#more" rel="contents">
@@ -978,6 +985,7 @@
       
         
           <p>在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。</p>
+<p>加锁和解锁的方法都声明在NSLocking协议中。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/12/23/线程锁NSLock/#more" rel="contents">
@@ -1124,6 +1132,10 @@
       
         
           <p>在一些支持iOS6、iOS7的项目中，转换statusBarStyle的方法：</p>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><ol>
+<li><p>info.plist文件中添加：View controller-based status bar appearance为NO；</p>
+</li>
+<li><p>在viewController中实现：
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/10/28/statusBarStyle设置问题/#more" rel="contents">
@@ -1270,6 +1282,8 @@
       
         
           <p>关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。iOS中有两个与之相关的运行时函数：<code>objc_setAssociatedObject</code> 和<code>objc_getAssociatedObject</code>。</p>
+<p>在iOS中，关联常用来实现以下功能：<strong>在类的定义之外为类增加额外的存储空间</strong>。</p>
+<p>使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制兼容性的时候是非常有用。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/09/23/iOS之关联/#more" rel="contents">

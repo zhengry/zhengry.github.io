@@ -103,17 +103,29 @@
 
 
 
-  <meta name="description" content="记录下最近自己在项目中遇到的Xcode报错及处理方法：">
+  <meta name="description" content="记录下最近自己在项目中遇到的Xcode报错及处理方法：
+
+在podfile文件中删除了某个第三方库的引用，但cocoapods的xcconfig文件还保留着对该第三方库的配置，Xcode提示：
+
+file:///Users/…/XXXTests.debug.xcconfig: warning: Missing file: /Users/…/XXXTests.debug.xcconfig is mi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xcode报错处理">
 <meta property="og:url" content="https://zhengry.github.io/2017/05/03/Xcode报错处理/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="记录下最近自己在项目中遇到的Xcode报错及处理方法：">
+<meta property="og:description" content="记录下最近自己在项目中遇到的Xcode报错及处理方法：
+
+在podfile文件中删除了某个第三方库的引用，但cocoapods的xcconfig文件还保留着对该第三方库的配置，Xcode提示：
+
+file:///Users/…/XXXTests.debug.xcconfig: warning: Missing file: /Users/…/XXXTests.debug.xcconfig is mi">
 <meta property="og:image" content="https://zhengry.github.io/images/deplicate错误.png">
-<meta property="og:updated_time" content="2018-03-30T18:39:51.155Z">
+<meta property="og:updated_time" content="2018-04-01T09:07:37.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode报错处理">
-<meta name="twitter:description" content="记录下最近自己在项目中遇到的Xcode报错及处理方法：">
+<meta name="twitter:description" content="记录下最近自己在项目中遇到的Xcode报错及处理方法：
+
+在podfile文件中删除了某个第三方库的引用，但cocoapods的xcconfig文件还保留着对该第三方库的配置，Xcode提示：
+
+file:///Users/…/XXXTests.debug.xcconfig: warning: Missing file: /Users/…/XXXTests.debug.xcconfig is mi">
 <meta name="twitter:image" content="https://zhengry.github.io/images/deplicate错误.png">
 
 
@@ -391,13 +403,13 @@
       
 
       
-        <p>记录下最近自己在项目中遇到的Xcode报错及处理方法：<a id="more"></a></p>
+        <p>记录下最近自己在项目中遇到的Xcode报错及处理方法：</p>
 <ol>
 <li><p>在podfile文件中删除了某个第三方库的引用，但cocoapods的xcconfig文件还保留着对该第三方库的配置，Xcode提示：</p>
 <blockquote>
 <p>file:///Users/…/XXXTests.debug.xcconfig: warning: Missing file: /Users/…/XXXTests.debug.xcconfig is missing from working copy</p>
 </blockquote>
-<p>解决方法：执行<code>pod install</code>方法后重新编译</p>
+<p>解决方法：执行<code>pod install</code>方法后重新编译<a id="more"></a></p>
 </li>
 <li><p>在终端执行<code>pod install</code>或者<code>pod update</code>等命令后提示：</p>
 <blockquote>

@@ -103,16 +103,19 @@
 
 
 
-  <meta name="description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。">
+  <meta name="description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。
+加锁和解锁的方法都声明在NSLocking协议中。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线程锁NSLock">
 <meta property="og:url" content="https://zhengry.github.io/2016/12/23/线程锁NSLock/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。">
-<meta property="og:updated_time" content="2018-03-30T09:36:30.799Z">
+<meta property="og:description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。
+加锁和解锁的方法都声明在NSLocking协议中。">
+<meta property="og:updated_time" content="2018-04-01T08:55:39.538Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程锁NSLock">
-<meta name="twitter:description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。">
+<meta name="twitter:description" content="在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。
+加锁和解锁的方法都声明在NSLocking协议中。">
 
 
 
@@ -390,17 +393,16 @@
 
       
         <p>在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。</p>
-<a id="more"></a>
-<p>加锁和解锁的方法都声明在NSLocking协议中。</p>
+<p>加锁和解锁的方法都声明在NSLocking协议中。<a id="more"></a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-(void)lock;</div><div class="line">/*如果锁正在被使用，则线程进入休眠状态。*/</div><div class="line">/*如果锁没有被使用，则将锁的状态变为正被使用，线程继续执行。*/</div><div class="line">-(void)unlock;</div></pre></td></tr></table></figure>
 <p><code>[lockObj lock];</code>和<code>[lockObj unlock];</code>之间的代码称为<em>临界区</em>。如果锁正在被使用，则等待该锁资源（等待执行临界区代码）的线程则进入休眠状态；将锁置为没有在被使用时，如果有等待该锁资源的正在休眠的线程，则将其唤醒。</p>
 <h5 id="加锁的意思"><a href="#加锁的意思" class="headerlink" title="加锁的意思"></a>加锁的意思</h5><p>假设有两个线程a和b，a、b两个线程并行执行，且都需要访问临界区代码，如果b在访问临界区时，a正在访问（此时锁正在被a使用，临界区被上锁），则b会被阻塞（休眠状态），待a执行完临界区unlock之后，b被唤醒然后继续执行。</p>
 <h5 id="加锁示例"><a href="#加锁示例" class="headerlink" title="加锁示例"></a>加锁示例</h5><ol>
 <li><p>加锁失败的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-(int)lock</div><div class="line">&#123;</div><div class="line">[countLock lock];</div><div class="line">++theCount;</div><div class="line">[countLock unlock];</div><div class="line">return theCount;/*在解锁后return前，theCount可能还是会被其他线程修改。*/</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">int</span>)lock</div><div class="line">&#123;</div><div class="line">[countLock lock];</div><div class="line">++theCount;</div><div class="line">[countLock unlock];</div><div class="line"><span class="keyword">return</span> theCount;<span class="comment">/*在解锁后return前，theCount可能还是会被其他线程修改。*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 <li><p>正确示例</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-(int)lock</div><div class="line">&#123;</div><div class="line">  int tmp;</div><div class="line">  [countLock lock];</div><div class="line">  tmp = ++theCount;</div><div class="line">  [countLock unlock];</div><div class="line">  return theCount;/*自动变量tmp可以在整个线程中局部利用，无需担心会被其他线程访问。*/</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">int</span>)lock</div><div class="line">&#123;</div><div class="line">  <span class="keyword">int</span> tmp;</div><div class="line">  [countLock lock];</div><div class="line">  tmp = ++theCount;</div><div class="line">  [countLock unlock];</div><div class="line">  <span class="keyword">return</span> theCount;<span class="comment">/*自动变量tmp可以在整个线程中局部利用，无需担心会被其他线程访问。*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
 </ol>
 
       

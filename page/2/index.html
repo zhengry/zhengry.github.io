@@ -546,6 +546,9 @@
 <li><p>将NSOperation对象添加到NSOperationQueue中</p>
 </li>
 <li><p>系统会自动将NSOperation中封装的操作放到一条新线程中执行</p>
+</li>
+</ol>
+<p>默认情况下，NSOperation并不具备封装操作的能力，必须使用它的子类，使用NSOperation子类的方法有以下三种：
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/07/23/多线程之NSOperation:NSOperationQueue/#more" rel="contents">
@@ -1135,7 +1138,7 @@
 
       
         
-          <p>iOS8.3以后，不再推荐使用UIActionSheet，改用style为<code>UIAlertControllerStyleActionSheet</code>的UIAlertController来实现。使用中偶然发现了一个问题：
+          <p>iOS8.3以后，不再推荐使用UIActionSheet，改用style为<code>UIAlertControllerStyleActionSheet</code>的UIAlertController来实现。使用中偶然发现了一个问题：使用普通的控件点击弹出alertController时，弹出不会延迟。但在使用点击UITableViewCell弹出UIAlertController时，无论cell的<code>selectionStyle</code>使用<code>UITableViewCellSelectionStyleDefault</code>还是<code>UITableViewCellStyleNone</code>都会出现弹出延迟问题，只是使用<code>UITableViewCellStyleNone</code>时延迟更明显。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/05/11/UIAlertController弹出延迟问题/#more" rel="contents">
@@ -1719,7 +1722,7 @@
 
       
         
-          <p>在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。
+          <p>在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。苹果提供了 <code>dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);</code>函数来避免这个问题。在实现单例类的时候，我们通常会下面的代码来初始化单例：
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/03/27/dispatch_once()工作原理/#more" rel="contents">

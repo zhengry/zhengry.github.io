@@ -104,18 +104,30 @@
 
 
   <meta name="description" content="要了解block对对象的强弱引用，首先要搞清楚block中可以引用的变量有哪些。
-block中可以引用变量有以下几种：">
+block中可以引用变量有以下几种：
+
+全局变量，包括静态变量
+被传入block的参数
+当前方法内的局部变量，会被捕获为const类型的变量。它们的值将会在声明block的地方被捕获。在嵌套block中，它们的变量值将会被最外层的block捕获。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="block对对象的强弱引用">
 <meta property="og:url" content="https://zhengry.github.io/2015/03/29/block对对象的强弱引用/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="要了解block对对象的强弱引用，首先要搞清楚block中可以引用的变量有哪些。
-block中可以引用变量有以下几种：">
-<meta property="og:updated_time" content="2018-03-30T09:36:47.647Z">
+block中可以引用变量有以下几种：
+
+全局变量，包括静态变量
+被传入block的参数
+当前方法内的局部变量，会被捕获为const类型的变量。它们的值将会在声明block的地方被捕获。在嵌套block中，它们的变量值将会被最外层的block捕获。">
+<meta property="og:updated_time" content="2018-04-01T08:56:12.321Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="block对对象的强弱引用">
 <meta name="twitter:description" content="要了解block对对象的强弱引用，首先要搞清楚block中可以引用的变量有哪些。
-block中可以引用变量有以下几种：">
+block中可以引用变量有以下几种：
+
+全局变量，包括静态变量
+被传入block的参数
+当前方法内的局部变量，会被捕获为const类型的变量。它们的值将会在声明block的地方被捕获。在嵌套block中，它们的变量值将会被最外层的block捕获。">
 
 
 
@@ -394,11 +406,10 @@ block中可以引用变量有以下几种：">
       
         <p>要了解block对对象的强弱引用，首先要搞清楚block中可以引用的变量有哪些。</p>
 <p>block中可以引用变量有以下几种：</p>
-<a id="more"></a>
 <ul>
 <li>全局变量，包括静态变量</li>
 <li>被传入block的参数</li>
-<li>当前方法内的局部变量，会被捕获为const类型的变量。它们的值将会在声明block的地方被捕获。在嵌套block中，它们的变量值将会被最外层的block捕获。</li>
+<li>当前方法内的局部变量，会被捕获为const类型的变量。它们的值将会在声明block的地方被捕获。在嵌套block中，它们的变量值将会被最外层的block捕获。<a id="more"></a></li>
 <li>当前方法内的被<code>__block</code>标记的变量会被block引用，因此是变量是可变的。</li>
 <li>在block内部声明的变量，就是当做函数里的局部变量使用。</li>
 </ul>
@@ -410,8 +421,8 @@ block中可以引用变量有以下几种：">
 <li>如果你访问一个实例变量的值，block会对这个变量产生一个强引用</li>
 </ul>
 <p>来看苹果文档的两个例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">dispatch_async(queue, ^&#123;</div><div class="line">    // instanceVariable is used by reference, a strong reference is made to self</div><div class="line">    doSomethingWithObject(instanceVariable);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">id localVariable = instanceVariable;</div><div class="line">dispatch_async(queue, ^&#123;</div><div class="line">    /*</div><div class="line">      localVariable is used by value, a strong reference is made to localVariable</div><div class="line">      (and not to self).</div><div class="line">    */</div><div class="line">    doSomethingWithObject(localVariable);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</div><div class="line">    <span class="comment">// instanceVariable is used by reference, a strong reference is made to self</span></div><div class="line">    doSomethingWithObject(instanceVariable);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">id</span> localVariable = instanceVariable;</div><div class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</div><div class="line">    <span class="comment">/*</span></div><div class="line">      localVariable is used by value, a strong reference is made to localVariable</div><div class="line">      (and not to self).</div><div class="line">    */</div><div class="line">    doSomethingWithObject(localVariable);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 
       
     </div>

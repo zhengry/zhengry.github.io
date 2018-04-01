@@ -979,6 +979,7 @@
       
         
           <p>在OC语言的runtime特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的SEL，这个SEL对应着一个IMP(一个IMP可以对应多个SEL)，通过这个IMP找到对应的方法调用。</p>
+<p>在每个类中都有一个Dispatch Table，这个Dispatch Table本质是将类中的SEL和IMP(可以理解为函数指针)进行对应。而Method Swizzling就是对这个table进行操作，交换两个SEL的IMP。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/12/25/Method-Swizzling——方法混写/#more" rel="contents">
@@ -1125,6 +1126,10 @@
       
         
           <p>在iOS中，一旦出现野指针访问就会出现提示EXC_BAD_ACCESS。总结了一下项目中常见的野指针访问造成的 Crash场景：</p>
+<ol>
+<li><p>定义property该用strong/weak修饰误用成assign</p>
+</li>
+<li><p>在objc_setAssociatedObject方法中该用<code>OBJC_ASSOCIATION_RETAIN_NONATOMIC</code>修饰的对象误用成<code>OBJC_ASSOCIATION_ASSIGN</code>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/11/27/常见的野指针Crash/#more" rel="contents">
@@ -1418,6 +1423,7 @@
       
         
           <p>category不能增加类的属性，这是category和extention的重要区别之一。但是通过category给类增加属性并非不可实现，比如用runtime设置关联就是一种可行的实现方式。</p>
+<p>首先在category头文件中声明属性：
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2015/08/31/如何让category支持属性/#more" rel="contents">
