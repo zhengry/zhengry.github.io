@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="知识点：存储属性、计算属性（setter、getter）、类型属性、属性观察（property observation）、属性访问控制。
 存储属性存储属性就是存储在特定类或结构体实例里的常量或变量。只能用于类和结构体。分为变量存储属性和常量存储属性。">
-<meta property="og:updated_time" content="2018-04-01T06:24:00.751Z">
+<meta property="og:updated_time" content="2018-04-01T06:39:10.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift之属性">
 <meta name="twitter:description" content="知识点：存储属性、计算属性（setter、getter）、类型属性、属性观察（property observation）、属性访问控制。
@@ -451,7 +451,50 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SomeStructure</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> storedTypeProperty = <span class="string">"Some value."</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> comeputedTypeProperty :<span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">SomeEnumeration</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> storedTypeProperty = <span class="string">"Some value."</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> computedTypeProperty： <span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">6</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> storedTypeProperty = <span class="string">"Some value."</span></div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> computedTypeProperty : <span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">12</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//子类可以重写的类型属性</span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">overrideableComputedTypeProperty</span>: <span class="title">Int</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">25</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//子类重写父类的类型属性</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AnotherClass</span>: <span class="title">SomeClass</span></span>&#123;</div><div class="line">    <span class="keyword">override</span> <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">overrideableComputedTypeProperty</span>: <span class="title">Int</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">10</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">print</span>(<span class="type">SomeStructure</span>.storedTypeProperty)</div><div class="line"><span class="type">SomeStructure</span>.storedTypeProperty = <span class="string">"Another value."</span></div><div class="line"><span class="built_in">print</span>(<span class="type">SomeEnumeration</span>.comeputedTypeProperty)</div><div class="line"><span class="built_in">print</span>(<span class="type">SomeClass</span>.computedTypeProperty)</div><div class="line"><span class="built_in">print</span>(<span class="type">AnotherClass</span>.overrideableComputedTypeProperty)</div></pre></td></tr></table></figure>
 <h4 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h4><p>访问控制指给某些组件访问其他组件的一定级别的访问权限。<br>模块（module）：分发代码的单位，import关键字可以把一个模块引入另一个模块。</p>
 <p>源代码文件（source file）：表示一个文件，并且存在于特定的模块。</p>
-<p>Swift的五个访问层级：<br>| 访问层级             | 描述                                                         | 对……可见                           | 能在……中继承                       |<br>| ——————– | ———————————————————— | ———————————- | ———————————- |<br>| open                 | 实体对模块内的所有文件以及引入了该模块的文件都可见，并且可以继承 | 所在模块以及引入实体所在模块的模块 | 所在模块以及引入实体所在模块的模块 |<br>| public               | 实体对模块内的所有文件以及引入了该模块的文件都可见           | 所在模块以及引入实体所在模块的模块 | 所在的模块                         |<br>| internal（默认层级） | 实体对模块内的文件可见                                       | 所在的模块                         | 所在的模块                         |<br>| fileprivate          | 实体只对所在的源文件可见                                     | 所在的源文件                       | 所在的文件                         |<br>| private              | 实体只对所在的作用域可见                                     | 所在的作用域                       | 所在的作用域                       |<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">var</span> language: <span class="type">String</span> = <span class="string">"Chinese"</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">PrintDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"People's language is <span class="subst">\(language)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Swift的五个访问层级：</p>
+<table>
+<thead>
+<tr>
+<th>访问层级</th>
+<th>描述</th>
+<th>对……可见</th>
+<th>能在……中继承</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open</td>
+<td>实体对模块内的所有文件以及引入了该模块的文件都可见，并且可以继承</td>
+<td>所在模块以及引入实体所在模块的模块</td>
+<td>所在模块以及引入实体所在模块的模块</td>
+</tr>
+<tr>
+<td>public</td>
+<td>实体对模块内的所有文件以及引入了该模块的文件都可见</td>
+<td>所在模块以及引入实体所在模块的模块</td>
+<td>所在的模块</td>
+</tr>
+<tr>
+<td>internal（默认层级）</td>
+<td>实体对模块内的文件可见</td>
+<td>所在的模块</td>
+<td>所在的模块</td>
+</tr>
+<tr>
+<td>fileprivate</td>
+<td>实体只对所在的源文件可见</td>
+<td>所在的源文件</td>
+<td>所在的文件</td>
+</tr>
+<tr>
+<td>private</td>
+<td>实体只对所在的作用域可见</td>
+<td>所在的作用域</td>
+<td>所在的作用域</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">var</span> language: <span class="type">String</span> = <span class="string">"Chinese"</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">PrintDesc</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"People's language is <span class="subst">\(language)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h5 id="控制setter和getter方法的可见度"><a href="#控制setter和getter方法的可见度" class="headerlink" title="控制setter和getter方法的可见度"></a>控制setter和getter方法的可见度</h5><p>默认情况下，setter和getter的可见度相同。</p>
 <p>改写可见度示例：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zombie</span></span>&#123;</div><div class="line">    <span class="keyword">internal</span> <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> isFallingApart = <span class="literal">false</span>  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
