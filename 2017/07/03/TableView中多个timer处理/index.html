@@ -103,26 +103,41 @@
 
 
 
-  <meta name="description" content="WKWebview本身不支持捏合手势，但是如果把WKWebview放到ScrollView上面，由于ScrollView支持捏合手势，导致WKWebview的内容会支持捏合手势。这种情况下要禁止WKWebview捏合手势就需要添加如下代码：
-12345- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified">
+  <meta name="description" content="在同一个tableView上展示多个倒计时的场景，在电商类App中非常常见。比如，在待支付订单列表中，每个订单都有个距离订单被取消的倒计时展示。
+方案一
+给每个cell添加自己的timer，并自行处理展示;
+在退出当前controller（tableView的代理类）时，发送销毁timer通知;
+cell监听到通知后，销毁timer。
+
+问题：每个cell都有个timer，内存消耗太大，造成资源浪">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WKWebView禁用捏合手势">
-<meta property="og:url" content="https://zhengry.github.io/2017/08/11/WKWebView禁用捏合手势/index.html">
+<meta property="og:title" content="TableView中多个timer处理">
+<meta property="og:url" content="https://zhengry.github.io/2017/07/03/TableView中多个timer处理/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="WKWebview本身不支持捏合手势，但是如果把WKWebview放到ScrollView上面，由于ScrollView支持捏合手势，导致WKWebview的内容会支持捏合手势。这种情况下要禁止WKWebview捏合手势就需要添加如下代码：
-12345- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified">
-<meta property="og:updated_time" content="2018-04-21T02:11:30.691Z">
+<meta property="og:description" content="在同一个tableView上展示多个倒计时的场景，在电商类App中非常常见。比如，在待支付订单列表中，每个订单都有个距离订单被取消的倒计时展示。
+方案一
+给每个cell添加自己的timer，并自行处理展示;
+在退出当前controller（tableView的代理类）时，发送销毁timer通知;
+cell监听到通知后，销毁timer。
+
+问题：每个cell都有个timer，内存消耗太大，造成资源浪">
+<meta property="og:updated_time" content="2018-04-21T04:43:12.001Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WKWebView禁用捏合手势">
-<meta name="twitter:description" content="WKWebview本身不支持捏合手势，但是如果把WKWebview放到ScrollView上面，由于ScrollView支持捏合手势，导致WKWebview的内容会支持捏合手势。这种情况下要禁止WKWebview捏合手势就需要添加如下代码：
-12345- (void)webView:(WKWebView *)webView didCommitNavigation:(null_unspecified">
+<meta name="twitter:title" content="TableView中多个timer处理">
+<meta name="twitter:description" content="在同一个tableView上展示多个倒计时的场景，在电商类App中非常常见。比如，在待支付订单列表中，每个订单都有个距离订单被取消的倒计时展示。
+方案一
+给每个cell添加自己的timer，并自行处理展示;
+在退出当前controller（tableView的代理类）时，发送销毁timer通知;
+cell监听到通知后，销毁timer。
+
+问题：每个cell都有个timer，内存消耗太大，造成资源浪">
 
 
 
 
 
 
-  <link rel="canonical" href="https://zhengry.github.io/2017/08/11/WKWebView禁用捏合手势/"/>
+  <link rel="canonical" href="https://zhengry.github.io/2017/07/03/TableView中多个timer处理/"/>
 
 
 
@@ -132,7 +147,7 @@
   };
 </script>
 
-  <title>WKWebView禁用捏合手势 | Baylee的技术博客</title>
+  <title>TableView中多个timer处理 | Baylee的技术博客</title>
   
 
 
@@ -308,7 +323,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/08/11/WKWebView禁用捏合手势/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/07/03/TableView中多个timer处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -325,7 +340,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">WKWebView禁用捏合手势</h1>
+          <h1 class="post-title" itemprop="name headline">TableView中多个timer处理</h1>
         
 
         <div class="post-meta">
@@ -337,7 +352,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-11T15:32:40+08:00">2017-08-11</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T23:42:06+08:00">2017-07-03</time>
             
 
             
@@ -392,11 +407,22 @@
       
 
       
-        <p>WKWebview本身不支持捏合手势，但是如果把WKWebview放到ScrollView上面，由于ScrollView支持捏合手势，导致WKWebview的内容会支持捏合手势。这种情况下要禁止WKWebview捏合手势就需要添加如下代码：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)webView:(<span class="built_in">WKWebView</span> *)webView didCommitNavigation:(<span class="keyword">null_unspecified</span> <span class="built_in">WKNavigation</span> *)navigation</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSString</span> *javascript = <span class="string">@"var meta = document.createElement('meta');meta.setAttribute('name', 'viewport');meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');document.getElementsByTagName('head')[0].appendChild(meta);"</span>;</div><div class="line">    [webView evaluateJavaScript:javascript completionHandler:<span class="literal">nil</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>注意：下面的设置并不能有效禁止捏合手势</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//ScrollView</span></div><div class="line">scrollView.pinchGestureRecognizer.enabled = <span class="literal">NO</span>;</div><div class="line">scrollView.minimumZoomScale = <span class="number">1</span>;</div><div class="line">scrollView.maximumZoomScale = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="comment">//webView</span></div><div class="line">webView.scrollView.pinchGestureRecognizer.enabled = <span class="literal">NO</span>;</div><div class="line">webView.scrollView.minimumZoomScale = <span class="number">1</span>;</div><div class="line">webView.scrollView.maximumZoomScale = <span class="number">1</span>;</div><div class="line"></div><div class="line"><span class="comment">//ScrollView Delegate</span></div><div class="line">- (<span class="built_in">UIView</span>*)viewForZoomingInScrollView:(<span class="built_in">UIScrollView</span>*)scrollView</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>在同一个tableView上展示多个倒计时的场景，在电商类App中非常常见。比如，在待支付订单列表中，每个订单都有个距离订单被取消的倒计时展示。</p>
+<h4 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h4><ol>
+<li>给每个cell添加自己的timer，并自行处理展示;</li>
+<li>在退出当前controller（tableView的代理类）时，发送销毁timer通知;</li>
+<li>cell监听到通知后，销毁timer。</li>
+</ol>
+<p>问题：每个cell都有个timer，内存消耗太大，造成资源浪费。<a id="more"></a></p>
+<h4 id="方案二"><a href="#方案二" class="headerlink" title="方案二"></a>方案二</h4><ol>
+<li>创建countDownManager，包含开启定时器和关闭定时器方法，开启定时器后，每秒发送一次倒计时通知</li>
+<li>在绘制cell时，添加对倒计时通知的监听，接收到通知后，更新cell的时间展示</li>
+<li>在controller中开启或关闭倒计时管理器的timer。</li>
+</ol>
+<p>这个方案中，只需要一个timer就够了。</p>
+<p>代码示例：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//——————————————————————————CountDownManager类——————————————————————————————————————</span></div><div class="line">-(<span class="keyword">void</span>)startTimer</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">self</span> timer];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(<span class="built_in">NSTimer</span> *)timer</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (!_timer) &#123;</div><div class="line">        _timer = [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">1</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(handleTimer) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</div><div class="line">        [[<span class="built_in">NSRunLoop</span> mainRunLoop] addTimer:_timer forMode:<span class="built_in">NSRunLoopCommonModes</span>];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> _timer;</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(<span class="keyword">void</span>)handleTimer</div><div class="line">&#123;</div><div class="line">    <span class="keyword">self</span>.timeInterval = ([[<span class="built_in">NSDate</span> date] timeIntervalSince1970]);<span class="comment">//单位：秒</span></div><div class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] postNotificationName:<span class="string">@"kTimerNotification"</span> object:<span class="literal">nil</span> userInfo:@&#123;<span class="string">@"now"</span>: @(<span class="keyword">self</span>.timeInterval)&#125;];<span class="comment">//如果需要可传当前时间</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">-(<span class="keyword">void</span>)stopTimer</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">self</span>.timer invalidate];</div><div class="line">    <span class="keyword">self</span>.timer = <span class="literal">nil</span>;</div><div class="line">    <span class="keyword">self</span>.timeInterval = <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//————————————————————————————自定义cell————————————————————————————————————————————</span></div><div class="line"><span class="comment">//在绘制cell的方法中添加通知监听</span></div><div class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(handleTimer:) name:<span class="string">@"kTimerNotification"</span> object:<span class="literal">nil</span>];</div><div class="line"></div><div class="line"><span class="comment">//接收到通知后对倒计时的处理示例</span></div><div class="line">-(<span class="keyword">void</span>)handleTimer:(<span class="built_in">NSNotification</span> *)notification</div><div class="line">&#123;</div><div class="line">    <span class="comment">//如果需要用到当前时间来进行比较和计算，取出当前时间的interval</span></div><div class="line"><span class="comment">//    NSDictionary *userInfo = notification.userInfo;</span></div><div class="line"><span class="comment">//    NSTimeInterval now = [userInfo[@"now"] integerValue];</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.totalInterval &gt;<span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.totalInterval--;</div><div class="line">        <span class="keyword">self</span>.detailTextLabel.text = [<span class="keyword">self</span> stringFromInterval:<span class="keyword">self</span>.totalInterval];</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">self</span>.detailTextLabel.text = <span class="string">@"倒计时已结束"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//cell的dealloc方法移除通知监听</span></div><div class="line">[[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:<span class="keyword">self</span>];</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//—————————————————————————viewController—————————————————————————————————————</span></div><div class="line">-(<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewWillAppear:animated];</div><div class="line">    [[ZZCountDownManger manager] startTimer];</div><div class="line">    [<span class="keyword">self</span>.tableView reloadData];</div><div class="line">&#125;</div><div class="line"></div><div class="line">-(<span class="keyword">void</span>)viewWillDisappear:(<span class="built_in">BOOL</span>)animated</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewWillDisappear:animated];</div><div class="line">    [[ZZCountDownManger manager] stopTimer];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Demo地址"><a href="#Demo地址" class="headerlink" title="Demo地址"></a>Demo地址</h4><p><a href="https://github.com/zhengry/HandleTimers" target="_blank" rel="external">ZZHandleTimers</a></p>
 
       
     </div>
@@ -418,7 +444,7 @@
     <strong>本文作者： </strong>Baylee</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://zhengry.github.io/2017/08/11/WKWebView禁用捏合手势/" title="WKWebView禁用捏合手势">https://zhengry.github.io/2017/08/11/WKWebView禁用捏合手势/</a>
+    <a href="https://zhengry.github.io/2017/07/03/TableView中多个timer处理/" title="TableView中多个timer处理">https://zhengry.github.io/2017/07/03/TableView中多个timer处理/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
@@ -431,7 +457,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OC-WKWebView/" rel="tag"># OC-WKWebView</a>
+            <a href="/tags/demo/" rel="tag"># demo</a>
           
         </div>
       
@@ -444,8 +470,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/11/推送+后台语音播报功能实现/" rel="next" title="推送+后台语音播报功能实现">
-                <i class="fa fa-chevron-left"></i> 推送+后台语音播报功能实现
+              <a href="/2017/06/21/WKWebview自适应/" rel="next" title="WKWebView自适应">
+                <i class="fa fa-chevron-left"></i> WKWebView自适应
               </a>
             
           </div>
@@ -454,8 +480,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/10/11/tableView去掉sectionHeader吸顶效果/" rel="prev" title="tableView去掉sectionHeader吸顶效果">
-                tableView去掉sectionHeader吸顶效果 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/09/iOS语音播报功能/" rel="prev" title="iOS语音播报功能">
+                iOS语音播报功能 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -505,8 +531,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -667,6 +702,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#方案一"><span class="nav-number">1.</span> <span class="nav-text">方案一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方案二"><span class="nav-number">2.</span> <span class="nav-text">方案二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Demo地址"><span class="nav-number">3.</span> <span class="nav-text">Demo地址</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
