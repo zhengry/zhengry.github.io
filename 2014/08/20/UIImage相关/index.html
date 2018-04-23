@@ -109,7 +109,7 @@
 <meta property="og:url" content="https://zhengry.github.io/2014/08/20/UIImage相关/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="直接引用图片文件夹到项目中，图片不展示的问题在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。">
-<meta property="og:updated_time" content="2018-04-21T02:20:45.949Z">
+<meta property="og:updated_time" content="2018-04-21T08:40:57.052Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UIImage相关问题">
 <meta name="twitter:description" content="直接引用图片文件夹到项目中，图片不展示的问题在外部创建好存放图片的imgs文件夹，然后拖放到工程中，选中copy选项，文件夹呈现为蓝色，此时在项目的Build Phases——&amp;gt;copy Bundle Resources 里，并没有对文件夹里的图片进行引用，此时引用的是文件夹，并没有对图片的直接引用。所以在使用文件夹里的图片时，UIImageView的图片不能展示出来。">
@@ -402,6 +402,7 @@
 <p>If you have an image file that will only be displayed once and wish to ensure that it does not get added to the system’s cache, you should instead create your image using imageWithContentsOfFile:. This will keep your single-use image out of the system image cache, potentially improving the memory use characteristics of your app.</p>
 </blockquote>
 <p>imageWithContentsOfFile:方法常用于只展示一次的图片，可以避免图片被加入到系统缓存中</p>
+<h4 id="URLString转UIImage"><a href="#URLString转UIImage" class="headerlink" title="URLString转UIImage"></a>URLString转UIImage</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIImage</span> *img = [<span class="built_in">UIImage</span> imageWithData:[<span class="built_in">NSData</span> dataWithContentsOfURL:[<span class="built_in">NSURL</span> URLWithString:img]]];</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -539,7 +540,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">50</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -641,7 +642,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -691,7 +696,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#直接引用图片文件夹到项目中，图片不展示的问题"><span class="nav-number">1.</span> <span class="nav-text">直接引用图片文件夹到项目中，图片不展示的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#imageNamed"><span class="nav-number">2.</span> <span class="nav-text">imageNamed:</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#直接引用图片文件夹到项目中，图片不展示的问题"><span class="nav-number">1.</span> <span class="nav-text">直接引用图片文件夹到项目中，图片不展示的问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#imageNamed"><span class="nav-number">2.</span> <span class="nav-text">imageNamed:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URLString转UIImage"><span class="nav-number">3.</span> <span class="nav-text">URLString转UIImage</span></a></li></ol></div>
             
 
           </div>
