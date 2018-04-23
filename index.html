@@ -392,31 +392,20 @@
 
       
         
-          
-            <p>伪代码：</p>
+          <p>伪代码：</p>
 <p>先进行初始化，将现在库存的属性的所有全排列求出，放入SKUResult中</p>
 <p>页面加载，先检查所有属性便签的可选择性，检查方法就是直接用单个属性去SKUResult中查</p>
 <p>给每个标签添加点击事件：</p>
 <p>{</p>
 <p>​    当自己被选中时，如果有兄弟标签被选中，则取消兄弟标签的选中状态</p>
-<p>​    当自己之前已经处于选中状态，取消自己的选中状态</p>
-<p>​    取出当前已被选中的标签，存入selectedObjs中</p>
-<p>​    判断当前每个未选中便签的可选择性</p>
-<p>​    {</p>
-<p>​        检查当前被测试标签是否存在被选中的兄弟标签</p>
-<p>​        如果有：</p>
-<p>​            则将当前被选择的标签存入testArray中，并替换掉当前被选中的兄弟标签</p>
-<p>​        如果没有：</p>
-<p>​            则将当前被选中的标签存入testArray中</p>
-<p>​        根据SKUResult匹配testArray中被测试标签是否可选</p>
-<p>​    }</p>
-<p>​    如果当前SelectedObjs为空</p>
-<p>​    {</p>
-<p>​        库存和价格显示为空</p>
-<p>​    }</p>
-<p>}</p>
-
-          
+<p>​    当自己之前已经处于选中状态，取消自己的选中状态
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/09/购物车sku匹配逻辑/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -561,7 +550,6 @@
 <li><p>打开终端，输入命令：<code>sudo sysctl -w kern.tty.ptmx_max=999</code></p>
 </li>
 <li><p>如果终端也报错，无法输入命令（forkpty： Device not configured 未能创建新的进程和打开伪终端（pseudo-tty）），退出Xcode，重新打开终端即可。然后终端执行上面的命令，重新打开Xcode。</p>
-<p>​</p>
 </li>
 </ul>
 </li>
