@@ -452,6 +452,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/04/03/Git工作原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/03/Git工作原理/" itemprop="url">Git工作原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-03T00:00:00+08:00">2017-04-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="直接快照记录，而非差异比较"><a href="#直接快照记录，而非差异比较" class="headerlink" title="直接快照记录，而非差异比较"></a>直接快照记录，而非差异比较</h4><p>Git 和其他版本控制系统的主要差别在于，Git 只关心文件数据的整体是否发生变化，而大多数其他系统则只关心文件内容的具体差异。这类系统（CVS，Subversion，Perforce，Bazaar 等等）每次记录有哪些文件作了更新，以及都更新了哪些行的什么内容。</p>
+<p>Git 并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/03/Git工作原理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/03/13/collectionView注册cell和筛选项问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -982,8 +1129,7 @@
 
       
         
-          
-            <h4 id="默认初始化方法"><a href="#默认初始化方法" class="headerlink" title="默认初始化方法"></a>默认初始化方法</h4><ol>
+          <h4 id="默认初始化方法"><a href="#默认初始化方法" class="headerlink" title="默认初始化方法"></a>默认初始化方法</h4><ol>
 <li>类没有成员初始化方法；</li>
 <li>类拥有空初始化方法条件：类的所有属性都有默认值 &amp;&amp; 没有自定义初始化方法。</li>
 </ol>
@@ -992,49 +1138,14 @@
 <ul>
 <li>指定初始化方法用关键字<code>init</code>表示；</li>
 <li>如果有父类，则子类的指定初始化方法必须调用父类的指定初始化方法。</li>
-<li>子类在初始化方法的最后调用父类的初始化方法。因为子类的初始化方法负责为自己引入的所有属性赋值，子类属性赋值后，再调用父类的初始化方法，以便父类初始化自己的属性。</li>
-</ul>
-</li>
-<li><p>便捷初始化方法</p>
-<ul>
-<li>用<code>convenience</code>标记<code>init</code>方法</li>
-<li>不需要确保类的所有属性都有值</li>
-<li>需要调用其他便捷初始化方法或指定初始化方法，最终便捷初始化方法必须调用到指定初始化方法。</li>
-</ul>
-</li>
-<li><p>可失败的初始化方法</p>
-<ul>
-<li><p>返回可空实例，会增加工程复杂度，容易出错，只在必要情况下使用</p>
-</li>
-<li><p>方法用<code>init?</code>标记表示这个初始化方法可能失败</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Man</span></span>&#123;</div><div class="line">   <span class="keyword">init</span>?(name: <span class="type">String</span>, age: <span class="type">Int</span>)&#123;</div><div class="line">    <span class="keyword">guard</span> age &gt; <span class="number">0</span> <span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">self</span>.name = name</div><div class="line">    <span class="keyword">self</span>.age = age</div><div class="line">	&#125; </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> <span class="type">David</span> = <span class="type">Man</span>(name:<span class="string">"David"</span>, age:<span class="number">10</span>)</div><div class="line"><span class="keyword">let</span> nameStr = <span class="type">David</span>?.name</div><div class="line"><span class="built_in">print</span>(nameStr)</div></pre></td></tr></table></figure>
-</li>
-<li><p>用<code>init!</code>标记返回隐式展开可空类型，则不需要写可空类型展开的语法，Swift利用这些语法使可空类型更安全。但安全性大大下降。</p>
-</li>
-</ul>
-</li>
-</ol>
-<h4 id="初始化方法自动继承"><a href="#初始化方法自动继承" class="headerlink" title="初始化方法自动继承"></a>初始化方法自动继承</h4><ol>
-<li><p>一般情况下，子类不继承父类的初始化方法；</p>
-</li>
-<li><p>子类自动继承父类初始化方法的场景：</p>
-<ul>
-<li>子类新增属性有默认值  &amp;&amp; 子类没有定义任何指定初始化方法——&gt;子类继承父类的指定初始化方法；</li>
-<li>子类新增属性有默认值 &amp;&amp; 子类实现了父类的所有指定初始化方法（显式实现或隐式继承）——&gt;子类继承父类的所有便捷初始化。</li>
-</ul>
-</li>
-<li><p>必需初始化方法</p>
-<p>父类可以要求其子类提供特定的初始化方法：</p>
-<ul>
-<li><p>父类和子类都用<code>required</code>标记<code>init</code>方法，而不是用<code>override</code>关键字来标记；</p>
-</li>
-<li><p>子类需要调用父类初始化方法</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//父类</span></div><div class="line"><span class="keyword">required</span> <span class="keyword">init</span>(town: <span class="type">Town</span>?,monsterName: <span class="type">String</span>)&#123;</div><div class="line">    <span class="keyword">self</span>.town = town</div><div class="line">    name = monsterName</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//子类</span></div><div class="line"><span class="keyword">required</span> <span class="keyword">init</span>(town: <span class="type">Town</span>?,monsterName: <span class="type">String</span>)&#123;</div><div class="line">    walksWithLimp = <span class="literal">false</span><span class="comment">// 子类的新增属性</span></div><div class="line">    isFallingApart = <span class="literal">false</span></div><div class="line">    <span class="keyword">super</span>.<span class="keyword">init</span>(town:town,monsterName:monsterName)</div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ol>
-
-          
+<li>子类在初始化方法的最后调用父类的初始化方法。因为子类的初始化方法负责为自己引入的所有属性赋值，子类属性赋值后，再调用父类的初始化方法，以便父类初始化自己的属性。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/13/Swift类初始化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1173,37 +1284,17 @@
 
       
         
-          
-            <p>初始化方法的基本目的是给类型的所有存储属性赋值，以便新实例可用。编译器会强制要求新实例的存储属性有值。如果没有为自定义结构体提供初始化方法，就必须通过默认值或成员初始化方法提供必要的值。</p>
+          <p>初始化方法的基本目的是给类型的所有存储属性赋值，以便新实例可用。编译器会强制要求新实例的存储属性有值。如果没有为自定义结构体提供初始化方法，就必须通过默认值或成员初始化方法提供必要的值。</p>
 <p>初始化方法一般形式：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">CustomType</span></span>&#123;</div><div class="line">    <span class="keyword">init</span>(someValue: <span class="type">SomeType</span>)&#123;</div><div class="line">        <span class="comment">//初始化代码</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>初始化方法用关键字<code>init</code>表示，没有返回值，也不加<code>function</code>关键字。不同的初始化方法根据参数名及其类型的不同来区分。</p>
-<p>初始化方法：</p>
-<ol>
-<li><p>空初始化方法</p>
-<p>特点：没有参数；结构体中的属性都有默认值；给新实例的属性指定默认值。</p>
-<p>示例：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region = <span class="string">"South"</span></div><div class="line">    <span class="keyword">var</span> population = <span class="number">5_422</span></div><div class="line">    <span class="keyword">var</span> numbersOfStoplights = <span class="number">4</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>()	<span class="comment">//Town后的()表示调用空初始化方法</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>成员初始化方法</p>
-<p>特点：Swift默认提供；方法里包含了类型的每个存储属性对应的参数（初始化完成时，新实例的所有存储属性都需要有值）；可以给实例的属性指定新值（覆盖默认值）。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1. 常量属性有默认值的情况下，初始化方法不包含常量属性</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region = <span class="string">"South"</span></div><div class="line">    <span class="keyword">var</span> population = <span class="number">5_422</span></div><div class="line">    <span class="keyword">var</span> numbersOfStoplights = <span class="number">4</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>(population:<span class="number">1_000</span>,numbersOfStoplights:<span class="number">6</span>)</div><div class="line"><span class="comment">//myTown中的population不再是5_422，而是1_000,numberOfStoplights也变成了6</span></div><div class="line"></div><div class="line"><span class="comment">//2. 常量属性没有默认值的情况下，初始化方法需要包含常量属性</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region :<span class="type">String</span></div><div class="line">    <span class="keyword">var</span> population = <span class="number">5_422</span></div><div class="line">    <span class="keyword">var</span> numbersOfStoplights = <span class="number">4</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>(region:<span class="string">"North"</span>, population:<span class="number">1_000</span>, numbersOfStoplights:<span class="number">6</span>)</div><div class="line"><span class="built_in">print</span>(myTown)</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-<li><p>自定义初始化方法</p>
-<p>特点：Swift不再提供默认的初始化方法。</p>
-<p>注意：Swift编译器允许在<u>初始化过程中</u>初始化常量属性</p>
-<p>示例：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region: <span class="type">String</span></div><div class="line">    <span class="keyword">var</span> population: <span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">didSet</span>(oldPolulation)&#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"The population has changed to \(population)"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> numberOfStoplights: <span class="type">Int</span></div><div class="line">    </div><div class="line">    <span class="keyword">init</span>(region: <span class="type">String</span>, population: <span class="type">Int</span>, stoplights: <span class="type">Int</span>)&#123;</div><div class="line">        <span class="keyword">self</span>.region = region<span class="comment">//初始化参数名和属性名一样，访问属性需要指定self</span></div><div class="line">        <span class="keyword">self</span>.population = population</div><div class="line">		numberOfStoplights = stoplights</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>(region:<span class="string">"North"</span>,population: <span class="number">1200</span>, stoplights:<span class="number">3</span>)</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-<li><p>委托初始化方法</p>
-<p>特点：调用其他初始化方法；避免代码重复。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region: <span class="type">String</span></div><div class="line">    <span class="keyword">var</span> population: <span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">didSet</span>(oldPolulation)&#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"The population has changed to \(population)"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> numberOfStoplights: <span class="type">Int</span></div><div class="line">    </div><div class="line">    <span class="comment">//指定初始化方法</span></div><div class="line">    <span class="keyword">init</span>(region: <span class="type">String</span>, population: <span class="type">Int</span>, stoplights: <span class="type">Int</span>)&#123;</div><div class="line">        <span class="keyword">self</span>.region = region<span class="comment">//初始化参数名和属性名一样，访问属性需要指定self</span></div><div class="line">        <span class="keyword">self</span>.population = population</div><div class="line">		numberOfStoplights = stoplights</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//委托初始化方法</span></div><div class="line">    <span class="keyword">init</span>(population: <span class="type">Int</span>, stoplights: <span class="type">Int</span>)&#123;</div><div class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(region:<span class="string">"West"</span>,population: population,stoplights:stoplights)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>(region:<span class="string">"North"</span>,population: <span class="number">1200</span>, stoplights:<span class="number">3</span>)</div></pre></td></tr></table></figure>
-</li>
-</ol>
-
-          
+<p>初始化方法用关键字<code>init</code>表示，没有返回值，也不加<code>function</code>关键字。不同的初始化方法根据参数名及其类型的不同来区分。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/08/Swift结构体初始化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1686,155 +1777,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/08/21/Swift枚举类型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/08/21/Swift枚举类型/" itemprop="url">Swift枚举类型（enumeration）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-21T19:56:08+08:00">2016-08-21</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>枚举类型的知识点：<strong>基本语法、关联值、原始值、枚举类型和方法、递归枚举</strong>。</p>
-<h4 id="枚举语法"><a href="#枚举语法" class="headerlink" title="枚举语法"></a>枚举语法</h4><h5 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h5><ul>
-<li>枚举类型名大写开头</li>
-<li>多个成员值可以出现在同一行，用逗号隔开
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/08/21/Swift枚举类型/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1886,7 +1828,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-count">54</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1994,7 +1936,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">34</span>
+                      
+                    
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

@@ -113,7 +113,7 @@
 <meta property="og:description" content="初始化方法的基本目的是给类型的所有存储属性赋值，以便新实例可用。编译器会强制要求新实例的存储属性有值。如果没有为自定义结构体提供初始化方法，就必须通过默认值或成员初始化方法提供必要的值。
 初始化方法一般形式：
 12345struct CustomType&amp;#123;    init(someValue: SomeType)&amp;#123;        //初始化代码    &amp;#125;&amp;#125;">
-<meta property="og:updated_time" content="2018-04-25T03:15:44.436Z">
+<meta property="og:updated_time" content="2018-04-25T03:37:34.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift结构体初始化">
 <meta name="twitter:description" content="初始化方法的基本目的是给类型的所有存储属性赋值，以便新实例可用。编译器会强制要求新实例的存储属性有值。如果没有为自定义结构体提供初始化方法，就必须通过默认值或成员初始化方法提供必要的值。
@@ -398,8 +398,7 @@
         <p>初始化方法的基本目的是给类型的所有存储属性赋值，以便新实例可用。编译器会强制要求新实例的存储属性有值。如果没有为自定义结构体提供初始化方法，就必须通过默认值或成员初始化方法提供必要的值。</p>
 <p>初始化方法一般形式：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">CustomType</span></span>&#123;</div><div class="line">    <span class="keyword">init</span>(someValue: <span class="type">SomeType</span>)&#123;</div><div class="line">        <span class="comment">//初始化代码</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>初始化方法用关键字<code>init</code>表示，没有返回值，也不加<code>function</code>关键字。不同的初始化方法根据参数名及其类型的不同来区分。</p>
-<p>初始化方法：</p>
+<p>初始化方法用关键字<code>init</code>表示，没有返回值，也不加<code>function</code>关键字。不同的初始化方法根据参数名及其类型的不同来区分。<a id="more"></a></p>
 <ol>
 <li><p>空初始化方法</p>
 <p>特点：没有参数；结构体中的属性都有默认值；给新实例的属性指定默认值。</p>
@@ -409,14 +408,12 @@
 <li><p>成员初始化方法</p>
 <p>特点：Swift默认提供；方法里包含了类型的每个存储属性对应的参数（初始化完成时，新实例的所有存储属性都需要有值）；可以给实例的属性指定新值（覆盖默认值）。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1. 常量属性有默认值的情况下，初始化方法不包含常量属性</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region = <span class="string">"South"</span></div><div class="line">    <span class="keyword">var</span> population = <span class="number">5_422</span></div><div class="line">    <span class="keyword">var</span> numbersOfStoplights = <span class="number">4</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>(population:<span class="number">1_000</span>,numbersOfStoplights:<span class="number">6</span>)</div><div class="line"><span class="comment">//myTown中的population不再是5_422，而是1_000,numberOfStoplights也变成了6</span></div><div class="line"></div><div class="line"><span class="comment">//2. 常量属性没有默认值的情况下，初始化方法需要包含常量属性</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region :<span class="type">String</span></div><div class="line">    <span class="keyword">var</span> population = <span class="number">5_422</span></div><div class="line">    <span class="keyword">var</span> numbersOfStoplights = <span class="number">4</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>(region:<span class="string">"North"</span>, population:<span class="number">1_000</span>, numbersOfStoplights:<span class="number">6</span>)</div><div class="line"><span class="built_in">print</span>(myTown)</div></pre></td></tr></table></figure>
-<p>​</p>
 </li>
 <li><p>自定义初始化方法</p>
 <p>特点：Swift不再提供默认的初始化方法。</p>
 <p>注意：Swift编译器允许在<u>初始化过程中</u>初始化常量属性</p>
 <p>示例：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Town</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> region: <span class="type">String</span></div><div class="line">    <span class="keyword">var</span> population: <span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">didSet</span>(oldPolulation)&#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"The population has changed to \(population)"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> numberOfStoplights: <span class="type">Int</span></div><div class="line">    </div><div class="line">    <span class="keyword">init</span>(region: <span class="type">String</span>, population: <span class="type">Int</span>, stoplights: <span class="type">Int</span>)&#123;</div><div class="line">        <span class="keyword">self</span>.region = region<span class="comment">//初始化参数名和属性名一样，访问属性需要指定self</span></div><div class="line">        <span class="keyword">self</span>.population = population</div><div class="line">		numberOfStoplights = stoplights</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> myTown = <span class="type">Town</span>(region:<span class="string">"North"</span>,population: <span class="number">1200</span>, stoplights:<span class="number">3</span>)</div></pre></td></tr></table></figure>
-<p>​</p>
 </li>
 <li><p>委托初始化方法</p>
 <p>特点：调用其他初始化方法；避免代码重复。</p>
@@ -551,7 +548,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-count">54</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -659,7 +656,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">34</span>
+                      
+                    
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
