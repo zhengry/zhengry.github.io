@@ -305,6 +305,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/05/03/Xcode报错处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/03/Xcode报错处理/" itemprop="url">Xcode报错处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-03T17:45:40+08:00">2017-05-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Debug/" itemprop="url" rel="index"><span itemprop="name">Debug</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>记录下最近自己在项目中遇到的Xcode报错及处理方法：</p>
+<ol>
+<li><p>在podfile文件中删除了某个第三方库的引用，但cocoapods的xcconfig文件还保留着对该第三方库的配置，Xcode提示：</p>
+<blockquote>
+<p>file:///Users/…/XXXTests.debug.xcconfig: warning: Missing file: /Users/…/XXXTests.debug.xcconfig is missing from working copy</p>
+</blockquote>
+<p>解决方法：执行<code>pod install</code>方法后重新编译
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/03/Xcode报错处理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/04/27/present一个xib controller产生frame错误的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1042,7 +1194,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/13/Swift类初始化/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/17/Swift值类型和引用类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -1061,7 +1213,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/10/13/Swift类初始化/" itemprop="url">Swift类初始化</a></h1>
+                <a class="post-title-link" href="/2016/10/17/Swift值类型和引用类型/" itemprop="url">Swift值类型和引用类型</a></h1>
         
 
         <div class="post-meta">
@@ -1073,7 +1225,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-13T00:00:00+08:00">2016-10-13</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-17T00:00:00+08:00">2016-10-17</time>
             
 
             
@@ -1129,23 +1281,17 @@
 
       
         
-          <h4 id="默认初始化方法"><a href="#默认初始化方法" class="headerlink" title="默认初始化方法"></a>默认初始化方法</h4><ol>
-<li>类没有成员初始化方法；</li>
-<li>类拥有空初始化方法条件：类的所有属性都有默认值 &amp;&amp; 没有自定义初始化方法。</li>
-</ol>
-<h4 id="自定义初始化方法"><a href="#自定义初始化方法" class="headerlink" title="自定义初始化方法"></a>自定义初始化方法</h4><ol>
-<li><p>指定初始化方法</p>
-<ul>
-<li>指定初始化方法用关键字<code>init</code>表示；</li>
-<li>如果有父类，则子类的指定初始化方法必须调用父类的指定初始化方法。</li>
-<li>子类在初始化方法的最后调用父类的初始化方法。因为子类的初始化方法负责为自己引入的所有属性赋值，子类属性赋值后，再调用父类的初始化方法，以便父类初始化自己的属性。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/10/13/Swift类初始化/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>Swift中，基本类型（Array、Dictionary、Int、String等）都是值类型，它们都是用结构体实现的。在使用Swift时，应优先使用struct实现数据建模，只在需要的时候才使用class。</p>
+<p>不能改变声明为常量的值类型实例的属性。</p>
+<p>可以改变声明为常量的引用类型实例的属性。</p>
+<p>Swift在语言层面没有提供深复制的支持，所以Swift中的复制是浅复制。</p>
+<p>Swift对值类型的赋值行为会不会对性能产生影响？答案是取决于数据和用法。</p>
+<p>Swift标准库中的值类型实现了写时复制（copy on write，COW）机制：</p>
+<p>COW对值类型的底层存储的隐式共享。这种优化能够让某个值类型的多个实例共享同一个底层存储，也就是每个实例自己并不持有一份数据的副本；每个实例会维护自己对同一份存储的引用。如果某个实例需要修改或写入存储，那么这个实例就会产生一份自己的副本。</p>
+<p>所以值类型能够避免创建多余的数据副本。</p>
+
+          
         
       
     </div>
@@ -1197,7 +1343,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/08/Swift结构体初始化/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/15/nil合并运算符/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -1216,7 +1362,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/10/08/Swift结构体初始化/" itemprop="url">Swift结构体初始化</a></h1>
+                <a class="post-title-link" href="/2016/10/15/nil合并运算符/" itemprop="url">nil合并运算符</a></h1>
         
 
         <div class="post-meta">
@@ -1228,7 +1374,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-08T00:00:00+08:00">2016-10-08</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-15T00:00:00+08:00">2016-10-15</time>
             
 
             
@@ -1284,17 +1430,12 @@
 
       
         
-          <p>初始化方法的基本目的是给类型的所有存储属性赋值，以便新实例可用。编译器会强制要求新实例的存储属性有值。如果没有为自定义结构体提供初始化方法，就必须通过默认值或成员初始化方法提供必要的值。</p>
-<p>初始化方法一般形式：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">CustomType</span></span>&#123;</div><div class="line">    <span class="keyword">init</span>(someValue: <span class="type">SomeType</span>)&#123;</div><div class="line">        <span class="comment">//初始化代码</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>初始化方法用关键字<code>init</code>表示，没有返回值，也不加<code>function</code>关键字。不同的初始化方法根据参数名及其类型的不同来区分。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/10/08/Swift结构体初始化/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name : <span class="type">String</span>? = <span class="literal">nil</span></div><div class="line">name?.append(<span class="string">"baylee"</span>)</div><div class="line"><span class="keyword">let</span> nameDes = name ?? <span class="string">"zry"</span></div></pre></td></tr></table></figure>
+<p>对于可选实例<code>name</code>，如果<code>name</code>有值，将<code>name</code>赋值给<code>nameDes</code>，如果<code>name</code>为nil，赋值<code>&quot;zry&quot;</code>给<code>nameDes</code></p>
+<p>??为nil合并运算符，左边必须是可空实例，右边必须是非可空的同类型实例。如果左边为nil，则返回右边的值，否则返回左边的值。     </p>
+
+          
         
       
     </div>
@@ -1346,7 +1487,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/23/iOS之关联/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/Swift可空链式调用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -1365,7 +1506,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/09/23/iOS之关联/" itemprop="url">iOS之关联</a></h1>
+                <a class="post-title-link" href="/2016/10/14/Swift可空链式调用/" itemprop="url">Swift可空链式调用</a></h1>
         
 
         <div class="post-meta">
@@ -1377,155 +1518,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-23T00:15:32+08:00">2016-09-23</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。iOS中有两个与之相关的运行时函数：<code>objc_setAssociatedObject</code> 和<code>objc_getAssociatedObject</code>。</p>
-<p>在iOS中，关联常用来实现以下功能：<strong>在类的定义之外为类增加额外的存储空间</strong>。</p>
-<p>使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制兼容性的时候是非常有用。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/09/23/iOS之关联/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/13/Swift重写要点/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/09/13/Swift重写要点/" itemprop="url">Swift重写要点</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T22:19:47+08:00">2016-09-13</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-14T00:00:00+08:00">2016-10-14</time>
             
 
             
@@ -1581,13 +1574,13 @@
 
       
         
-          <h4 id="子类中访问父类的方法、属性及下标"><a href="#子类中访问父类的方法、属性及下标" class="headerlink" title="子类中访问父类的方法、属性及下标"></a>子类中访问父类的方法、属性及下标</h4><ul>
-<li>访问父类的方法：<code>super.someMethod()</code></li>
-<li>访问父类的属性：<code>super.someProperty</code></li>
-<li>访问父类的下标：<code>super[someIndex]</code>
+          <p>可空链式调用和可空实例绑定区别：可空链式调用允许程序员把多个查询串联为一个可空实例的值。如果链式调用中的每个可空实例都包含之，那么每个调用都会成功。整个查询链会返回期望类型的可空实例。如果查询链式中的任意可空实例是nil，那么整个链式调用会返回nil。</p>
+<p>示例：如果遇到404错误，就用自定义错误码及展示给用户的错误描述代替</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> errorCodeString : <span class="type">String</span>!</div><div class="line">errorCodeString = <span class="string">"404"</span></div><div class="line"><span class="keyword">var</span> errorDescription: <span class="type">String</span>?</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> theError = errorCodeString, <span class="keyword">let</span> errorCodeInteger = <span class="type">Int</span>(theError), errorCodeInteger == <span class="number">404</span> &#123;</div><div class="line">   errorDescription = <span class="string">"\(errorCodeInteger + 200): resource was not found"</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> upcaseDescription = errorDescription?.uppercased()</div></pre></td></tr></table></figure>
+<p>重点在于最后一句代码！！！
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/09/13/Swift重写要点/#more" rel="contents">
+            <a class="btn" href="/2016/10/14/Swift可空链式调用/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1643,7 +1636,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/07/Swift之类和结构体/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/Swift可空类型和隐式展开可空类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -1662,7 +1655,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/09/07/Swift之类和结构体/" itemprop="url">Swift之类和结构体</a></h1>
+                <a class="post-title-link" href="/2016/10/14/Swift可空类型和隐式展开可空类型/" itemprop="url">Swift可空类型和隐式展开可空类型</a></h1>
         
 
         <div class="post-meta">
@@ -1674,7 +1667,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-07T21:22:47+08:00">2016-09-07</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-14T00:00:00+08:00">2016-10-14</time>
             
 
             
@@ -1730,13 +1723,16 @@
 
       
         
-          <p>在Swift中，类和结构体既相似又各有不同。</p>
-<p>基本知识点：<strong>基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择</strong>。</p>
-<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ol>
-<li><p>结构体和类都可以添加属性和方法
+          <h4 id="可空类型"><a href="#可空类型" class="headerlink" title="可空类型"></a>可空类型</h4><p>可空类型指某个实例可能没有值，任何类型都可以用可空类型来说明一个实例可能是nil。可空类型让Swift这门语言更加安全。</p>
+<p>一个可能为nil的实例应该被声明为可空类型。<u>没有被声明为可空类型的实例不可能为nil。</u></p>
+<ol>
+<li><p>声明时在类型后加<code>?</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> errorCodeString: <span class="type">String</span>?</div><div class="line">errorCodeString = <span class="string">"404"</span></div><div class="line"><span class="built_in">print</span>(errorCodeString)</div><div class="line"><span class="comment">//打印结果是Optional("404")</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>访问时需要强制展开，实例后加<code>!</code>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/09/07/Swift之类和结构体/#more" rel="contents">
+            <a class="btn" href="/2016/10/14/Swift可空类型和隐式展开可空类型/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1828,7 +1824,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-count">59</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1938,7 +1934,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">39</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
