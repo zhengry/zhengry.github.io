@@ -117,7 +117,7 @@ Swift对值类型的赋值行为会不会">
 可以改变声明为常量的引用类型实例的属性。
 Swift在语言层面没有提供深复制的支持，所以Swift中的复制是浅复制。
 Swift对值类型的赋值行为会不会">
-<meta property="og:updated_time" content="2018-04-25T09:28:42.781Z">
+<meta property="og:updated_time" content="2018-04-25T09:31:18.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift值类型和引用类型">
 <meta name="twitter:description" content="Swift中，基本类型（Array、Dictionary、Int、String等）都是值类型，它们都是用结构体实现的。在使用Swift时，应优先使用struct实现数据建模，只在需要的时候才使用class。
@@ -405,7 +405,7 @@ Swift对值类型的赋值行为会不会">
 <p>不能改变声明为常量的值类型实例的属性。</p>
 <p>可以改变声明为常量的引用类型实例的属性。</p>
 <p>Swift在语言层面没有提供深复制的支持，所以Swift中的复制是浅复制。</p>
-<p>Swift对值类型的赋值行为会不会对性能产生影响？答案是取决于数据和用法。</p>
+<p>Swift对值类型的赋值行为会不会对性能产生影响？答案是取决于数据和用法。<a id="more"></a></p>
 <p>Swift标准库中的值类型实现了写时复制（copy on write，COW）机制：</p>
 <p>COW对值类型的底层存储的隐式共享。这种优化能够让某个值类型的多个实例共享同一个底层存储，也就是每个实例自己并不持有一份数据的副本；每个实例会维护自己对同一份存储的引用。如果某个实例需要修改或写入存储，那么这个实例就会产生一份自己的副本。</p>
 <p>所以值类型能够避免创建多余的数据副本。</p>
@@ -466,8 +466,8 @@ Swift对值类型的赋值行为会不会">
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/10/28/statusBarStyle设置问题/" rel="prev" title="statusBarStyle设置问题">
-                statusBarStyle设置问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/24/Swift析构器deinit/" rel="prev" title="Swift析构器deinit">
+                Swift析构器deinit <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -537,7 +537,7 @@ Swift对值类型的赋值行为会不会">
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">59</span>
+                    <span class="site-state-item-count">61</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -655,7 +655,11 @@ Swift对值类型的赋值行为会不会">
                     
                       
                     
-                    <span class="site-state-item-count">39</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">41</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
