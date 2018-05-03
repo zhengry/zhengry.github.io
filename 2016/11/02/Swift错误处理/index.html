@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="可能发生的错误分为两大类：可恢复的错误和不可恢复的错误。
+常见的可恢复错误：
+
+试图打开不存在的文件
+试图和下线的服务器通信
+试图在设备没有网络连接时通信
+
+常见的不可恢复错误：
+
+强制展开值为nil的可空实例
+数组越界
+
+说明：Swift中的错误处理涉及到错误处理模式，这会用到Cocoa和OC中NSError。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift错误处理">
+<meta property="og:url" content="https://zhengry.github.io/2016/11/02/Swift错误处理/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="可能发生的错误分为两大类：可恢复的错误和不可恢复的错误。
+常见的可恢复错误：
+
+试图打开不存在的文件
+试图和下线的服务器通信
+试图在设备没有网络连接时通信
+
+常见的不可恢复错误：
+
+强制展开值为nil的可空实例
+数组越界
+
+说明：Swift中的错误处理涉及到错误处理模式，这会用到Cocoa和OC中NSError。">
+<meta property="og:updated_time" content="2018-05-02T01:26:16.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift错误处理">
+<meta name="twitter:description" content="可能发生的错误分为两大类：可恢复的错误和不可恢复的错误。
+常见的可恢复错误：
+
+试图打开不存在的文件
+试图和下线的服务器通信
+试图在设备没有网络连接时通信
+
+常见的不可恢复错误：
+
+强制展开值为nil的可空实例
+数组越界
+
+说明：Swift中的错误处理涉及到错误处理模式，这会用到Cocoa和OC中NSError。">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2016/11/02/Swift错误处理/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Swift错误处理 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/11/02/Swift错误处理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift错误处理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-02T00:00:00+08:00">2016-11-02</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>可能发生的错误分为两大类：可恢复的错误和不可恢复的错误。</p>
+<p>常见的可恢复错误：</p>
+<ul>
+<li>试图打开不存在的文件</li>
+<li>试图和下线的服务器通信</li>
+<li>试图在设备没有网络连接时通信</li>
+</ul>
+<p>常见的不可恢复错误：</p>
+<ul>
+<li>强制展开值为nil的可空实例</li>
+<li>数组越界</li>
+</ul>
+<p>说明：Swift中的错误处理涉及到错误处理模式，这会用到Cocoa和OC中NSError。<a id="more"></a></p>
+<h4 id="表示并抛出错误"><a href="#表示并抛出错误" class="headerlink" title="表示并抛出错误"></a>表示并抛出错误</h4><p>在 Swift 中，错误用符合<code>Error</code>协议的类型的值来表示。这个空协议表明该类型可以用于错误处理。</p>
+<ul>
+<li>枚举类型尤为适合构建一组相关的错误状态，枚举的关联值还可以提供错误状态的额外信息。</li>
+<li>抛出错误用throw关键字</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">VendingMachineError</span>: <span class="title">Error</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> invalidSelection                     <span class="comment">//选择无效</span></div><div class="line">    <span class="keyword">case</span> insufficientFunds(coinsNeeded: <span class="type">Int</span>) <span class="comment">//金额不足</span></div><div class="line">    <span class="keyword">case</span> outOfStock                             <span class="comment">//缺货</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">throw</span> <span class="type">VendingMachineError</span>. insufficientFunds(coinsNeeded: <span class="number">5</span>)</div></pre></td></tr></table></figure>
+<h4 id="处理错误方式"><a href="#处理错误方式" class="headerlink" title="处理错误方式"></a>处理错误方式</h4><ol>
+<li><p>throwing函数传递错误</p>
+<ul>
+<li>声明的参数列表后加<code>thorws</code>关键字的函数被称为<code>throwing</code>函数，表示这种函数可以抛出错误。如果函数有返回值，<code>throws</code>需要写在<code>-&gt;</code>前。</li>
+<li>一个 throwing 函数可以在其内部抛出错误，并将错误传递到函数被调用时的作用域。</li>
+<li>只有 throwing 函数可以传递错误。任何在某个非 throwing 函数内部抛出的错误只能在函数内部处理。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Item</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> price: <span class="type">Int</span></div><div class="line">    <span class="keyword">var</span> <span class="built_in">count</span>: <span class="type">Int</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">VendingMachine</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> inventory = [</div><div class="line">        <span class="string">"Candy Bar"</span>: <span class="type">Item</span>(price: <span class="number">12</span>, <span class="built_in">count</span>: <span class="number">7</span>),</div><div class="line">        <span class="string">"Chips"</span>: <span class="type">Item</span>(price: <span class="number">10</span>, <span class="built_in">count</span>: <span class="number">4</span>),</div><div class="line">        <span class="string">"Pretzels"</span>: <span class="type">Item</span>(price: <span class="number">7</span>, <span class="built_in">count</span>: <span class="number">11</span>)</div><div class="line">    ]</div><div class="line">    <span class="keyword">var</span> coinsDeposited = <span class="number">0</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">dispenseSnack</span><span class="params">(snack: String)</span></span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Dispensing \(snack)"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">vend</span><span class="params">(itemNamed name: String)</span></span> <span class="keyword">throws</span> &#123;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> item = inventory[name] <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="type">VendingMachineError</span>.<span class="type">InvalidSelection</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">guard</span> item.<span class="built_in">count</span> &gt; <span class="number">0</span> <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="type">VendingMachineError</span>.<span class="type">OutOfStock</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">guard</span> item.price &lt;= coinsDeposited <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="type">VendingMachineError</span>.<span class="type">InsufficientFunds</span>(coinsNeeded: item.price - coinsDeposited)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        coinsDeposited -= item.price</div><div class="line"></div><div class="line">        <span class="keyword">var</span> newItem = item</div><div class="line">        newItem.<span class="built_in">count</span> -= <span class="number">1</span></div><div class="line">        inventory[name] = newItem</div><div class="line"></div><div class="line">        <span class="built_in">print</span>(<span class="string">"Dispensing \(name)"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>do-catch处理错误</p>
+<p>do-catch语句一般形式：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">do</span>&#123;</div><div class="line">    <span class="keyword">try</span> expression</div><div class="line">    statements</div><div class="line">&#125; <span class="keyword">catch</span> pattern <span class="number">1</span>&#123;</div><div class="line">    statements</div><div class="line">&#125; <span class="keyword">catch</span> pattern <span class="number">2</span> <span class="keyword">where</span> condition&#123;</div><div class="line">    statements</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>catch后面跟一个匹配模式来表明这个句子能处理什么样的错误。如果一条catch子句没有指定匹配模式，那么这条子句可以匹配任何错误，并且把错误绑定到一个名字为error的局部常量。</p>
+<p>catch子句不必将do子句中的代码所抛出的每一个可能的错误都做处理。如果所有catch子句都未处理错误，错误就会传递到周围的作用域。</p>
+<p>在do中至少有一个try语句。</p>
+</li>
+<li><p>将错误转换成可选值</p>
+<p>可以使用<code>try?</code>通过将错误转换成一个可选值来处理错误。如果在评估<code>try?</code>表达式时一个错误被抛出，那么表达式的值就是<code>nil</code>。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">fetchData</span><span class="params">()</span></span> -&gt; <span class="type">Data</span>? &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> data = <span class="keyword">try</span>? fetchDataFromDisk() &#123; <span class="keyword">return</span> data &#125;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> data = <span class="keyword">try</span>? fetchDataFromServer() &#123; <span class="keyword">return</span> data &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>禁用错误传递</p>
+<p>有时你知道某个<code>throwing</code>函数实际上在运行时是不会抛出错误的，在这种情况下，你可以在表达式前面写<code>try!</code>来禁用错误传递，这会把调用包装在一个不会有错误抛出的运行时断言中。如果真的抛出了错误，你会得到一个运行时错误。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> photo = <span class="keyword">try</span>! loadImage(atPath: <span class="string">"./Resources/John Appleseed.jpg"</span>)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="指定清理操作"><a href="#指定清理操作" class="headerlink" title="指定清理操作"></a>指定清理操作</h4><p>可以使用<code>defer</code>语句在即将离开当前代码块时执行一系列语句。该语句让你能执行一些必要的清理工作，不管是以何种方式离开当前代码块的——无论是由于抛出错误而离开，还是由于诸如<code>return</code>或者<code>break</code>的语句。例如，你可以用<code>defer</code>语句来确保文件描述符得以关闭，以及手动分配的内存得以释放。</p>
+<p><code>defer</code>语句将代码的执行延迟到当前的作用域退出之前。该语句由<code>defer</code>关键字和要被延迟执行的语句组成。延迟执行的语句不能包含任何控制转移语句，例如<code>break</code>或是<code>return</code>语句，或是抛出一个错误。延迟执行的操作会按照它们被指定时的顺序的相反顺序执行——也就是说，第一条<code>defer</code>语句中的代码会在第二条<code>defer</code>语句中的代码被执行之后才执行，以此类推。</p>
+<p>即使没有涉及到错误处理，你也可以使用<code>defer</code>语句。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">processFile</span><span class="params">(filename: String)</span></span> <span class="keyword">throws</span> &#123;</div><div class="line">    <span class="keyword">if</span> exists(filename) &#123;</div><div class="line">        <span class="keyword">let</span> file = open(filename)</div><div class="line">        <span class="keyword">defer</span> &#123;</div><div class="line">            close(file)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">while</span> <span class="keyword">let</span> line = <span class="keyword">try</span> file.readline() &#123;</div><div class="line">            <span class="comment">// 处理文件。</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">// close(file) 会在这里被调用，即作用域的最后。</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2016/11/02/Swift错误处理/" title="Swift错误处理">https://zhengry.github.io/2016/11/02/Swift错误处理/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift-错误处理/" rel="tag"># Swift-错误处理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/30/Swift协议作为类型/" rel="next" title="Swift协议作为类型">
+                <i class="fa fa-chevron-left"></i> Swift协议作为类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/06/Swift扩展（Extensions）/" rel="prev" title="Swift扩展（Extensions）">
+                Swift扩展（Extensions） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">67</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#表示并抛出错误"><span class="nav-number">1.</span> <span class="nav-text">表示并抛出错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理错误方式"><span class="nav-number">2.</span> <span class="nav-text">处理错误方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指定清理操作"><span class="nav-number">3.</span> <span class="nav-text">指定清理操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
