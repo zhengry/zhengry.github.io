@@ -761,154 +761,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/10/27/Swift之方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/27/Swift之方法/" itemprop="url">Swift之方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-27T00:00:00+08:00">2017-10-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在Swift中不仅类可以定义实例方法和类型方法，<u>结构体和枚举类型也可以定义实例方法和类型方法</u>。这是Swift和Objective-C之间的只要区别之一。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> <span class="built_in">count</span> = <span class="number">0</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">increment</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="built_in">count</span> += <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">increment</span><span class="params">(by amount: Int)</span></span> &#123;</div><div class="line">        <span class="built_in">count</span> += amount</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">reset</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="built_in">count</span> = <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> counter = <span class="type">Counter</span>()</div><div class="line"><span class="comment">// 初始计数值是0</span></div><div class="line">counter.increment()</div><div class="line"><span class="comment">// 计数值现在是1</span></div><div class="line">counter.increment(by: <span class="number">5</span>)</div><div class="line"><span class="comment">// 计数值现在是6</span></div><div class="line">counter.reset()</div><div class="line"><span class="comment">// 计数值现在是0</span></div></pre></td></tr></table></figure>
-<p>上面的increment方法还可以写成：
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/27/Swift之方法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/10/15/字符串标准等价/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1739,6 +1591,155 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/03/TableView中多个timer处理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/06/21/WKWebview自适应/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/21/WKWebview自适应/" itemprop="url">WKWebView自适应</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T22:47:08+08:00">2017-06-21</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ol>
+<li><p>自适应屏幕宽度</p>
+<p>在创建WKWebview时，添加js：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *jScript = <span class="string">@"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"</span>;</div><div class="line">    </div><div class="line">    <span class="built_in">WKUserScript</span> *wkUScript = [[<span class="built_in">WKUserScript</span> alloc] initWithSource:jScript injectionTime:<span class="built_in">WKUserScriptInjectionTimeAtDocumentEnd</span> forMainFrameOnly:<span class="literal">YES</span>];</div><div class="line">    <span class="built_in">WKUserContentController</span> *wkUController = [[<span class="built_in">WKUserContentController</span> alloc] init];</div><div class="line">    [wkUController addUserScript:wkUScript];</div><div class="line">    </div><div class="line">    <span class="built_in">WKWebViewConfiguration</span> *wkWebConfig = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</div><div class="line">    wkWebConfig.userContentController = wkUController;</div><div class="line">    </div><div class="line">    <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:<span class="keyword">self</span>.view.bounds configuration:wkWebConfig];</div><div class="line">    webView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line">    webView.UIDelegate = <span class="keyword">self</span>;</div><div class="line">    webView.navigationDelegate = <span class="keyword">self</span>;</div><div class="line">    [<span class="keyword">self</span>.view addSubview:webView];</div><div class="line">    <span class="keyword">self</span>.webView = webView;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/21/WKWebview自适应/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
