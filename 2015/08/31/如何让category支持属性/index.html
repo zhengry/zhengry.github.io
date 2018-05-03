@@ -104,18 +104,24 @@
 
 
   <meta name="description" content="category不能增加类的属性，这是category和extention的重要区别之一。但是通过category给类增加属性并非不可实现，比如用runtime设置关联就是一种可行的实现方式。
-首先在category头文件中声明属性：">
+首先在category头文件中声明属性：
+123@interface NSObject (nameTest)@property (nonatomic, copy) NSString *name;@end
+然">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何让category支持属性">
 <meta property="og:url" content="https://zhengry.github.io/2015/08/31/如何让category支持属性/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="category不能增加类的属性，这是category和extention的重要区别之一。但是通过category给类增加属性并非不可实现，比如用runtime设置关联就是一种可行的实现方式。
-首先在category头文件中声明属性：">
-<meta property="og:updated_time" content="2018-04-21T02:17:25.918Z">
+首先在category头文件中声明属性：
+123@interface NSObject (nameTest)@property (nonatomic, copy) NSString *name;@end
+然">
+<meta property="og:updated_time" content="2018-05-03T02:01:24.758Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何让category支持属性">
 <meta name="twitter:description" content="category不能增加类的属性，这是category和extention的重要区别之一。但是通过category给类增加属性并非不可实现，比如用runtime设置关联就是一种可行的实现方式。
-首先在category头文件中声明属性：">
+首先在category头文件中声明属性：
+123@interface NSObject (nameTest)@property (nonatomic, copy) NSString *name;@end
+然">
 
 
 
@@ -337,7 +343,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-31T23:03:46+08:00">2015-08-31</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-31T00:00:00+08:00">2015-08-31</time>
             
 
             
@@ -393,9 +399,9 @@
 
       
         <p>category不能增加类的属性，这是category和extention的重要区别之一。但是通过category给类增加属性并非不可实现，比如用runtime设置关联就是一种可行的实现方式。</p>
-<p>首先在category头文件中声明属性：<a id="more"></a></p>
+<p>首先在category头文件中声明属性：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NSObject</span> (<span class="title">nameTest</span>)</span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *name;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
-<p>然后在.m文件中增加关联：</p>
+<p>然后在.m文件中增加关联：<a id="more"></a></p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">NSObject</span> (<span class="title">nameTest</span>)</span></div><div class="line"><span class="comment">// 定义关联的key</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">char</span> *key = <span class="string">"name"</span>;</div><div class="line">- (<span class="built_in">NSString</span> *)name</div><div class="line">&#123;</div><div class="line">    <span class="comment">// 根据关联的key，获取关联的值。</span></div><div class="line">    <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, key);</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)setName:(<span class="built_in">NSString</span> *)name</div><div class="line">&#123;</div><div class="line">    <span class="comment">// 第一个参数：给哪个对象添加关联</span></div><div class="line">    <span class="comment">// 第二个参数：关联的key，通过这个key获取</span></div><div class="line">    <span class="comment">// 第三个参数：关联的value</span></div><div class="line">    <span class="comment">// 第四个参数:关联的策略</span></div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, key, name, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
@@ -431,7 +437,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OC-基础/" rel="tag"># OC-基础</a>
+            <a href="/tags/OC基础/" rel="tag"># OC基础</a>
           
         </div>
       
@@ -454,8 +460,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/21/iOS编译原理和过程/" rel="prev" title="iOS编译原理和过程">
-                iOS编译原理和过程 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/09/27/HTTP基础/" rel="prev" title="HTTP基础">
+                HTTP基础 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -599,65 +605,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

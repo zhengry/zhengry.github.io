@@ -336,7 +336,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T22:19:47+08:00">2016-09-13</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-13T00:00:00+08:00">2016-09-13</time>
             
 
             
@@ -634,7 +634,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-07T21:22:47+08:00">2016-09-07</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-07T00:00:00+08:00">2016-09-07</time>
             
 
             
@@ -932,7 +932,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-15T21:22:08+08:00">2016-08-15</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-15T00:00:00+08:00">2016-08-15</time>
             
 
             
@@ -989,7 +989,10 @@
       
         
           <p>知识点：<strong>存储属性、计算属性（setter、getter）、类型属性、属性观察（property observation）、属性访问控制</strong>。</p>
-<h4 id="存储属性"><a href="#存储属性" class="headerlink" title="存储属性"></a>存储属性</h4><p>存储属性就是存储在特定类或结构体实例里的常量或变量。只能用于类和结构体。分为变量存储属性和常量存储属性。
+<h4 id="存储属性"><a href="#存储属性" class="headerlink" title="存储属性"></a>存储属性</h4><p>存储属性就是存储在特定类或结构体实例里的常量或变量。只能用于类和结构体。分为变量存储属性和常量存储属性。</p>
+<p>定义存储属性的时候指定默认值，也可以在构造过程中设置或修改存储属性的值，甚至修改常量存储属性的值。</p>
+<p><strong>关于构造过程中常量属性的修改说明：</strong></p>
+<p>你可以在构造过程中的任意时间点给常量属性指定一个值，只要在构造过程结束时是一个确定的值。一旦常量属性被赋值，它将永远不可修改。对于类的实例，它的常量属性只能在定义它的类的构造过程中修改，不能在子类中修改。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/08/15/Swift之属性/#more" rel="contents">
@@ -1079,7 +1082,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-23T23:03:18+08:00">2016-07-23</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-23T00:00:00+08:00">2016-07-23</time>
             
 
             
@@ -1234,7 +1237,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-21T21:08:12+08:00">2016-07-21</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-21T00:00:00+08:00">2016-07-21</time>
             
 
             
@@ -1385,7 +1388,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-18T21:02:56+08:00">2016-07-18</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-18T00:00:00+08:00">2016-07-18</time>
             
 
             
@@ -1442,7 +1445,9 @@
       
         
           <p>Swift中的ARC机制和Objective-C类似。每次创建一个类的新的实例的时候，ARC会分配一块内存在存储该实例信息，内存中会包含实例的类型信息以及这个实例所有相关的存储型属性的值。当实例不再被使用时，ARC会释放所占用的内存。</p>
-<p>鉴定一个实例是否被释放的方法：<br>在析构函数中添加打印信息，若实例被置为nil后，没有打印析构函数信息，则实例仍然存在引用，没有被销毁。
+<p>鉴定一个实例是否被释放的方法：<br>在析构函数中添加打印信息，若实例被置为nil后，没有打印析构函数信息，则实例仍然存在引用，没有被销毁。</p>
+<h4 id="解决类实例之间的循环强引用"><a href="#解决类实例之间的循环强引用" class="headerlink" title="解决类实例之间的循环强引用"></a>解决类实例之间的循环强引用</h4><p>根据使用场景不同有三种解决方法：弱引用、无主引用和<em>无主引用与隐式解析可选属性结合</em>。</p>
+<p>弱引用和无主引用都不会保持所引用的实例，从而实现在循环引用中的一个实例引用而另一个实例不保持强引用。
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/07/18/Swift的ARC机制/#more" rel="contents">
@@ -1532,7 +1537,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-03T22:28:09+08:00">2016-07-03</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-03T00:00:00+08:00">2016-07-03</time>
             
 
             
@@ -1679,7 +1684,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-20T22:57:40+08:00">2016-06-20</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-06-20T00:00:00+08:00">2016-06-20</time>
             
 
             
@@ -1904,65 +1909,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
