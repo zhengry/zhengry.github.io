@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="cell自适应的怨念iOS7中估算cell 高度的方法：estimatedRowHeight1234567self.tableView.estimatedRowHeight = 88;// or- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cell高度自适应">
+<meta property="og:url" content="https://zhengry.github.io/2016/11/21/cell高度自适应/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="cell自适应的怨念iOS7中估算cell 高度的方法：estimatedRowHeight1234567self.tableView.estimatedRowHeight = 88;// or- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath">
+<meta property="og:updated_time" content="2018-05-03T08:00:48.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cell高度自适应">
+<meta name="twitter:description" content="cell自适应的怨念iOS7中估算cell 高度的方法：estimatedRowHeight1234567self.tableView.estimatedRowHeight = 88;// or- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2016/11/21/cell高度自适应/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>cell高度自适应 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/11/21/cell高度自适应/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cell高度自适应</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-21T00:00:00+08:00">2016-11-21</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="cell自适应的怨念"><a href="#cell自适应的怨念" class="headerlink" title="cell自适应的怨念"></a>cell自适应的怨念</h4><h5 id="iOS7中估算cell-高度的方法：estimatedRowHeight"><a href="#iOS7中估算cell-高度的方法：estimatedRowHeight" class="headerlink" title="iOS7中估算cell 高度的方法：estimatedRowHeight"></a>iOS7中估算cell 高度的方法：<code>estimatedRowHeight</code></h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.tableView.estimatedRowHeight = <span class="number">88</span>;</div><div class="line"></div><div class="line"><span class="comment">// or</span></div><div class="line"></div><div class="line">- (<span class="built_in">CGFloat</span>)tableView:(<span class="built_in">UITableView</span> *)tableView estimatedHeightForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</div><div class="line">   <span class="comment">// return xxx</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>估算高度出现的问题：<a id="more"></a></p>
+<ol>
+<li>设置估算高度后，contentSize.height 根据“cell估算值 x cell个数”计算，这就导致滚动条的大小处于不稳定的状态，contentSize 会随着滚动从估算高度慢慢替换成真实高度，肉眼可见滚动条突然变化甚至“跳跃”。</li>
+<li>若是有设计不好的下拉刷新或上拉加载控件，或是 KVO 了<code>contentSize</code>或<code>contentOffset</code>属性，有可能使表格滑动时跳动。</li>
+<li>估算高度设计初衷是好的，让加载速度更快，但损害了滑动的流畅性，滑动时实时计算高度会带来明显的卡顿。</li>
+</ol>
+<h5 id="iOS8中self-sizing-cell——cell自己负责对自身高度的计算"><a href="#iOS8中self-sizing-cell——cell自己负责对自身高度的计算" class="headerlink" title="iOS8中self-sizing cell——cell自己负责对自身高度的计算"></a>iOS8中self-sizing cell——cell自己负责对自身高度的计算</h5><p>有两种方式：</p>
+<ol>
+<li>fram layout下：重写<code>sizeThatFits</code>方法</li>
+<li>auto layout下： add constraints to cell.contenView</li>
+</ol>
+<p>这个特性只支持iOS8以上的系统，用到的API：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.tableView.estimatedRowHeight = <span class="number">213</span>;</div><div class="line"><span class="keyword">self</span>.tableView.rowHeight = <span class="built_in">UITableViewAutomaticDimension</span>;</div></pre></td></tr></table></figure>
+<p>所以，需要支持iOS7的项目，还是需要自己实现高度自适应。</p>
+<h4 id="第三方实现——FDTemplateLayoutCell"><a href="#第三方实现——FDTemplateLayoutCell" class="headerlink" title="第三方实现——FDTemplateLayoutCell"></a>第三方实现——FDTemplateLayoutCell</h4><p><a href="https://github.com/forkingdog/UITableView-FDTemplateLayoutCell" target="_blank" rel="external">FDTemplateLayoutCell的GitHub地址</a></p>
+<p>所有的附加文件都是UITableView的category，共有四个类：</p>
+<ul>
+<li>UITableView+FDTemplateLayoutCell</li>
+<li>UITableView+FDKeyedHeightCache</li>
+<li>UITableView+FDIndexPathHeightCache</li>
+<li>UITableView+FDTemplateLayoutCellDebug</li>
+</ul>
+<h5 id="UITableView-FDTemplateLayoutCell"><a href="#UITableView-FDTemplateLayoutCell" class="headerlink" title="UITableView+FDTemplateLayoutCell"></a>UITableView+FDTemplateLayoutCell</h5><p>这个category把tableView中用到的不同样式的cell封装成一个一个的模板cell，然后计算该模板cell的高度。</p>
+<p>高度计算过程</p>
+<ol>
+<li><p>使用auto layout计算高度（cell使用了auto layout）：通过<code>systemLayoutSizeFittingSize：</code>计算cell高度</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">fittingHeight = [cell.contentView systemLayoutSizeFittingSize:<span class="built_in">UILayoutFittingCompressedSize</span>].height;</div></pre></td></tr></table></figure>
+</li>
+<li><p>警告：一旦在使用auto Layout的情况下，步骤1返回的高度为0，则报警告</p>
+</li>
+<li><p>使用frame layout计算高度（cell可能没有使用auto layout）：如果步骤1返回高度为0，则调用<code>sizeThatFits:</code>方法计算cell高度</p>
+</li>
+<li><p>如果返回高度仍为0，就自己给一个合适的高度或默认的高度44，然后根据需要把高度给缓存类或者UITableView的heightForRow</p>
+</li>
+</ol>
+<p>注意：</p>
+<p>计算得到的高度不包括 separator view的高度，所以在返回高度之前，会根据separator style来增加1px</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">self</span>.separatorStyle != <span class="built_in">UITableViewCellSeparatorStyleNone</span>) &#123;</div><div class="line">    fittingHeight += <span class="number">1.0</span> / [<span class="built_in">UIScreen</span> mainScreen].scale;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="UITableView-FDKeyedHeightCache"><a href="#UITableView-FDKeyedHeightCache" class="headerlink" title="UITableView+FDKeyedHeightCache"></a>UITableView+FDKeyedHeightCache</h5><p>根据key，比如reuseID，给cell做高度缓存。</p>
+<p>比如，有三种不同类型的cell，每种cell的高度的高度是一样的，但三种类型各不相同，这时候可以用这个方法缓存高度。</p>
+<h5 id="UITableView-FDIndexPathHeightCache"><a href="#UITableView-FDIndexPathHeightCache" class="headerlink" title="UITableView+FDIndexPathHeightCache"></a>UITableView+FDIndexPathHeightCache</h5><p>根据indexPath进行高度缓存。</p>
+<p>比如在tableView reloadData的时候，如果根据indexPath做了缓存，就不需要再次计算</p>
+<h5 id="UITableView-FDTemplateLayoutCellDebug"><a href="#UITableView-FDTemplateLayoutCellDebug" class="headerlink" title="UITableView+FDTemplateLayoutCellDebug"></a>UITableView+FDTemplateLayoutCellDebug</h5><p>主要是在debug的时候添加一些log信息，方便debug</p>
+<h4 id="cell自适应高度的自定义实现"><a href="#cell自适应高度的自定义实现" class="headerlink" title="cell自适应高度的自定义实现"></a>cell自适应高度的自定义实现</h4><p>auto layout下：</p>
+<ol>
+<li><p>给cell的subViews添加合适的约束</p>
+</li>
+<li><p>给tableView设置估算高度</p>
+</li>
+<li><p>给cell.contentView添加约束。因为cell.contentView必须要有super view（就是tableView）才能知道自身的宽度，然后才能保证layout出合适的高度。</p>
+<p>给contentView添加约束：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">CGFloat</span> contentViewWidth = <span class="built_in">CGRectGetWidth</span>(<span class="keyword">self</span>.tableView.bounds);</div><div class="line"><span class="built_in">NSLayoutConstraint</span> *widthFenceConstraint = [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:cell.contentView attribute:<span class="built_in">NSLayoutAttributeWidth</span> relatedBy:<span class="built_in">NSLayoutRelationEqual</span> toItem:<span class="literal">nil</span> attribute:<span class="built_in">NSLayoutAttributeNotAnAttribute</span> multiplier:<span class="number">1.0</span> constant:contentViewWidth];</div><div class="line"></div><div class="line">[cell.contentView addConstraint:widthFenceConstraint];  </div><div class="line"><span class="comment">// Auto layout engine does its math</span></div><div class="line">fittingHeight = [cell.contentView systemLayoutSizeFittingSize:<span class="built_in">UILayoutFittingCompressedSize</span>].height;      </div><div class="line">[cell.contentView removeConstraint:widthFenceConstraint];</div></pre></td></tr></table></figure>
+</li>
+<li><p>在heightForRow的时候，创建cell——&gt;这个cell只用来计算需要的cell高度，并不绘制在tableView上，因为自适应条件下要获取cell高度，需要根据cell内容来计算cell高度，所以首先要有一个cell。</p>
+</li>
+</ol>
+<p>注意：cell.contentView的约束是在获取height的方法里添加的，里面根据accessoryType的不同设置了不同的contentView的宽度（accessoryType不同，accessory的宽度不包含在contentView中）。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2016/11/21/cell高度自适应/" title="cell高度自适应">https://zhengry.github.io/2016/11/21/cell高度自适应/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OC-UI/" rel="tag"># OC-UI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/19/iOS性能指标/" rel="next" title="iOS性能指标">
+                <i class="fa fa-chevron-left"></i> iOS性能指标
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/23/线程锁NSLock/" rel="prev" title="线程锁NSLock">
+                线程锁NSLock <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">80</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#cell自适应的怨念"><span class="nav-number">1.</span> <span class="nav-text">cell自适应的怨念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#iOS7中估算cell-高度的方法：estimatedRowHeight"><span class="nav-number">1.1.</span> <span class="nav-text">iOS7中估算cell 高度的方法：estimatedRowHeight</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#iOS8中self-sizing-cell——cell自己负责对自身高度的计算"><span class="nav-number">1.2.</span> <span class="nav-text">iOS8中self-sizing cell——cell自己负责对自身高度的计算</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三方实现——FDTemplateLayoutCell"><span class="nav-number">2.</span> <span class="nav-text">第三方实现——FDTemplateLayoutCell</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#UITableView-FDTemplateLayoutCell"><span class="nav-number">2.1.</span> <span class="nav-text">UITableView+FDTemplateLayoutCell</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UITableView-FDKeyedHeightCache"><span class="nav-number">2.2.</span> <span class="nav-text">UITableView+FDKeyedHeightCache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UITableView-FDIndexPathHeightCache"><span class="nav-number">2.3.</span> <span class="nav-text">UITableView+FDIndexPathHeightCache</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UITableView-FDTemplateLayoutCellDebug"><span class="nav-number">2.4.</span> <span class="nav-text">UITableView+FDTemplateLayoutCellDebug</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cell自适应高度的自定义实现"><span class="nav-number">3.</span> <span class="nav-text">cell自适应高度的自定义实现</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
