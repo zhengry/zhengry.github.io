@@ -109,7 +109,7 @@
 <meta property="og:url" content="https://zhengry.github.io/2016/02/24/nib文件/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="Nib文件是一种特殊类型的资源文件，它用于保存iPhone OS或Mac OS X应用程序的用户接口。Nib文件是Interface  Builder文档。通常您会使用Interface  Builder设计应用程序的可视部分－例如窗口或视图。有些时候，您可能也用它来配置一些不可视的对象，例如控制器对象（用于管理窗口和视图）。实际上，所有这些操作都是在编辑一份Interface  Builder">
-<meta property="og:updated_time" content="2018-05-04T01:42:03.085Z">
+<meta property="og:updated_time" content="2018-05-04T02:33:03.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nib文件">
 <meta name="twitter:description" content="Nib文件是一种特殊类型的资源文件，它用于保存iPhone OS或Mac OS X应用程序的用户接口。Nib文件是Interface  Builder文档。通常您会使用Interface  Builder设计应用程序的可视部分－例如窗口或视图。有些时候，您可能也用它来配置一些不可视的对象，例如控制器对象（用于管理窗口和视图）。实际上，所有这些操作都是在编辑一份Interface  Builder">
@@ -390,7 +390,7 @@
 
       
         <p> Nib文件是一种特殊类型的资源文件，它用于保存iPhone OS或Mac OS X应用程序的用户接口。Nib文件是Interface  Builder文档。通常您会使用Interface  Builder设计应用程序的可视部分－例如窗口或视图。有些时候，您可能也用它来配置一些不可视的对象，例如控制器对象（用于管理窗口和视图）。实际上，所有这些操作都是在编辑一份Interface  Builder文档，即在创建一份对象图。保存文件的时候，就是将该对象图进行归档，加载文件的时候，就是将对象图进行解档。</p>
-<p> Nib文件—也就是对象图－可以包含占位对象，这种对象用于指涉存在于文档之外的对象。这些对象虽然不在文档中，但却可能含有文档内对象的引用，或者被文档内的对象引用。文件拥有者就是一种特殊的占位对象。</p>
+<p> Nib文件—也就是对象图－可以包含占位对象，这种对象用于指涉存在于文档之外的对象。这些对象虽然不在文档中，但却可能含有文档内对象的引用，或者被文档内的对象引用。文件拥有者就是一种特殊的占位对象。<a id="more"></a></p>
 <p> 在程序运行的时候，您可以使用 <code>loadNibNamed:owner:</code>(或者此方法变种)加载Nib文件。在Nib文件中，文件拥有者是个占位对象，它表示您通过owner参数传给此方法的对象。加载Nib文件的时候，所有在Interface Builder中建立的关联（文件拥有者和其他对象之间的关联）都能够在运行时重新建立起来。</p>
 <p> nib文件是一种数据文件，用于存储可在应用程序需要时使用的一些“冻结”的对象。大多数情况下，应用程序使用nib文件来存储构成用户界面的窗口和视图。当您将nib文件载入应用程序时，nib装载代码会将文件中的内容转化为应用程序可以操作的真正对象。通过这个机制，nib文件省去了用代码创建那些对象的工作。</p>
 <p> Interface  Builder是一个可视化的设计环境，您可以用它来创建nib文件。您可以将标准对象（比如UIKit框架中提供的窗口和视图）和Xcode工程中的定制对象放到nib文件中。在Interface   Builder中创建视图层次相当简单，只需要对视图对象进行简单拖拽就可以了。您也可以通过查看器窗口来配置每个对象的属性，以及通过创建对象间的连接来定义它们在运行时的关系。您所做的改变最终都会作为nib文件的一部分存储到磁盘上。</p>

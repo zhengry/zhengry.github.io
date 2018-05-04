@@ -109,7 +109,7 @@
 <meta property="og:url" content="https://zhengry.github.io/2016/10/24/iOS10新特性/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="1、SiriKitSiriKit 提供一全套从语音识别到代码处理，最后向用户展示结果的流程。Apple 加入了一套全新的框架 Intents.framework 来表示 Siri 获取并解析的结果。你的应用需要提供一些关键字表明可以接受相关输入，而 Siri 扩展只需要监听系统识别的用户意图 (intent)，作出合适的响应，修改以及实际操作，最后通过 IntentsUI.framework 提供">
-<meta property="og:updated_time" content="2018-05-03T08:35:23.591Z">
+<meta property="og:updated_time" content="2018-05-04T02:38:59.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS10新特性">
 <meta name="twitter:description" content="1、SiriKitSiriKit 提供一全套从语音识别到代码处理，最后向用户展示结果的流程。Apple 加入了一套全新的框架 Intents.framework 来表示 Siri 获取并解析的结果。你的应用需要提供一些关键字表明可以接受相关输入，而 Siri 扩展只需要监听系统识别的用户意图 (intent)，作出合适的响应，修改以及实际操作，最后通过 IntentsUI.framework 提供">
@@ -390,7 +390,7 @@
 
       
         <h4 id="1、SiriKit"><a href="#1、SiriKit" class="headerlink" title="1、SiriKit"></a>1、SiriKit</h4><p>SiriKit 提供一全套从语音识别到代码处理，最后向用户展示结果的流程。Apple 加入了一套全新的框架 Intents.framework 来表示 Siri 获取并解析的结果。你的应用需要提供一些关键字表明可以接受相关输入，而 Siri 扩展只需要监听系统识别的用户意图 (intent)，作出合适的响应，修改以及实际操作，最后通过 IntentsUI.framework 提供反馈。 在 iOS 10 中，我们只能用 SiriKit 来做六类事情，分别是：语音和视频通话、发送消息、发送或接收付款、搜索照片、约车、管理健身。如果你的应用恰好正在处理这些领域的问题的话，添加 Intents Extension 的支持会是很棒的选择。它将提高用户使用你的应用的可能性，也能让用户在其他像是地图这样的系统级应用中使用你的服务。</p>
-<h4 id="2、-iMessage-App-Extension"><a href="#2、-iMessage-App-Extension" class="headerlink" title="2、 iMessage App Extension"></a>2、 iMessage App Extension</h4><p>在 iOS 10 里面开发者可以给 Message.app 提供两种 App Extension，分别是可以提供一个表情包（没错，英文名就叫 Sticker Pack），和一个自定义的界面，用于表情搜索等。添加了新的贴纸包，自动转换颜文字，发送全屏效果等功能。Xcode 8 中添加了Messages Application模板。同时，模拟器甚至还开发了新的双人对话模式，以供开发者调试这类 app。</p>
+<h4 id="2、-iMessage-App-Extension"><a href="#2、-iMessage-App-Extension" class="headerlink" title="2、 iMessage App Extension"></a>2、 iMessage App Extension</h4><p>在 iOS 10 里面开发者可以给 Message.app 提供两种 App Extension，分别是可以提供一个表情包（没错，英文名就叫 Sticker Pack），和一个自定义的界面，用于表情搜索等。添加了新的贴纸包，自动转换颜文字，发送全屏效果等功能。Xcode 8 中添加了Messages Application模板。同时，模拟器甚至还开发了新的双人对话模式，以供开发者调试这类 app。<a id="more"></a></p>
 <p>虽然名义上是独立 app，但实际上工作的依然是一个 extension。在该扩展中，Messages.framework 将承担与系统的 message 界面交互的主要职责。你通过提供一个自定义的 View Controller，来获取用户在使用你的 message app 时进行对话的上下文，以及发送接收等操作，并做出合适的响应。这个扩展在用来进行直接在 Message 应用中一些自定义共享会很好玩。但是鉴于 Apple 暂时没有打算将 Message.app 跨平台的原因，可能也注定了这只会是一种补充，而无法成为主流。</p>
 <h4 id="3、User-Notifications"><a href="#3、User-Notifications" class="headerlink" title="3、User Notifications"></a>3、User Notifications</h4><p>和本地及推送通知相关的 API 被封装到了全新的框架 UserNotifications.framework 中。在 iOS 10 中，开发者的服务器有机会在本地或者远程通知发送给用户之前再进行修改。另外，在之前加入了 notification action 及 text input 的基础上，iOS 10 又新增了为通知添加音频、图片、视频的功能。现在，你的通知不仅仅是提醒用户回到应用的入口，更成为了一个展示应用内容，向用户传递多媒体信息的窗口。</p>
 <h4 id="4、App-Extensions"><a href="#4、App-Extensions" class="headerlink" title="4、App Extensions"></a>4、App Extensions</h4><p>iOS 10最重要的开发特点就是允许第三方应用对自带基础app的拓展关联， 全新 7 种 App Extension：</p>
