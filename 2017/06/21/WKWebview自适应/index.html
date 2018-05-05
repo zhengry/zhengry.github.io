@@ -105,20 +105,20 @@
 
   <meta name="description" content="自适应屏幕宽度
 在创建WKWebview时，添加js：
-123456789101112131415NSString *jScript = @&quot;var meta = document.createElement(&apos;meta&apos;); meta.setAttribute(&apos;name&apos;, &apos;viewport&apos;); meta.setAttribute(&apos;content&apos;, &apos;width=device-wid">
+123456789101112131415NSString *jScript = @&quot;var meta = document.createElement(&apos;meta&apos;); meta.setAttribute(&apos;name&apos;,&apos;viewport&apos;); meta.setAttribute(&apos;content&apos;, &apos;width=device-widt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WKWebView自适应">
 <meta property="og:url" content="https://zhengry.github.io/2017/06/21/WKWebview自适应/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="自适应屏幕宽度
 在创建WKWebview时，添加js：
-123456789101112131415NSString *jScript = @&quot;var meta = document.createElement(&apos;meta&apos;); meta.setAttribute(&apos;name&apos;, &apos;viewport&apos;); meta.setAttribute(&apos;content&apos;, &apos;width=device-wid">
-<meta property="og:updated_time" content="2018-05-03T02:22:06.911Z">
+123456789101112131415NSString *jScript = @&quot;var meta = document.createElement(&apos;meta&apos;); meta.setAttribute(&apos;name&apos;,&apos;viewport&apos;); meta.setAttribute(&apos;content&apos;, &apos;width=device-widt">
+<meta property="og:updated_time" content="2018-05-05T06:18:10.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WKWebView自适应">
 <meta name="twitter:description" content="自适应屏幕宽度
 在创建WKWebview时，添加js：
-123456789101112131415NSString *jScript = @&quot;var meta = document.createElement(&apos;meta&apos;); meta.setAttribute(&apos;name&apos;, &apos;viewport&apos;); meta.setAttribute(&apos;content&apos;, &apos;width=device-wid">
+123456789101112131415NSString *jScript = @&quot;var meta = document.createElement(&apos;meta&apos;); meta.setAttribute(&apos;name&apos;,&apos;viewport&apos;); meta.setAttribute(&apos;content&apos;, &apos;width=device-widt">
 
 
 
@@ -398,7 +398,7 @@
         <ol>
 <li><p>自适应屏幕宽度</p>
 <p>在创建WKWebview时，添加js：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *jScript = <span class="string">@"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"</span>;</div><div class="line">    </div><div class="line">    <span class="built_in">WKUserScript</span> *wkUScript = [[<span class="built_in">WKUserScript</span> alloc] initWithSource:jScript injectionTime:<span class="built_in">WKUserScriptInjectionTimeAtDocumentEnd</span> forMainFrameOnly:<span class="literal">YES</span>];</div><div class="line">    <span class="built_in">WKUserContentController</span> *wkUController = [[<span class="built_in">WKUserContentController</span> alloc] init];</div><div class="line">    [wkUController addUserScript:wkUScript];</div><div class="line">    </div><div class="line">    <span class="built_in">WKWebViewConfiguration</span> *wkWebConfig = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</div><div class="line">    wkWebConfig.userContentController = wkUController;</div><div class="line">    </div><div class="line">    <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:<span class="keyword">self</span>.view.bounds configuration:wkWebConfig];</div><div class="line">    webView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line">    webView.UIDelegate = <span class="keyword">self</span>;</div><div class="line">    webView.navigationDelegate = <span class="keyword">self</span>;</div><div class="line">    [<span class="keyword">self</span>.view addSubview:webView];</div><div class="line">    <span class="keyword">self</span>.webView = webView;</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *jScript = <span class="string">@"var meta = document.createElement('meta'); meta.setAttribute('name','viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"</span>;</div><div class="line">   </div><div class="line">   <span class="built_in">WKUserScript</span> *wkUScript = [[<span class="built_in">WKUserScript</span> alloc] initWithSource:jScript injectionTime:<span class="built_in">WKUserScriptInjectionTimeAtDocumentEnd</span> forMainFrameOnly:<span class="literal">YES</span>];</div><div class="line">   <span class="built_in">WKUserContentController</span> *wkUController = [[<span class="built_in">WKUserContentController</span> alloc] init];</div><div class="line">   [wkUController addUserScript:wkUScript];</div><div class="line">   </div><div class="line">   <span class="built_in">WKWebViewConfiguration</span> *wkWebConfig = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</div><div class="line">   wkWebConfig.userContentController = wkUController;</div><div class="line">   </div><div class="line">   <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:<span class="keyword">self</span>.view.bounds configuration:wkWebConfig];</div><div class="line">   webView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line">   webView.UIDelegate = <span class="keyword">self</span>;</div><div class="line">   webView.navigationDelegate = <span class="keyword">self</span>;</div><div class="line">   [<span class="keyword">self</span>.view addSubview:webView];</div><div class="line">   <span class="keyword">self</span>.webView = webView;</div></pre></td></tr></table></figure>
 <a id="more"></a>
 </li>
 <li><p>图片宽度自适应</p>
@@ -537,7 +537,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">81</span>
+                    <span class="site-state-item-count">83</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

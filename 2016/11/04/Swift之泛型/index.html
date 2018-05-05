@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="泛型就是适用于任意类型、灵活可重用的函数及类型。泛型可以避免代码的重复。比如Swift的数组、字典、可选类型。
+泛型数据结构比如自定义一个名stack（栈）函数：
+123456789struct IntStack&amp;#123;    var items = [Int]()    mutating func push(_ item: Int)&amp;#123;        items.append(ite">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift之泛型">
+<meta property="og:url" content="https://zhengry.github.io/2016/11/04/Swift之泛型/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="泛型就是适用于任意类型、灵活可重用的函数及类型。泛型可以避免代码的重复。比如Swift的数组、字典、可选类型。
+泛型数据结构比如自定义一个名stack（栈）函数：
+123456789struct IntStack&amp;#123;    var items = [Int]()    mutating func push(_ item: Int)&amp;#123;        items.append(ite">
+<meta property="og:updated_time" content="2018-05-05T09:14:42.444Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift之泛型">
+<meta name="twitter:description" content="泛型就是适用于任意类型、灵活可重用的函数及类型。泛型可以避免代码的重复。比如Swift的数组、字典、可选类型。
+泛型数据结构比如自定义一个名stack（栈）函数：
+123456789struct IntStack&amp;#123;    var items = [Int]()    mutating func push(_ item: Int)&amp;#123;        items.append(ite">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2016/11/04/Swift之泛型/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Swift之泛型 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/11/04/Swift之泛型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift之泛型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-04T00:00:00+08:00">2016-11-04</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>泛型就是适用于任意类型、灵活可重用的函数及类型。泛型可以避免代码的重复。比如Swift的数组、字典、可选类型。</p>
+<h4 id="泛型数据结构"><a href="#泛型数据结构" class="headerlink" title="泛型数据结构"></a>泛型数据结构</h4><p>比如自定义一个名stack（栈）函数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">IntStack</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> items = [<span class="type">Int</span>]()</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(<span class="number">_</span> item: Int)</span></span>&#123;</div><div class="line">        items.append(item)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">pop</span><span class="params">()</span></span>-&gt;<span class="type">Int</span>&#123;</div><div class="line">        <span class="keyword">return</span> items.removeLast()</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个结构体在栈中使用一个名为 <code>items</code> 的 <code>Array</code> 属性来存储值。<code>Stack</code> 提供了两个方法：<code>push(_:)</code> 和 <code>pop()</code>，用来向栈中压入值以及从栈中移除值。这些方法被标记为 <code>mutating</code>，因为它们需要修改结构体的 <code>items</code> 数组。</p>
+<p>这个<code>IntStack</code>结构体只适用于<code>Int</code>类型。下面把这个结构体改成适合任意类型的泛型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Stack</span>&lt;<span class="title">Element</span>&gt;</span>&#123;</div><div class="line">    <span class="keyword">var</span> items = [<span class="type">Element</span>]()</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(<span class="number">_</span> item: Element)</span></span>&#123;</div><div class="line">        item.append(item)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">pop</span><span class="params">()</span></span> -&gt; <span class="type">Element</span>&#123;</div><div class="line">        <span class="keyword">return</span> items.removeLast()</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>Element</code> 为待提供的类型定义了一个占位名。这种待提供的类型可以在结构体的定义中通过 <code>Element</code> 来引用。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> stackStrings = <span class="type">Stack</span>&lt;<span class="type">String</span>&gt;()</div><div class="line">stackStrings.push(<span class="string">"name"</span>)</div><div class="line">stackStrings.push(<span class="string">"age"</span>)</div><div class="line"><span class="keyword">let</span> fromtheTop = stackStrings.pop()</div></pre></td></tr></table></figure>
+<h4 id="泛型函数和方法"><a href="#泛型函数和方法" class="headerlink" title="泛型函数和方法"></a>泛型函数和方法</h4><p>比如实现一个交换函数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span>  <span class="title">swapTwoInts</span><span class="params">(<span class="number">_</span> a: <span class="keyword">inout</span> Int, <span class="number">_</span> b: <span class="keyword">inout</span> Int)</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> temp = a</div><div class="line">    a = b</div><div class="line">    b = temp</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> someInt = <span class="number">3</span></div><div class="line"><span class="keyword">var</span> anotherInt = <span class="number">5</span></div><div class="line">swapTwoInts(&amp;someInt, &amp;anotherInt)</div></pre></td></tr></table></figure>
+<p>把上面的函数改写成泛型函数：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">swapTwoValues</span>&lt;T&gt;<span class="params">(<span class="number">_</span> a: <span class="keyword">inout</span> T, <span class="number">_</span> b: <span class="keyword">inout</span> T)</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> temp = a</div><div class="line">    a = b</div><div class="line">    b = temp</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个泛型函数使用了占位类型名（在这里用字母 <code>T</code> 来表示）来代替实际类型名（例如 <code>Int</code>、<code>String</code> 或 <code>Double</code>）。占位类型名没有指明 <code>T</code> 必须是什么类型，只有 <code>swapTwoValues(_:_:)</code> 函数在调用时，才能根据所传入的实际类型决定 <code>T</code> 所代表的类型。<code>T</code>也被称为类型参数。</p>
+<p>另外一个不同之处在于这个泛型函数名（<code>swapTwoValues(_:_:)</code>）后面跟着占位类型名（<code>T</code>），并用尖括号括起来（<code>&lt;T&gt;</code>）。这个尖括号告诉 Swift 那个 <code>T</code> 是 <code>swapTwoValues(_:_:)</code> 函数定义内的一个占位类型名，因此 Swift 不会去查找名为 <code>T</code> 的实际类型。</p>
+<p>如果泛型函数需要多个类型参数，将他们都写在尖括号中，用逗号分开。</p>
+<h4 id="类型约束"><a href="#类型约束" class="headerlink" title="类型约束"></a>类型约束</h4><p>虽然泛型类型和泛型函数可以作用于任何类型，但有时需要给泛型类型或泛型函数中的类型添加一个特定的类型约束。类型约束可以指定一个类型参数必须继承自指定类，或者符合一个特定的协议或协议组合。</p>
+<p>Swift 的 <code>Dictionary</code> 类型对字典的键的类型做了些限制。在<a href="http://www.runoob.com/manual/gitbook/swift3/source/_book/chapter2/04_Collection_Types.html#dictionaries" target="_blank" rel="external">字典</a>的描述中，字典的键的类型必须是可哈希（<code>hashable</code>）的。也就是说，必须有一种方法能够唯一地表示它。<code>Dictionary</code> 的键之所以要是可哈希的，是为了便于检查字典是否已经包含某个特定键的值。若没有这个要求，<code>Dictionary</code> 将无法判断是否可以插入或者替换某个指定键的值，也不能查找到已经存储在字典中的指定键的值。</p>
+<p>一个类型约束被强制加到 <code>Dictionary</code> 的键类型上，要求其键类型必须符合 <code>Hashable</code> 协议，这是 Swift 标准库中定义的一个特定协议。所有的 Swift 基本类型（例如 <code>String</code>、<code>Int</code>、<code>Double</code> 和 <code>Bool</code>）默认都是可哈希的。</p>
+<h5 id="类型的约束语法"><a href="#类型的约束语法" class="headerlink" title="类型的约束语法"></a>类型的约束语法</h5><p>语法示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">someFunction</span>&lt;T: SomeClass, U: SomeProtocol&gt;<span class="params">(someT: T, someU: U)</span></span> &#123;</div><div class="line">    <span class="comment">// 泛型函数的函数体部分</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第一个类型参数 <code>T</code>，有一个要求 <code>T</code> 必须是 <code>SomeClass</code> 子类的类型约束；第二个类型参数 <code>U</code>，有一个要求 <code>U</code> 必须符合 <code>SomeProtocol</code> 协议的类型约束。</p>
+<p>示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//普通函数</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">findIndex</span><span class="params">(ofString valueToFind: String, <span class="keyword">in</span> array: [String])</span></span> -&gt;<span class="type">Int</span>?&#123;</div><div class="line">    <span class="keyword">for</span> (index, value) <span class="keyword">in</span> array.enumerated() &#123;</div><div class="line">        <span class="keyword">if</span> value == valueToFind &#123;</div><div class="line">            <span class="keyword">return</span> index</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//泛型函数</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">findIndex</span>&lt;T: Equatable&gt;<span class="params">(of valueToFind: T, <span class="keyword">in</span> array: [T])</span></span> -&gt;<span class="type">Int</span>?&#123;</div><div class="line">    <span class="keyword">for</span> (index, value) <span class="keyword">in</span> array.enumerated() &#123;</div><div class="line">        <span class="keyword">if</span> value == valueToFind &#123;</div><div class="line">            <span class="keyword">return</span> index</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的T之所以需要遵守Equatable协议的原因：</p>
+<p>在相等性检查上，即 “<code>if value == valueToFind</code>“。不是所有的 Swift 类型都可以用等式符（<code>==</code>）进行比较。比如说，如果你创建一个自定义的类或结构体来表示一个复杂的数据模型，那么 Swift 无法猜到对于这个类或结构体而言“相等”意味着什么。正因如此，这部分代码无法保证适用于每个可能的类型 <code>T</code>，当你试图编译这部分代码时会出现相应的错误。</p>
+<p>Swift 标准库中定义了一个 <code>Equatable</code> 协议，该协议要求任何遵循该协议的类型必须实现等式符（<code>==</code>）及不等符(<code>!=</code>)，从而能对该类型的任意两个值进行比较。所有的 Swift 标准类型自动支持 <code>Equatable</code> 协议。</p>
+<h4 id="关联类型协议"><a href="#关联类型协议" class="headerlink" title="关联类型协议"></a>关联类型协议</h4><p>协议不能是泛型，但是协议支持类型的一个相关特性：关联类型。</p>
+<p>关联类型为协议中的某个类型提供了一个占位名，它代表的实际类型在协议被采纳时才会被指定。使用<code>associatedtype</code>关键字来指定关联类型。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Container</span></span>&#123;</div><div class="line">    associatedtype <span class="type">ItemType</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">append</span><span class="params">(<span class="number">_</span> item: ItemType)</span></span></div><div class="line">    <span class="keyword">var</span> <span class="built_in">count</span>: <span class="type">Int</span>&#123; <span class="keyword">get</span> &#125;</div><div class="line">    <span class="keyword">subscript</span>(i: <span class="type">Int</span>) -&gt; <span class="type">ItemType</span>&#123; <span class="keyword">get</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>Container</code> 协议需要在不知道容器中元素的具体类型的情况下引用这种类型。<code>Container</code> 协议声明了一个关联类型 <code>ItemType</code>，写作 <code>associatedtype ItemType</code>。<code>ItemType</code> 是什么类型的别名由遵循该协议的类型来提供。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Stack</span>&lt;<span class="title">Element</span>&gt;: <span class="title">Container</span> </span>&#123;</div><div class="line">    <span class="comment">// Stack&lt;Element&gt; 的原始实现部分</span></div><div class="line">    <span class="keyword">var</span> items = [<span class="type">Element</span>]()</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(<span class="number">_</span> item: Element)</span></span> &#123;</div><div class="line">        items.append(item)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">pop</span><span class="params">()</span></span> -&gt; <span class="type">Element</span> &#123;</div><div class="line">        <span class="keyword">return</span> items.removeLast()</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// Container 协议的实现部分</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">append</span><span class="params">(<span class="number">_</span> item: Element)</span></span> &#123;</div><div class="line">        <span class="keyword">self</span>.push(item)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> <span class="built_in">count</span>: <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> items.<span class="built_in">count</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">subscript</span>(i: <span class="type">Int</span>) -&gt; <span class="type">Element</span> &#123;</div><div class="line">        <span class="keyword">return</span> items[i]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="通过扩展一个存在的类型来指定关联类型"><a href="#通过扩展一个存在的类型来指定关联类型" class="headerlink" title="通过扩展一个存在的类型来指定关联类型"></a>通过扩展一个存在的类型来指定关联类型</h5><p>形式：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Array</span>: <span class="title">Container</span></span>&#123;&#125;</div></pre></td></tr></table></figure>
+<p>定义了这个扩展后，你可以将任意 <code>Array</code> 当作 <code>Container</code> 来使用。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2016/11/04/Swift之泛型/" title="Swift之泛型">https://zhengry.github.io/2016/11/04/Swift之泛型/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift基础/" rel="tag"># Swift基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/02/Swift错误处理/" rel="next" title="Swift错误处理">
+                <i class="fa fa-chevron-left"></i> Swift错误处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/05/泛型where语句/" rel="prev" title="泛型where语句">
+                泛型where语句 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">83</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#泛型数据结构"><span class="nav-number">1.</span> <span class="nav-text">泛型数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#泛型函数和方法"><span class="nav-number">2.</span> <span class="nav-text">泛型函数和方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类型约束"><span class="nav-number">3.</span> <span class="nav-text">类型约束</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#类型的约束语法"><span class="nav-number">3.1.</span> <span class="nav-text">类型的约束语法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关联类型协议"><span class="nav-number">4.</span> <span class="nav-text">关联类型协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通过扩展一个存在的类型来指定关联类型"><span class="nav-number">4.1.</span> <span class="nav-text">通过扩展一个存在的类型来指定关联类型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
