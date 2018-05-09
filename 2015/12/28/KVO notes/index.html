@@ -111,7 +111,7 @@ addObserver: forKeyPath: options: context:的“keypath”和setValue: forKey的
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="key或keypath匹配
 addObserver: forKeyPath: options: context:的“keypath”和setValue: forKey的“key”或setValue: forKeyPath:的“keyPath”或setter方法对应的属性名保持一致，observeValueForKeyPath: ofObject: change: context:方法才会被触发。">
-<meta property="og:updated_time" content="2018-05-09T07:47:27.172Z">
+<meta property="og:updated_time" content="2018-05-09T08:03:37.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="KVO notes">
 <meta name="twitter:description" content="key或keypath匹配
@@ -395,9 +395,10 @@ addObserver: forKeyPath: options: context:的“keypath”和setValue: forKey的
         <ol>
 <li><p>key或keypath匹配</p>
 <p><code>addObserver: forKeyPath: options: context:</code>的“keypath”和<code>setValue: forKey</code>的“key”或<code>setValue: forKeyPath:</code>的“keyPath”或setter方法对应的属性名保持一致，<code>observeValueForKeyPath: ofObject: change: context:</code>方法才会被触发。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//self.student.name</span></div><div class="line">[student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"name"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.student setName:<span class="string">@"baylee"</span>];<span class="comment">//student有"name"属性或成员变量</span></div><div class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@"baylee"</span> forKey:<span class="string">@"name"</span>];</div><div class="line"></div><div class="line"><span class="comment">//self.student有teacher属性，teacher有个className属性</span></div><div class="line">[<span class="keyword">self</span>.student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"teacher.className"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>]; </div><div class="line"></div><div class="line"><span class="keyword">self</span>.student.teacher.className = <span class="string">@"english"</span>;</div><div class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@"english"</span> forKeyPath:<span class="string">@"teacher.className"</span>];</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//self.student.name</span></div><div class="line">[<span class="keyword">self</span>.student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"name"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.student setName:<span class="string">@"baylee"</span>];<span class="comment">//student有"name"属性或成员变量</span></div><div class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@"baylee"</span> forKey:<span class="string">@"name"</span>];</div><div class="line"></div><div class="line"><span class="comment">//self.student有teacher属性，teacher有个className属性</span></div><div class="line">[<span class="keyword">self</span>.student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"teacher.className"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>]; </div><div class="line"></div><div class="line"><span class="keyword">self</span>.student.teacher.className = <span class="string">@"english"</span>;</div><div class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@"english"</span> forKeyPath:<span class="string">@"teacher.className"</span>];</div></pre></td></tr></table></figure>
+<a id="more"></a>
 </li>
-<li><p>key或keyPath表示属性或变量路径，一定要用<code>@&quot;propertyName&quot;</code>或<code>@&quot;obj.propertyName&quot;</code>这样的路径字符串，而不是obj.propertyName这样的形式。</p>
+<li><p>key或keyPath表示属性或变量路径，一定要用<code>@&quot;propertyName&quot;</code>或<code>@&quot;obj.propertyName&quot;</code>这样的路径字符串，而不是<code>obj.propertyName</code>这样的形式。</p>
 </li>
 <li><p>区别key和keyPath</p>
 <p>key一般是被观察对象的直接属性、成员变量等，比如上面代码中的<code>self.student</code>的<code>name</code>属性，student是被观察对象，name是student的直接属性，key直接使用<code>@&quot;name&quot;</code>。</p>
@@ -438,9 +439,9 @@ addObserver: forKeyPath: options: context:的“keypath”和setValue: forKey的
       
         <div class="post-tags">
           
-            <a href="/tags/KVO/" rel="tag"># KVO</a>
-          
             <a href="/tags/KVC/" rel="tag"># KVC</a>
+          
+            <a href="/tags/KVO/" rel="tag"># KVO</a>
           
         </div>
       
@@ -534,7 +535,7 @@ addObserver: forKeyPath: options: context:的“keypath”和setValue: forKey的
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">86</span>
+                    <span class="site-state-item-count">88</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -622,7 +623,9 @@ addObserver: forKeyPath: options: context:的“keypath”和setValue: forKey的
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
