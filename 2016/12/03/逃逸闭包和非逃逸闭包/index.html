@@ -106,8 +106,7 @@
   <meta name="description" content="逃逸：一个函数的闭包可能会在该函数返回后被调用，闭包逃脱出了接收它作为参数的函数的作用域。
 非逃逸闭包是不可能产生循环强引用的闭包，不需要显式引用self，所以可以隐式地调用self的属性和方法。
 以函数参数形式声明的闭包默认是非逃逸的；其他场景中的闭包是逃逸的。
-如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：
-123func userNetWorthCh">
+如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逃逸闭包和非逃逸闭包">
 <meta property="og:url" content="https://zhengry.github.io/2016/12/03/逃逸闭包和非逃逸闭包/index.html">
@@ -115,16 +114,14 @@
 <meta property="og:description" content="逃逸：一个函数的闭包可能会在该函数返回后被调用，闭包逃脱出了接收它作为参数的函数的作用域。
 非逃逸闭包是不可能产生循环强引用的闭包，不需要显式引用self，所以可以隐式地调用self的属性和方法。
 以函数参数形式声明的闭包默认是非逃逸的；其他场景中的闭包是逃逸的。
-如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：
-123func userNetWorthCh">
-<meta property="og:updated_time" content="2018-05-07T09:13:06.034Z">
+如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：">
+<meta property="og:updated_time" content="2018-05-08T02:05:36.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逃逸闭包和非逃逸闭包">
 <meta name="twitter:description" content="逃逸：一个函数的闭包可能会在该函数返回后被调用，闭包逃脱出了接收它作为参数的函数的作用域。
 非逃逸闭包是不可能产生循环强引用的闭包，不需要显式引用self，所以可以隐式地调用self的属性和方法。
 以函数参数形式声明的闭包默认是非逃逸的；其他场景中的闭包是逃逸的。
-如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：
-123func userNetWorthCh">
+如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：">
 
 
 
@@ -404,7 +401,7 @@
         <p>逃逸：一个函数的闭包可能会在该函数返回后被调用，闭包逃脱出了接收它作为参数的函数的作用域。</p>
 <p>非逃逸闭包是不可能产生循环强引用的闭包，不需要显式引用self，所以可以隐式地调用self的属性和方法。</p>
 <p>以函数参数形式声明的闭包默认是非逃逸的；其他场景中的闭包是逃逸的。</p>
-<p>如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：</p>
+<p>如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">userNetWorthChangeHandler</span><span class="params">(handler: <span class="params">(Double)</span></span></span> - &gt; <span class="type">Void</span>)&#123;</div><div class="line">    account.netWorthChangedHandler = handler<span class="comment">//这时候编译器会报错</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>需要将传递的闭包参数用<code>@escaping</code>标记为逃逸闭包：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">userNetWorthChangeHandler</span><span class="params">(handler: @escaping <span class="params">(Double)</span></span></span> - &gt; <span class="type">Void</span>)&#123;</div><div class="line">     account.netWorthChangedHandler = handler<span class="comment">//这时候编译器会报错</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -538,7 +535,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">86</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -569,7 +566,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -620,7 +619,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

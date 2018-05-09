@@ -117,7 +117,7 @@
 
 是 “压” 文件体积变小，但是像素数不变，长宽尺寸不变，那么质量可能下降。
 是 “缩” 文件的尺寸变小，也就是像素数减少。长宽尺寸变小，文件体积同样会减小。">
-<meta property="og:updated_time" content="2018-05-03T02:43:43.611Z">
+<meta property="og:updated_time" content="2018-05-09T06:40:51.315Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图片压缩">
 <meta name="twitter:description" content="在iOS应用中，用户上传的图片通常需要进行压缩后才能进行上传。
@@ -410,7 +410,7 @@
 <p>代码片段：</p>
 <ul>
 <li><p>压缩图片文件大小（<code>UIImageJPEGRepresentation(image, 0.0</code>实现的是“压”的功能。）</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSData</span> *)compressOriginalImage:(<span class="built_in">UIImage</span> *)image toMaxDataSizeKBytes:(<span class="built_in">CGFloat</span>)size&#123;</div><div class="line">    <span class="built_in">NSData</span> * data = <span class="built_in">UIImageJPEGRepresentation</span>(image, <span class="number">1.0</span>);</div><div class="line">    <span class="built_in">CGFloat</span> dataKBytes = data.length/<span class="number">1000.0</span>;</div><div class="line">    <span class="built_in">CGFloat</span> maxQuality = <span class="number">0.9</span>f;</div><div class="line">   	<span class="built_in">CGFloat</span> lastData = dataKBytes;</div><div class="line">   	<span class="keyword">while</span> (dataKBytes &gt; size &amp;&amp; maxQuality &gt; <span class="number">0.01</span>f) &#123;</div><div class="line">        maxQuality = maxQuality - <span class="number">0.01</span>f;</div><div class="line">        data = <span class="built_in">UIImageJPEGRepresentation</span>(image, maxQuality);</div><div class="line">        dataKBytes = data.length / <span class="number">1000.0</span>;</div><div class="line">       	<span class="keyword">if</span> (lastData == dataKBytes) &#123;</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">       	&#125;<span class="keyword">else</span>&#123;</div><div class="line">           lastData = dataKBytes;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> data;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">+(<span class="built_in">UIImage</span> *)image:(<span class="built_in">UIImage</span> *)image toMaxSize:(<span class="built_in">CGFloat</span>)size</div><div class="line">&#123;</div><div class="line">    <span class="built_in">UIImage</span> *resultImage = image;</div><div class="line">    <span class="built_in">NSData</span> *data = <span class="built_in">UIImageJPEGRepresentation</span>(resultImage, <span class="number">1</span>);</div><div class="line">    <span class="built_in">NSUInteger</span> lastDataLength = <span class="number">0</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">while</span> (data.length &gt; size &amp;&amp; data.length != lastDataLength) &#123;</div><div class="line">        lastDataLength = data.length;</div><div class="line">        <span class="built_in">CGFloat</span> imgRatio = (<span class="built_in">CGFloat</span>)size / data.length;</div><div class="line">        <span class="built_in">CGSize</span> size = <span class="built_in">CGSizeMake</span>((<span class="built_in">NSUInteger</span>)(resultImage.size.width * sqrtf(imgRatio)),</div><div class="line">                                 (<span class="built_in">NSUInteger</span>)(resultImage.size.height * sqrtf(imgRatio))); <span class="comment">// Use NSUInteger to prevent white blank</span></div><div class="line">        <span class="built_in">UIGraphicsBeginImageContext</span>(size);</div><div class="line">        [resultImage drawInRect:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, size.width, size.height)];</div><div class="line">        resultImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">        <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">        data = <span class="built_in">UIImageJPEGRepresentation</span>(resultImage, <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">UIImage</span> *targetImg = [[<span class="built_in">UIImage</span> alloc] initWithData:data];</div><div class="line">    <span class="keyword">return</span> targetImg;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 <li><p>缩小图片到指定size （<code>[sourceImage drawInRect:CGRectMake(0,0,targetWidth, targetHeight)]</code>是“缩”的功能）</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">-(<span class="built_in">UIImage</span> *)compressOriginalImage:(<span class="built_in">UIImage</span> *)image toSize:(<span class="built_in">CGSize</span>)size&#123;</div><div class="line">    <span class="built_in">UIGraphicsBeginImageContext</span>(size);</div><div class="line">    [image drawInRect:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, size.width, size.height)];</div><div class="line">    <span class="built_in">UIImage</span>* scaledImage =<span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</div><div class="line">    <span class="built_in">UIGraphicsEndImageContext</span>();</div><div class="line">    <span class="keyword">return</span> scaledImage;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -544,7 +544,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">86</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -575,7 +575,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -626,7 +628,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
