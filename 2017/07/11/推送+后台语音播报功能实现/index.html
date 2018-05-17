@@ -104,21 +104,30 @@
 
 
   <meta name="description" content="总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。
-功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。">
+功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。
+功能实现1. 推送功能推送功能相对简单，项目中集成了极光推送，就极光推送中遇到的坑做个简单记录：
+
+生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="推送+后台语音播报功能实现">
 <meta property="og:url" content="https://zhengry.github.io/2017/07/11/推送+后台语音播报功能实现/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。
-功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。">
+功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。
+功能实现1. 推送功能推送功能相对简单，项目中集成了极光推送，就极光推送中遇到的坑做个简单记录：
+
+生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。">
 <meta property="og:image" content="https://zhengry.github.io/images/extension证书报错.png">
 <meta property="og:image" content="https://zhengry.github.io/images/Extension在ios8安装错误.png">
 <meta property="og:image" content="https://zhengry.github.io/images/extension在ios8安装错误解决方法.png">
-<meta property="og:updated_time" content="2018-05-03T02:02:40.914Z">
+<meta property="og:updated_time" content="2018-05-17T01:20:39.679Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="推送+后台语音播报功能实现">
 <meta name="twitter:description" content="总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。
-功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。">
+功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。
+功能实现1. 推送功能推送功能相对简单，项目中集成了极光推送，就极光推送中遇到的坑做个简单记录：
+
+生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。">
 <meta name="twitter:image" content="https://zhengry.github.io/images/extension证书报错.png">
 
 
@@ -397,20 +406,19 @@
 
       
         <p>总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。</p>
-<h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><p>在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。<a id="more"></a></p>
-<h4 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h4><h5 id="推送功能"><a href="#推送功能" class="headerlink" title="推送功能"></a>推送功能</h5><p>推送功能相对简单，项目中集成了<strong>极光推送</strong>，就极光推送中遇到的坑做个简单记录：</p>
+<h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><p>在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。</p>
+<h4 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h4><h5 id="1-推送功能"><a href="#1-推送功能" class="headerlink" title="1. 推送功能"></a>1. 推送功能</h5><p>推送功能相对简单，项目中集成了<strong>极光推送</strong>，就极光推送中遇到的坑做个简单记录：</p>
 <ol>
-<li><p>生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。</p>
+<li><p>生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。<a id="more"></a></p>
 </li>
 <li><p>什么时候调用[JPushService setBadge：x];和[JPushService resetBadge];？</p>
 <p>关于这一点，极光的官方文档和社区问答写的实在是不尽人意，让人不知所云。经验总结：</p>
 </li>
 </ol>
 <ul>
-<li>本地消息数的展示：直接使用推送消息中的badge进行展示</li>
-</ul>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="built_in">UIApplication</span> sharedApplication] setApplicationBadgeNumber:badge];</div></pre></td></tr></table></figure>
-<ul>
+<li><p>本地消息数的展示：直接使用推送消息中的badge进行展示</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">    [<span class="built_in">UIApplication</span> sharedApplication] setApplicationBadgeNumber:badge];</div></pre></td></tr></table></figure>
+</li>
 <li><p>如果badge在推送中使用+1的方式，则在需要增减badge时，就需要调用下[JPushService setBadge：x]，让JPush帮忙保存badge。比如用户通过点击消息进入app，这时候badge需要-1，那么调用[JPushService setBadge：badge-1]来保存到JPush服务器，本地展示调用</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[<span class="built_in">UIApplication</span> sharedApplication] setApplicationBadgeNumber:badge<span class="number">-1</span>];</div></pre></td></tr></table></figure>
 </li>
@@ -423,11 +431,11 @@
 <li><p>点击消息的处理放在JPush的<code>jpushNotificationCenter: didReceiveNotificationResponse: withCompletionHandler:</code>方法中。比如点击消息后，跳转到相关页面并设置badge-1。</p>
 </li>
 </ul>
-<h5 id="一般语音播报功能实现："><a href="#一般语音播报功能实现：" class="headerlink" title="一般语音播报功能实现："></a>一般语音播报功能实现：</h5><p>一般语音播报功能实现起来很简单：</p>
+<h5 id="2-一般语音播报功能实现："><a href="#2-一般语音播报功能实现：" class="headerlink" title="2. 一般语音播报功能实现："></a>2. 一般语音播报功能实现：</h5><p>一般语音播报功能实现起来很简单：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//语音播报功能</span></div><div class="line">+(<span class="keyword">void</span>)broadcastMessage:(<span class="built_in">NSString</span> *)message</div><div class="line">&#123;</div><div class="line">    <span class="built_in">AVSpeechSynthesizer</span> *speechSynthesizer = [[<span class="built_in">AVSpeechSynthesizer</span> alloc]init];</div><div class="line">    <span class="built_in">AVSpeechUtterance</span> *utterance = [<span class="built_in">AVSpeechUtterance</span> speechUtteranceWithString:message];</div><div class="line">    utterance.voice = [<span class="built_in">AVSpeechSynthesisVoice</span> voiceWithLanguage:<span class="string">@"zh-CN"</span>];</div><div class="line">    <span class="built_in">CGFloat</span> rate = <span class="number">0.5</span>;</div><div class="line">    <span class="keyword">if</span> (IOS_VERSION &gt;= <span class="number">9.0</span> &amp;&amp; IOS_VERSION &lt; <span class="number">10.0</span>) &#123;</div><div class="line">        rate = <span class="number">0.52</span>;</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (IOS_VERSION &gt;= <span class="number">8.0</span> &amp;&amp; IOS_VERSION &lt; <span class="number">9.0</span>)&#123;</div><div class="line">        rate = <span class="number">0.15</span>;</div><div class="line">    &#125;</div><div class="line">    utterance.rate = rate;</div><div class="line">    utterance.preUtteranceDelay = <span class="number">0.0</span>;</div><div class="line">    </div><div class="line">    [speechSynthesizer speakUtterance:utterance];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里有个坑需要注意：</p>
 <p>由于苹果API的问题，在iOS8和iOS9上和iOS10上，语音播报的速度各不相同，正常情况下，0.5是默认语速，但iOS8上语速奇快，也是让人心醉。另外iOS8.1不支持语音播报（包括真机和模拟器），iOS8.2以上可以支持。</p>
-<h5 id="如何实现后台语音"><a href="#如何实现后台语音" class="headerlink" title="如何实现后台语音"></a>如何实现后台语音</h5><p>很多人可能会选择开启back-ground modes里的audio功能，这的确是个最简单的实现方式，只要开启这个选项（证书里也需要勾选audio），在处理推送消息时调用上面的方法就可以实现前台、后台状态下的语音播报。<strong>但是</strong>，拿去审核的时候会被苹果拒掉！！官方文档对于background modes下的audio功能是这样描述的：</p>
+<h5 id="3-如何实现后台语音"><a href="#3-如何实现后台语音" class="headerlink" title="3. 如何实现后台语音"></a>3. 如何实现后台语音</h5><p>很多人可能会选择开启back-ground modes里的audio功能，这的确是个最简单的实现方式，只要开启这个选项（证书里也需要勾选audio），在处理推送消息时调用上面的方法就可以实现前台、后台状态下的语音播报。<strong>但是</strong>，拿去审核的时候会被苹果拒掉！！官方文档对于background modes下的audio功能是这样描述的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">The app plays audible content to the user or records audio while in the background. (This content includes streaming audio or video content using AirPlay.)</div><div class="line">The user must grant permission for apps to use the microphone prior to the first use.</div></pre></td></tr></table></figure>
 <p>在被拒的邮件中苹果给出的解释是：audio功能只能用于需要持续播放音频或持续后台录音的app。但根据我们的项目需求，显然不符合条件，浪费了audio持续后台的功能。没办法，只好舍弃iOS8和iOS9的后台语音播报，改用notification extention框架对iOS10进行支持。</p>
 <p><strong>实现步骤</strong>：</p>
@@ -595,7 +603,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">90</span>
+                    <span class="site-state-item-count">91</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -733,7 +741,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#功能需求"><span class="nav-number">1.</span> <span class="nav-text">功能需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能实现"><span class="nav-number">2.</span> <span class="nav-text">功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#推送功能"><span class="nav-number">2.1.</span> <span class="nav-text">推送功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一般语音播报功能实现："><span class="nav-number">2.2.</span> <span class="nav-text">一般语音播报功能实现：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如何实现后台语音"><span class="nav-number">2.3.</span> <span class="nav-text">如何实现后台语音</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Notification-Service-Extension报错处理"><span class="nav-number">3.</span> <span class="nav-text">Notification Service Extension报错处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#功能需求"><span class="nav-number">1.</span> <span class="nav-text">功能需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能实现"><span class="nav-number">2.</span> <span class="nav-text">功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-推送功能"><span class="nav-number">2.1.</span> <span class="nav-text">1. 推送功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-一般语音播报功能实现："><span class="nav-number">2.2.</span> <span class="nav-text">2. 一般语音播报功能实现：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-如何实现后台语音"><span class="nav-number">2.3.</span> <span class="nav-text">3. 如何实现后台语音</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Notification-Service-Extension报错处理"><span class="nav-number">3.</span> <span class="nav-text">Notification Service Extension报错处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
