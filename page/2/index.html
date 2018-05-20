@@ -305,6 +305,155 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/06/21/WKWebview自适应/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/21/WKWebview自适应/" itemprop="url">WKWebView自适应</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T00:00:00+08:00">2017-06-21</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <ol>
+<li><p>自适应屏幕宽度</p>
+<p>在创建WKWebview时，添加js：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> *jScript = <span class="string">@"var meta = document.createElement('meta'); meta.setAttribute('name','viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"</span>;</div><div class="line">   </div><div class="line">   <span class="built_in">WKUserScript</span> *wkUScript = [[<span class="built_in">WKUserScript</span> alloc] initWithSource:jScript injectionTime:<span class="built_in">WKUserScriptInjectionTimeAtDocumentEnd</span> forMainFrameOnly:<span class="literal">YES</span>];</div><div class="line">   <span class="built_in">WKUserContentController</span> *wkUController = [[<span class="built_in">WKUserContentController</span> alloc] init];</div><div class="line">   [wkUController addUserScript:wkUScript];</div><div class="line">   </div><div class="line">   <span class="built_in">WKWebViewConfiguration</span> *wkWebConfig = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</div><div class="line">   wkWebConfig.userContentController = wkUController;</div><div class="line">   </div><div class="line">   <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:<span class="keyword">self</span>.view.bounds configuration:wkWebConfig];</div><div class="line">   webView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line">   webView.UIDelegate = <span class="keyword">self</span>;</div><div class="line">   webView.navigationDelegate = <span class="keyword">self</span>;</div><div class="line">   [<span class="keyword">self</span>.view addSubview:webView];</div><div class="line">   <span class="keyword">self</span>.webView = webView;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/21/WKWebview自适应/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/05/03/Xcode报错处理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1625,155 +1774,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/12/07/Equatable和Comparable/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/12/07/Equatable和Comparable/" itemprop="url">Equatable和Comparable</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-07T00:00:00+08:00">2016-12-07</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>自定义<u>值类型</u>实现Equatable协议，可以测试相等性；实现Comparable，可以测试可比性。</p>
-<h4 id="Equatable协议"><a href="#Equatable协议" class="headerlink" title="Equatable协议"></a>Equatable协议</h4><p>Equatable协议指出，符合这个协议的类型应该有一个静态方法<code>==</code>；一旦一个类型通过实现自己的<code>==</code>符合了Equatable，也就有了<code>!=</code>函数。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span>:<span class="title">Equatable</span></span>&#123;</div><div class="line">    <span class="keyword">let</span> x: <span class="type">Int</span></div><div class="line">    <span class="keyword">let</span> y: <span class="type">Int</span></div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> ==<span class="params">(point1: Point, point2: Point)</span></span> -&gt; <span class="type">Bool</span>&#123;</div><div class="line">        <span class="keyword">return</span> (point1.x == point2.x) &amp;&amp; (point1.y == point2.y)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> a = <span class="type">Point</span>(x:<span class="number">3</span>, y:<span class="number">4</span>)</div><div class="line"><span class="keyword">let</span> b = <span class="type">Point</span>(x:<span class="number">12</span>, y:<span class="number">5</span>)</div><div class="line"><span class="keyword">let</span> abEqual = (a==b)</div><div class="line"><span class="keyword">let</span> abNotEqual = (a!=b)</div></pre></td></tr></table></figure>
-<p><code>==</code>声明为静态方法，但<code>==</code>的调用并不是在Point类型上，这时因为<code>==</code>这样的运算符在Swift中是定义在全局层面的。<code>==</code>在Swift标准库中的定义：
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/12/07/Equatable和Comparable/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1825,7 +1825,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">91</span>
+                    <span class="site-state-item-count">92</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1858,7 +1858,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                      
+                    
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1913,7 +1915,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

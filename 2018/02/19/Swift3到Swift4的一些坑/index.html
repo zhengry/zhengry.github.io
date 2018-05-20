@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="一、SubstringSwift 4 中有一个很大的变化就是String可以当做Collection来用，并不是因为String实现了Collection协议，而是String本身增加了很多Collection协议中的方法，使得String 在使用时看上去就是个Collection。 
+12345let string = &quot;IamBaylee&quot;print(string.prefix(3))	//&quot;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift3到Swift4的一些坑">
+<meta property="og:url" content="https://zhengry.github.io/2018/02/19/Swift3到Swift4的一些坑/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="一、SubstringSwift 4 中有一个很大的变化就是String可以当做Collection来用，并不是因为String实现了Collection协议，而是String本身增加了很多Collection协议中的方法，使得String 在使用时看上去就是个Collection。 
+12345let string = &quot;IamBaylee&quot;print(string.prefix(3))	//&quot;">
+<meta property="og:updated_time" content="2018-05-20T13:15:25.598Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift3到Swift4的一些坑">
+<meta name="twitter:description" content="一、SubstringSwift 4 中有一个很大的变化就是String可以当做Collection来用，并不是因为String实现了Collection协议，而是String本身增加了很多Collection协议中的方法，使得String 在使用时看上去就是个Collection。 
+12345let string = &quot;IamBaylee&quot;print(string.prefix(3))	//&quot;">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2018/02/19/Swift3到Swift4的一些坑/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Swift3到Swift4的一些坑 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/02/19/Swift3到Swift4的一些坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift3到Swift4的一些坑</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift新特性/" itemprop="url" rel="index"><span itemprop="name">Swift新特性</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="一、Substring"><a href="#一、Substring" class="headerlink" title="一、Substring"></a>一、Substring</h4><p>Swift 4 中有一个很大的变化就是<strong>String</strong>可以当做<strong>Collection</strong>来用，并不是因为<strong>String</strong>实现了<strong>Collection</strong>协议，而是<strong>String</strong>本身增加了很多<strong>Collection</strong>协议中的方法，使得<strong>String</strong> 在使用时看上去就是个<strong>Collection</strong>。 </p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> string = <span class="string">"IamBaylee"</span></div><div class="line"><span class="built_in">print</span>(string.<span class="keyword">prefix</span>(<span class="number">3</span>))	<span class="comment">//"Iam"</span></div><div class="line"><span class="built_in">print</span>(string.suffix(<span class="number">6</span>))	<span class="comment">//"Baylee"</span></div><div class="line"><span class="built_in">print</span>(string.<span class="built_in">dropFirst</span>())	<span class="comment">//"amBaylee"</span></div><div class="line"><span class="built_in">print</span>(string.<span class="built_in">dropLast</span>())	<span class="comment">//"IamBayle"</span></div></pre></td></tr></table></figure>
+<p>比如上面的样例，我们使用一些<strong>Collection</strong>协议的方法对字符串进行截取，只不过它们的返回结果不是<strong>String</strong>类型，而是 Swift4 新增的<strong>Substring</strong>类型。<a id="more"></a></p>
+<h5 id="为什么要引入Substring？"><a href="#为什么要引入Substring？" class="headerlink" title="为什么要引入Substring？"></a>为什么要引入Substring？</h5><p>既然我们想要得到的就是字符串，那么直接返回<strong>String</strong>就好了，为什么要返回一个新增的<strong>Substring</strong>类型呢？答案是：性能。</p>
+<ul>
+<li>当我们用一些<strong>Collection</strong>的方式得到<strong>String</strong>里的一部分时，创建的都是<strong>Substring</strong>。<strong>Substring</strong> 与原 <strong>String</strong> 是共享一个 Storage。这意味我们在操作这个部分的时候，是不需要频繁的去创建内存，从而使得 Swift 4 的 <strong>String</strong> 相关操作可以获取比较高的性能。</li>
+<li>而当我们显式地将 <strong>Substring</strong> 转成 <strong>String</strong> 的时候，才会 Copy 一份 <strong>String</strong> 到新的内存空间来，这时新的 String 和之前的 String 就没有关系了。</li>
+</ul>
+<h5 id="使用Substring的注意事项"><a href="#使用Substring的注意事项" class="headerlink" title="使用Substring的注意事项"></a>使用Substring的注意事项</h5><ul>
+<li>由于Substring与原String是共享存储空间的，只要我们使用了Substring，原 String 就会存在内存空间中。只有 Substring 被释放以后，整个 String 才会被释放。</li>
+<li>而且 Substring 类型无法直接赋值给需要 String 类型的地方，我们必须用 String() 包一层。当然这时系统就会通过复制创建出一个新的字符串对象，之后原字符串就会被释放。</li>
+</ul>
+<h4 id="二、swap方法的变迁"><a href="#二、swap方法的变迁" class="headerlink" title="二、swap方法的变迁"></a>二、swap方法的变迁</h4><p>Swift4之前我们可以用<code>swap(_:_:)</code>来将两个变量的值进行交换</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span></div><div class="line"><span class="built_in">swap</span>(&amp;a, &amp;b)</div><div class="line"><span class="built_in">print</span>(a, b)<span class="comment">// 2 1</span></div></pre></td></tr></table></figure>
+<p>Swift4之后，<code>swap(_:_:)</code>方法被废弃，我们可以使用元组（tuple）来实现值交换：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span></div><div class="line">(b, a) = (a, b)</div><div class="line"><span class="built_in">print</span>(a, b)<span class="comment">// 2 1</span></div></pre></td></tr></table></figure>
+<p>使用tuple方式的好处是，多个变量值也可以进行交换</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">1</span></div><div class="line"><span class="keyword">var</span> b = <span class="number">2</span></div><div class="line"><span class="keyword">var</span> <span class="built_in">c</span> = <span class="number">3</span></div><div class="line">(a, b ,<span class="built_in">c</span>) = (b, <span class="built_in">c</span>, a)</div><div class="line"><span class="built_in">print</span>(a, b, <span class="built_in">c</span>)<span class="comment">//2 3 1</span></div></pre></td></tr></table></figure>
+<h4 id="三、减少隐式-objc自动推断"><a href="#三、减少隐式-objc自动推断" class="headerlink" title="三、减少隐式@objc自动推断"></a>三、减少隐式@objc自动推断</h4><h5 id="Swift3中的使用方式"><a href="#Swift3中的使用方式" class="headerlink" title="Swift3中的使用方式"></a>Swift3中的使用方式</h5><p>在项目中如果想把Swift的API暴露给Objective-C调用，需要增加<code>@objc</code>。在Swift3中，编译器会在很多地方为我们隐式加上<code>@objc</code>。比如当一个类继承于NSObject，那么这个类的所有方法都会被隐式地加上<code>@objc</code>：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>&#123;&#125;	<span class="comment">//包含隐式的@objc</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">show</span><span class="params">()</span></span>&#123;&#125;	<span class="comment">//包含隐式的@objc</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但这样做很多并不需要暴露给Objective-C的API也被加上了<code>@objc</code>。而大量的<code>@objc</code>会导致二进制文件的增加。</p>
+<h5 id="Swift4中的使用方式"><a href="#Swift4中的使用方式" class="headerlink" title="Swift4中的使用方式"></a>Swift4中的使用方式</h5><ol>
+<li><p>在Swift4中隐式<code>@objc</code>自动推断只会发生在下面这种必须使用<code>@objc</code>的情况：</p>
+<ul>
+<li>覆盖父类的Objective-C方法</li>
+<li>符合一个Objective-C的协议</li>
+</ul>
+</li>
+<li><p>大多数地方必须显式地加上<code>@objc</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>&#123;&#125;	<span class="comment">//显式地加上@objc</span></div><div class="line">    <span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">show</span><span class="params">()</span></span>&#123;&#125;		<span class="comment">//显式地加上@objc</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果在类前加上<code>@objcMembers</code>，那么它、它的子类、扩展里的方法都会隐式加上<code>@objc</code>。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span>Members</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>&#123;&#125;	<span class="comment">//包含隐式的@objc</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">show</span><span class="params">()</span></span>&#123;&#125;	<span class="comment">//包含隐式的@objc</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MyClass</span> </span>&#123;</div><div class="line">    fun makeName()&#123;&#125;	<span class="comment">//包含隐式的@objc</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>如果在扩展前加上<code>@nonobjc</code>，那么该扩展的方法都不会隐式地加上<code>@objc</code>。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span>Members</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">print</span><span class="params">()</span></span>&#123;&#125;	<span class="comment">//包含隐式的@objc</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">show</span><span class="params">()</span></span>&#123;&#125;	<span class="comment">//包含隐式的@objc</span></div><div class="line">&#125;</div><div class="line"><span class="meta">@nonobjc</span> <span class="class"><span class="keyword">extension</span> <span class="title">MyClass</span> </span>&#123;</div><div class="line">    fun makeName()&#123;&#125;	<span class="comment">//不包含隐式的@objc</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2018/02/19/Swift3到Swift4的一些坑/" title="Swift3到Swift4的一些坑">https://zhengry.github.io/2018/02/19/Swift3到Swift4的一些坑/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NewSwift/" rel="tag"># NewSwift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/09/URL Scheme/" rel="next" title="URL Scheme">
+                <i class="fa fa-chevron-left"></i> URL Scheme
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/19/对NSMutableArray进行KVO/" rel="prev" title="对NSMutableArray进行KVO">
+                对NSMutableArray进行KVO <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">92</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、Substring"><span class="nav-number">1.</span> <span class="nav-text">一、Substring</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么要引入Substring？"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要引入Substring？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用Substring的注意事项"><span class="nav-number">1.2.</span> <span class="nav-text">使用Substring的注意事项</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、swap方法的变迁"><span class="nav-number">2.</span> <span class="nav-text">二、swap方法的变迁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、减少隐式-objc自动推断"><span class="nav-number">3.</span> <span class="nav-text">三、减少隐式@objc自动推断</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Swift3中的使用方式"><span class="nav-number">3.1.</span> <span class="nav-text">Swift3中的使用方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Swift4中的使用方式"><span class="nav-number">3.2.</span> <span class="nav-text">Swift4中的使用方式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
