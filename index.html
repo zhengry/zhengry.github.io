@@ -392,30 +392,18 @@
 
       
         
-          
-            <p>最近在玩数独游戏，觉得很有意思，正好在温习Swift，就试着写个数独练练手。介绍下经典数独游戏和我实现数独的方法。</p>
+          <p>最近在玩数独游戏，觉得很有意思，正好在温习Swift，就试着写个数独练练手。介绍下经典数独游戏和我实现数独的方法。</p>
 <h4 id="经典数独游戏"><a href="#经典数独游戏" class="headerlink" title="经典数独游戏"></a>经典数独游戏</h4><p>经典数独游戏共有81格，分为9个小九宫格。每行、每列、每个小九宫格内为1~9的无重复数字。</p>
 <h4 id="数独盘面生成方案"><a href="#数独盘面生成方案" class="headerlink" title="数独盘面生成方案"></a>数独盘面生成方案</h4><ol>
 <li>将1~9内的随机数按满足数独的条件（行、列、小九宫格均无重复数字）填充盘面数组（二维数组）</li>
-<li>随机交换任意小九宫格内的两行或两列（demo中有三次行交换、三次列交换）</li>
-</ol>
-<h4 id="挖坑方案"><a href="#挖坑方案" class="headerlink" title="挖坑方案"></a>挖坑方案</h4><ol>
-<li>按照不同level，确定每个level的挖坑数量</li>
-<li>循环生成两个0~8（index）内的随机数，将盘面数组中索引符合这两个随机数的位置替换为0</li>
-</ol>
-<h4 id="盘面UI实现"><a href="#盘面UI实现" class="headerlink" title="盘面UI实现"></a>盘面UI实现</h4><ol>
-<li>用UICollectionView生成81格，并将二维数组按顺序填充进去，值为0的位置默认隐藏数字</li>
-<li>用户填充数字后，检查行、列、小九宫格是否有重复，有重复则报错（红色）</li>
-</ol>
-<h4 id="数独正解方案"><a href="#数独正解方案" class="headerlink" title="数独正解方案"></a>数独正解方案</h4><p>检查输入的解正确与否的标准不是比较输入得到的矩阵与我们开始产生的初试矩阵是否相同，而是判断用户的矩阵是否满足数独的游戏规则。这是因为一个初始矩阵被挖掉一些空格后，可能会有不止一种正确解。</p>
-<h4 id="demo中的其他细节"><a href="#demo中的其他细节" class="headerlink" title="demo中的其他细节"></a>demo中的其他细节</h4><ol>
-<li>针对不同level，做了倒计时挑战</li>
-<li>在一个AlertController调起时，如果一个AlertAction的动作是调起另一个AlertController，会持续报警告并且不能正常调起，demo中模拟系统的AlertController的功能实现了一个自定义的AlertView，点击Alert需要手动调用dismiss。</li>
-<li>“重来”功能相当于复盘</li>
-</ol>
-<h4 id="demo地址"><a href="#demo地址" class="headerlink" title="demo地址"></a>demo地址</h4><p><a href="https://github.com/zhengry/ZZSudoku" target="_blank" rel="external">https://github.com/zhengry/ZZSudoku</a></p>
-
-          
+<li>随机交换任意小九宫格内的两行或两列（demo中有三次行交换、三次列交换）
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/12/Swift版数独小游戏总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
