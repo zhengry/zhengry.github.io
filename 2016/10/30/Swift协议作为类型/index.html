@@ -117,7 +117,7 @@
 作为函数、方法或构造器中的参数类型或返回值类型
 作为常量、变量或属性的类型
 作为数组、字典或其他容器中的元素类型">
-<meta property="og:updated_time" content="2018-05-07T09:06:59.659Z">
+<meta property="og:updated_time" content="2018-05-07T09:06:59.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift协议作为类型">
 <meta name="twitter:description" content="协议本身并未实现任何功能，但协议可以像其他类型一样当做一个类型来使用。使用场景：
@@ -407,7 +407,7 @@
 <li>作为常量、变量或属性的类型</li>
 <li>作为数组、字典或其他容器中的元素类型<a id="more"></a></li>
 </ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">RandomNumberGenerator</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">random</span><span class="params">()</span></span> -&gt; <span class="type">Double</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dice</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> sides: <span class="type">Int</span></div><div class="line">    <span class="keyword">let</span> generator: <span class="type">RandomNumberGenerator</span></div><div class="line">    <span class="keyword">init</span>(sides: <span class="type">Int</span>, generator: <span class="type">RandomNumberGenerator</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.sides = sides</div><div class="line">        <span class="keyword">self</span>.generator = generator</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">roll</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">Int</span>(generator.random() * <span class="type">Double</span>(sides)) + <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> d6 = <span class="type">Dice</span>(sides: <span class="number">6</span>, generator: <span class="type">LinearCongruentialGenerator</span>())</div><div class="line"><span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">1</span>...<span class="number">5</span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"Random dice roll is \(d6.roll())"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">RandomNumberGenerator</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">random</span><span class="params">()</span></span> -&gt; <span class="type">Double</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dice</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> sides: <span class="type">Int</span></div><div class="line">    <span class="keyword">let</span> generator: <span class="type">RandomNumberGenerator</span></div><div class="line">    <span class="keyword">init</span>(sides: <span class="type">Int</span>, generator: <span class="type">RandomNumberGenerator</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.sides = sides</div><div class="line">        <span class="keyword">self</span>.generator = generator</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">roll</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">Int</span>(generator.random() * <span class="type">Double</span>(sides)) + <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> d6 = <span class="type">Dice</span>(sides: <span class="number">6</span>, generator: <span class="type">LinearCongruentialGenerator</span>())</div><div class="line"><span class="keyword">for</span> <span class="number">_</span> <span class="keyword">in</span> <span class="number">1</span>...<span class="number">5</span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"Random dice roll is <span class="subst">\(d6.roll()</span>)"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -538,7 +538,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-count">98</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -573,7 +573,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -630,7 +632,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">22</span>
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

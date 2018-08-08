@@ -401,7 +401,7 @@
 <p>如果不使用self前缀，Swift就认为两次使用的x都指的是名称为x的函数参数。</p>
 <h4 id="在实例方法中修改值类型"><a href="#在实例方法中修改值类型" class="headerlink" title="在实例方法中修改值类型"></a>在实例方法中修改值类型</h4><p>结构体和枚举都是值类型，值类型的属性是不能在实例方法中修改的。</p>
 <p><u>如果你确实需要在某个特定的方法中修改结构体或者枚举的属性，你可以为这个方法选择可变(mutating)行为，然后就可以从其方法内部改变它的属性；并且这个方法做的任何改变都会在方法执行结束时写回到原始结构中。方法还可以给它隐含的self属性赋予一个全新的实例，这个新实例在方法结束时会替换现存实例。</u></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">0.0</span>, y = <span class="number">0.0</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">moveByX</span><span class="params">(deltaX: Double, y deltaY: Double)</span></span> &#123;</div><div class="line">        x += deltaX</div><div class="line">        y += deltaY</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> somePoint = <span class="type">Point</span>(x: <span class="number">1.0</span>, y: <span class="number">1.0</span>)</div><div class="line">somePoint.moveByX(<span class="number">2.0</span>, y: <span class="number">3.0</span>)</div><div class="line"><span class="built_in">print</span>(<span class="string">"The point is now at (\(somePoint.x), \(somePoint.y))"</span>)</div><div class="line"><span class="comment">// 打印 "The point is now at (3.0, 4.0)"</span></div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">0.0</span>, y = <span class="number">0.0</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">moveByX</span><span class="params">(deltaX: Double, y deltaY: Double)</span></span> &#123;</div><div class="line">        x += deltaX</div><div class="line">        y += deltaY</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> somePoint = <span class="type">Point</span>(x: <span class="number">1.0</span>, y: <span class="number">1.0</span>)</div><div class="line">somePoint.moveByX(<span class="number">2.0</span>, y: <span class="number">3.0</span>)</div><div class="line"><span class="built_in">print</span>(<span class="string">"The point is now at (<span class="subst">\(somePoint.x)</span>, <span class="subst">\(somePoint.y)</span>)"</span>)</div><div class="line"><span class="comment">// 打印 "The point is now at (3.0, 4.0)"</span></div></pre></td></tr></table></figure>
 <p>上面的Point结构体定义了一个可变方法<code>moveByX(_:y:)</code> 来移动Point实例到给定的位置。该方法被调用时修改了这个点，而不是返回一个新的点。方法定义时加上了<code>mutating</code>关键字，从而允许修改属性。</p>
 <p>注意，不能在结构体类型的常量（a constant of structure type）上调用可变方法，因为其属性不能被改变，即使属性是变量属性:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> newPoint = <span class="type">Point</span>(x:<span class="number">1.0</span>, y: <span class="number">2.0</span>)</div><div class="line">newPoint.moveByX(<span class="number">3.3</span>, y:<span class="number">4.0</span>)</div><div class="line"><span class="comment">//这里会出现报错，因为newPoint是个常量，而不是变量</span></div></pre></td></tr></table></figure></p>
 <h5 id="可变方法中给self赋值"><a href="#可变方法中给self赋值" class="headerlink" title="可变方法中给self赋值"></a>可变方法中给self赋值</h5><p>在可变方法中可以给隐含属性self赋一个全新的实例：<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">0</span>, y = <span class="number">0</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">moveByX</span><span class="params">(x delayX: Double, y delayY: Double)</span></span>&#123;</div><div class="line">        <span class="keyword">self</span> = <span class="type">Point</span>(x: x + delayX, y: y + delayY)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -457,8 +457,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/24/Swift析构器deinit/" rel="next" title="Swift析构器deinit">
-                <i class="fa fa-chevron-left"></i> Swift析构器deinit
+              <a href="/2016/10/24/iOS10新特性/" rel="next" title="iOS10新特性">
+                <i class="fa fa-chevron-left"></i> iOS10新特性
               </a>
             
           </div>
@@ -547,7 +547,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-count">98</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -582,7 +582,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -639,7 +641,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">22</span>
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

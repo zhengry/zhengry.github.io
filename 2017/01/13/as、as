@@ -115,7 +115,7 @@ as!Fo">
 有保证的转换，从派生类转换为基类的向上转型。
 1234567let num = 1 as CGFloat	//将1转成float//dog转成父类animalclass Animal&amp;#123;&amp;#125;calss Dog: Animal&amp;#123;&amp;#125;let d = Dog()d as Animal
 as!Fo">
-<meta property="og:updated_time" content="2018-05-11T06:56:54.522Z">
+<meta property="og:updated_time" content="2018-05-11T06:56:54.523Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="as、as?和as!">
 <meta name="twitter:description" content="asGuaranteed conversation + Upcasting
@@ -544,7 +544,7 @@ as!Fo">
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">93</span>
+                    <span class="site-state-item-count">98</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -579,7 +579,9 @@ as!Fo">
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -636,7 +638,9 @@ as!Fo">
                     
                       
                     
-                    <span class="site-state-item-count">22</span>
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
