@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1.PickerView设置选中行样式比如需要设置背景色，在自定义pickerView的layoutSubviews方法中添加代码：
+12345678910111213141516//修改选中行的背景色   for (UIView *subView in self.subviews) &amp;#123;       if(subView.subviews.count)&amp;#123;           U">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些特殊UI设置">
+<meta property="og:url" content="https://zhengry.github.io/2018/04/10/一些特殊UI设置/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="1.PickerView设置选中行样式比如需要设置背景色，在自定义pickerView的layoutSubviews方法中添加代码：
+12345678910111213141516//修改选中行的背景色   for (UIView *subView in self.subviews) &amp;#123;       if(subView.subviews.count)&amp;#123;           U">
+<meta property="og:updated_time" content="2018-10-10T03:33:44.798Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一些特殊UI设置">
+<meta name="twitter:description" content="1.PickerView设置选中行样式比如需要设置背景色，在自定义pickerView的layoutSubviews方法中添加代码：
+12345678910111213141516//修改选中行的背景色   for (UIView *subView in self.subviews) &amp;#123;       if(subView.subviews.count)&amp;#123;           U">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2018/04/10/一些特殊UI设置/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>一些特殊UI设置 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/04/10/一些特殊UI设置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">一些特殊UI设置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T00:00:00+08:00">2018-04-10</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UI/" itemprop="url" rel="index"><span itemprop="name">UI</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1-PickerView设置选中行样式"><a href="#1-PickerView设置选中行样式" class="headerlink" title="1.PickerView设置选中行样式"></a>1.PickerView设置选中行样式</h4><p>比如需要设置背景色，在自定义pickerView的layoutSubviews方法中添加代码：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改选中行的背景色</span></div><div class="line">   <span class="keyword">for</span> (<span class="built_in">UIView</span> *subView <span class="keyword">in</span> <span class="keyword">self</span>.subviews) &#123;</div><div class="line">       <span class="keyword">if</span>(subView.subviews.count)&#123;</div><div class="line">           <span class="built_in">UIView</span> *contentView = subView.subviews[<span class="number">0</span>];</div><div class="line">           <span class="keyword">for</span> (<span class="built_in">UIView</span> *contentSubView <span class="keyword">in</span> contentView.subviews) &#123;</div><div class="line">               <span class="keyword">if</span>(contentSubView.center.y == contentView.center.y)&#123;</div><div class="line">                   <span class="keyword">if</span>(_selectBackView != contentSubView)&#123;</div><div class="line">                       _selectBackView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line">                       _selectBackView = contentSubView;</div><div class="line">                       _selectBackView.backgroundColor = kColorFromHex(<span class="number">0xEBEBEB</span>);</div><div class="line">                   &#125;</div><div class="line">                   <span class="keyword">break</span>;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">break</span>;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<h4 id="2-TableView的Section设置整体边框效果"><a href="#2-TableView的Section设置整体边框效果" class="headerlink" title="2.TableView的Section设置整体边框效果"></a>2.TableView的Section设置整体边框效果</h4><p>在tableView代理类中，添加如下代码（可以使用CGPath，也可以用UIBezierPath）：</p>
+<h5 id="OC版代码（使用了CGPath）"><a href="#OC版代码（使用了CGPath）" class="headerlink" title="OC版代码（使用了CGPath）"></a>OC版代码（使用了CGPath）</h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView willDisplayCell:(<span class="built_in">UITableViewCell</span> *)cell forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</div><div class="line">    <span class="comment">// 圆角弧度半径</span></div><div class="line">    <span class="built_in">CGFloat</span> cornerRadius = <span class="number">10.</span>f;</div><div class="line">    <span class="comment">// 设置cell的背景色为透明，如果不设置这个的话，则原来的背景色不会被覆盖</span></div><div class="line"><span class="comment">//    cell.backgroundColor = UIColor.clearColor;</span></div><div class="line">    </div><div class="line">    <span class="comment">// 创建一个shapeLayer</span></div><div class="line">    <span class="built_in">CAShapeLayer</span> *layer = [[<span class="built_in">CAShapeLayer</span> alloc] init];</div><div class="line">    <span class="built_in">CAShapeLayer</span> *backgroundLayer = [[<span class="built_in">CAShapeLayer</span> alloc] init]; <span class="comment">//显示选中</span></div><div class="line">    <span class="comment">// 创建一个可变的图像Path句柄，该路径用于保存绘图信息</span></div><div class="line">    <span class="built_in">CGMutablePathRef</span> pathRef = <span class="built_in">CGPathCreateMutable</span>();</div><div class="line">    <span class="comment">// 获取cell的size</span></div><div class="line">    <span class="comment">// 第一个参数,是整个 cell 的 bounds, 第二个参数是距左右两端的距离,第三个参数是距上下两端的距离</span></div><div class="line">    <span class="built_in">CGRect</span> bounds = <span class="built_in">CGRectInset</span>(cell.bounds, <span class="number">14</span>, <span class="number">0</span>);</div><div class="line">    </div><div class="line">    <span class="comment">// CGRectGetMinY：返回对象顶点坐标</span></div><div class="line">    <span class="comment">// CGRectGetMaxY：返回对象底点坐标</span></div><div class="line">    <span class="comment">// CGRectGetMinX：返回对象左边缘坐标</span></div><div class="line">    <span class="comment">// CGRectGetMaxX：返回对象右边缘坐标</span></div><div class="line">    <span class="comment">// CGRectGetMidX: 返回对象中心点的X坐标</span></div><div class="line">    <span class="comment">// CGRectGetMidY: 返回对象中心点的Y坐标</span></div><div class="line">    </div><div class="line">    <span class="comment">// 这里要判断分组列表中的第一行，每组section的第一行，每组section的中间行</span></div><div class="line">    </div><div class="line">    <span class="comment">// CGPathAddRoundedRect(pathRef, nil, bounds, cornerRadius, cornerRadius);</span></div><div class="line">    <span class="keyword">if</span> (indexPath.row == <span class="number">0</span>) &#123;</div><div class="line">        <span class="comment">// 初始起点为cell的左下角坐标</span></div><div class="line">        <span class="built_in">CGPathMoveToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds));</div><div class="line">        <span class="comment">// 起始坐标为左下角，设为p，（CGRectGetMinX(bounds), CGRectGetMinY(bounds)）为左上角的点，设为p1(x1,y1)，(CGRectGetMidX(bounds), CGRectGetMinY(bounds))为顶部中点的点，设为p2(x2,y2)。然后连接p1和p2为一条直线l1，连接初始点p到p1成一条直线l，则在两条直线相交处绘制弧度为r的圆角。</span></div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds), <span class="built_in">CGRectGetMidX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds), cornerRadius);</div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds), <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMidY</span>(bounds), cornerRadius);</div><div class="line">        <span class="comment">// 终点坐标为右下角坐标点，把绘图信息都放到路径中去,根据这些路径就构成了一块区域了</span></div><div class="line">        <span class="built_in">CGPathAddLineToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds));</div><div class="line">        </div><div class="line">        <span class="built_in">CGPathCloseSubpath</span>(pathRef);</div><div class="line">        </div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]<span class="number">-1</span>) &#123;</div><div class="line">        <span class="comment">// 初始起点为cell的左上角坐标</span></div><div class="line">        <span class="built_in">CGPathMoveToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds));</div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds), <span class="built_in">CGRectGetMidX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds), cornerRadius);</div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds), <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMidY</span>(bounds), cornerRadius);</div><div class="line">        <span class="comment">// 添加一条直线，终点坐标为右下角坐标点并放到路径中去</span></div><div class="line">        <span class="built_in">CGPathAddLineToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds));</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 添加cell的rectangle信息到path中（不包括圆角）</span></div><div class="line">        <span class="built_in">CGPathAddRect</span>(pathRef, <span class="literal">nil</span>, bounds);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 把已经绘制好的可变图像路径赋值给图层，然后图层根据这图像path进行图像渲染render</span></div><div class="line">    layer.path = pathRef;</div><div class="line">    backgroundLayer.path = pathRef;</div><div class="line">    <span class="comment">// 注意：但凡通过Quartz2D中带有creat/copy/retain方法创建出来的值都必须要释放</span></div><div class="line">    <span class="built_in">CFRelease</span>(pathRef);</div><div class="line">    <span class="comment">// 按照shape layer的path填充颜色，类似于渲染render</span></div><div class="line">    <span class="comment">//     layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;</span></div><div class="line">    layer.fillColor = [<span class="built_in">UIColor</span> whiteColor].CGColor;</div><div class="line">    layer.strokeColor = [<span class="built_in">UIColor</span> clearColor].CGColor;</div><div class="line">    </div><div class="line">    <span class="comment">// view大小与cell一致</span></div><div class="line">    <span class="built_in">UIView</span> *roundView = [[<span class="built_in">UIView</span> alloc] initWithFrame:bounds];</div><div class="line">    <span class="comment">// 添加自定义圆角后的图层到roundView中</span></div><div class="line">    [roundView.layer insertSublayer:layer atIndex:<span class="number">0</span>];</div><div class="line">    roundView.backgroundColor = VIEW_COLOR;</div><div class="line">    <span class="comment">// cell的背景view</span></div><div class="line">    cell.backgroundView = roundView;</div><div class="line">    </div><div class="line">    <span class="comment">// 以上方法存在缺陷当点击cell时还是出现cell方形效果，因此还需要添加以下方法</span></div><div class="line">    <span class="comment">// 如果你 cell 已经取消选中状态的话,那以下方法是不需要的.</span></div><div class="line">    <span class="built_in">UIView</span> *selectedBackgroundView = [[<span class="built_in">UIView</span> alloc] initWithFrame:bounds];</div><div class="line">    backgroundLayer.fillColor = [<span class="built_in">UIColor</span> whiteColor].CGColor;</div><div class="line">    [selectedBackgroundView.layer insertSublayer:backgroundLayer atIndex:<span class="number">0</span>];</div><div class="line">    selectedBackgroundView.backgroundColor = <span class="built_in">UIColor</span>.clearColor;</div><div class="line">    cell.selectedBackgroundView = selectedBackgroundView;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="Swift版（使用了UIBezierPath）"><a href="#Swift版（使用了UIBezierPath）" class="headerlink" title="Swift版（使用了UIBezierPath）"></a>Swift版（使用了UIBezierPath）</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)</span></span> &#123;</div><div class="line">        <span class="keyword">let</span> rowsCount:<span class="type">Int</span> = tableView.numberOfRows(inSection: indexPath.section)</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> indexPath.row == <span class="number">0</span> &#123;</div><div class="line">            </div><div class="line">            <span class="keyword">let</span> path:<span class="type">UIBezierPath</span> = <span class="type">UIBezierPath</span>.<span class="keyword">init</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">14</span>, y: <span class="number">0</span>, width: cell.contentView.width - <span class="number">14</span> * <span class="number">2</span>, height: cell.contentView.height), byRoundingCorners: [.topLeft,.topRight], cornerRadii: <span class="type">CGSize</span>(width: <span class="number">10</span>, height: <span class="number">0</span>))</div><div class="line">            </div><div class="line">            <span class="keyword">let</span> shapLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>()</div><div class="line">            shapLayer.lineWidth = <span class="number">1</span></div><div class="line">            shapLayer.strokeColor = <span class="type">UIColor</span>.white.cgColor</div><div class="line">            shapLayer.fillColor = <span class="type">UIColor</span>.clear.cgColor</div><div class="line">            shapLayer.path = path.cgPath</div><div class="line">            <span class="keyword">let</span> maskLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>.<span class="keyword">init</span>()</div><div class="line">            maskLayer.path = path.cgPath</div><div class="line">            cell.layer.mask = maskLayer</div><div class="line">            cell.layer.addSublayer(shapLayer)</div><div class="line">            </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> indexPath.row == rowsCount - <span class="number">1</span> &#123;</div><div class="line">   </div><div class="line">            <span class="keyword">let</span> path:<span class="type">UIBezierPath</span> = <span class="type">UIBezierPath</span>.<span class="keyword">init</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">14</span>, y: <span class="number">0</span>, width: cell.contentView.width - <span class="number">14</span> * <span class="number">2</span>, height: cell.contentView.height), byRoundingCorners: [.bottomLeft,.bottomRight], cornerRadii: <span class="type">CGSize</span>(width: <span class="number">10</span>, height: <span class="number">0</span>))</div><div class="line">            <span class="keyword">let</span> shapLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>()</div><div class="line">            shapLayer.lineWidth = <span class="number">1</span></div><div class="line">            shapLayer.strokeColor = <span class="type">UIColor</span>.white.cgColor</div><div class="line">            shapLayer.fillColor = <span class="type">UIColor</span>.clear.cgColor</div><div class="line">            shapLayer.path = path.cgPath</div><div class="line">            <span class="keyword">let</span> maskLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>.<span class="keyword">init</span>()</div><div class="line">            maskLayer.path = path.cgPath</div><div class="line">            cell.layer.mask = maskLayer</div><div class="line">            cell.layer.addSublayer(shapLayer)</div><div class="line">            </div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">let</span> path:<span class="type">UIBezierPath</span> = <span class="type">UIBezierPath</span>.<span class="keyword">init</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">14</span>, y: <span class="number">0</span>, width: cell.contentView.width - <span class="number">14</span> * <span class="number">2</span>, height: cell.contentView.height), byRoundingCorners: [.topLeft,.topRight], cornerRadii: <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">0</span>))</div><div class="line">            <span class="keyword">let</span> shapLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>()</div><div class="line">            shapLayer.lineWidth = <span class="number">1</span></div><div class="line">            shapLayer.strokeColor = <span class="type">UIColor</span>.white.cgColor</div><div class="line">            shapLayer.fillColor = <span class="type">UIColor</span>.clear.cgColor</div><div class="line">            shapLayer.path = path.cgPath</div><div class="line">            <span class="keyword">let</span> maskLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>.<span class="keyword">init</span>()</div><div class="line">            maskLayer.path = path.cgPath</div><div class="line">            cell.layer.mask = maskLayer</div><div class="line">            cell.layer.addSublayer(shapLayer)</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2018/04/10/一些特殊UI设置/" title="一些特殊UI设置">https://zhengry.github.io/2018/04/10/一些特殊UI设置/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UI/" rel="tag"># UI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/03/Xcode Debug/" rel="next" title="Xcode Debug">
+                <i class="fa fa-chevron-left"></i> Xcode Debug
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/13/Swift Debug/" rel="prev" title="Swift Debug">
+                Swift Debug <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">105</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-PickerView设置选中行样式"><span class="nav-number">1.</span> <span class="nav-text">1.PickerView设置选中行样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-TableView的Section设置整体边框效果"><span class="nav-number">2.</span> <span class="nav-text">2.TableView的Section设置整体边框效果</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#OC版代码（使用了CGPath）"><span class="nav-number">2.1.</span> <span class="nav-text">OC版代码（使用了CGPath）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Swift版（使用了UIBezierPath）"><span class="nav-number">2.2.</span> <span class="nav-text">Swift版（使用了UIBezierPath）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
