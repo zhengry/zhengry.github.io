@@ -452,7 +452,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/03/12/2018-03-12-Core-Location和Map-Kit确定位置/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/03/12/Core-Location和Map-Kit确定位置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -471,7 +471,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/03/12/2018-03-12-Core-Location和Map-Kit确定位置/" itemprop="url">Core Location和Map Kit确定位置</a></h1>
+                <a class="post-title-link" href="/2018/03/12/Core-Location和Map-Kit确定位置/" itemprop="url">Core Location和Map Kit确定位置</a></h1>
         
 
         <div class="post-meta">
@@ -546,7 +546,7 @@
 <li>GPS：GPS通过读取来自多个卫星的微波信号来确定当前位置。苹果公司使用的GPS为Assisted GPS（辅助全球卫星定位系统），也称A-GPS。A-GPS使用网络资源来帮助改进纯粹的GPS性能，其基本原理是通信运营商部署网络服务，移动设备会自动寻找并从中收集数据，这样移动设备能够只依靠GPS卫星更快地确定它的起始位置。
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/03/12/2018-03-12-Core-Location和Map-Kit确定位置/#more" rel="contents">
+            <a class="btn" href="/2018/03/12/Core-Location和Map-Kit确定位置/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -985,24 +985,18 @@
 
       
         
-          
-            <h4 id="UINavigationBar设置纯色背景"><a href="#UINavigationBar设置纯色背景" class="headerlink" title="UINavigationBar设置纯色背景"></a>UINavigationBar设置纯色背景</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[nav.navigationBar setBarTintColor:MAIN_COLOR];</div><div class="line">[nav.navigationBar setTintColor:MAIN_COLOR];</div></pre></td></tr></table></figure>
+          <h4 id="UINavigationBar设置纯色背景"><a href="#UINavigationBar设置纯色背景" class="headerlink" title="UINavigationBar设置纯色背景"></a>UINavigationBar设置纯色背景</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[nav.navigationBar setBarTintColor:MAIN_COLOR];</div><div class="line">[nav.navigationBar setTintColor:MAIN_COLOR];</div></pre></td></tr></table></figure>
 <p>问题：导航条颜色透明度不是1，颜色略淡。</p>
 <p>####UINavigationBar设置为图片</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIImage</span> *bgImage = [[<span class="built_in">UIImage</span> createImageWithColor:MAIN_COLOR] resizableImageWithCapInsets:<span class="built_in">UIEdgeInsetsZero</span> resizingMode:<span class="built_in">UIImageResizingModeStretch</span>];</div><div class="line">[[<span class="built_in">UINavigationBar</span> appearance] setBackgroundImage:bgImage forBarMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
-<p>注意设置为图片后controller视图的位置变化：</p>
-<p>当navigationbar显示时，y=0在navigationbar底部，但<code>controller.view</code>的高度不变，所以在<code>controller.view</code>上增加的视图height最大值为<code>controller.view.height - navigationBar.height</code>；</p>
-<p>当navigationbar隐藏时，y=0在statusBar底部，在<code>controller.view</code>上增加的视图的最大高度为<code>controller.view.height</code>。</p>
-<h4 id="单独设置某个页面的statusBar样式"><a href="#单独设置某个页面的statusBar样式" class="headerlink" title="单独设置某个页面的statusBar样式"></a>单独设置某个页面的statusBar样式</h4><p>假设全局设置statusBar为<code>UIStatusBarStyleLightContent</code>样式，在某个页面需要设置为<code>UIStatusBarStyleDefault</code>样式。可以在这个单独的页面实现：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)viewWillAppear:(<span class="built_in">BOOL</span>)animated</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewWillAppear:animated];</div><div class="line">    [<span class="built_in">UIApplication</span> sharedApplication].statusBarStyle = <span class="built_in">UIStatusBarStyleDefault</span>;</div><div class="line">    [<span class="keyword">self</span> setStatusBarBackgroundColor:WHITE_COLOR];</div><div class="line">&#125;</div><div class="line">-(<span class="keyword">void</span>)viewWillDisappear:(<span class="built_in">BOOL</span>)animated</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewWillDisappear:animated];</div><div class="line">    [<span class="built_in">UIApplication</span> sharedApplication].statusBarStyle = <span class="built_in">UIStatusBarStyleLightContent</span>;</div><div class="line">    [<span class="keyword">self</span> setStatusBarBackgroundColor:MAIN_COLOR];</div><div class="line">&#125;</div><div class="line"><span class="comment">//这个方法也可以放在基类controller中，方便多个controller修改statusBar颜色</span></div><div class="line">- (<span class="keyword">void</span>)setStatusBarBackgroundColor:(<span class="built_in">UIColor</span> *)color &#123;</div><div class="line">    <span class="built_in">UIView</span> *statusBar = [[[<span class="built_in">UIApplication</span> sharedApplication] valueForKey:<span class="string">@"statusBarWindow"</span>] valueForKey:<span class="string">@"statusBar"</span>];</div><div class="line">    <span class="keyword">if</span> ([statusBar respondsToSelector:<span class="keyword">@selector</span>(setBackgroundColor:)]) &#123;</div><div class="line">        statusBar.backgroundColor = color;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="UINavigationBar去掉底部阴影"><a href="#UINavigationBar去掉底部阴影" class="headerlink" title="UINavigationBar去掉底部阴影"></a>UINavigationBar去掉底部阴影</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nav.navigationBar.shadowImage = [<span class="built_in">UIImage</span> new];</div><div class="line"><span class="comment">//或者</span></div><div class="line">nav.navigationBar.clipToBounds = <span class="literal">YES</span>;<span class="comment">//不设置statusBar颜色，会导致状态栏颜色和导航条颜色不一致</span></div></pre></td></tr></table></figure>
-<h4 id="UINavigationBar-title设置"><a href="#UINavigationBar-title设置" class="headerlink" title="UINavigationBar title设置"></a>UINavigationBar title设置</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[nav.navigationBar setTitleTextAttributes:@&#123;<span class="built_in">NSFontAttributeName</span>:MAX_FONT,<span class="built_in">NSForegroundColorAttributeName</span>:WHITE_COLOR&#125;];</div></pre></td></tr></table></figure>
-<h4 id="UIBarButttonItem设置"><a href="#UIBarButttonItem设置" class="headerlink" title="UIBarButttonItem设置"></a>UIBarButttonItem设置</h4><p>一般写法：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">self</span>.navigationItem.leftBarButtonItem = [[<span class="built_in">UIBarButtonItem</span> alloc] initWithImage:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"nav_back"</span>] style:<span class="built_in">UIBarButtonItemStyleDone</span> target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(navigationBack)];</div></pre></td></tr></table></figure>
-<p>但是当navigationbar设置为image时，图片颜色的底色会变成蓝色，这时需要写成：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIImage</span> *backImg = [[<span class="built_in">UIImage</span> imageNamed:<span class="string">@"nav_back"</span>] imageWithRenderingMode:<span class="built_in">UIImageRenderingModeAlwaysOriginal</span>];</div><div class="line"><span class="keyword">self</span>.navigationItem.leftBarButtonItem = [[<span class="built_in">UIBarButtonItem</span> alloc] initWithImage:backImg style:<span class="built_in">UIBarButtonItemStyleDone</span> target:<span class="keyword">self</span> action:<span class="keyword">@selector</span>(navigationBack)];</div></pre></td></tr></table></figure>
-
-          
+<p>注意设置为图片后controller视图的位置变化：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/17/UINavigationBar和UIBarButtonItem相关设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1291,8 +1285,7 @@
 
       
         
-          
-            <ol>
+          <ol>
 <li><p>点击按钮分享到好友或朋友圈没有反应，URLScheme正确，SendMessageToWXReq各个参数都不为空</p>
 <p>问题所在：分享图片太大，微信分享图片最大32k，图片压缩后进行分享 </p>
 </li>
@@ -1301,13 +1294,14 @@
 <p>解决方法：将其改为属性<code>@property (nonatomic, strong)CLLocationManager *manager;</code></p>
 </li>
 <li><p>HTTP请求报错：Error Code=-999 “cancelled”：</p>
-<p>产生原因：AFNetworking中<code>- (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust  forDomain:(nullable NSString *)domain;</code>方法判断证书无效（或没有证书）后返回NO，导致当前请求被cancel。</p>
-<p>解决方法：在plist文件中设置HTTP请求配置和host地址的白名单，在AFNetworking请求中允许不进行证书验证，在请求中添加代码：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy]; securityPolicy.validatesDomainName = <span class="literal">NO</span>; securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>; </div><div class="line"><span class="comment">//设置manager的securityPolicy</span></div><div class="line">manager.securityPolicy = securityPolicy;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-
-          
+<p>产生原因：AFNetworking中<code>- (BOOL)evaluateServerTrust:(SecTrustRef)serverTrust  forDomain:(nullable NSString *)domain;</code>方法判断证书无效（或没有证书）后返回NO，导致当前请求被cancel。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/13/开发bug记录/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1872,9 +1866,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1935,9 +1927,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

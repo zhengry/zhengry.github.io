@@ -392,24 +392,19 @@
 
       
         
-          
-            <p>更新到Swift4.2后，项目里调用<code>UIApplication.shared.statusBarStyle = .light</code>的地方报警告：Setter for ‘statusBarStyle’ was deprecated in iOS 9.0: Use -[UIViewController preferredStatusBarStyle]；</p>
+          <p>更新到Swift4.2后，项目里调用<code>UIApplication.shared.statusBarStyle = .light</code>的地方报警告：Setter for ‘statusBarStyle’ was deprecated in iOS 9.0: Use -[UIViewController preferredStatusBarStyle]；</p>
 <p>解决办法（默认info.plist已设置View controller-based status bar appearance为NO）：</p>
 <ol>
 <li><p>如果使用了自定义的UINavigationController，在自定义的UINavigationController中重写<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>两个属性：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果没有自定义UINavigationController也没关系，扩展UINavigationController就可以了：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UINavigationController</span></span>&#123;</div><div class="line">    <span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController</span>? &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController</span>? &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>在需要改变状态栏的controller中重写<code>preferredStatusBarStyle</code>:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> preferredStatusBarStyle: <span class="type">UIStatusBarStyle</span> &#123;</div><div class="line">    <span class="keyword">return</span> .lightContent</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>关于为什么要重写<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>两个属性：</p>
-<p>这两个属性默认返回值为nil。</p>
-<p>当我们调用<code>setNeedsStatusBarAppearanceUpdate</code>的时候,系统会调用<code>Container</code>(容器控制器)的<code>preferredStatusBarStyle</code>这个方法(<code>window?.rootViewController</code>的<code>preferred</code>的方法,一般我们用<code>UINavigationController</code>或者<code>UITabBarController</code>来做<code>Container</code>),也就是根本不会调用子控制器(我们所看到的<code>UIViewcontroller</code>)的<code>preferredStatusBarStyle</code>方法。<br>重写了<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>后，这两个属性返回的都是当前展示的controller，则调用的statusBarStyle就是当前controller重写的<code>preferredStatusBarStyle</code>了。</p>
-
-          
+<p>如果没有自定义UINavigationController也没关系，扩展UINavigationController就可以了：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/10/Swift-4.2填坑之StatusBarStyle设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -699,12 +694,17 @@
 
       
         
-          
-            <p>在获取通讯录联系人相关信息时，要特别注意的是必须在获取前指定要获取的具体字段，另外，在添加到数组或字典中的联系人信息要注意提供默认值，防止数据为nil时崩溃。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSMutableArray</span> *contactBook = [<span class="built_in">NSMutableArray</span> alloc] initWithCapacity:<span class="number">0</span>]; </div><div class="line"></div><div class="line"><span class="comment">//**** 要获取哪些字段，必须指定具体的字段****</span></div><div class="line"><span class="built_in">NSArray</span> *keysToFetch = @[<span class="built_in">CNContactGivenNameKey</span>, <span class="built_in">CNContactFamilyNameKey</span>, <span class="built_in">CNContactPhoneNumbersKey</span>,<span class="built_in">CNContactEmailAddressesKey</span>,<span class="built_in">CNContactNoteKey</span>,<span class="built_in">CNContactOrganizationNameKey</span>];</div><div class="line"></div><div class="line"><span class="built_in">CNContactFetchRequest</span> *fetchRequest = [[<span class="built_in">CNContactFetchRequest</span> alloc] initWithKeysToFetch:keysToFetch];</div><div class="line"><span class="built_in">CNContactStore</span> *contactStore = [[<span class="built_in">CNContactStore</span> alloc] init];</div><div class="line"></div><div class="line">[contactStore enumerateContactsWithFetchRequest:fetchRequest error:<span class="literal">nil</span> usingBlock:^(<span class="built_in">CNContact</span> * _Nonnull contact, <span class="built_in">BOOL</span> * _Nonnull stop) &#123;</div><div class="line"></div><div class="line">    <span class="comment">//姓名</span></div><div class="line">    <span class="built_in">NSString</span> *lastName = contact.givenName ? contact.givenName : <span class="string">@""</span>;</div><div class="line">    <span class="built_in">NSString</span> *familyName = contact.familyName ? contact.familyName : <span class="string">@""</span>;</div><div class="line">    <span class="comment">//手机号码</span></div><div class="line">    <span class="built_in">NSString</span> *mobile = <span class="string">@""</span>;</div><div class="line">    <span class="built_in">NSArray</span> *phoneNumbers = contact.phoneNumbers;</div><div class="line">    <span class="keyword">if</span> (phoneNumbers.count) &#123;</div><div class="line">            <span class="built_in">CNLabeledValue</span> *labelValue = phoneNumbers[<span class="number">0</span>];</div><div class="line">            <span class="built_in">CNPhoneNumber</span> *phoneNumber = labelValue.value;</div><div class="line">            </div><div class="line">            <span class="built_in">NSString</span> * string = phoneNumber.stringValue ;</div><div class="line">            <span class="comment">//去掉电话中的特殊字符</span></div><div class="line">            string = [string stringByReplacingOccurrencesOfString:<span class="string">@"+86"</span> withString:<span class="string">@""</span>];</div><div class="line">            string = [string stringByReplacingOccurrencesOfString:<span class="string">@"-"</span> withString:<span class="string">@""</span>];</div><div class="line">            string = [string stringByReplacingOccurrencesOfString:<span class="string">@"("</span> withString:<span class="string">@""</span>];</div><div class="line">            string = [string stringByReplacingOccurrencesOfString:<span class="string">@")"</span> withString:<span class="string">@""</span>];</div><div class="line">            string = [string stringByReplacingOccurrencesOfString:<span class="string">@" "</span> withString:<span class="string">@""</span>];</div><div class="line">            string = [string stringByReplacingOccurrencesOfString:<span class="string">@" "</span> withString:<span class="string">@""</span>];</div><div class="line">            mobile = string;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="comment">//邮箱</span></div><div class="line">        <span class="built_in">NSString</span> *email = <span class="string">@""</span>;</div><div class="line">        </div><div class="line">        <span class="built_in">NSArray</span> *emails = contact.emailAddresses;</div><div class="line">        <span class="keyword">if</span> (emails.count) &#123;</div><div class="line">            <span class="built_in">CNLabeledValue</span> *emailValue = emails[<span class="number">0</span>];</div><div class="line">            <span class="built_in">NSString</span> *emailAddress = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>,emailValue.value];</div><div class="line">            email = emailAddress;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        </div><div class="line">        <span class="comment">//备注</span></div><div class="line">        <span class="built_in">NSString</span> *note = contact.note ? contact.note : <span class="string">@""</span>;</div><div class="line">        <span class="comment">//公司</span></div><div class="line">        <span class="built_in">NSString</span> *organization = contact.organizationName ? contact.organizationName : <span class="string">@""</span>;</div><div class="line">        </div><div class="line">        <span class="built_in">NSDictionary</span> *dic = @&#123;<span class="string">@"email"</span>:email,</div><div class="line">                             <span class="string">@"familyName"</span>:familyName,</div><div class="line">                             <span class="string">@"lastName"</span>:lastName,</div><div class="line">                             <span class="string">@"mobile"</span>:mobile,</div><div class="line">                             <span class="string">@"notes"</span>:note,</div><div class="line">                             <span class="string">@"organization"</span>:organization</div><div class="line">                             &#125;;</div><div class="line">        [contactBook addObject:dic];</div><div class="line">        </div><div class="line">    &#125;];</div></pre></td></tr></table></figure>
-<p>contactBook就是获取到的通讯录数据。</p>
-
-          
+          <p>在获取通讯录联系人相关信息时，要特别注意的是必须在获取前指定要获取的具体字段，另外，在添加到数组或字典中的联系人信息要注意提供默认值，防止数据为nil时崩溃。</p>
+<p>指定要获取的数据：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//姓：CNContactFamilyNameKey</span></div><div class="line"><span class="comment">//名：CNContactGivenNameKey</span></div><div class="line"><span class="comment">//手机号：CNContactPhoneNumbersKey</span></div><div class="line"><span class="comment">//邮箱：CNContactEmailAddressesKey</span></div><div class="line"><span class="comment">//备注：CNContactNoteKey</span></div><div class="line"><span class="comment">//公司名称：CNContactOrganizationNameKey</span></div><div class="line"><span class="built_in">NSArray</span> *keysToFetch = @[<span class="built_in">CNContactGivenNameKey</span>, <span class="built_in">CNContactFamilyNameKey</span>, <span class="built_in">CNContactPhoneNumbersKey</span>,<span class="built_in">CNContactEmailAddressesKey</span>,<span class="built_in">CNContactNoteKey</span>,<span class="built_in">CNContactOrganizationNameKey</span>];</div><div class="line"></div><div class="line"><span class="built_in">CNContactFetchRequest</span> *fetchRequest = [[<span class="built_in">CNContactFetchRequest</span> alloc] initWithKeysToFetch:keysToFetch];</div></pre></td></tr></table></figure>
+<p>开始获取数据：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/13/获取通讯录联系人信息/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -843,8 +843,7 @@
 
       
         
-          
-            <p>在Swift4.0中，无法直接<code>#import CommonCtypto</code>，所以需要桥接OC的CommonCtypto。但是我发现XCode9系统不会自动创建BridgeHeader文件，所以正确的姿势是这样的：</p>
+          <p>在Swift4.0中，无法直接<code>#import CommonCtypto</code>，所以需要桥接OC的CommonCtypto。但是我发现XCode9系统不会自动创建BridgeHeader文件，所以正确的姿势是这样的：</p>
 <ol>
 <li><p>在项目中创建文件夹CommonCtypto</p>
 </li>
@@ -853,20 +852,14 @@
 <li><p>在.modulemap文件中添加代码：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">module <span class="type">CommonCrypto</span> [system] &#123;</div><div class="line">    header <span class="string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/CommonCrypto/CommonCrypto.h"</span></div><div class="line">    header <span class="string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/CommonCrypto/CommonRandom.h"</span></div><div class="line">export *</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
-<li><p>在CommonCryptoHeader.h中导入CommonCrypto：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#include &lt;<span class="type">CommonCrypto</span>/<span class="type">CommonCrypto</span>.h&gt;</div></pre></td></tr></table></figure>
-</li>
-<li><p>在targets——Build Setting中找到Swift Compiler-Search Paths，在其Import Paths中添加CommCrypto文件夹的路径：$(SRCROOT)/ProjectName/CommonCrypt。</p>
-</li>
-<li><p>在写MD5的文件里<code>import CommonCrypto</code>即可。</p>
-</li>
-</ol>
-<p>MD5加密的Swift正确写法：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">md5String</span><span class="params">()</span></span> -&gt;<span class="type">String</span>!&#123;</div><div class="line">        <span class="keyword">let</span> strLen = <span class="type">CUnsignedInt</span>(<span class="keyword">self</span>.lengthOfBytes(using: <span class="type">String</span>.<span class="type">Encoding</span>.utf8))</div><div class="line">        <span class="keyword">let</span> digestLen = <span class="type">Int</span>(<span class="type">CC_MD5_DIGEST_LENGTH</span>)</div><div class="line">        <span class="keyword">let</span> result = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">CUnsignedChar</span>&gt;.allocate(capacity: digestLen)</div><div class="line">        <span class="type">CC_MD5</span>(<span class="keyword">self</span>, strLen, result)</div><div class="line">        <span class="keyword">let</span> hash = <span class="type">NSMutableString</span>()</div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span> ..&lt; digestLen &#123;</div><div class="line">            hash.appendFormat(<span class="string">"%02x"</span>, result[i])</div><div class="line">        &#125;</div><div class="line">        result.deinitialize(<span class="built_in">count</span>: <span class="keyword">self</span>.<span class="built_in">count</span>)</div><div class="line">        <span class="keyword">return</span> <span class="type">String</span>(format: hash <span class="keyword">as</span> <span class="type">String</span>)</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>更新：</p>
-<p>在Swift4.2中，不能再使用上述方法导入CommonCrypto了，因为Swift4.2可以直接 <code>import CommonCrypto</code>。所以更新到Swift4.2后，需要将上面生成的两个文件删掉，import Paths里的路径也删掉，在创建MD5时<code>import CommonCrypto</code>就可以了。</p>
-
-          
+<li><p>在CommonCryptoHeader.h中导入CommonCrypto：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/07/Swift中使用MD5的正确姿势/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1068,160 +1061,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/设备方向与动作方向/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/01/设备方向与动作方向/" itemprop="url">设备方向与动作方向</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-01T00:00:00+08:00">2018-05-01</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>加速计物理特性</p>
-<p>iOS设备内的加速计是个三轴元件，能够检测到三维空间中的运动或重力。也就是说，加速计不但可以指示用户握持设备的方式（同自动旋转功能），而且可以指示设备是否被放在桌子上，甚至指示正面朝上还是朝下。加速计可以测量重力。加速计返回值为1.0时，表示在特定方向上感知到的重力是1g。</p>
-<ul>
-<li>静止握持设备，没有任何运动，地球引力对其施加的力大约为1g</li>
-<li>纵向竖直地握持，那么设备会检测并报告在其y轴上的力大约为1g</li>
-<li>如果以一定角度握持，那么1g的力会分布到不同的轴上，这取决于握持的方式。在以45度角握持时，1g的力会均匀地分解到两个轴上。</li>
-</ul>
-<p>如果检测到的加速计值远大于1g，那么可以判断这是突然运动。正常使用时，加速计在任一轴上都不会检测到大于1g的值。如果摇动、投掷或设备坠落，那么加速计便会在一个或多个轴上检测到很大的力。</p>
-<p>陀螺仪旋转特性：</p>
-<p>iOS设备都有一个陀螺仪传感器，可用于读取描述设备围绕其轴旋转的值。如果保持手机平方的同时旋转它，加速计的值不会改变。这时因为让手机移动的力没有改变。但是，在相同的运动过程中，设备的旋转值将改变，具体来讲，就是z轴的旋转值将改变。顺时针旋转设备将生成负值，逆时针旋转它将生成正值。停止旋转后，z轴旋转值将恢复为0。</p>
-<p>Core Motion 和动作管理器</p>
-<p>Core Motion框架提供了CMMotionManager类，该类提供的数据可以用来描述用户如何移动设备。该类的实例可以在动作发生时执行一些代码；也可以时刻监视一个持续更新的结构，使我们能够随时访问最新的值。</p>
-<p>CMMotionManager类实际上不是一个单例，但应用程序应该将它视为单例。我们应该仅为每个应用创建一个CMMotionManager实例。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/AFNetworking的特殊设置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1309,18 +1148,178 @@
 
       
         
-          
-            <p>项目中的网络请求需要在Header中添加Authorization，并进行base64编码后请求数据。</p>
-<p>Get请求：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">//securityPolicy</span></div><div class="line">AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</div><div class="line">   securityPolicy.validatesDomainName = <span class="literal">NO</span>;</div><div class="line">   securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</div><div class="line">  </div><div class="line">   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</div><div class="line">   manager.securityPolicy = securityPolicy;</div><div class="line"></div><div class="line"><span class="comment">//Header数据</span></div><div class="line">   <span class="built_in">NSMutableDictionary</span> *dic = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</div><div class="line">   [dic setValue:<span class="string">@"IOS"</span> forKey:<span class="string">@"os_type"</span>];</div><div class="line">   <span class="keyword">if</span> (login) &#123;</div><div class="line">       <span class="keyword">if</span> (![DDUser checkLogin]) &#123;</div><div class="line">           <span class="keyword">return</span>;</div><div class="line">       &#125;</div><div class="line">       [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">       [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line">   &#125;<span class="keyword">else</span>&#123;</div><div class="line">       <span class="keyword">if</span> ([DDUser checkLogin]) &#123;</div><div class="line">           [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">           [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   </div><div class="line"><span class="comment">//base64编码</span></div><div class="line">   <span class="built_in">NSError</span> *error;</div><div class="line">   <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:dic options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;error];</div><div class="line">   <span class="built_in">NSString</span> *str = [jsonData base64EncodedStringWithOptions:(<span class="built_in">NSDataBase64EncodingOptions</span>)<span class="number">0</span>];</div><div class="line">   [manager.requestSerializer setValue:str forHTTPHeaderField:<span class="string">@"Authorization"</span>];</div><div class="line">   </div><div class="line">   manager.requestSerializer.timeoutInterval = <span class="number">60</span>;</div><div class="line">   manager.responseSerializer = [AFHTTPResponseSerializer serializer];</div><div class="line">   manager.responseSerializer.acceptableContentTypes = [<span class="built_in">NSSet</span> setWithObjects:<span class="string">@"application/json"</span>, <span class="string">@"text/json"</span>, <span class="string">@"text/javascript"</span>,<span class="string">@"text/html"</span>,<span class="string">@"text/plain"</span>, <span class="literal">nil</span>];</div><div class="line">   </div><div class="line">   <span class="built_in">NSString</span> *getURL = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[<span class="built_in">NSCharacterSet</span> characterSetWithCharactersInString:<span class="string">@"#%^&#123;&#125;\"[]|\\&lt;&gt; "</span>].invertedSet];</div><div class="line">   [manager GET:getURL</div><div class="line">     parameters:parameters</div><div class="line">       progress:<span class="literal">nil</span></div><div class="line">        success:^(<span class="built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="keyword">id</span> _Nullable responseObject) &#123;</div><div class="line">            [<span class="keyword">self</span> dismissHUD];</div><div class="line">            <span class="keyword">if</span> (successBlock) &#123;</div><div class="line">                successBlock(dict);</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">        &#125; failure:^(<span class="built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="built_in">NSError</span> * _Nonnull error) &#123;</div><div class="line">            [<span class="keyword">self</span> dismissHUD];</div><div class="line">            <span class="keyword">if</span> (failureBlock) &#123;</div><div class="line">                failureBlock(error);</div><div class="line">            &#125;</div><div class="line">        &#125;];</div></pre></td></tr></table></figure>
-<p>原生Post请求写法：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Header数据</span></div><div class="line"><span class="built_in">NSMutableDictionary</span> *dic = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</div><div class="line">[dic setValue:<span class="string">@"IOS"</span> forKey:<span class="string">@"os_type"</span>];</div><div class="line"><span class="keyword">if</span> (login) &#123;</div><div class="line">   <span class="keyword">if</span> (![DDUser checkLogin]) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">    [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line"> &#125;<span class="keyword">else</span>&#123;</div><div class="line">    <span class="keyword">if</span> ([DDUser checkLogin]) &#123;</div><div class="line">        [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">        [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">NSError</span> *error;</div><div class="line">    <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:dic options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;error];</div><div class="line">    <span class="comment">//base64编码</span></div><div class="line"><span class="built_in">NSString</span> *str = [jsonData base64EncodedStringWithOptions:(<span class="built_in">NSDataBase64EncodingOptions</span>)<span class="number">0</span>];</div><div class="line"></div><div class="line"><span class="built_in">NSURLSession</span> *session = [<span class="built_in">NSURLSession</span> sharedSession];</div><div class="line"></div><div class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:urlString];</div><div class="line"></div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *request = [<span class="built_in">NSMutableURLRequest</span> requestWithURL:url];</div><div class="line">    [request setValue:str forHTTPHeaderField:<span class="string">@"Authorization"</span>];</div><div class="line">    [request addValue:<span class="string">@"application/json;charset=utf-8"</span> forHTTPHeaderField:<span class="string">@"Content-Type"</span>];</div><div class="line">    [request addValue:<span class="string">@"application/json"</span> forHTTPHeaderField:<span class="string">@"Accept"</span>];</div><div class="line">    </div><div class="line">    request.HTTPMethod = <span class="string">@"POST"</span>;</div><div class="line">    <span class="keyword">if</span> (parameters != <span class="literal">nil</span>) &#123;</div><div class="line">        <span class="built_in">NSError</span> *xxError;</div><div class="line">        </div><div class="line">        [request setHTTPBody:[<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:parameters options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;xxError]];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSURLSessionDataTask</span> *dataTask = [session dataTaskWithRequest:request completionHandler:^(<span class="built_in">NSData</span> * _Nullable data, <span class="built_in">NSURLResponse</span> * _Nullable response, <span class="built_in">NSError</span> * _Nullable error) &#123;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!error) &#123;</div><div class="line">            <span class="keyword">if</span> (successBlock) &#123;</div><div class="line">                <span class="built_in">NSDictionary</span> *dic = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:data options:<span class="built_in">NSJSONReadingMutableLeaves</span> error:<span class="literal">nil</span>];</div><div class="line">                successBlock(dic);</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">if</span> (failureBlock) &#123;</div><div class="line">                failureBlock(error);</div><div class="line">                <span class="built_in">NSLog</span>(<span class="string">@"请求发生错误error---&gt;%@"</span>, error);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    [dataTask resume];</div></pre></td></tr></table></figure>
-<p>AFNetworking写法：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Header数据</span></div><div class="line">   <span class="built_in">NSMutableDictionary</span> *dic = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</div><div class="line">   [dic setValue:<span class="string">@"IOS"</span> forKey:<span class="string">@"os_type"</span>];</div><div class="line">   <span class="keyword">if</span> (login) &#123;</div><div class="line">       <span class="keyword">if</span> (![DDUser checkLogin]) &#123;</div><div class="line">           <span class="keyword">return</span>;</div><div class="line">       &#125;</div><div class="line">       [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">       [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line">   &#125;<span class="keyword">else</span>&#123;</div><div class="line">       <span class="keyword">if</span> ([DDUser checkLogin]) &#123;</div><div class="line">           [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">           [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   </div><div class="line">   <span class="built_in">NSError</span> *error;</div><div class="line">   <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:dic options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;error];</div><div class="line">   <span class="comment">//base64编码</span></div><div class="line">   <span class="built_in">NSString</span> *str = [jsonData base64EncodedStringWithOptions:(<span class="built_in">NSDataBase64EncodingOptions</span>)<span class="number">0</span>];</div><div class="line">   <span class="built_in">NSString</span> *postURL = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[<span class="built_in">NSCharacterSet</span> characterSetWithCharactersInString:<span class="string">@"#%^&#123;&#125;\"[]|\\&lt;&gt; "</span>].invertedSet];</div><div class="line">   </div><div class="line">   AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</div><div class="line">   securityPolicy.validatesDomainName = <span class="literal">NO</span>;</div><div class="line">   securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</div><div class="line">   </div><div class="line">   <span class="comment">//如果使用Http请求，除了需要在info.plist中设置白名单，还要设置securityPolicy，防止AFN把请求cancel掉。</span></div><div class="line">   AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration]];</div><div class="line">   manager.securityPolicy = securityPolicy;</div><div class="line">   </div><div class="line">   <span class="built_in">NSMutableURLRequest</span> *request = [[AFJSONRequestSerializer serializer] requestWithMethod:<span class="string">@"POST"</span> URLString:postURL parameters:<span class="literal">nil</span> error:<span class="literal">nil</span>];</div><div class="line">   request.timeoutInterval= <span class="number">60</span>;</div><div class="line">   [request setValue:str forHTTPHeaderField:<span class="string">@"Authorization"</span>];</div><div class="line">   [request addValue:<span class="string">@"application/json;charset=utf-8"</span> forHTTPHeaderField:<span class="string">@"Content-Type"</span>];</div><div class="line">   [request addValue:<span class="string">@"application/json"</span> forHTTPHeaderField:<span class="string">@"Accept"</span>];</div><div class="line">   <span class="keyword">if</span> (parameters != <span class="literal">nil</span>) &#123;</div><div class="line">   <span class="built_in">NSError</span> *xxError;</div><div class="line">       </div><div class="line">   [request setHTTPBody:[<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:parameters options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;xxError]];</div><div class="line">   &#125;</div><div class="line">   </div><div class="line">   [[manager dataTaskWithRequest:request uploadProgress:<span class="literal">nil</span> downloadProgress:<span class="literal">nil</span> completionHandler:^(<span class="built_in">NSURLResponse</span> * _Nonnull response, <span class="keyword">id</span>  _Nullable responseObject, <span class="built_in">NSError</span> * _Nullable error) &#123;</div><div class="line">       [<span class="keyword">self</span> dismissHUD];</div><div class="line">       </div><div class="line">       <span class="keyword">if</span> (!error) &#123;</div><div class="line">           <span class="keyword">if</span> (successBlock) &#123;</div><div class="line">                   successBlock(responseObject);</div><div class="line">               &#125;</div><div class="line">       &#125;<span class="keyword">else</span>&#123;</div><div class="line">           <span class="keyword">if</span> (failureBlock) &#123;</div><div class="line">               failureBlock(error);</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">   &#125;] resume];</div></pre></td></tr></table></figure>
-<p>Post方法上传图片：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//securityPolicy	</span></div><div class="line">AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</div><div class="line">   securityPolicy.validatesDomainName = <span class="literal">NO</span>;</div><div class="line">   securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</div><div class="line">   </div><div class="line">   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</div><div class="line">   manager.securityPolicy = securityPolicy;</div><div class="line"></div><div class="line"><span class="comment">//url编码</span></div><div class="line">   <span class="built_in">NSString</span> *urlStr = [url stringByAddingPercentEncodingWithAllowedCharacters:[<span class="built_in">NSCharacterSet</span> URLQueryAllowedCharacterSet]];</div><div class="line"></div><div class="line"><span class="comment">//header数据</span></div><div class="line">   <span class="built_in">NSMutableDictionary</span> *dic = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</div><div class="line">   [dic setValue:<span class="string">@"IOS"</span> forKey:<span class="string">@"os_type"</span>];</div><div class="line">   <span class="keyword">if</span> (login) &#123;</div><div class="line">       <span class="keyword">if</span> (![DDUser checkLogin]) &#123;</div><div class="line">           <span class="keyword">return</span>;</div><div class="line">       &#125;</div><div class="line">       [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">       [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line">   &#125;<span class="keyword">else</span>&#123;</div><div class="line">       <span class="keyword">if</span> ([DDUser checkLogin]) &#123;</div><div class="line">           [dic setValue:[DDUser mainUser].token forKey:<span class="string">@"token"</span>];</div><div class="line">           [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@"userId"</span>];</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   <span class="comment">//base64编码</span></div><div class="line">   <span class="built_in">NSError</span> *error;</div><div class="line">   <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:dic options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;error];</div><div class="line">   <span class="built_in">NSString</span> *str = [jsonData base64EncodedStringWithOptions:(<span class="built_in">NSDataBase64EncodingOptions</span>)<span class="number">0</span>];</div><div class="line"><span class="comment">//设置请求头</span></div><div class="line">   [manager.requestSerializer setValue:str forHTTPHeaderField:<span class="string">@"Authorization"</span>];</div><div class="line">   [manager.requestSerializer setValue:<span class="string">@"multipart/form-data"</span> forHTTPHeaderField:<span class="string">@"Content-Type"</span>];</div><div class="line">   manager.requestSerializer.timeoutInterval = <span class="number">60</span>;</div><div class="line">   manager.responseSerializer = [AFHTTPResponseSerializer serializer];</div><div class="line">   manager.responseSerializer.acceptableContentTypes = [<span class="built_in">NSSet</span> setWithObjects:<span class="string">@"application/json"</span>, <span class="string">@"text/json"</span>, <span class="string">@"text/javascript"</span>,<span class="string">@"text/html"</span>,<span class="string">@"text/plain"</span>, <span class="literal">nil</span>];</div><div class="line">   [manager POST:urlStr parameters:parameters constructingBodyWithBlock:^(<span class="keyword">id</span>&lt;AFMultipartFormData&gt;  _Nonnull formData) &#123;</div><div class="line">       <span class="built_in">NSString</span> *key = dataDic.allKeys.firstObject;</div><div class="line">       <span class="built_in">NSData</span> *data = dataDic[key];</div><div class="line">       <span class="built_in">NSString</span> *file = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@.jpeg"</span>,key];</div><div class="line">	<span class="comment">//注意这里的参数名跟服务端要求的参数名称保持一致</span></div><div class="line">       [formData appendPartWithFileData:data name:<span class="string">@"editormd-image-file"</span><span class="comment">//参数名</span></div><div class="line">                               fileName:file mimeType:<span class="string">@"image/jpeg"</span>];</div><div class="line">       </div><div class="line">   &#125;</div><div class="line">        progress:<span class="literal">nil</span> success:^(<span class="built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="keyword">id</span>  _Nullable responseObject) &#123;</div><div class="line">            <span class="keyword">if</span> (successBlock) &#123;</div><div class="line">                <span class="built_in">NSDictionary</span> *dict = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:responseObject options:<span class="built_in">NSJSONReadingMutableLeaves</span> error:<span class="literal">nil</span>];</div><div class="line">                successBlock(dict);</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">        &#125; failure:^(<span class="built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="built_in">NSError</span> * _Nonnull error) &#123;</div><div class="line">            [<span class="keyword">self</span> dismissHUD];</div><div class="line">            <span class="keyword">if</span> (failureBlock) &#123;</div><div class="line">                failureBlock(error);</div><div class="line">            &#125;</div><div class="line">        &#125;];</div></pre></td></tr></table></figure>
+          <p>项目中的网络请求需要在Header中添加Authorization，并进行base64编码后请求数据。</p>
+<ol>
+<li><p>设置SecurityPolicy</p>
+<p>有两种情况需要设置SecurityPollicy：</p>
+<ul>
+<li>使用HTTP请求，则需要在plist文件中设置允许HTTP请求，并添加host地址到白名单，但有时请求仍会被Cancel（-999错误）；</li>
+<li>HTTPS请求，但是证书过期或无效了，请求可能被cancel</li>
+</ul>
+<p>设置SecurityPolicy：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</div><div class="line">   securityPolicy.validatesDomainName = <span class="literal">NO</span>;</div><div class="line">   securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</div><div class="line">  </div><div class="line">   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</div><div class="line">   manager.securityPolicy = securityPolicy;</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置base64编码过的Authorization
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/01/AFNetworking的特殊设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/设备方向与动作方向/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/01/设备方向与动作方向/" itemprop="url">设备方向与动作方向</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-01T00:00:00+08:00">2018-05-01</time>
+            
+
+            
+            
+
+            
+          </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>加速计物理特性</p>
+<p>iOS设备内的加速计是个三轴元件，能够检测到三维空间中的运动或重力。也就是说，加速计不但可以指示用户握持设备的方式（同自动旋转功能），而且可以指示设备是否被放在桌子上，甚至指示正面朝上还是朝下。加速计可以测量重力。加速计返回值为1.0时，表示在特定方向上感知到的重力是1g。</p>
+<ul>
+<li>静止握持设备，没有任何运动，地球引力对其施加的力大约为1g</li>
+<li>纵向竖直地握持，那么设备会检测并报告在其y轴上的力大约为1g</li>
+<li>如果以一定角度握持，那么1g的力会分布到不同的轴上，这取决于握持的方式。在以45度角握持时，1g的力会均匀地分解到两个轴上。</li>
+</ul>
+<p>如果检测到的加速计值远大于1g，那么可以判断这是突然运动。正常使用时，加速计在任一轴上都不会检测到大于1g的值。如果摇动、投掷或设备坠落，那么加速计便会在一个或多个轴上检测到很大的力。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/01/设备方向与动作方向/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1459,25 +1458,18 @@
 
       
         
-          
-            <ol>
+          <ol>
 <li><p>数组的初始化方法总结</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 静态初始化 </span></div><div class="line"><span class="keyword">var</span> arr = [<span class="string">"iOS"</span>, <span class="string">"Android"</span>] </div><div class="line"><span class="comment">// 动态初始化</span></div><div class="line"><span class="keyword">var</span> arr1 = <span class="type">Array</span>&lt;<span class="type">String</span>&gt;()</div><div class="line"><span class="keyword">var</span> arr2:<span class="type">Array</span>&lt;<span class="type">String</span>&gt; = []</div><div class="line"><span class="keyword">var</span> arr3 = [<span class="type">String</span>]()</div><div class="line"><span class="keyword">var</span> arr4:[<span class="type">String</span>] = [] </div><div class="line"><span class="comment">// 有默认值的初始化 </span></div><div class="line"><span class="keyword">var</span> arr5 = <span class="type">Array</span>&lt;<span class="type">String</span>&gt;(<span class="built_in">count</span>: <span class="number">6</span>, repeatedValue: <span class="string">""</span>)</div><div class="line"><span class="keyword">var</span> arr6 = [<span class="type">String</span>](<span class="built_in">count</span>: <span class="number">6</span>, repeatedValue: <span class="string">""</span>)</div></pre></td></tr></table></figure>
 </li>
-<li><p>数组的<code>index（_ of:）方法</code></p>
-<p>可返回某个指定的item在数组中首次出现的位置</p>
-</li>
-<li><p>Binary operator ‘*’ cannot be applied to operands of type ‘CGFloat’ and ‘Int’</p>
-<p>使用情景是：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span> ... <span class="number">3</span> &#123;</div><div class="line">    <span class="keyword">let</span> line = <span class="type">UIView</span>(frame: <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="type">CELL_WIDTH</span> * <span class="number">3</span> * i, width: (collection?.bounds.width)!, height: <span class="number">1</span>))<span class="comment">//这里CELL_WIDTH为CGFloat类型，报错</span></div><div class="line">            </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>错误点在于：CGRect的各项参数都是CGFloat类型，需要把Int类型转换成CGFloat类型：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">y: <span class="type">CELL_WIDTH</span> * <span class="type">CGFloat</span>(<span class="number">3</span> * i)</div></pre></td></tr></table></figure>
-</li>
-<li><p>多维数组初始化</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//方式1</span></div><div class="line"><span class="keyword">var</span> array = <span class="type">Array</span>&lt;<span class="type">Array</span>&lt;<span class="type">Int</span>&gt;&gt;(repeating: <span class="type">Array</span>&lt;<span class="type">Int</span>&gt;(repeating: <span class="number">0</span>, <span class="built_in">count</span>: <span class="number">9</span>), <span class="built_in">count</span>: <span class="number">9</span>)</div><div class="line"><span class="comment">//方式2</span></div><div class="line"><span class="keyword">var</span> arry = [[<span class="type">Int</span>]]()</div><div class="line">arry.append([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]) </div><div class="line">arry.append([<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>])</div></pre></td></tr></table></figure></li>
-</ol>
-
-          
+<li><p>数组的<code>index（_ of:）方法</code>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/13/Swift Debug/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1581,7 +1573,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UI/" itemprop="url" rel="index"><span itemprop="name">UI</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
 
                 
                 
@@ -1616,14 +1608,16 @@
 
       
         
-          
-            <h4 id="1-PickerView设置选中行样式"><a href="#1-PickerView设置选中行样式" class="headerlink" title="1.PickerView设置选中行样式"></a>1.PickerView设置选中行样式</h4><p>比如需要设置背景色，在自定义pickerView的layoutSubviews方法中添加代码：</p>
+          <h4 id="1-PickerView设置选中行样式"><a href="#1-PickerView设置选中行样式" class="headerlink" title="1.PickerView设置选中行样式"></a>1.PickerView设置选中行样式</h4><p>比如需要设置背景色，在自定义pickerView的layoutSubviews方法中添加代码：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改选中行的背景色</span></div><div class="line">   <span class="keyword">for</span> (<span class="built_in">UIView</span> *subView <span class="keyword">in</span> <span class="keyword">self</span>.subviews) &#123;</div><div class="line">       <span class="keyword">if</span>(subView.subviews.count)&#123;</div><div class="line">           <span class="built_in">UIView</span> *contentView = subView.subviews[<span class="number">0</span>];</div><div class="line">           <span class="keyword">for</span> (<span class="built_in">UIView</span> *contentSubView <span class="keyword">in</span> contentView.subviews) &#123;</div><div class="line">               <span class="keyword">if</span>(contentSubView.center.y == contentView.center.y)&#123;</div><div class="line">                   <span class="keyword">if</span>(_selectBackView != contentSubView)&#123;</div><div class="line">                       _selectBackView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line">                       _selectBackView = contentSubView;</div><div class="line">                       _selectBackView.backgroundColor = kColorFromHex(<span class="number">0xEBEBEB</span>);</div><div class="line">                   &#125;</div><div class="line">                   <span class="keyword">break</span>;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">break</span>;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<h4 id="2-TableView的Section设置整体边框效果"><a href="#2-TableView的Section设置整体边框效果" class="headerlink" title="2.TableView的Section设置整体边框效果"></a>2.TableView的Section设置整体边框效果</h4><p>在tableView代理类中，添加如下代码（可以使用CGPath，也可以用UIBezierPath）：</p>
-<h5 id="OC版代码（使用了CGPath）"><a href="#OC版代码（使用了CGPath）" class="headerlink" title="OC版代码（使用了CGPath）"></a>OC版代码（使用了CGPath）</h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)tableView:(<span class="built_in">UITableView</span> *)tableView willDisplayCell:(<span class="built_in">UITableViewCell</span> *)cell forRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</div><div class="line">    <span class="comment">// 圆角弧度半径</span></div><div class="line">    <span class="built_in">CGFloat</span> cornerRadius = <span class="number">10.</span>f;</div><div class="line">    <span class="comment">// 设置cell的背景色为透明，如果不设置这个的话，则原来的背景色不会被覆盖</span></div><div class="line"><span class="comment">//    cell.backgroundColor = UIColor.clearColor;</span></div><div class="line">    </div><div class="line">    <span class="comment">// 创建一个shapeLayer</span></div><div class="line">    <span class="built_in">CAShapeLayer</span> *layer = [[<span class="built_in">CAShapeLayer</span> alloc] init];</div><div class="line">    <span class="built_in">CAShapeLayer</span> *backgroundLayer = [[<span class="built_in">CAShapeLayer</span> alloc] init]; <span class="comment">//显示选中</span></div><div class="line">    <span class="comment">// 创建一个可变的图像Path句柄，该路径用于保存绘图信息</span></div><div class="line">    <span class="built_in">CGMutablePathRef</span> pathRef = <span class="built_in">CGPathCreateMutable</span>();</div><div class="line">    <span class="comment">// 获取cell的size</span></div><div class="line">    <span class="comment">// 第一个参数,是整个 cell 的 bounds, 第二个参数是距左右两端的距离,第三个参数是距上下两端的距离</span></div><div class="line">    <span class="built_in">CGRect</span> bounds = <span class="built_in">CGRectInset</span>(cell.bounds, <span class="number">14</span>, <span class="number">0</span>);</div><div class="line">    </div><div class="line">    <span class="comment">// CGRectGetMinY：返回对象顶点坐标</span></div><div class="line">    <span class="comment">// CGRectGetMaxY：返回对象底点坐标</span></div><div class="line">    <span class="comment">// CGRectGetMinX：返回对象左边缘坐标</span></div><div class="line">    <span class="comment">// CGRectGetMaxX：返回对象右边缘坐标</span></div><div class="line">    <span class="comment">// CGRectGetMidX: 返回对象中心点的X坐标</span></div><div class="line">    <span class="comment">// CGRectGetMidY: 返回对象中心点的Y坐标</span></div><div class="line">    </div><div class="line">    <span class="comment">// 这里要判断分组列表中的第一行，每组section的第一行，每组section的中间行</span></div><div class="line">    </div><div class="line">    <span class="comment">// CGPathAddRoundedRect(pathRef, nil, bounds, cornerRadius, cornerRadius);</span></div><div class="line">    <span class="keyword">if</span> (indexPath.row == <span class="number">0</span>) &#123;</div><div class="line">        <span class="comment">// 初始起点为cell的左下角坐标</span></div><div class="line">        <span class="built_in">CGPathMoveToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds));</div><div class="line">        <span class="comment">// 起始坐标为左下角，设为p，（CGRectGetMinX(bounds), CGRectGetMinY(bounds)）为左上角的点，设为p1(x1,y1)，(CGRectGetMidX(bounds), CGRectGetMinY(bounds))为顶部中点的点，设为p2(x2,y2)。然后连接p1和p2为一条直线l1，连接初始点p到p1成一条直线l，则在两条直线相交处绘制弧度为r的圆角。</span></div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds), <span class="built_in">CGRectGetMidX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds), cornerRadius);</div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds), <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMidY</span>(bounds), cornerRadius);</div><div class="line">        <span class="comment">// 终点坐标为右下角坐标点，把绘图信息都放到路径中去,根据这些路径就构成了一块区域了</span></div><div class="line">        <span class="built_in">CGPathAddLineToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds));</div><div class="line">        </div><div class="line">        <span class="built_in">CGPathCloseSubpath</span>(pathRef);</div><div class="line">        </div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]<span class="number">-1</span>) &#123;</div><div class="line">        <span class="comment">// 初始起点为cell的左上角坐标</span></div><div class="line">        <span class="built_in">CGPathMoveToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds));</div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMinX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds), <span class="built_in">CGRectGetMidX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds), cornerRadius);</div><div class="line">        <span class="built_in">CGPathAddArcToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMaxY</span>(bounds), <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMidY</span>(bounds), cornerRadius);</div><div class="line">        <span class="comment">// 添加一条直线，终点坐标为右下角坐标点并放到路径中去</span></div><div class="line">        <span class="built_in">CGPathAddLineToPoint</span>(pathRef, <span class="literal">nil</span>, <span class="built_in">CGRectGetMaxX</span>(bounds), <span class="built_in">CGRectGetMinY</span>(bounds));</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 添加cell的rectangle信息到path中（不包括圆角）</span></div><div class="line">        <span class="built_in">CGPathAddRect</span>(pathRef, <span class="literal">nil</span>, bounds);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 把已经绘制好的可变图像路径赋值给图层，然后图层根据这图像path进行图像渲染render</span></div><div class="line">    layer.path = pathRef;</div><div class="line">    backgroundLayer.path = pathRef;</div><div class="line">    <span class="comment">// 注意：但凡通过Quartz2D中带有creat/copy/retain方法创建出来的值都必须要释放</span></div><div class="line">    <span class="built_in">CFRelease</span>(pathRef);</div><div class="line">    <span class="comment">// 按照shape layer的path填充颜色，类似于渲染render</span></div><div class="line">    <span class="comment">//     layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;</span></div><div class="line">    layer.fillColor = [<span class="built_in">UIColor</span> whiteColor].CGColor;</div><div class="line">    layer.strokeColor = [<span class="built_in">UIColor</span> clearColor].CGColor;</div><div class="line">    </div><div class="line">    <span class="comment">// view大小与cell一致</span></div><div class="line">    <span class="built_in">UIView</span> *roundView = [[<span class="built_in">UIView</span> alloc] initWithFrame:bounds];</div><div class="line">    <span class="comment">// 添加自定义圆角后的图层到roundView中</span></div><div class="line">    [roundView.layer insertSublayer:layer atIndex:<span class="number">0</span>];</div><div class="line">    roundView.backgroundColor = VIEW_COLOR;</div><div class="line">    <span class="comment">// cell的背景view</span></div><div class="line">    cell.backgroundView = roundView;</div><div class="line">    </div><div class="line">    <span class="comment">// 以上方法存在缺陷当点击cell时还是出现cell方形效果，因此还需要添加以下方法</span></div><div class="line">    <span class="comment">// 如果你 cell 已经取消选中状态的话,那以下方法是不需要的.</span></div><div class="line">    <span class="built_in">UIView</span> *selectedBackgroundView = [[<span class="built_in">UIView</span> alloc] initWithFrame:bounds];</div><div class="line">    backgroundLayer.fillColor = [<span class="built_in">UIColor</span> whiteColor].CGColor;</div><div class="line">    [selectedBackgroundView.layer insertSublayer:backgroundLayer atIndex:<span class="number">0</span>];</div><div class="line">    selectedBackgroundView.backgroundColor = <span class="built_in">UIColor</span>.clearColor;</div><div class="line">    cell.selectedBackgroundView = selectedBackgroundView;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="Swift版（使用了UIBezierPath）"><a href="#Swift版（使用了UIBezierPath）" class="headerlink" title="Swift版（使用了UIBezierPath）"></a>Swift版（使用了UIBezierPath）</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)</span></span> &#123;</div><div class="line">        <span class="keyword">let</span> rowsCount:<span class="type">Int</span> = tableView.numberOfRows(inSection: indexPath.section)</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> indexPath.row == <span class="number">0</span> &#123;</div><div class="line">            </div><div class="line">            <span class="keyword">let</span> path:<span class="type">UIBezierPath</span> = <span class="type">UIBezierPath</span>.<span class="keyword">init</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">14</span>, y: <span class="number">0</span>, width: cell.contentView.width - <span class="number">14</span> * <span class="number">2</span>, height: cell.contentView.height), byRoundingCorners: [.topLeft,.topRight], cornerRadii: <span class="type">CGSize</span>(width: <span class="number">10</span>, height: <span class="number">0</span>))</div><div class="line">            </div><div class="line">            <span class="keyword">let</span> shapLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>()</div><div class="line">            shapLayer.lineWidth = <span class="number">1</span></div><div class="line">            shapLayer.strokeColor = <span class="type">UIColor</span>.white.cgColor</div><div class="line">            shapLayer.fillColor = <span class="type">UIColor</span>.clear.cgColor</div><div class="line">            shapLayer.path = path.cgPath</div><div class="line">            <span class="keyword">let</span> maskLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>.<span class="keyword">init</span>()</div><div class="line">            maskLayer.path = path.cgPath</div><div class="line">            cell.layer.mask = maskLayer</div><div class="line">            cell.layer.addSublayer(shapLayer)</div><div class="line">            </div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> indexPath.row == rowsCount - <span class="number">1</span> &#123;</div><div class="line">   </div><div class="line">            <span class="keyword">let</span> path:<span class="type">UIBezierPath</span> = <span class="type">UIBezierPath</span>.<span class="keyword">init</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">14</span>, y: <span class="number">0</span>, width: cell.contentView.width - <span class="number">14</span> * <span class="number">2</span>, height: cell.contentView.height), byRoundingCorners: [.bottomLeft,.bottomRight], cornerRadii: <span class="type">CGSize</span>(width: <span class="number">10</span>, height: <span class="number">0</span>))</div><div class="line">            <span class="keyword">let</span> shapLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>()</div><div class="line">            shapLayer.lineWidth = <span class="number">1</span></div><div class="line">            shapLayer.strokeColor = <span class="type">UIColor</span>.white.cgColor</div><div class="line">            shapLayer.fillColor = <span class="type">UIColor</span>.clear.cgColor</div><div class="line">            shapLayer.path = path.cgPath</div><div class="line">            <span class="keyword">let</span> maskLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>.<span class="keyword">init</span>()</div><div class="line">            maskLayer.path = path.cgPath</div><div class="line">            cell.layer.mask = maskLayer</div><div class="line">            cell.layer.addSublayer(shapLayer)</div><div class="line">            </div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">let</span> path:<span class="type">UIBezierPath</span> = <span class="type">UIBezierPath</span>.<span class="keyword">init</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">14</span>, y: <span class="number">0</span>, width: cell.contentView.width - <span class="number">14</span> * <span class="number">2</span>, height: cell.contentView.height), byRoundingCorners: [.topLeft,.topRight], cornerRadii: <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">0</span>))</div><div class="line">            <span class="keyword">let</span> shapLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>()</div><div class="line">            shapLayer.lineWidth = <span class="number">1</span></div><div class="line">            shapLayer.strokeColor = <span class="type">UIColor</span>.white.cgColor</div><div class="line">            shapLayer.fillColor = <span class="type">UIColor</span>.clear.cgColor</div><div class="line">            shapLayer.path = path.cgPath</div><div class="line">            <span class="keyword">let</span> maskLayer:<span class="type">CAShapeLayer</span> = <span class="type">CAShapeLayer</span>.<span class="keyword">init</span>()</div><div class="line">            maskLayer.path = path.cgPath</div><div class="line">            cell.layer.mask = maskLayer</div><div class="line">            cell.layer.addSublayer(shapLayer)</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-
-          
+<h4 id="2-TableView的Section设置整体边框效果"><a href="#2-TableView的Section设置整体边框效果" class="headerlink" title="2.TableView的Section设置整体边框效果"></a>2.TableView的Section设置整体边框效果
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/10/一些特殊UI设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1904,9 +1898,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1967,9 +1959,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

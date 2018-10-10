@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="更新到Swift4.2后，项目里调用UIApplication.shared.statusBarStyle = .light的地方报警告：Setter for ‘statusBarStyle’ was deprecated in iOS 9.0: Use -[UIViewController preferredStatusBarStyle]；
 解决办法（默认info.plist已设置View co">
-<meta property="og:updated_time" content="2018-10-10T08:46:09.505Z">
+<meta property="og:updated_time" content="2018-10-10T08:56:21.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift 4.2填坑之StatusBarStyle设置">
 <meta name="twitter:description" content="更新到Swift4.2后，项目里调用UIApplication.shared.statusBarStyle = .light的地方报警告：Setter for ‘statusBarStyle’ was deprecated in iOS 9.0: Use -[UIViewController preferredStatusBarStyle]；
@@ -397,7 +397,7 @@
 <ol>
 <li><p>如果使用了自定义的UINavigationController，在自定义的UINavigationController中重写<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>两个属性：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>如果没有自定义UINavigationController也没关系，扩展UINavigationController就可以了：</p>
+<p>如果没有自定义UINavigationController也没关系，扩展UINavigationController就可以了：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UINavigationController</span></span>&#123;</div><div class="line">    <span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController</span>? &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController</span>? &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 <li><p>在需要改变状态栏的controller中重写<code>preferredStatusBarStyle</code>:</p>
@@ -406,7 +406,8 @@
 </ol>
 <p>关于为什么要重写<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>两个属性：</p>
 <p>这两个属性默认返回值为nil。</p>
-<p>当我们调用<code>setNeedsStatusBarAppearanceUpdate</code>的时候,系统会调用<code>Container</code>(容器控制器)的<code>preferredStatusBarStyle</code>这个方法(<code>window?.rootViewController</code>的<code>preferred</code>的方法,一般我们用<code>UINavigationController</code>或者<code>UITabBarController</code>来做<code>Container</code>),也就是根本不会调用子控制器(我们所看到的<code>UIViewcontroller</code>)的<code>preferredStatusBarStyle</code>方法。<br>重写了<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>后，这两个属性返回的都是当前展示的controller，则调用的statusBarStyle就是当前controller重写的<code>preferredStatusBarStyle</code>了。</p>
+<p>当我们调用<code>setNeedsStatusBarAppearanceUpdate</code>的时候,系统会调用<code>Container</code>(容器控制器)的<code>preferredStatusBarStyle</code>这个方法(<code>window?.rootViewController</code>的<code>preferred</code>的方法,一般我们用<code>UINavigationController</code>或者<code>UITabBarController</code>来做<code>Container</code>),也就是根本不会调用子控制器(我们所看到的<code>UIViewcontroller</code>)的<code>preferredStatusBarStyle</code>方法。 </p>
+<p>重写了<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>后，这两个属性返回的都是当前展示的controller，则调用的statusBarStyle就是当前controller重写的<code>preferredStatusBarStyle</code>了。</p>
 
       
     </div>
@@ -568,9 +569,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -631,9 +630,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

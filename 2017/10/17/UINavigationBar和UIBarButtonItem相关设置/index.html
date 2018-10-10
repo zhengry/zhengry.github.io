@@ -115,7 +115,7 @@
 问题：导航条颜色透明度不是1，颜色略淡。
 ####UINavigationBar设置为图片
 12UIImage *bgImage = [[UIImage createIm">
-<meta property="og:updated_time" content="2018-08-08T13:07:28.015Z">
+<meta property="og:updated_time" content="2018-10-10T09:41:33.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UINavigationBar和UIBarButtonItem相关设置">
 <meta name="twitter:description" content="UINavigationBar设置纯色背景12[nav.navigationBar setBarTintColor:MAIN_COLOR];[nav.navigationBar setTintColor:MAIN_COLOR];
@@ -402,7 +402,7 @@
 <p>问题：导航条颜色透明度不是1，颜色略淡。</p>
 <p>####UINavigationBar设置为图片</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIImage</span> *bgImage = [[<span class="built_in">UIImage</span> createImageWithColor:MAIN_COLOR] resizableImageWithCapInsets:<span class="built_in">UIEdgeInsetsZero</span> resizingMode:<span class="built_in">UIImageResizingModeStretch</span>];</div><div class="line">[[<span class="built_in">UINavigationBar</span> appearance] setBackgroundImage:bgImage forBarMetrics:<span class="built_in">UIBarMetricsDefault</span>];</div></pre></td></tr></table></figure>
-<p>注意设置为图片后controller视图的位置变化：</p>
+<p>注意设置为图片后controller视图的位置变化：<a id="more"></a></p>
 <p>当navigationbar显示时，y=0在navigationbar底部，但<code>controller.view</code>的高度不变，所以在<code>controller.view</code>上增加的视图height最大值为<code>controller.view.height - navigationBar.height</code>；</p>
 <p>当navigationbar隐藏时，y=0在statusBar底部，在<code>controller.view</code>上增加的视图的最大高度为<code>controller.view.height</code>。</p>
 <h4 id="单独设置某个页面的statusBar样式"><a href="#单独设置某个页面的statusBar样式" class="headerlink" title="单独设置某个页面的statusBar样式"></a>单独设置某个页面的statusBar样式</h4><p>假设全局设置statusBar为<code>UIStatusBarStyleLightContent</code>样式，在某个页面需要设置为<code>UIStatusBarStyleDefault</code>样式。可以在这个单独的页面实现：</p>
@@ -587,9 +587,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -650,9 +648,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

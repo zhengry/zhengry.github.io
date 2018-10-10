@@ -123,7 +123,7 @@
 
 在.modulemap文件中添加代码：
 1">
-<meta property="og:updated_time" content="2018-10-10T06:39:12.575Z">
+<meta property="og:updated_time" content="2018-10-10T09:02:08.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift中使用MD5的正确姿势">
 <meta name="twitter:description" content="在Swift4.0中，无法直接#import CommonCtypto，所以需要桥接OC的CommonCtypto。但是我发现XCode9系统不会自动创建BridgeHeader文件，所以正确的姿势是这样的：
@@ -419,7 +419,7 @@
 <li><p>在.modulemap文件中添加代码：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">module <span class="type">CommonCrypto</span> [system] &#123;</div><div class="line">    header <span class="string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/CommonCrypto/CommonCrypto.h"</span></div><div class="line">    header <span class="string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/CommonCrypto/CommonRandom.h"</span></div><div class="line">export *</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
-<li><p>在CommonCryptoHeader.h中导入CommonCrypto：</p>
+<li><p>在CommonCryptoHeader.h中导入CommonCrypto：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#include &lt;<span class="type">CommonCrypto</span>/<span class="type">CommonCrypto</span>.h&gt;</div></pre></td></tr></table></figure>
 </li>
 <li><p>在targets——Build Setting中找到Swift Compiler-Search Paths，在其Import Paths中添加CommCrypto文件夹的路径：$(SRCROOT)/ProjectName/CommonCrypt。</p>
@@ -596,9 +596,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -659,9 +657,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
