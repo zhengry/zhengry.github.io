@@ -115,7 +115,7 @@ plist中设置Status bar style为lightContent，设">
 App页面中的StatusBarStyle整体一个样式，个别页面一个样式时，实现方式有两种：
 方法一
 plist中设置Status bar style为lightContent，设">
-<meta property="og:updated_time" content="2019-01-23T06:47:31.657Z">
+<meta property="og:updated_time" content="2019-03-26T01:43:18.248Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="个别controller的statusBarStyle不同于整体样式时的设置">
 <meta name="twitter:description" content="需求：整体Style 为lightContent样式，这些页面通常是navigationcontroller的子控制器，通常使用push方式；个别页面为default样式，这些页面使用present或push方法弹出。
@@ -403,7 +403,7 @@ plist中设置Status bar style为lightContent，设">
 <h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><ol>
 <li><p>plist中设置<code>Status bar style</code>为<code>lightContent</code>，设置<code>View controller-based status bar appearance</code>为<code>YES</code></p>
 </li>
-<li><p>扩展或在自定义navigationBarController中实现两个方法如下：</p>
+<li><p>扩展或在自定义navigationBarController中实现两个方法如下：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 <li><p>在基类BaseViewController（所有controller都继承的父Controller类）中实现：</p>

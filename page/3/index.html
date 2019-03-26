@@ -1649,7 +1649,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/04/03/SVN基本工作流程/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/04/03/Git工作原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -1668,7 +1668,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/04/03/SVN基本工作流程/" itemprop="url">SVN基本工作流程</a></h1>
+                <a class="post-title-link" href="/2017/04/03/Git工作原理/" itemprop="url">Git工作原理</a></h1>
         
 
         <div class="post-meta">
@@ -1736,23 +1736,15 @@
 
       
         
-          
-            <p>svn版本控制是集中式的数据管理，存在一个中央版本库，所有开发人员本地开发使用的代码都是来自这个版本库，在中央版本库中建立多个项目。</p>
-<p>svn工作流程：</p>
-<ol>
-<li>在中央版本库中创建一个项目，项目中包含主干和分支，分支是从主干复制的；</li>
-<li>开发人员从中央版本库check out 下这个分支的代码；</li>
-<li>增加自己的代码、修改或删除现存的代码；</li>
-<li>commit 代码，如果修改期间其他人提交了代码，就会提示过期无法提交，就需要先up，之后再提交；如果up代码时出现冲突，就需要解决冲突之后在提交（开发人员协商解决冲突）；</li>
-<li>测试环境测试，解决问题之后合并到主干中，在之后更新生产环境代码。</li>
-</ol>
-<p>缺点：</p>
-<ol>
-<li>严重依赖网络环境，连接不到中央版本库时无法工作；</li>
-<li>需要备份——需要备份数据和修改的历史记录。</li>
-</ol>
-
-          
+          <h4 id="直接快照记录，而非差异比较"><a href="#直接快照记录，而非差异比较" class="headerlink" title="直接快照记录，而非差异比较"></a>直接快照记录，而非差异比较</h4><p>Git 和其他版本控制系统的主要差别在于，Git 只关心文件数据的整体是否发生变化，而大多数其他系统则只关心文件内容的具体差异。这类系统（CVS，Subversion，Perforce，Bazaar 等等）每次记录有哪些文件作了更新，以及都更新了哪些行的什么内容。</p>
+<p>Git 并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/03/Git工作原理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

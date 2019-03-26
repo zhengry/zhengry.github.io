@@ -392,20 +392,15 @@
 
       
         
-          
-            <p>在开发项目中，经常会遇到多输入框页面，如果输入框样式一致或者差异较小，就可以采用<code>tableView</code>来实现。但是在<code>tableView</code>中重用<code>textField</code>会产生两个问题：一个是键盘弹出后<code>textField</code>怎样保持在键盘上方，另一个是<code>textField</code>滑动后会丢失输入数据或者输入数据错乱。其实还有一个附加问题：在使用<code>tableView</code>的页面如何收起键盘？</p>
-<p>问题1：键盘弹起后，<code>textField</code>怎样才能保持在键盘上方呢，一般的方式是通过监听键盘弹出和收起的通知来改变<code>tableView</code>的<code>contentOffset</code>，一个更简单的方式是：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">table = <span class="type">UITableView</span>(frame: view.bounds, style: .plain)</div><div class="line"><span class="comment">// 把UITableViewController作为self的childViewController，并把self.table指向tableViewController的tableView</span></div><div class="line"><span class="keyword">let</span> tableController = <span class="type">UITableViewController</span>(style: .plain)</div><div class="line"><span class="keyword">self</span>.addChild(tableController)</div><div class="line">table = tableController.tableView</div><div class="line"><span class="comment">///tableView的其他设置</span></div><div class="line">table.register(<span class="type">UINib</span>.<span class="keyword">init</span>(nibName: <span class="string">"MyTextFieldCell"</span>, bundle: <span class="literal">nil</span>), forCellReuseIdentifier: <span class="string">"<span class="subst">\(MyTextFieldCell.<span class="keyword">self</span>)</span>"</span>)</div><div class="line">table.delegate = <span class="keyword">self</span></div><div class="line">table.dataSource = <span class="keyword">self</span></div><div class="line">table.rowHeight = <span class="number">60</span></div><div class="line">table.tableFooterView = <span class="type">UIView</span>()</div><div class="line">view.addSubview(table)</div></pre></td></tr></table></figure>
-<p>这样做是因为<code>UITableViewController</code>已经为我们做好了键盘弹出收起时cell位置的变化处理。</p>
-<p>问题2：<code>textField</code>滑动后会丢失输入数据或者输入数据错乱</p>
-<p>要解决cell重用后输入数据错乱问题，我们需要对数据进行合理的保存。在cell中实现UITextFieldDelegate的代理方法，在<code>textFieldDidEndEditing</code>方法中调用cell的闭包<code>saveInput(textField.text)</code>，将TextField的text内容传出去，</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 声明一个传出输入框内容的闭包</span></div><div class="line"><span class="keyword">var</span> saveInput:((<span class="type">String</span>?)-&gt;())?</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MyTextFieldCell</span>:<span class="title">UITextFieldDelegate</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">textFieldShouldBeginEditing</span><span class="params">(<span class="number">_</span> textField: UITextField)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> callback = clickTextFieldBlock &#123;</div><div class="line">            callback(textField.frame)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">textFieldDidEndEditing</span><span class="params">(<span class="number">_</span> textField: UITextField)</span></span> &#123;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> save = saveInput &#123;</div><div class="line">            save(textField.text)<span class="comment">//传出TextField的输入内容</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">textFieldShouldReturn</span><span class="params">(<span class="number">_</span> textField: UITextField)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        textField.resignFirstResponder()</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在controller中，使用infoModel变量来保存各输入框的输入内容，在cellForRow时实现cell的闭包saveInput保存数据到InfoModel，并从中取出数据给TextField展示：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// infoModel</span></div><div class="line"><span class="keyword">var</span> infoModel:[<span class="type">IndexPath</span>:<span class="type">String</span>] = [:]</div><div class="line"></div><div class="line"><span class="comment">// cellForRow</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cellForRowAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</div><div class="line">     <span class="keyword">let</span> cell = tableView.dequeueReusableCell(withIdentifier: <span class="string">"<span class="subst">\(MyTextFieldCell.<span class="keyword">self</span>)</span>"</span>, <span class="keyword">for</span>: 			 indexPath) <span class="keyword">as</span>! <span class="type">MyTextFieldCell</span></div><div class="line">     cell.selectionStyle = .<span class="keyword">none</span></div><div class="line">  		<span class="comment">// 保存输入框内容到infoModel</span></div><div class="line">     cell.saveInput = &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] (info) <span class="keyword">in</span></div><div class="line">       	<span class="keyword">self</span>?.infoModel[indexPath] = info</div><div class="line">     &#125;</div><div class="line">  		<span class="comment">// 取出相应的输入框内容展示给TextField</span></div><div class="line">		 cell.textField.text = <span class="keyword">self</span>.infoModel[indexPath]</div><div class="line">		 <span class="keyword">return</span> cell</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后，在一般的viewController中，要结束输入收起键盘，调用view.endEditing(true)即可，在tableView中由于tableView响应了touchBegan的手势，所以view.endEditing(true)没有作用，这时候就需要在TextField的代理方法上来处理了，在用户点击return的时候使TextField失去第一响应即可：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">textFieldShouldReturn</span><span class="params">(<span class="number">_</span> textField: UITextField)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">		textField.resignFirstResponder()</div><div class="line">   	<span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
+          <p>在开发项目中，经常会遇到多输入框页面，如果输入框样式一致或者差异较小，就可以采用<code>tableView</code>来实现。但是在<code>tableView</code>中重用<code>textField</code>会产生两个问题：一个是键盘弹出后<code>textField</code>怎样保持在键盘上方，另一个是<code>textField</code>滑动后会丢失输入数据或者输入数据错乱。其实还有一个附加问题：在使用<code>tableView</code>的页面如何收起键盘？</p>
+<p>问题1：键盘弹起后，<code>textField</code>怎样才能保持在键盘上方呢，一般的方式是通过监听键盘弹出和收起的通知来改变<code>tableView</code>的<code>contentOffset</code>，一个更简单的方式是：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/25/在TableView中重用TextField的问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -544,8 +539,7 @@
 
       
         
-          
-            <ol>
+          <ol>
 <li><p>一个视图既要圆角又要阴影效果</p>
 <p>因为设置圆角需要设置maskToBounds为YES，而要设置阴影则maskToBounds为NO，二者不可兼得</p>
 <p>解决方法：</p>
@@ -555,27 +549,14 @@
 <li>设置B的背景色为视图实际背景色，设置B的圆角</li>
 </ul>
 </li>
-<li><p>convertRect的正确使用</p>
-<p>示例代码：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">CGRect</span> rect = [<span class="keyword">self</span>.loginLoanView convertRect:<span class="keyword">self</span>.loginLoanView.selectBtn.frame toView:<span class="keyword">self</span>.view];</div></pre></td></tr></table></figure>
-<p>把<code>self.loginLoanView.selectBtn</code>在<code>self.loginLoanView</code>中的<code>frame</code>转化成<code>selectBtn</code>相对<code>self.view</code>的<code>frame</code></p>
-<p>即 拿到<code>self.loginLoanView</code>中的<code>selectBtn</code>相对<code>self.view</code>的位置（x,y）和大小(width,height)</p>
-</li>
-<li><p>xib视图获取子视图frame问题</p>
-<p>问题描述：</p>
-<p>controller的xib上拖拽一个子视图A，A上有个子视图B，添加约束，该controller被present出来后，获取B相对controller.view的frame，即：CGRect rect = [A convertRect:B.frame to:controller.view]，如果拿到这个rect后，根据这个rect添加子视图到controller.view上显示的视图位置是不对的。</p>
-<p>解决方法：</p>
-<p>给子视图A另开一个xib，然后代码添加到controller.view上，即可。</p>
-</li>
-<li><p>present通讯录列表页面，顶部title和取消按钮被状态栏遮挡问题</p>
-<p>问题描述：</p>
-<p>当前controller使用了全局变量来标记将要present的通讯录列表，第一次present后视图正常，再次present通讯录列表页的顶部不仅被遮挡，而且会展示controller的部分内容，非常错乱。</p>
-<p>解决方法：</p>
-<p>去掉全局变量，使用局部变量</p>
-</li>
-</ol>
-
-          
+<li><p>convertRect的正确使用
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/18/一些UI总结/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -714,20 +695,18 @@
 
       
         
-          
-            <p>有时候想要实现类似系统的弹窗效果，但是又需要自定义弹窗视图时，往往都会自定义一个view类，放到window上，其实还可以使用自定义一个背景色透明或半透明的controller来实现，这样可以使加载和销毁视图更方便。</p>
+          <p>有时候想要实现类似系统的弹窗效果，但是又需要自定义弹窗视图时，往往都会自定义一个view类，放到window上，其实还可以使用自定义一个背景色透明或半透明的controller来实现，这样可以使加载和销毁视图更方便。</p>
 <p>那怎样present一个半透明的controller呢？</p>
 <p>在当前controller中要present一个半透明的TestViewController：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="type">TestViewController</span> * testVC = [<span class="type">TestViewController</span> new];</div><div class="line"><span class="keyword">self</span>.definesPresentationContext = <span class="type">YES</span>; <span class="comment">//设置当前控制器为present上下文</span></div><div class="line">testVC.view.backgroundColor = [<span class="type">UIColor</span> colorWithRed:<span class="number">0</span> green:<span class="number">0</span> blue:<span class="number">0</span> alpha:.<span class="number">4</span>];</div><div class="line">testVC.modalPresentationStyle = <span class="type">UIModalPresentationOverCurrentContext</span>;<span class="comment">//或者UIModalPresentationOverFullScreen 这两个都是全屏效果，其他Style会遮盖当前控制器内容</span></div><div class="line">[<span class="keyword">self</span> presentViewController:testVC animated:<span class="type">YES</span> completion:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
-<p>这时，present动画效果是系统默认的自下而上的动画效果，还可以修改动画效果，比如：</p>
-<p>在TestViewController中添加动画方法：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/// 视图动画效果，从0到1为显示动画，从1到0为隐藏动画,需要注意动画只是改变了控制器视图的显示和隐藏，还需要配合controller的present和dismiss方法</span></div><div class="line">-(<span class="keyword">void</span>)animationFrom:(<span class="built_in">CGFloat</span>)from to:(<span class="built_in">CGFloat</span>)to</div><div class="line">&#123;</div><div class="line">    <span class="built_in">CAAnimationGroup</span> *animations = [<span class="built_in">CAAnimationGroup</span> animation];</div><div class="line">    <span class="built_in">CABasicAnimation</span> *animation1 = [<span class="built_in">CABasicAnimation</span> animationWithKeyPath: <span class="string">@"opacity"</span>];</div><div class="line">    animation1.fromValue = @(from);</div><div class="line">    animation1.toValue = @(to);</div><div class="line">    </div><div class="line">    <span class="built_in">CABasicAnimation</span> *animation2 = [<span class="built_in">CABasicAnimation</span> animationWithKeyPath: <span class="string">@"contents"</span>];</div><div class="line">    animation2.fromValue = @(from);</div><div class="line">    animation2.toValue = @(to);</div><div class="line">    </div><div class="line">    animations.animations = @[animation2, animation1];</div><div class="line">    animations.duration = <span class="number">.2</span>f;</div><div class="line">    animations.removedOnCompletion = <span class="literal">NO</span>;</div><div class="line">    animations.autoreverses = <span class="literal">NO</span>;</div><div class="line">    animations.fillMode = kCAFillModeBoth;</div><div class="line">    [<span class="keyword">self</span>.view.layer addAnimation: animations forKey:<span class="string">@"zoom"</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在present该controller时调用：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vc.modalPresentationStyle = <span class="built_in">UIModalPresentationOverFullScreen</span>;<span class="comment">//或者UIModalPresentationOverCurrentContext</span></div><div class="line">[<span class="keyword">self</span> presentViewController:vc animated:<span class="literal">NO</span> completion:<span class="literal">nil</span>];</div><div class="line">[vc animationFrom:<span class="number">0.0</span> to:<span class="number">1.0</span>];</div></pre></td></tr></table></figure>
-<p>在dismiss时：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[<span class="keyword">self</span> animationDismiss];</div><div class="line">dispatch_after(<span class="number">2.0</span>, dispatch_get_main_queue(), ^&#123;</div><div class="line">	[<span class="keyword">self</span> dismissViewControllerAnimated:<span class="literal">NO</span> completion:<span class="literal">nil</span>];</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-
-          
+<p>这时，present动画效果是系统默认的自下而上的动画效果，还可以修改动画效果，
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/03/present一个半透明的controller/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -866,31 +845,19 @@
 
       
         
-          
-            <h4 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h4><p>整体Style 为lightContent样式，这些页面通常是navigationcontroller的子控制器，通常使用push方式；个别页面为default样式，这些页面使用present或push方法弹出。</p>
+          <h4 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h4><p>整体Style 为lightContent样式，这些页面通常是navigationcontroller的子控制器，通常使用push方式；个别页面为default样式，这些页面使用present或push方法弹出。</p>
 <p>App页面中的StatusBarStyle整体一个样式，个别页面一个样式时，实现方式有两种：</p>
 <h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><ol>
 <li><p>plist中设置<code>Status bar style</code>为<code>lightContent</code>，设置<code>View controller-based status bar appearance</code>为<code>YES</code></p>
 </li>
-<li><p>扩展或在自定义navigationBarController中实现两个方法如下：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div><div class="line">    </div><div class="line"><span class="keyword">override</span> open <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>在基类BaseViewController（所有controller都继承的父Controller类）中实现：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> preferredStatusBarStyle: <span class="type">UIStatusBarStyle</span>&#123;</div><div class="line">	<span class="keyword">return</span> .lightContent</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>在个别需要default样式的页面中实现：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> preferredStatusBarStyle: <span class="type">UIStatusBarStyle</span>&#123;</div><div class="line">	<span class="keyword">return</span> .<span class="keyword">default</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4></li>
-</ol>
-<p>(因为<code>UIApplication.shared.statusBarStyle</code>方法在iOS9后废弃（仍然可用），所以不推荐了)</p>
-<ol>
-<li>plist设置<code>Status bar style</code>为<code>lightContent</code>，设置<code>View controller-based status bar appearance</code>为<code>NO</code></li>
-<li>设置<code>UIApplication.shared.statusBarStyle = .lightContent</code></li>
-<li>在基类BaseViewController中<code>viewWillAppear</code>里设置<code>UIApplication.shared.statusBarStyle = .lightContent</code></li>
-<li>在特殊样式的controller的<code>viewWillAppear</code>里设置<code>UIApplication.shared.statusBarStyle = .default</code>（如果BaseViewController里没有设置，就在特殊样式的controller的<code>viewWillDisappear</code>中还原设置）</li>
-</ol>
-
-          
+<li><p>扩展或在自定义navigationBarController中实现两个方法如下：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/25/个别controller的statusBarStyle不同于整体样式时的设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

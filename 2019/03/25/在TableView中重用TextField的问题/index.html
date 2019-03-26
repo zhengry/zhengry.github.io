@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="在开发项目中，经常会遇到多输入框页面，如果输入框样式一致或者差异较小，就可以采用tableView来实现。但是在tableView中重用textField会产生两个问题：一个是键盘弹出后textField怎样保持在键盘上方，另一个是textField滑动后会丢失输入数据或者输入数据错乱。其实还有一个附加问题：在使用tableView的页面如何收起键盘？
 问题1：键盘弹起后，textField怎样才">
-<meta property="og:updated_time" content="2019-03-26T01:40:16.296Z">
+<meta property="og:updated_time" content="2019-03-26T01:42:45.725Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在TableView中重用TextField的问题">
 <meta name="twitter:description" content="在开发项目中，经常会遇到多输入框页面，如果输入框样式一致或者差异较小，就可以采用tableView来实现。但是在tableView中重用textField会产生两个问题：一个是键盘弹出后textField怎样保持在键盘上方，另一个是textField滑动后会丢失输入数据或者输入数据错乱。其实还有一个附加问题：在使用tableView的页面如何收起键盘？
@@ -393,7 +393,7 @@
 
       
         <p>在开发项目中，经常会遇到多输入框页面，如果输入框样式一致或者差异较小，就可以采用<code>tableView</code>来实现。但是在<code>tableView</code>中重用<code>textField</code>会产生两个问题：一个是键盘弹出后<code>textField</code>怎样保持在键盘上方，另一个是<code>textField</code>滑动后会丢失输入数据或者输入数据错乱。其实还有一个附加问题：在使用<code>tableView</code>的页面如何收起键盘？</p>
-<p>问题1：键盘弹起后，<code>textField</code>怎样才能保持在键盘上方呢，一般的方式是通过监听键盘弹出和收起的通知来改变<code>tableView</code>的<code>contentOffset</code>，一个更简单的方式是：</p>
+<p>问题1：键盘弹起后，<code>textField</code>怎样才能保持在键盘上方呢，一般的方式是通过监听键盘弹出和收起的通知来改变<code>tableView</code>的<code>contentOffset</code>，一个更简单的方式是：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">table = <span class="type">UITableView</span>(frame: view.bounds, style: .plain)</div><div class="line"><span class="comment">// 把UITableViewController作为self的childViewController，并把self.table指向tableViewController的tableView</span></div><div class="line"><span class="keyword">let</span> tableController = <span class="type">UITableViewController</span>(style: .plain)</div><div class="line"><span class="keyword">self</span>.addChild(tableController)</div><div class="line">table = tableController.tableView</div><div class="line"><span class="comment">///tableView的其他设置</span></div><div class="line">table.register(<span class="type">UINib</span>.<span class="keyword">init</span>(nibName: <span class="string">"MyTextFieldCell"</span>, bundle: <span class="literal">nil</span>), forCellReuseIdentifier: <span class="string">"<span class="subst">\(MyTextFieldCell.<span class="keyword">self</span>)</span>"</span>)</div><div class="line">table.delegate = <span class="keyword">self</span></div><div class="line">table.dataSource = <span class="keyword">self</span></div><div class="line">table.rowHeight = <span class="number">60</span></div><div class="line">table.tableFooterView = <span class="type">UIView</span>()</div><div class="line">view.addSubview(table)</div></pre></td></tr></table></figure>
 <p>这样做是因为<code>UITableViewController</code>已经为我们做好了键盘弹出收起时cell位置的变化处理。</p>
 <p>问题2：<code>textField</code>滑动后会丢失输入数据或者输入数据错乱</p>
