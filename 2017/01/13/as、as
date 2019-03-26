@@ -115,7 +115,7 @@ as!Fo">
 有保证的转换，从派生类转换为基类的向上转型。
 1234567let num = 1 as CGFloat	//将1转成float//dog转成父类animalclass Animal&amp;#123;&amp;#125;calss Dog: Animal&amp;#123;&amp;#125;let d = Dog()d as Animal
 as!Fo">
-<meta property="og:updated_time" content="2018-05-11T06:56:54.523Z">
+<meta property="og:updated_time" content="2018-11-05T03:26:45.790Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="as、as?和as!">
 <meta name="twitter:description" content="asGuaranteed conversation + Upcasting
@@ -401,7 +401,7 @@ as!Fo">
         <h4 id="as"><a href="#as" class="headerlink" title="as"></a>as</h4><p>Guaranteed conversation + Upcasting</p>
 <p>有保证的转换，从派生类转换为基类的向上转型。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> num = <span class="number">1</span> <span class="keyword">as</span> <span class="type">CGFloat</span>	<span class="comment">//将1转成float</span></div><div class="line"></div><div class="line"><span class="comment">//dog转成父类animal</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;&#125;</div><div class="line">calss <span class="type">Dog</span>: <span class="type">Animal</span>&#123;&#125;</div><div class="line"><span class="keyword">let</span> d = <span class="type">Dog</span>()</div><div class="line">d <span class="keyword">as</span> <span class="type">Animal</span></div></pre></td></tr></table></figure>
-<h4 id="as-1"><a href="#as-1" class="headerlink" title="as!"></a>as!</h4><p>Forced conversation + Downcasting<a id="more"></a></p>
+<h4 id="as-1"><a href="#as-1" class="headerlink" title="as!"></a>as!</h4><p>Forced conversation + Downcasting <a id="more"></a></p>
 <p>as!表示强制转换，向下转型，即基类向派生类转型。由于是强制类型转换，在转换失败时会报runtime运行时错误。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Dog到Animal的转化</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span>: <span class="title">Animal</span> </span>&#123;&#125;</div><div class="line"><span class="keyword">let</span> a: <span class="type">Animal</span> = <span class="type">Dog</span>()</div><div class="line">a <span class="keyword">as</span> <span class="type">Dog</span> <span class="comment">// as不能将a转成Dog，即不能向下转换 </span></div><div class="line">a <span class="keyword">as</span>! <span class="type">Dog</span> <span class="comment">// as！能强行将a转成Dog</span></div></pre></td></tr></table></figure>
 <h4 id="as-2"><a href="#as-2" class="headerlink" title="as?"></a>as?</h4><p>Optional、 Nil</p>
@@ -544,7 +544,7 @@ as!Fo">
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">105</span>
+                    <span class="site-state-item-count">109</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -581,7 +581,11 @@ as!Fo">
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -642,7 +646,11 @@ as!Fo">
                     
                       
                     
-                    <span class="site-state-item-count">24</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -712,7 +720,7 @@ as!Fo">
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate"> 
     <i class="fa fa-user"></i>
   </span>
