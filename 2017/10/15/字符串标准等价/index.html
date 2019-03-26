@@ -400,7 +400,7 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> aAcute = <span class="string">"\u&#123;0601&#125;\u&#123;0301&#125;"</span></div><div class="line"><span class="keyword">let</span> aAcutePrecomposed = <span class="string">"\u&#123;00E1&#125;"</span></div><div class="line"><span class="keyword">let</span> b = (aAcute == aAcutePrecomposed)</div><div class="line"><span class="comment">//b为真</span></div></pre></td></tr></table></figure>
 <p><code>aAcute</code>和<code>aAcutePrecomposed</code>都表示à，所以这两个字符串是标准等价的。</p>
 <p>标准等价对于字符串长度的计算是有影响的。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">print</span>(<span class="string">"aAcute.length : <span class="subst">\(aAcute.characters.<span class="built_in">count</span>)</span>;aAcutePrecomposed.length : (aAcutePrecomposed.characters.count)"</span>)</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">print</span>(<span class="string">"aAcute.length : \(aAcute.characters.count);aAcutePrecomposed.length : (aAcutePrecomposed.characters.count)"</span>)</div></pre></td></tr></table></figure>
 <p>运行结果两个字符串长度都是1个字符。所以标准等价意味着无论是用组合标量还是预组合标量，结果都会被当成单个字符。</p>
 
       

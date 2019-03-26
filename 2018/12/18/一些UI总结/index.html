@@ -111,8 +111,8 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
 设置A的背景色为clearColor，设置A的阴影效果
 设置B的背景色为视图实际背景色，设置B的圆角
 
-
-convertRect的正确使用">
+另外发现一种更简单的方式：
+需要设置UIView.layer.masksToBou">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一些UI设置总结">
 <meta property="og:url" content="https://zhengry.github.io/2018/12/18/一些UI总结/index.html">
@@ -125,9 +125,9 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
 设置A的背景色为clearColor，设置A的阴影效果
 设置B的背景色为视图实际背景色，设置B的圆角
 
-
-convertRect的正确使用">
-<meta property="og:updated_time" content="2019-03-26T01:42:56.221Z">
+另外发现一种更简单的方式：
+需要设置UIView.layer.masksToBou">
+<meta property="og:updated_time" content="2019-03-26T01:58:37.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些UI设置总结">
 <meta name="twitter:description" content="一个视图既要圆角又要阴影效果
@@ -138,8 +138,8 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
 设置A的背景色为clearColor，设置A的阴影效果
 设置B的背景色为视图实际背景色，设置B的圆角
 
-
-convertRect的正确使用">
+另外发现一种更简单的方式：
+需要设置UIView.layer.masksToBou">
 
 
 
@@ -425,6 +425,8 @@ convertRect的正确使用">
 <li>设置A的背景色为clearColor，设置A的阴影效果</li>
 <li>设置B的背景色为视图实际背景色，设置B的圆角</li>
 </ul>
+<p>另外发现一种更简单的方式：</p>
+<p>需要设置UIView.layer.masksToBounds = NO并且设置UIView.layer.borderWidth = CGFLOAT_MIN即可，某些自定义view在这样设置之后如果仍然无法实现，尝试下设置背景色即可。</p>
 </li>
 <li><p>convertRect的正确使用<a id="more"></a></p>
 <p>示例代码：</p>

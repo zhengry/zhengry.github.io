@@ -1629,7 +1629,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/01/01/KVC/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/01/01/KVO实现原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -1648,7 +1648,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/01/KVC/" itemprop="url">KVC</a></h1>
+                <a class="post-title-link" href="/2016/01/01/KVO实现原理/" itemprop="url">KVO实现原理</a></h1>
         
 
         <div class="post-meta">
@@ -1716,12 +1716,14 @@
 
       
         
-          <p>KVC，即是指 Key Value Coding，一个非正式的 Protocol，提供一种机制来间接访问对象的属性。KVC是实现KVO的基础。</p>
-<p>一个对象拥有某些属性。比如一个<code>Person</code>对象有一个<code>name</code>和一个<code>address</code>属性。则<code>Person</code>对象分别有一个value对应他的<code>name</code>和<code>address</code>的key。 key只是一个字符串，它对应的值可以是任意类型的对象。从最基础的层次上看，KVC 有两个方法：一个是设置key的值，另一个是获取key的值。如下面的例子：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)changePerson:(Person *)p name:(<span class="built_in">NSString</span> *)newName</div><div class="line">&#123;</div><div class="line">    <span class="comment">// using the KVC accessor (getter) method</span></div><div class="line">    <span class="built_in">NSString</span> *originalName = [p valueForKey:<span class="string">@"name"</span>];</div><div class="line">    <span class="comment">// using the KVC  accessor (setter) method.</span></div><div class="line">    [p setValue:newName forKey:<span class="string">@"name"</span>];</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Changed %@'s name to: %@"</span>, originalName, newName);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <p>当观察某对象A时，KVO机制动态创建一个对象A当前类的子类，并为这个新的子类重写被观察属性keyPath的setter方法。setter方法负责通知观察对象该属性的改变状况。</p>
+<p>Apple 使用了isa混写（isa-swizzling）来实现 KVO 。当观察对象A时，KVO机制动态创建一个新的名为： <code>NSKVONotifying_A</code>的新类，该类继承自对象A的本类，且KVO为<code>NSKVONotifying_A</code>重写被观察属性的setter方法，setter方法会负责在调用原setter方法之前和之后，通知所有观察对象该属性值的更改情况。</p>
+<ol>
+<li><p>NSKVONotifying_A类</p>
+<p>在KVO过程中，被观察对象的<code>isa</code>指针从指向原来的A类，被KVO机制修改为指向<u>系统新创建的子类</u>——<code>NSKVONotifying_A</code>类，来<u>实现当前类属性值改变的监听</u>；
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/01/01/KVC/#more" rel="contents">
+            <a class="btn" href="/2016/01/01/KVO实现原理/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
