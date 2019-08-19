@@ -440,7 +440,7 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">someFunctionWithNonescapingClosure</span><span class="params">(closure: <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">    closure()</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeClass</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x = <span class="number">10</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</div><div class="line">        someFunctionWithEscapingClosure &#123; <span class="keyword">self</span>.x = <span class="number">100</span> &#125;</div><div class="line">        someFunctionWithNonescapingClosure &#123; x = <span class="number">200</span> &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> instance = <span class="type">SomeClass</span>()</div><div class="line">instance.doSomething()</div><div class="line"><span class="built_in">print</span>(instance.x)</div><div class="line"><span class="comment">// 打印出 "200"</span></div><div class="line"></div><div class="line">completionHandlers.first?()</div><div class="line"><span class="built_in">print</span>(instance.x)</div><div class="line"><span class="comment">// 打印出 "100"</span></div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line">传递到 someFunctionWithEscapingClosure(_:) 中的闭包是一个逃逸闭包，</div><div class="line">这意味着它需要显式地引用 self。相对的，传递到</div><div class="line">someFunctionWithNonescapingClosure(_:)</div><div class="line">中的闭包是一个非逃逸闭包，这意味着它可以隐式引用 self</div><div class="line">*/</div></pre></td></tr></table></figure>
 <h4 id="自动闭包"><a href="#自动闭包" class="headerlink" title="自动闭包?????"></a>自动闭包?????</h4><p>自动闭包是一种自动创建的闭包，用于包装传递给函数作为参数的表达式。这种闭包不接受任何参数，当它被调用时，会返回被包装在其中的表达式的值。可以省略闭包的花括号，而用一个普通的表达式来代替显式的闭包。</p>
 <p>自动闭包能够延迟求值，因为直到调用这个闭包，代码段才会被执行。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> customersInLine = [<span class="string">"Chris"</span>, <span class="string">"Alex"</span>, <span class="string">"Ewa"</span>, <span class="string">"Barry"</span>, <span class="string">"Daniella"</span>]</div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "5"</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> customerProvider = &#123; customersInLine.remove(at: <span class="number">0</span>) &#125;</div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "5"</span></div><div class="line"></div><div class="line"><span class="built_in">print</span>(<span class="string">"Now serving \(customerProvider())!"</span>)</div><div class="line"><span class="comment">// Prints "Now serving Chris!"</span></div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "4"</span></div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> customersInLine = [<span class="string">"Chris"</span>, <span class="string">"Alex"</span>, <span class="string">"Ewa"</span>, <span class="string">"Barry"</span>, <span class="string">"Daniella"</span>]</div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "5"</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> customerProvider = &#123; customersInLine.remove(at: <span class="number">0</span>) &#125;</div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "5"</span></div><div class="line"></div><div class="line"><span class="built_in">print</span>(<span class="string">"Now serving <span class="subst">\(customerProvider()</span>)!"</span>)</div><div class="line"><span class="comment">// Prints "Now serving Chris!"</span></div><div class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</div><div class="line"><span class="comment">// 打印出 "4"</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -578,7 +578,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">111</span>
+                    <span class="site-state-item-count">117</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -619,7 +619,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -688,7 +690,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">28</span>
+                      
+                    
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

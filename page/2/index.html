@@ -305,6 +305,913 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/12/03/present一个半透明的controller/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/03/present一个半透明的controller/" itemprop="url">present一个半透明的controller</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-03T00:00:00+08:00">2018-12-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>有时候想要实现类似系统的弹窗效果，但是又需要自定义弹窗视图时，往往都会自定义一个view类，放到window上，其实还可以使用自定义一个背景色透明或半透明的controller来实现，这样可以使加载和销毁视图更方便。</p>
+<p>那怎样present一个半透明的controller呢？</p>
+<p>在当前controller中要present一个半透明的TestViewController：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="type">TestViewController</span> * testVC = [<span class="type">TestViewController</span> new];</div><div class="line"><span class="keyword">self</span>.definesPresentationContext = <span class="type">YES</span>; <span class="comment">//设置当前控制器为present上下文</span></div><div class="line">testVC.view.backgroundColor = [<span class="type">UIColor</span> colorWithRed:<span class="number">0</span> green:<span class="number">0</span> blue:<span class="number">0</span> alpha:.<span class="number">4</span>];</div><div class="line">testVC.modalPresentationStyle = <span class="type">UIModalPresentationOverCurrentContext</span>;<span class="comment">//或者UIModalPresentationOverFullScreen 这两个都是全屏效果，其他Style会遮盖当前控制器内容</span></div><div class="line">[<span class="keyword">self</span> presentViewController:testVC animated:<span class="type">YES</span> completion:<span class="literal">nil</span>];</div></pre></td></tr></table></figure>
+<p>这时，present动画效果是系统默认的自下而上的动画效果，还可以修改动画效果，
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/03/present一个半透明的controller/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/10/25/个别controller的statusBarStyle不同于整体样式时的设置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/25/个别controller的statusBarStyle不同于整体样式时的设置/" itemprop="url">个别controller的statusBarStyle不同于整体样式时的设置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-25T00:00:00+08:00">2018-10-25</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift开发笔记/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h4><p>整体Style 为lightContent样式，这些页面通常是navigationcontroller的子控制器，通常使用push方式；个别页面为default样式，这些页面使用present或push方法弹出。</p>
+<p>App页面中的StatusBarStyle整体一个样式，个别页面一个样式时，实现方式有两种：</p>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><ol>
+<li><p>plist中设置<code>Status bar style</code>为<code>lightContent</code>，设置<code>View controller-based status bar appearance</code>为<code>YES</code></p>
+</li>
+<li><p>扩展或在自定义navigationBarController中实现两个方法如下：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/25/个别controller的statusBarStyle不同于整体样式时的设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/10/10/Swift-4.2填坑之StatusBarStyle设置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/10/Swift-4.2填坑之StatusBarStyle设置/" itemprop="url">Swift 4.2填坑之StatusBarStyle设置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T00:00:00+08:00">2018-10-10</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>更新到Swift4.2后，项目里调用<code>UIApplication.shared.statusBarStyle = .light</code>的地方报警告：Setter for ‘statusBarStyle’ was deprecated in iOS 9.0: Use -[UIViewController preferredStatusBarStyle]；</p>
+<p>解决办法（默认info.plist已设置View controller-based status bar appearance为NO）：</p>
+<ol>
+<li><p>如果使用了自定义的UINavigationController，在自定义的UINavigationController中重写<code>childForStatusBarHidden</code>和<code>childForStatusBarStyle</code>两个属性：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarHidden: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">override</span> <span class="keyword">var</span> childForStatusBarStyle: <span class="type">UIViewController</span>? &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.topViewController</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果没有自定义UINavigationController也没关系，扩展UINavigationController就可以了：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/10/10/Swift-4.2填坑之StatusBarStyle设置/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/10/03/Xcode10填坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/03/Xcode10填坑/" itemprop="url">Xcode10填坑</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-03T00:00:00+08:00">2018-10-03</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><p>iPhone X系列适配，iPhone XR分辨率为（828，1792），代码上虽然适配了iPhone XR的尺寸，但页面展示上却没有适配成功，在打印获取的[UIScreen mainScreen] currentMode].size是（750，1624），而不是（828，1792）。</p>
+<p>产生原因：适配时没有设置iPhone XR和iPhone XS Max的启动图。</p>
+<p>解决办法：添加iPhone XR和iPhone XS Max的启动图。</p>
+</li>
+<li><p>升级到Xcode10后，打开Swift项目提示conversion to Swift 4.2 is available，但是升级一直失败。由于我在项目中使用了OC的第三方库，ProjectNameTests一直提示找不到OC桥接文件，桥接文件里的代码：<code>import &quot;MJRefresh.h&quot;</code>一直报错提示找不到该文件。</p>
+<p>解决办法：把<code>#import &quot;MJRefresh.h&quot;</code>换成<code>#import &lt;MJRefresh/MJRefresh.h&gt;</code>，再进行convert</p>
+<p>（持续更新）</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/09/13/获取通讯录联系人信息/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/13/获取通讯录联系人信息/" itemprop="url">获取通讯录联系人信息</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T00:00:00+08:00">2018-09-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在获取通讯录联系人相关信息时，要特别注意的是必须在获取前指定要获取的具体字段，另外，在添加到数组或字典中的联系人信息要注意提供默认值，防止数据为nil时崩溃。</p>
+<p>指定要获取的数据：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//姓：CNContactFamilyNameKey</span></div><div class="line"><span class="comment">//名：CNContactGivenNameKey</span></div><div class="line"><span class="comment">//手机号：CNContactPhoneNumbersKey</span></div><div class="line"><span class="comment">//邮箱：CNContactEmailAddressesKey</span></div><div class="line"><span class="comment">//备注：CNContactNoteKey</span></div><div class="line"><span class="comment">//公司名称：CNContactOrganizationNameKey</span></div><div class="line"><span class="built_in">NSArray</span> *keysToFetch = @[<span class="built_in">CNContactGivenNameKey</span>, <span class="built_in">CNContactFamilyNameKey</span>, <span class="built_in">CNContactPhoneNumbersKey</span>,<span class="built_in">CNContactEmailAddressesKey</span>,<span class="built_in">CNContactNoteKey</span>,<span class="built_in">CNContactOrganizationNameKey</span>];</div><div class="line"></div><div class="line"><span class="built_in">CNContactFetchRequest</span> *fetchRequest = [[<span class="built_in">CNContactFetchRequest</span> alloc] initWithKeysToFetch:keysToFetch];</div></pre></td></tr></table></figure>
+<p>开始获取数据：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/09/13/获取通讯录联系人信息/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/08/07/Swift中使用MD5的正确姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/07/Swift中使用MD5的正确姿势/" itemprop="url">Swift中使用MD5的正确姿势</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-07T00:00:00+08:00">2018-08-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在Swift4.0中，无法直接<code>#import CommonCtypto</code>，所以需要桥接OC的CommonCtypto。但是我发现XCode9系统不会自动创建BridgeHeader文件，所以正确的姿势是这样的：</p>
+<ol>
+<li><p>在项目中创建文件夹CommonCtypto</p>
+</li>
+<li><p>在文件夹中新建module.modulemap文件和CommonCryptoHeader.h文件</p>
+</li>
+<li><p>在.modulemap文件中添加代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">module <span class="type">CommonCrypto</span> [system] &#123;</div><div class="line">    header <span class="string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/CommonCrypto/CommonCrypto.h"</span></div><div class="line">    header <span class="string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/include/CommonCrypto/CommonRandom.h"</span></div><div class="line">export *</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在CommonCryptoHeader.h中导入CommonCrypto：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/08/07/Swift中使用MD5的正确姿势/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/06/12/Swift版数独小游戏总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -900,903 +1807,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/04/10/一些特殊UI设置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/10/一些特殊UI设置/" itemprop="url">一些特殊UI设置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T00:00:00+08:00">2018-04-10</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="1-PickerView设置选中行样式"><a href="#1-PickerView设置选中行样式" class="headerlink" title="1.PickerView设置选中行样式"></a>1.PickerView设置选中行样式</h4><p>比如需要设置背景色，在自定义pickerView的layoutSubviews方法中添加代码：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改选中行的背景色</span></div><div class="line">   <span class="keyword">for</span> (<span class="built_in">UIView</span> *subView <span class="keyword">in</span> <span class="keyword">self</span>.subviews) &#123;</div><div class="line">       <span class="keyword">if</span>(subView.subviews.count)&#123;</div><div class="line">           <span class="built_in">UIView</span> *contentView = subView.subviews[<span class="number">0</span>];</div><div class="line">           <span class="keyword">for</span> (<span class="built_in">UIView</span> *contentSubView <span class="keyword">in</span> contentView.subviews) &#123;</div><div class="line">               <span class="keyword">if</span>(contentSubView.center.y == contentView.center.y)&#123;</div><div class="line">                   <span class="keyword">if</span>(_selectBackView != contentSubView)&#123;</div><div class="line">                       _selectBackView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</div><div class="line">                       _selectBackView = contentSubView;</div><div class="line">                       _selectBackView.backgroundColor = kColorFromHex(<span class="number">0xEBEBEB</span>);</div><div class="line">                   &#125;</div><div class="line">                   <span class="keyword">break</span>;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">           <span class="keyword">break</span>;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
-<h4 id="2-TableView的Section设置整体边框效果"><a href="#2-TableView的Section设置整体边框效果" class="headerlink" title="2.TableView的Section设置整体边框效果"></a>2.TableView的Section设置整体边框效果
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/10/一些特殊UI设置/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/04/03/Xcode Debug/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/03/Xcode Debug/" itemprop="url">Xcode Debug</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T23:39:01+08:00">2018-04-03</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Debug/" itemprop="url" rel="index"><span itemprop="name">Debug</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ol>
-<li><p>Pseudo Terminal Setup Error</p>
-<ul>
-<li><p>打开终端，输入命令：<code>sudo sysctl -w kern.tty.ptmx_max=999</code></p>
-</li>
-<li><p>如果终端也报错，无法输入命令（forkpty： Device not configured 未能创建新的进程和打开伪终端（pseudo-tty）），退出Xcode，重新打开终端即可。然后终端执行上面的命令，重新打开Xcode。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>xcode9 iphone7</strong>真机模拟出现 <strong>iPhone7 is busy:Preparing debugger support for ….</strong></p>
-<p>解决方法：
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/03/Xcode Debug/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/03/19/对NSMutableArray进行KVO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/19/对NSMutableArray进行KVO/" itemprop="url">对NSMutableArray进行KVO</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T00:00:00+08:00">2018-03-19</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>iOS中，KVO的基本原理是重写了被观察属性的setter方法。所以一般情况下只有通过调用setter方法对值进行改变才会触发KVO，直接访问实例变量修改值是不会触发KVO的。</p>
-<p>对于NSMutableArray来说，当调用addObject、removeObject时，并不会触发它的setter方法。所以要KVO一个NSMutableArray，就需要用到<code>(NSMutableArray *)mutableArrayValueForKey:(NSString *)key</code>方法：
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/19/对NSMutableArray进行KVO/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/03/12/Core-Location和Map-Kit确定位置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/12/Core-Location和Map-Kit确定位置/" itemprop="url">Core Location和Map Kit确定位置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T00:00:00+08:00">2018-03-12</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Core Location框架用来确定设备物理位置。</p>
-<p>Map Kit框架用于创建实时交互地图来显示想要的位置。</p>
-<p>Core Location通过三种技术来实现定位功能：GPS、蜂窝基站ID定位（cell ID Location）和WPS（WIFI Position Service，WIFI定位服务）。其中，GPS定位是最精确的。</p>
-<ul>
-<li>GPS：GPS通过读取来自多个卫星的微波信号来确定当前位置。苹果公司使用的GPS为Assisted GPS（辅助全球卫星定位系统），也称A-GPS。A-GPS使用网络资源来帮助改进纯粹的GPS性能，其基本原理是通信运营商部署网络服务，移动设备会自动寻找并从中收集数据，这样移动设备能够只依靠GPS卫星更快地确定它的起始位置。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/12/Core-Location和Map-Kit确定位置/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/02/19/Swift3到Swift4的一些坑/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/19/Swift3到Swift4的一些坑/" itemprop="url">Swift3到Swift4的一些坑</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift新特性/" itemprop="url" rel="index"><span itemprop="name">Swift新特性</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="一、Substring"><a href="#一、Substring" class="headerlink" title="一、Substring"></a>一、Substring</h4><p>Swift 4 中有一个很大的变化就是<strong>String</strong>可以当做<strong>Collection</strong>来用，并不是因为<strong>String</strong>实现了<strong>Collection</strong>协议，而是<strong>String</strong>本身增加了很多<strong>Collection</strong>协议中的方法，使得<strong>String</strong> 在使用时看上去就是个<strong>Collection</strong>。 </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> string = <span class="string">"IamBaylee"</span></div><div class="line"><span class="built_in">print</span>(string.<span class="keyword">prefix</span>(<span class="number">3</span>))		<span class="comment">//"Iam"</span></div><div class="line"><span class="built_in">print</span>(string.suffix(<span class="number">6</span>))		<span class="comment">//"Baylee"</span></div><div class="line"><span class="built_in">print</span>(string.<span class="built_in">dropFirst</span>())	<span class="comment">//"amBaylee"</span></div><div class="line"><span class="built_in">print</span>(string.<span class="built_in">dropLast</span>())	<span class="comment">//"IamBayle"</span></div></pre></td></tr></table></figure>
-<p>比如上面的样例，我们使用一些<strong>Collection</strong>协议的方法对字符串进行截取，只不过它们的返回结果不是<strong>String</strong>类型，而是 Swift4 新增的<strong>Substring</strong>类型。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/19/Swift3到Swift4的一些坑/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/12/09/URL Scheme/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/09/URL Scheme/" itemprop="url">URL Scheme</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-09T00:00:00+08:00">2017-12-09</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>URL Scheme就是一种协议URL，同我们常见的http、ftp一样，是一种资源定位符。scheme表示一个URL的最初始位置，即://之前的字符，比如ftp、http。</p>
-<p>在iOS中，因为苹果的沙盒机制，应用只能访问它声明可能访问的资源。但苹果允许App之间通过URL Scheme来实现App之间的互相调起。URL Scheme也是App之间互相调起的唯一标识。</p>
-<p>要跳转到某个app，就要知道这个app的跳转协议是什么，需要传入什么参数。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/09/URL Scheme/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1848,7 +1858,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">111</span>
+                    <span class="site-state-item-count">117</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1889,7 +1899,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1958,7 +1970,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">28</span>
+                      
+                    
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

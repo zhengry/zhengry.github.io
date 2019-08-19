@@ -127,7 +127,7 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
 
 另外发现一种更简单的方式：
 需要设置UIView.layer.masksToBou">
-<meta property="og:updated_time" content="2019-03-26T01:58:37.347Z">
+<meta property="og:updated_time" content="2019-03-29T03:06:33.156Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些UI设置总结">
 <meta name="twitter:description" content="一个视图既要圆角又要阴影效果
@@ -446,6 +446,13 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
 <p>解决方法：</p>
 <p>去掉全局变量，使用局部变量</p>
 </li>
+<li><p>iOS12.1中，<code>viewController.hidesBottomBarWhenPushed = YES</code>，push某个页面后返回时，<code>tabbar</code>的显示会发生错乱。</p>
+<p>原因：UITabBar是磨砂的，在<code>pushViewController</code>时设置<code>viewController.hidesBottomBarWhenPushed = YES</code>时，<code>tabbar</code>内的按钮<code>UITabBarButton</code>被设置了错误的<code>frame</code>，<code>frame.size</code>会变成（0，0）。</p>
+<p>解决方法：设置<code>[UITabBar appearance].translucent = NO;</code>将tabbar设置为非磨砂效果。</p>
+</li>
+<li><p>导航条图片渲染模式默认为<code>default</code>，得到的图片是蓝色的，可以直接设置图片属性<code>render as</code>为<code>Original</code>，或者代码设置</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">childController.tabBarItem.image = [[<span class="built_in">UIImage</span> imageNamed:image] imageWithRenderingMode:<span class="built_in">UIImageRenderingModeAlwaysOriginal</span>];</div></pre></td></tr></table></figure>
+</li>
 </ol>
 
       
@@ -575,7 +582,7 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">111</span>
+                    <span class="site-state-item-count">117</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -616,7 +623,9 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -685,7 +694,9 @@ A为父视图，B为子视图，设置B与A的约束边距都为0；
                     
                       
                     
-                    <span class="site-state-item-count">28</span>
+                      
+                    
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
