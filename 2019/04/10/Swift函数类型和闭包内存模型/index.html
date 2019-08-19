@@ -110,8 +110,7 @@
 函数类型实例化支持：全局函数、嵌套函数、成员函数(实例方法和静态方法)
 
 函数的内存模型
-示例说明：
-123456789101112131415161718192021222324252627282930">
+示例说明：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift函数类型和闭包">
 <meta property="og:url" content="https://zhengry.github.io/2019/04/10/Swift函数类型和闭包内存模型/index.html">
@@ -123,11 +122,10 @@
 函数类型实例化支持：全局函数、嵌套函数、成员函数(实例方法和静态方法)
 
 函数的内存模型
-示例说明：
-123456789101112131415161718192021222324252627282930">
+示例说明：">
 <meta property="og:image" content="https://zhengry.github.io/../images/函数类型的内存模型.png">
 <meta property="og:image" content="https://zhengry.github.io/../images/闭包捕获值的内存模型.png">
-<meta property="og:updated_time" content="2019-04-10T09:01:33.914Z">
+<meta property="og:updated_time" content="2019-08-19T02:36:13.528Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift函数类型和闭包">
 <meta name="twitter:description" content="函数类型
@@ -137,8 +135,7 @@
 函数类型实例化支持：全局函数、嵌套函数、成员函数(实例方法和静态方法)
 
 函数的内存模型
-示例说明：
-123456789101112131415161718192021222324252627282930">
+示例说明：">
 <meta name="twitter:image" content="https://zhengry.github.io/../images/函数类型的内存模型.png">
 
 
@@ -423,7 +420,7 @@
 <p>函数类型实例化支持：全局函数、嵌套函数、成员函数(实例方法和静态方法)</p>
 </li>
 <li><p>函数的内存模型</p>
-<p>示例说明：</p>
+<p>示例说明：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(a:Double,b:Double)</span></span> -&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a+b</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">devide</span><span class="params">(a:Double, b:Double)</span></span> -&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a/b</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">multiply</span><span class="params">(a:Double,b:Double)</span></span>-&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a*b</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">minus</span><span class="params">(a:Double,b:Double)</span></span>-&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a-b</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Matrix</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> row = <span class="number">0.0</span></div><div class="line">    <span class="keyword">var</span> column = <span class="number">0.0</span></div><div class="line">    <span class="keyword">init</span>(row:<span class="type">Double</span>, column:<span class="type">Double</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.row = row</div><div class="line">        <span class="keyword">self</span>.column = column</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">process</span><span class="params">(x:Double, y:Double)</span></span> -&gt; <span class="type">Double</span> &#123;</div><div class="line">        <span class="keyword">return</span> x * row + y * column</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">invoke</span><span class="params">(x:Double, y:Double)</span></span> -&gt;<span class="type">Double</span>&#123;</div><div class="line">        <span class="keyword">return</span> x * x + y * y</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> compute:(<span class="type">Double</span>,<span class="type">Double</span>) -&gt; <span class="type">Double</span></div><div class="line">compute = add<span class="comment">//指向全局函数</span></div><div class="line"><span class="keyword">let</span> result1 = compute(<span class="number">10</span>,<span class="number">20</span>)</div><div class="line"><span class="built_in">print</span>(result1)</div><div class="line"></div><div class="line">compute = devide<span class="comment">//指向全局函数</span></div><div class="line"><span class="keyword">let</span> result2 = compute(<span class="number">10</span>,<span class="number">20</span>)</div><div class="line"><span class="built_in">print</span>(result2)</div><div class="line"></div><div class="line"><span class="keyword">var</span> matrix = <span class="type">Matrix</span>(row: <span class="number">10</span>, column: <span class="number">20</span>)</div><div class="line">compute = matrix.process<span class="comment">//指向实例方法</span></div><div class="line">compute(<span class="number">10</span>,<span class="number">20</span>)</div><div class="line">compute = <span class="type">Matrix</span>.invoke<span class="comment">//指向静态方法</span></div><div class="line">compute(<span class="number">30</span>,<span class="number">40</span>)</div></pre></td></tr></table></figure>
 <p><code>compute</code>的内存模型</p>
 <p>在上面的例子中，compute是一个引用类型，在栈上有一个指针，指向堆上的一个对象。堆上的对象包含两个部分，一个是对象指针，一个函数指针。</p>

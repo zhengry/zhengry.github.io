@@ -979,18 +979,21 @@
 
       
         
-          
-            <p>使用carthage引入RxSwift之后，运行报错：</p>
+          <p>使用carthage引入RxSwift之后，运行报错：</p>
 <blockquote>
 <p>dyld: Library not loaded: @rpath/XCTest.framework/XCTest</p>
-<p> Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift/libswiftXCTest.dylib</p>
+<p> Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/</p>
+<p>Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift/libswiftXCTest.dylib</p>
 <p> Reason: image not found</p>
 </blockquote>
-<p>解决方法：</p>
-<p>target-BuildPhases-Run Script-input files里添加：</p>
-<p>$(PLATFORM_DIR)/Developer/Library/Frameworks/XCTest.framework</p>
-
-          
+<p>解决方法：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/05/24/Carthage引入RxSwift后运行报错/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1129,64 +1132,21 @@
 
       
         
-          
-            <h4 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h4><ol>
+          <h4 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h4><ol>
 <li><p>函数类型定义</p>
 <p>函数类型形式：(参数类型1，参数类型2，…) -&gt; 返回值类型</p>
 <p>函数类型是一种引用类型，类似于函数指针。可以将函数类型应用于任何使用类型的地方：变量、参数、返回值。</p>
 <p>函数类型实例化支持：全局函数、嵌套函数、成员函数(实例方法和静态方法)</p>
 </li>
 <li><p>函数的内存模型</p>
-<p>示例说明：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">(a:Double,b:Double)</span></span> -&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a+b</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">devide</span><span class="params">(a:Double, b:Double)</span></span> -&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a/b</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">multiply</span><span class="params">(a:Double,b:Double)</span></span>-&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a*b</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">minus</span><span class="params">(a:Double,b:Double)</span></span>-&gt;<span class="type">Double</span>&#123;</div><div class="line">    <span class="keyword">return</span> a-b</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Matrix</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> row = <span class="number">0.0</span></div><div class="line">    <span class="keyword">var</span> column = <span class="number">0.0</span></div><div class="line">    <span class="keyword">init</span>(row:<span class="type">Double</span>, column:<span class="type">Double</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.row = row</div><div class="line">        <span class="keyword">self</span>.column = column</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">process</span><span class="params">(x:Double, y:Double)</span></span> -&gt; <span class="type">Double</span> &#123;</div><div class="line">        <span class="keyword">return</span> x * row + y * column</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">invoke</span><span class="params">(x:Double, y:Double)</span></span> -&gt;<span class="type">Double</span>&#123;</div><div class="line">        <span class="keyword">return</span> x * x + y * y</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> compute:(<span class="type">Double</span>,<span class="type">Double</span>) -&gt; <span class="type">Double</span></div><div class="line">compute = add<span class="comment">//指向全局函数</span></div><div class="line"><span class="keyword">let</span> result1 = compute(<span class="number">10</span>,<span class="number">20</span>)</div><div class="line"><span class="built_in">print</span>(result1)</div><div class="line"></div><div class="line">compute = devide<span class="comment">//指向全局函数</span></div><div class="line"><span class="keyword">let</span> result2 = compute(<span class="number">10</span>,<span class="number">20</span>)</div><div class="line"><span class="built_in">print</span>(result2)</div><div class="line"></div><div class="line"><span class="keyword">var</span> matrix = <span class="type">Matrix</span>(row: <span class="number">10</span>, column: <span class="number">20</span>)</div><div class="line">compute = matrix.process<span class="comment">//指向实例方法</span></div><div class="line">compute(<span class="number">10</span>,<span class="number">20</span>)</div><div class="line">compute = <span class="type">Matrix</span>.invoke<span class="comment">//指向静态方法</span></div><div class="line">compute(<span class="number">30</span>,<span class="number">40</span>)</div></pre></td></tr></table></figure>
-<p><code>compute</code>的内存模型</p>
-<p>在上面的例子中，compute是一个引用类型，在栈上有一个指针，指向堆上的一个对象。堆上的对象包含两个部分，一个是对象指针，一个函数指针。</p>
-<p><img src="../images/函数类型的内存模型.png" alt="函数类型的内存模型"></p>
-<p>如果<code>compute</code>是一个全局函数(<code>add</code>或<code>devide</code>)，那么它的对象指针就是空的，函数指针就是这个函数（add或devide）的地址(任何一个函数编译之后加载到内存中后，都有一个函数的入口点地址)，<code>compute = add</code>就是把<code>add</code>函数的入口点地址赋值给<code>compute</code>的函数指针；<code>compute = matrix.process</code>，对象指针指向<code>matrix</code>，函数指针指向<code>process</code>的入口点地址，process函数有一个隐含参数self，其实就是把对象指针指向了self。只有当<code>compute</code>指向实例方法的时候，对象指针才会指向实例；当<code>compute</code>指向全局函数、嵌套函数、静态方法的时候，对象指针都是空的。</p>
-<p>当<code>compute</code>指向<code>matrix.process</code>时，可以用伪码理解为：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">compute = matrix.process<span class="comment">//实例方法</span></div><div class="line"><span class="comment">// compute.object = matrix</span></div><div class="line"><span class="comment">// compute.method = &amp;process</span></div><div class="line">compute(<span class="number">10</span>,<span class="number">20</span>)<span class="comment">//JMP compute.method</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>闭包的理解</p>
-<p>闭包是<strong>函数类型的实例</strong>，是一段自包含的代码块，可被用于函数类型的变量、参数或返回值。</p>
-<p>三种闭包形式：</p>
-<ul>
-<li>全局函数：具名函数，但不捕获任何值</li>
-<li>嵌套函数：在函数内部嵌套定义具名函数，可以捕获包含函数中的值</li>
-<li>闭包表达式：匿名函数类型实例，不具名的代码块，可捕获上下文的值</li>
-</ul>
-<p><strong>闭包是引用类型，闭包变量拷贝具有引用语义</strong>。</p>
-<p>闭包和函数类型实例拥有同样的内存模型。</p>
-<p>闭包表达式定义：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;(参数类型<span class="number">1</span>，参数类型<span class="number">2</span>，...) -&gt; 返回值类型 <span class="keyword">in</span></div><div class="line"> 		语句块  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>闭包表达式的几种简化缩写形式：</p>
-<ul>
-<li>自动类型推断：省略参数类型和返回值类型</li>
-<li>单表达式闭包可以省略return关键词</li>
-<li>盛勇参数缩略形式\$0,​\$1…省略参数声明和in</li>
-<li>将操作符函数自动推导为函数类型</li>
-<li>尾随闭包：当闭包表达式为函数最后一个参数时，可将其写在括号后</li>
-<li>自动闭包：不接受任何参数，直接返回表达式的值，允许延迟计算</li>
-</ul>
-</li>
-<li><p>函数类型与闭包的变量捕获</p>
-<p>函数类型和闭包可以捕获其所在上下文的任何值：</p>
-<ul>
-<li>函数参数</li>
-<li>局部变量</li>
-<li>对象实例属性</li>
-<li>全局变量</li>
-<li>类的类型属性</li>
-</ul>
-<p>如果捕获值（参数和局部变量）生存周期小于闭包对象，系统会将被捕获的值封装在一个临时对象里，然后在闭包对象上创建一个对象指针，指向该临时对象。临时对象和闭包对象之间是强引用关系，生存周期跟随闭包对象。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//捕获参数或局部变量</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addHandler</span><span class="params">(step:Int)</span></span>-&gt;()-&gt;<span class="type">Int</span>&#123;</div><div class="line">    <span class="keyword">var</span> sum = <span class="number">15</span></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        sum += step</div><div class="line">        <span class="keyword">return</span> sum</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> addByTen = addHandler(step: <span class="number">10</span>)</div><div class="line">addByTen()<span class="comment">//25</span></div><div class="line">addByTen()<span class="comment">//35</span></div><div class="line">addByTen()<span class="comment">//45</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> addBySix = addHandler(step: <span class="number">6</span>)</div><div class="line">addBySix()<span class="comment">//21</span></div><div class="line">addBySix()<span class="comment">//27</span></div><div class="line">addBySix()<span class="comment">//33</span></div></pre></td></tr></table></figure>
-<p>在上面的实例中，闭包捕获了sum和step，系统会将sum和step封装到一个对象中，上面的代码可以理解成下面的代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//生成一个类来保存sum和step</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AddHelper</span></span>&#123;</div><div class="line">    <span class="keyword">var</span> sum = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> step = <span class="number">0</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">add</span><span class="params">()</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">        sum += step</div><div class="line">        <span class="keyword">return</span> sum</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addHandlerComplete</span><span class="params">(step:Int)</span></span>-&gt;()-&gt;<span class="type">Int</span>&#123;</div><div class="line">    <span class="keyword">let</span> sum = <span class="number">0</span></div><div class="line">    <span class="keyword">let</span> obj = <span class="type">AddHelper</span>()</div><div class="line">    obj.sum = sum</div><div class="line">    obj.step = step</div><div class="line">    <span class="keyword">return</span> obj.add</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> addByTen = addHandlerComplete(step: <span class="number">10</span>)<span class="comment">//闭包的对象指针指向obj，函数指针指向add函数的入口地址</span></div><div class="line">addByTen()<span class="comment">//每次调用addByTen()时，obj不变，add改变了obj的sum</span></div><div class="line">addByTen()</div><div class="line">addByTen()</div></pre></td></tr></table></figure>
-<p>addByTen这个闭包的内存模型：</p>
-<p><img src="../images/闭包捕获值的内存模型.png" alt="闭包捕获值的内存模型"></p>
-</li>
-</ol>
-
-          
+<p>示例说明：
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/04/10/Swift函数类型和闭包内存模型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

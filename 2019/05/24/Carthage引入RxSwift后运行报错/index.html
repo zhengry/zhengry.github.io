@@ -115,7 +115,7 @@ dyld: Library not loaded: @rpath/XCTest.framework/XCTest
 
 dyld: Library not loaded: @rpath/XCTest.framework/XCTest
  Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSim">
-<meta property="og:updated_time" content="2019-08-19T02:15:59.720Z">
+<meta property="og:updated_time" content="2019-08-19T02:35:46.439Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Carthage引入RxSwift后运行报错">
 <meta name="twitter:description" content="使用carthage引入RxSwift之后，运行报错：
@@ -401,10 +401,11 @@ dyld: Library not loaded: @rpath/XCTest.framework/XCTest
         <p>使用carthage引入RxSwift之后，运行报错：</p>
 <blockquote>
 <p>dyld: Library not loaded: @rpath/XCTest.framework/XCTest</p>
-<p> Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift/libswiftXCTest.dylib</p>
+<p> Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/</p>
+<p>Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift/libswiftXCTest.dylib</p>
 <p> Reason: image not found</p>
 </blockquote>
-<p>解决方法：</p>
+<p>解决方法：<a id="more"></a></p>
 <p>target-BuildPhases-Run Script-input files里添加：</p>
 <p>$(PLATFORM_DIR)/Developer/Library/Frameworks/XCTest.framework</p>
 
