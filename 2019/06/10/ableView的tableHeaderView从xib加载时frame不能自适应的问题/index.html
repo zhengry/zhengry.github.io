@@ -109,7 +109,7 @@
 <meta property="og:url" content="https://zhengry.github.io/2019/06/10/ableView的tableHeaderView从xib加载时frame不能自适应的问题/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="tableView的tableHeaderView从xib加载时，使用xib加载的默认尺寸，而不设置frame。当tableView还有个sectionHeader时，tableHeaderView在iOS12上显示正常，但在iOS10、11中，tableHeaderView会覆盖cell，并且sectionHeader会显示在tableView的最上面。而给tableViewHeader视图设置">
-<meta property="og:updated_time" content="2019-08-19T02:04:36.205Z">
+<meta property="og:updated_time" content="2019-08-19T02:29:52.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TableView的tableHeaderView从xib加载时frame不能自适应的问题">
 <meta name="twitter:description" content="tableView的tableHeaderView从xib加载时，使用xib加载的默认尺寸，而不设置frame。当tableView还有个sectionHeader时，tableHeaderView在iOS12上显示正常，但在iOS10、11中，tableHeaderView会覆盖cell，并且sectionHeader会显示在tableView的最上面。而给tableViewHeader视图设置">
@@ -389,8 +389,8 @@
       
 
       
-        <p>tableView的tableHeaderView从xib加载时，使用xib加载的默认尺寸，而不设置frame。当tableView还有个sectionHeader时，tableHeaderView在iOS12上显示正常，但在iOS10、11中，tableHeaderView会覆盖cell，并且sectionHeader会显示在tableView的最上面。而给tableViewHeader视图设置frame时，小屏幕上往往要设置远大于实际需要高度才能正常显示。</p>
-<p>解决方法：给tableView创建一个UIView作为tableHeaderView，设置正确的frame，并把xib加载来的视图作为子视图放到这个自定义的view上即可(设置frame为tableHeaderView的bounds)。</p>
+        <p><code>tableView</code>的<code>tableHeaderView</code>从xib加载时，使用xib加载的默认尺寸，而不设置frame。当<code>tableView</code>还有个<code>sectionHeader</code>时，<code>tableHeaderView</code>在iOS12上显示正常，但在iOS10、11中，<code>tableHeaderView</code>会覆盖cell，并且<code>sectionHeader</code>会显示在<code>tableView</code>的最上面。而给<code>tableViewHeader</code>视图设置frame时，小屏幕上往往要设置远大于实际需要高度才能正常显示。<a id="more"></a></p>
+<p>解决方法：给<code>tableView</code>创建一个UIView作为<code>tableHeaderView</code>，设置正确的frame，并把xib加载来的视图作为子视图放到这个自定义的view上即可(设置<code>frame</code>为<code>tableHeaderView</code>的<code>bounds</code>)。</p>
 
       
     </div>

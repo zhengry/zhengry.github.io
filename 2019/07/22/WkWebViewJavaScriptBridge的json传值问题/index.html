@@ -103,19 +103,16 @@
 
 
 
-  <meta name="description" content="bridge在registerHandler时可以获取data，如果前端传过来的data是个json数据，我们却无法直接将data作为json处理。这是由于JavaScriptBridge对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：
-12345678func bridgeJson(from data:Any) -&amp;gt;Any?">
+  <meta name="description" content="bridge在registerHandler时可以获取data，如果前端传过来的data是个json数据，我们却无法直接将data作为json处理。这是由于JavaScriptBridge对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WkWebViewJavaScriptBridge的json传值问题">
 <meta property="og:url" content="https://zhengry.github.io/2019/07/22/WkWebViewJavaScriptBridge的json传值问题/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="bridge在registerHandler时可以获取data，如果前端传过来的data是个json数据，我们却无法直接将data作为json处理。这是由于JavaScriptBridge对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：
-12345678func bridgeJson(from data:Any) -&amp;gt;Any?">
-<meta property="og:updated_time" content="2019-08-19T01:50:10.759Z">
+<meta property="og:description" content="bridge在registerHandler时可以获取data，如果前端传过来的data是个json数据，我们却无法直接将data作为json处理。这是由于JavaScriptBridge对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：">
+<meta property="og:updated_time" content="2019-08-19T02:31:38.483Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WkWebViewJavaScriptBridge的json传值问题">
-<meta name="twitter:description" content="bridge在registerHandler时可以获取data，如果前端传过来的data是个json数据，我们却无法直接将data作为json处理。这是由于JavaScriptBridge对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：
-12345678func bridgeJson(from data:Any) -&amp;gt;Any?">
+<meta name="twitter:description" content="bridge在registerHandler时可以获取data，如果前端传过来的data是个json数据，我们却无法直接将data作为json处理。这是由于JavaScriptBridge对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：">
 
 
 
@@ -392,9 +389,9 @@
       
 
       
-        <p>bridge在registerHandler时可以获取data，如果前端传过来的data是个json数据，我们却无法直接将data作为json处理。这是由于JavaScriptBridge对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：</p>
+        <p>bridge在<code>registerHandler</code>时可以获取<code>data</code>，如果前端传过来的<code>data</code>是个json数据，我们却无法直接将data作为json处理。这是由于<code>JavaScriptBridge</code>对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">bridgeJson</span><span class="params">(from data:Any)</span></span> -&gt;<span class="type">Any</span>? &#123;</div><div class="line">		<span class="keyword">let</span> jsonStr = <span class="string">"<span class="subst">\(data)</span>"</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> jsonData = jsonStr.data(using: .utf8, allowLossyConversion: <span class="literal">false</span>),</div><div class="line">            <span class="keyword">let</span> json = <span class="keyword">try</span>? <span class="type">JSONSerialization</span>.jsonObject(with: jsonData, options: .mutableContainers)&#123;</div><div class="line">        <span class="keyword">return</span> json</div><div class="line">    &#125;</div><div class="line">  	<span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>响应桥接事件：</p>
+<p>响应桥接事件示例：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">bridge?.registerHandler(<span class="string">"goHref"</span>, handler: &#123; [<span class="keyword">unowned</span> <span class="keyword">self</span>] (data, callback) <span class="keyword">in</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> obj = data,</div><div class="line">        <span class="keyword">let</span> json = <span class="keyword">self</span>.bridgeJson(from: obj),</div><div class="line">        <span class="keyword">let</span> model = <span class="type">WebHrefModel</span>.decode(json <span class="keyword">as</span>? [<span class="type">String</span>:<span class="type">Any</span>]) &#123;<span class="comment">//转成model或直接使用</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> href = model.href &#123;</div><div class="line">            <span class="keyword">self</span>.urlRecords.append(href)</div><div class="line">            <span class="keyword">self</span>.loadUrl(href)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> title = model.name &#123;</div><div class="line">            <span class="keyword">self</span>.navigationItem.title = title</div><div class="line">            <span class="keyword">self</span>.titleRecords.append(title)</div><div class="line">            </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> callback = callback &#123;</div><div class="line">            callback(<span class="string">"success"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 
       

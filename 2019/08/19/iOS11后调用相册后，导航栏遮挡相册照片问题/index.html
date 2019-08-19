@@ -113,7 +113,7 @@ present UIImagePickerController之前设置：
 <meta property="og:description" content="iOS11后，如果没有设置UIScrollView.appearance().contentInsetAdjustmentBehavior = .automatic，调用相册后，导航栏会遮挡相册照片。解决方法：
 present UIImagePickerController之前设置：
 123if #available(iOS 11.0, *) &amp;#123;		UIScrollView.appear">
-<meta property="og:updated_time" content="2019-08-19T02:09:48.307Z">
+<meta property="og:updated_time" content="2019-08-19T02:30:27.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS11后调用相册后，导航栏遮挡相册照片问题">
 <meta name="twitter:description" content="iOS11后，如果没有设置UIScrollView.appearance().contentInsetAdjustmentBehavior = .automatic，调用相册后，导航栏会遮挡相册照片。解决方法：
@@ -398,7 +398,7 @@ present UIImagePickerController之前设置：
         <p>iOS11后，如果没有设置<code>UIScrollView.appearance().contentInsetAdjustmentBehavior = .automatic</code>，调用相册后，导航栏会遮挡相册照片。解决方法：</p>
 <p><code>present</code> <code>UIImagePickerController</code>之前设置：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> #available(iOS <span class="number">11.0</span>, *) &#123;</div><div class="line">		<span class="type">UIScrollView</span>.appearance().contentInsetAdjustmentBehavior = .automatic</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>dismiss</code>之前设置：</p>
+<p><code>dismiss</code>之前设置：<a id="more"></a></p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> #available(iOS <span class="number">11.0</span>, *) &#123;</div><div class="line">		<span class="type">UIScrollView</span>.appearance().contentInsetAdjustmentBehavior = .never</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       

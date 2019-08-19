@@ -109,7 +109,7 @@
 <meta property="og:url" content="https://zhengry.github.io/2019/08/06/两个隐藏导航条的tab切换时出现视图上移动画问题/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="当tab的childController都是navigationController，其中两个navigationController的rootViewController都是需要隐藏导航条的，在这两个controller的viewWillAppear中设置了navigationController?.setNavigationBarHidden(false, animated: true)，但是">
-<meta property="og:updated_time" content="2019-08-19T02:21:00.365Z">
+<meta property="og:updated_time" content="2019-08-19T02:28:42.117Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="两个隐藏导航条的tab切换时出现视图上移动画问题">
 <meta name="twitter:description" content="当tab的childController都是navigationController，其中两个navigationController的rootViewController都是需要隐藏导航条的，在这两个controller的viewWillAppear中设置了navigationController?.setNavigationBarHidden(false, animated: true)，但是">
@@ -389,7 +389,7 @@
       
 
       
-        <p>当tab的<code>childController</code>都是<code>navigationController</code>，其中两个<code>navigationController</code>的<code>rootViewController</code>都是需要隐藏导航条的，在这两个<code>controller</code>的<code>viewWillAppear</code>中设置了<code>navigationController?.setNavigationBarHidden(false, animated: true)</code>，但是在切换这两个tab的时候，视图会发生明显的上移动画，这是我们不希望的。</p>
+        <p>当tab的<code>childController</code>都是<code>navigationController</code>，其中两个<code>navigationController</code>的<code>rootViewController</code>都是需要隐藏导航条的，在这两个<code>controller</code>的<code>viewWillAppear</code>中设置了<code>navigationController?.setNavigationBarHidden(false, animated: true)</code>，但是在切换这两个tab的时候，视图会发生明显的上移动画，这是我们不希望的。<a id="more"></a></p>
 <p>解决方法：在切换tab时发出通知，这两个<code>controller</code>接收通知，收到通知后设置<code>shouldAnimation</code>为false，<code>viewWillAppear</code>中调用<code>navigationController?.setNavigationBarHidden(true, animated: shouldAnimation)</code>后将<code>shouldAnimation</code>置为true，这样在切换tab的时候不会有动画，在导航条页面跳转时会有动画。</p>
 
       
