@@ -104,24 +104,18 @@
 
 
   <meta name="description" content="使用carthage引入RxSwift之后，运行报错：
-
-dyld: Library not loaded: @rpath/XCTest.framework/XCTest
- Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSim">
+1234567dyld: Library not loaded: @rpath/XCTest.framework/XCTestReferenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Cor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Carthage引入RxSwift后运行报错">
 <meta property="og:url" content="https://zhengry.github.io/2019/05/24/Carthage引入RxSwift后运行报错/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="使用carthage引入RxSwift之后，运行报错：
-
-dyld: Library not loaded: @rpath/XCTest.framework/XCTest
- Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSim">
-<meta property="og:updated_time" content="2019-08-19T02:35:46.439Z">
+1234567dyld: Library not loaded: @rpath/XCTest.framework/XCTestReferenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Cor">
+<meta property="og:updated_time" content="2019-09-09T02:21:11.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Carthage引入RxSwift后运行报错">
 <meta name="twitter:description" content="使用carthage引入RxSwift之后，运行报错：
-
-dyld: Library not loaded: @rpath/XCTest.framework/XCTest
- Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSim">
+1234567dyld: Library not loaded: @rpath/XCTest.framework/XCTestReferenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Cor">
 
 
 
@@ -399,12 +393,7 @@ dyld: Library not loaded: @rpath/XCTest.framework/XCTest
 
       
         <p>使用carthage引入RxSwift之后，运行报错：</p>
-<blockquote>
-<p>dyld: Library not loaded: @rpath/XCTest.framework/XCTest</p>
-<p> Referenced from: /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/</p>
-<p>Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/swift/libswiftXCTest.dylib</p>
-<p> Reason: image not found</p>
-</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">dyld: <span class="type">Library</span> not loaded: @rpath/<span class="type">XCTest</span>.framework/<span class="type">XCTest</span></div><div class="line"></div><div class="line"><span class="type">Referenced</span> from: /<span class="type">Applications</span>/<span class="type">Xcode</span>.app/<span class="type">Contents</span>/<span class="type">Developer</span>/<span class="type">Platforms</span>/iPhoneOS.platform/<span class="type">Developer</span>/<span class="type">Library</span>/<span class="type">CoreSimulator</span>/<span class="type">Profiles</span>/</div><div class="line"></div><div class="line"><span class="type">Runtimes</span>/iOS.simruntime/<span class="type">Contents</span>/<span class="type">Resources</span>/<span class="type">RuntimeRoot</span>/usr/lib/swift/libswiftXCTest.dylib</div><div class="line"></div><div class="line"><span class="type">Reason</span>: image not found</div></pre></td></tr></table></figure>
 <p>解决方法：<a id="more"></a></p>
 <p>target-BuildPhases-Run Script-input files里添加：</p>
 <p>$(PLATFORM_DIR)/Developer/Library/Frameworks/XCTest.framework</p>
