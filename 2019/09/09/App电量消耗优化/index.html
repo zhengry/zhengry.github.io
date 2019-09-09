@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="App中的耗电大户：CPU和I/O操作
+如何获取电量IOKit framework是专门用于跟硬件或内核服务通信的。所以，我们可以通过IOKit framework来获取硬件信息，进而获取到电量消耗信息。
+使用：导入IOPowerSources.h、IOPSKeys.h、IOKit,将batteryMonitoringEnable设置为true，通过代码获取精确到1%的电量信息：
+12345678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="App电量消耗优化">
+<meta property="og:url" content="https://zhengry.github.io/2019/09/09/App电量消耗优化/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="App中的耗电大户：CPU和I/O操作
+如何获取电量IOKit framework是专门用于跟硬件或内核服务通信的。所以，我们可以通过IOKit framework来获取硬件信息，进而获取到电量消耗信息。
+使用：导入IOPowerSources.h、IOPSKeys.h、IOKit,将batteryMonitoringEnable设置为true，通过代码获取精确到1%的电量信息：
+12345678">
+<meta property="og:updated_time" content="2019-09-09T03:27:52.434Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="App电量消耗优化">
+<meta name="twitter:description" content="App中的耗电大户：CPU和I/O操作
+如何获取电量IOKit framework是专门用于跟硬件或内核服务通信的。所以，我们可以通过IOKit framework来获取硬件信息，进而获取到电量消耗信息。
+使用：导入IOPowerSources.h、IOPSKeys.h、IOKit,将batteryMonitoringEnable设置为true，通过代码获取精确到1%的电量信息：
+12345678">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2019/09/09/App电量消耗优化/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>App电量消耗优化 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/09/App电量消耗优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">App电量消耗优化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-09T00:00:00+08:00">2019-09-09</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/性能优化/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>App中的耗电大户：CPU和I/O操作</p>
+<h4 id="如何获取电量"><a href="#如何获取电量" class="headerlink" title="如何获取电量"></a>如何获取电量</h4><p><code>IOKit framework</code>是专门用于跟硬件或内核服务通信的。所以，我们可以通过<code>IOKit framework</code>来获取硬件信息，进而获取到电量消耗信息。</p>
+<p>使用：导入<code>IOPowerSources.h</code>、<code>IOPSKeys.h</code>、<code>IOKit</code>,将<code>batteryMonitoringEnable</code>设置为<code>true</code>，通过代码获取精确到1%的电量信息：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#import <span class="meta-string">"IOPSKeys.h"</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">"IOPowerSources.h"</span></span></div><div class="line"></div><div class="line">-(<span class="keyword">double</span>) getBatteryLevel&#123;</div><div class="line">    <span class="comment">// 返回电量信息</span></div><div class="line">    <span class="built_in">CFTypeRef</span> blob = IOPSCopyPowerSourcesInfo();</div><div class="line">    <span class="comment">// 返回电量句柄列表数据</span></div><div class="line">    <span class="built_in">CFArrayRef</span> sources = IOPSCopyPowerSourcesList(blob);</div><div class="line">    <span class="built_in">CFDictionaryRef</span> pSource = <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">const</span> <span class="keyword">void</span> *psValue;</div><div class="line">    <span class="comment">// 返回数组大小</span></div><div class="line">    <span class="keyword">int</span> numOfSources = <span class="built_in">CFArrayGetCount</span>(sources);</div><div class="line">    <span class="comment">// 计算大小出错处理</span></div><div class="line">    <span class="keyword">if</span> (numOfSources == <span class="number">0</span>) &#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"Error in CFArrayGetCount"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1.0</span>f;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 计算所剩电量</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;numOfSources; i++) &#123;</div><div class="line">        <span class="comment">// 返回电源可读信息的字典</span></div><div class="line">        pSource = IOPSGetPowerSourceDescription(blob, <span class="built_in">CFArrayGetValueAtIndex</span>(sources, i));</div><div class="line">        <span class="keyword">if</span> (!pSource) &#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"Error in IOPSGetPowerSourceDescription"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="number">-1.0</span>f;</div><div class="line">        &#125;</div><div class="line">        psValue = (<span class="built_in">CFStringRef</span>) <span class="built_in">CFDictionaryGetValue</span>(pSource, <span class="built_in">CFSTR</span>(kIOPSNameKey));</div><div class="line"></div><div class="line">        <span class="keyword">int</span> curCapacity = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> maxCapacity = <span class="number">0</span>;</div><div class="line">        <span class="keyword">double</span> percentage;</div><div class="line"></div><div class="line">        psValue = <span class="built_in">CFDictionaryGetValue</span>(pSource, <span class="built_in">CFSTR</span>(kIOPSCurrentCapacityKey));</div><div class="line">        <span class="built_in">CFNumberGetValue</span>((<span class="built_in">CFNumberRef</span>)psValue, kCFNumberSInt32Type, &amp;curCapacity);</div><div class="line"></div><div class="line">        psValue = <span class="built_in">CFDictionaryGetValue</span>(pSource, <span class="built_in">CFSTR</span>(kIOPSMaxCapacityKey));</div><div class="line">        <span class="built_in">CFNumberGetValue</span>((<span class="built_in">CFNumberRef</span>)psValue, kCFNumberSInt32Type, &amp;maxCapacity);</div><div class="line"></div><div class="line">        percentage = ((<span class="keyword">double</span>) curCapacity / (<span class="keyword">double</span>) maxCapacity * <span class="number">100.0</span>f);</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"curCapacity : %d / maxCapacity: %d , percentage: %.1f "</span>, curCapacity, maxCapacity, percentage);</div><div class="line">        <span class="keyword">return</span> percentage;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="诊断CPU造成的电量消耗"><a href="#诊断CPU造成的电量消耗" class="headerlink" title="诊断CPU造成的电量消耗"></a>诊断CPU造成的电量消耗</h4><ol>
+<li><p>获取所有线程信息</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">thread_act_array_t threads;</div><div class="line">mach_msg_type_number_t threadCount = <span class="number">0</span>;</div><div class="line"><span class="keyword">const</span> task_t thisTask = mach_task_self();</div><div class="line">kern_return_t kr = task_threads(thisTask, &amp;threads, &amp;threadCount);</div></pre></td></tr></table></figure>
+</li>
+<li><p>检查多线程的CPU使用情况，找到CPU占用高的线程,获取线程堆栈信息，并优化线程操作。</p>
+<p>线程基本信息结构体：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> thread_basic_info &#123;</div><div class="line">        time_value_t    user_time;      <span class="comment">/* user 运行的时间 */</span></div><div class="line">        time_value_t    system_time;    <span class="comment">/* system 运行的时间 */</span></div><div class="line">        integer_t       cpu_usage;      <span class="comment">/* CPU 使用百分比 */</span></div><div class="line">        policy_t        policy;         <span class="comment">/* 有效的计划策略 */</span></div><div class="line">        integer_t       run_state;      <span class="comment">/* run state (see below) */</span></div><div class="line">        integer_t       flags;          <span class="comment">/* various flags (see below) */</span></div><div class="line">        integer_t       suspend_count;  <span class="comment">/* suspend count for thread */</span></div><div class="line">        integer_t       sleep_time;     <span class="comment">/* 休眠时间 */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>通过遍历所有线程，去查看是哪个线程的 CPU 使用百分比过高了。如果某个线程的CPU使用率长时间都比较高的话，比如超过了90%，就能够推断出它是有问题的。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 轮询检查多个线程 CPU 情况</span></div><div class="line">+ (<span class="keyword">void</span>)updateCPU &#123;</div><div class="line">    thread_act_array_t threads;</div><div class="line">    mach_msg_type_number_t threadCount = <span class="number">0</span>;</div><div class="line">    <span class="keyword">const</span> task_t thisTask = mach_task_self();</div><div class="line">    kern_return_t kr = task_threads(thisTask, &amp;threads, &amp;threadCount);</div><div class="line">    <span class="keyword">if</span> (kr != KERN_SUCCESS) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++) &#123;</div><div class="line">        thread_info_data_t threadInfo;</div><div class="line">        thread_basic_info_t threadBaseInfo;</div><div class="line">        mach_msg_type_number_t threadInfoCount = THREAD_INFO_MAX;</div><div class="line">        <span class="keyword">if</span> (thread_info((thread_act_t)threads[i], THREAD_BASIC_INFO, (thread_info_t)threadInfo, &amp;threadInfoCount) == KERN_SUCCESS) &#123;</div><div class="line">            threadBaseInfo = (thread_basic_info_t)threadInfo;</div><div class="line">            <span class="keyword">if</span> (!(threadBaseInfo-&gt;flags &amp; TH_FLAGS_IDLE)) &#123;</div><div class="line">                integer_t cpuUsage = threadBaseInfo-&gt;cpu_usage / <span class="number">10</span>;</div><div class="line">                <span class="keyword">if</span> (cpuUsage &gt; <span class="number">90</span>) &#123;</div><div class="line">                    <span class="comment">//cup 消耗大于 90 时打印和记录堆栈</span></div><div class="line">                    <span class="built_in">NSString</span> *reStr = smStackOfThread(threads[i]);</div><div class="line">                    <span class="comment">//记录数据库中</span></div><div class="line">                    [[[SMLagDB shareInstance] increaseWithStackString:reStr] subscribeNext:^(<span class="keyword">id</span> x) &#123;&#125;];</div><div class="line">                    <span class="built_in">NSLog</span>(<span class="string">@"CPU useage overload thread stack：\n%@"</span>,reStr);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="IO操作优化"><a href="#IO操作优化" class="headerlink" title="IO操作优化"></a>IO操作优化</h4><p>任何的 I/O 操作，都会破坏掉低功耗状态。针对优化 I/O 操作，普遍的做法是，将碎片化的数据磁盘存储操作延后，先在内存中聚合，然后再进行磁盘存储。碎片化的数据进行聚合，在内存中进行存储的机制，可以使用系统自带的<code>NSCache</code>来完成。</p>
+<p><code>NSCache</code>是线程安全的，<code>NSCache</code>会在到达预设缓存空间值时清理缓存，这时会触发<code>cache:willEvictObject:</code>方法的回调，在这个回调里就可以对数据进行 I/O 操作，达到将聚合的数据 I/O 延后的目的。I/O 操作的次数减少了，对电量的消耗也就减少了。比如<code>SDWebImage</code>，在图片的读取缓存处理时没有直接使用I/O，而是使用了<code>NSCache</code>：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">UIImage</span> *)imageFromMemoryCacheForKey:(<span class="built_in">NSString</span> *)key &#123;</div><div class="line">    <span class="keyword">return</span> [<span class="keyword">self</span>.memCache objectForKey:key];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">UIImage</span> *)imageFromDiskCacheForKey:(<span class="built_in">NSString</span> *)key &#123;</div><div class="line">    <span class="comment">// 检查 NSCache 里是否有</span></div><div class="line">    <span class="built_in">UIImage</span> *image = [<span class="keyword">self</span> imageFromMemoryCacheForKey:key];</div><div class="line">    <span class="keyword">if</span> (image) &#123;</div><div class="line">        <span class="keyword">return</span> image;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 从磁盘里读</span></div><div class="line">    <span class="built_in">UIImage</span> *diskImage = [<span class="keyword">self</span> diskImageForKey:key];</div><div class="line">    <span class="keyword">if</span> (diskImage &amp;&amp; <span class="keyword">self</span>.shouldCacheImagesInMemory) &#123;</div><div class="line">        <span class="built_in">NSUInteger</span> cost = SDCacheCostForImage(diskImage);</div><div class="line">        [<span class="keyword">self</span>.memCache setObject:diskImage forKey:key cost:cost];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> diskImage;</div></pre></td></tr></table></figure>
+<p><code>SDWebImage</code>将获取的图片数据都放到了<code>NSCache</code>里，利用<code>NSCache</code>缓存策略进行图片缓存内存的管理。每次读取图片时，会检查<code>NSCache</code>是否已经存在图片数据：如果有，就直接从<code>NSCache</code>里读取；如果没有，才会通过 I/O 读取磁盘缓存图片。</p>
+<p>使用了<code>NSCache</code>内存缓存能够有效减少 I/O 操作，你在写类似功能时也可以采用这样的思路，让你的 App 更省电。</p>
+<h4 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h4><p>对于大量数据的复杂计算，应该把数据传到服务器去处理，如果必须要在 App 内处理复杂数据计算，可以通过 GCD 的 <code>dispatch_block_create_with_qos_class</code>方法指定队列的<code>Qos</code>为<code>QOS_CLASS_UTILITY</code>，将计算工作放到这个队列的<code>block</code>里。在 <code>QOS_CLASS_UTILITY</code>这种 <code>Qos</code>模式下，系统针对大量数据的计算，以及复杂数据处理专门做了电量优化。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2019/09/09/App电量消耗优化/" title="App电量消耗优化">https://zhengry.github.io/2019/09/09/App电量消耗优化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/电量/" rel="tag"># 电量</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/09/iOS中加载含有电子签章的PDF/" rel="next" title="iOS中加载含有电子签章的PDF">
+                <i class="fa fa-chevron-left"></i> iOS中加载含有电子签章的PDF
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">121</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何获取电量"><span class="nav-number">1.</span> <span class="nav-text">如何获取电量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#诊断CPU造成的电量消耗"><span class="nav-number">2.</span> <span class="nav-text">诊断CPU造成的电量消耗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO操作优化"><span class="nav-number">3.</span> <span class="nav-text">IO操作优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他优化"><span class="nav-number">4.</span> <span class="nav-text">其他优化</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
