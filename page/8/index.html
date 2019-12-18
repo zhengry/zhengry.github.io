@@ -1591,16 +1591,12 @@
 
       
         
-          <p>利用NSOperation和NSOperationQueue实现多线程步骤：</p>
-<ol>
-<li><p>先将需要执行的操作封装到一个NSOperation对象中</p>
-</li>
-<li><p>将NSOperation对象添加到NSOperationQueue中</p>
-</li>
-<li><p>系统会自动将NSOperation中封装的操作放到一条新线程中执行</p>
-</li>
-</ol>
-<p>默认情况下，NSOperation并不具备封装操作的能力，必须使用它的子类，使用NSOperation子类的方法有以下三种：
+          <h4 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h4><p><code>NSOperation</code>是基于GCD实现的，相对GCD来说，可控性更强，并且可以添加操作依赖。</p>
+<p><code>NSOperation</code>是一个抽象基类，可以为子类提供有用且线程安全地建立状态、优先级、依赖和取消等操作。</p>
+<p>默认情况下，调用<code>NSOperation</code>的<code>start</code>方法后并不会开辟一条新线程去执行操作，而是<strong>在当前线程同步执行操作</strong>。</p>
+<h4 id="使用NSOperation"><a href="#使用NSOperation" class="headerlink" title="使用NSOperation"></a>使用NSOperation</h4><p>使用<code>NSOperation</code>有两种方式：</p>
+<ul>
+<li>使用系统子类：<code>NSBlockOperation</code>、<code>NSInvocationOperation</code>（因为ARC下不是类型安全的，swift中废弃该类）
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2016/07/23/多线程之NSOperation:NSOperationQueue/#more" rel="contents">
