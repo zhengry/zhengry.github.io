@@ -305,6 +305,161 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/13/Swift类初始化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/10/13/Swift类初始化/" itemprop="url">Swift类初始化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-13T00:00:00+08:00">2016-10-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="默认初始化方法"><a href="#默认初始化方法" class="headerlink" title="默认初始化方法"></a>默认初始化方法</h4><ol>
+<li>类没有成员初始化方法；</li>
+<li>类拥有空初始化方法条件：类的所有属性都有默认值 &amp;&amp; 没有自定义初始化方法。</li>
+</ol>
+<h4 id="自定义初始化方法"><a href="#自定义初始化方法" class="headerlink" title="自定义初始化方法"></a>自定义初始化方法</h4><ol>
+<li><p>指定初始化方法</p>
+<ul>
+<li>指定初始化方法用关键字<code>init</code>表示；</li>
+<li>如果有父类，则子类的指定初始化方法必须调用父类的指定初始化方法。</li>
+<li>子类在初始化方法的最后调用父类的初始化方法。因为子类的初始化方法负责为自己引入的所有属性赋值，子类属性赋值后，再调用父类的初始化方法，以便父类初始化自己的属性。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/10/13/Swift类初始化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/08/Swift结构体初始化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1640,155 +1795,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/07/18/Swift的ARC机制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/07/18/Swift的ARC机制/" itemprop="url">Swift的ARC机制</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-18T00:00:00+08:00">2016-07-18</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Swift中的ARC机制和Objective-C类似。每次创建一个类的新的实例的时候，ARC会分配一块内存在存储该实例信息，内存中会包含实例的类型信息以及这个实例所有相关的存储型属性的值。当实例不再被使用时，ARC会释放所占用的内存。</p>
-<p>鉴定一个实例是否被释放的方法：<br>在析构函数中添加打印信息，若实例被置为nil后，没有打印析构函数信息，则实例仍然存在引用，没有被销毁。</p>
-<h4 id="解决类实例之间的循环强引用"><a href="#解决类实例之间的循环强引用" class="headerlink" title="解决类实例之间的循环强引用"></a>解决类实例之间的循环强引用</h4><p>根据使用场景不同有三种解决方法：弱引用、无主引用和<em>无主引用与隐式解析可选属性结合</em>。</p>
-<p>弱引用和无主引用都不会保持所引用的实例，从而实现在循环引用中的一个实例引用而另一个实例不保持强引用。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/07/18/Swift的ARC机制/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1840,7 +1846,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">122</span>
+                    <span class="site-state-item-count">123</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
