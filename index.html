@@ -305,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/26/2019-09-26-H5页面调起键盘后页面变大的问题/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/26/H5页面调起键盘后页面变大的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -324,7 +324,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/26/2019-09-26-H5页面调起键盘后页面变大的问题/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2019/09/26/H5页面调起键盘后页面变大的问题/" itemprop="url">未命名</a></h1>
         
 
         <div class="post-meta">
@@ -374,20 +374,16 @@
 
       
         
-          
-            <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-wiedth</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
+          <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-wiedth</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> jScript = <span class="string">"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"</span></div></pre></td></tr></table></figure>
-<p>但是在有输入框的H5页面，调起键盘后仍然会使页面放大、输入框被顶出页面顶部等问题。解决方法是，在适配屏幕的JS中添加 <strong>initial-scale</strong>=1.0, <strong>minimum-scale</strong>=1.0, <strong>maximum-scale</strong>=1.0`，使初始缩放为1倍（即不缩放），且禁止用户缩放（因为最大最小缩放都为1倍）。完整的适配JS代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> jScript = <span class="string">"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'); document.getElementsByTagName('head')[0].appendChild(meta);"</span></div></pre></td></tr></table></figure>
-<p>viewport属性：</p>
-<p>width：viewport的宽度</p>
-<p>height：viewport的高度</p>
-<p>initial-scale：初始的缩放比例</p>
-<p>minimum-scale：允许用户缩放到的最小比例</p>
-<p>maximum-scale：允许用户缩放到的最大比例</p>
-<p>user-scalable - 用户是否可以手动缩放</p>
-
-          
+<p>但是在有输入框的H5页面，调起键盘后仍然会使页面放大、输入框被顶出页面顶部等问题。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/26/H5页面调起键盘后页面变大的问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
