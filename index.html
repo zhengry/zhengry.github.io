@@ -305,6 +305,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/10/09/HTTPS通信/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/09/HTTPS通信/" itemprop="url">HTTPS</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T00:00:00+08:00">2019-10-09</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络/" itemprop="url" rel="index"><span itemprop="name">网络</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="HTTP缺点"><a href="#HTTP缺点" class="headerlink" title="HTTP缺点"></a>HTTP缺点</h4><p>HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：</p>
+<ul>
+<li>通信使用明文，内容可能会被窃听</li>
+<li>不验证通信方的身份，有可能是伪装的通信方</li>
+<li>无法证明报文的完整性（正确性），可能已经被篡改</li>
+<li>即使通信内容经过加密处理，加密后的通信内容还是会被看到</li>
+</ul>
+<h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。</p>
+<p>HTTPS并非是应用层的一种新协议。只是HTTP通信协议部分用SSL和TLS协议代替而已。通常，HTTP直接和TCP通信。当使用SSL时，则是先和SSL通信，再由SSL和TCP通信。SSL是独立于HTTP的协议。其他运行在应用层的SMTP和Telnet等协议也可以配合SSL协议使用。</p>
+<h4 id="加密技术：共享秘钥加密-VS-公开秘钥加密"><a href="#加密技术：共享秘钥加密-VS-公开秘钥加密" class="headerlink" title="加密技术：共享秘钥加密 VS 公开秘钥加密"></a>加密技术：共享秘钥加密 VS 公开秘钥加密</h4><blockquote>
+<p>共享秘钥加密（对称秘钥加密）：加密和解密使用同一个秘钥。</p>
+<p>共享秘钥的难题在于：以共享秘钥方式加密时需要将秘钥发送给对方，但是无法保证发送过程不被监听或篡改，无法安全发送秘钥。</p>
+<p>公开秘钥加密（非对称秘钥加密）：使用一对非对称的秘钥。一把叫做私有秘钥，一把叫做公开秘钥。私有秘钥不能让其他人知道，而公开秘钥可以随意发布，任何人都可以获得。</p>
+<p>使用公开秘钥加密方式时，发送密文的一方使用对方的公开秘钥进行加密，对方收到加密的信息后，再用自己的私有秘钥进行解密。</p>
+<p>这种方式不需要发送用来解密的私钥，也不必担心秘钥被窃听。</p>
+</blockquote>
+<p>公开秘钥比共享秘钥的处理速度要慢。</p>
+<h4 id="HTTPS采用混合加密机制"><a href="#HTTPS采用混合加密机制" class="headerlink" title="HTTPS采用混合加密机制"></a>HTTPS采用混合加密机制</h4><p>HTTPS通信时，先使用公开秘钥加密方式来交换共享秘钥，再使用共享秘钥进行报文通信。</p>
+<p>这个过程中，唯一的问题在于使用公开秘钥加密方式传输共享秘钥时，无法确保传输的秘钥的正确性。为了解决这个问题，使用了由数字证书认证机构（CA）和其相关机构颁发的公开秘钥证书。</p>
+<h4 id="证书的申请和验证"><a href="#证书的申请和验证" class="headerlink" title="证书的申请和验证"></a>证书的申请和验证</h4><p>服务器向认证机构发出公钥申请，证书机构对申请的公钥进行数字签名，将公钥放入公钥证书后绑定在一起。服务器将这个公钥证书发送给客户端，客户端使用证书机构的公钥对证书上的数字签名进行验证。验证通过则证明服务端的公钥是真实有效的。</p>
+<h4 id="HTTPS通信过程"><a href="#HTTPS通信过程" class="headerlink" title="HTTPS通信过程"></a>HTTPS通信过程</h4><p><img src="../images/HTTPS通信过程.png" alt="HTTPS通信过程"></p>
+<ol>
+<li>客户端发送Client Hello报文开始SSL通信。报文包含客户端支持的SSL的指定版本、加密组件（所使用的加密散发和秘钥长度），产生一个随机密码串<code>client_random</code>；</li>
+<li>服务器可以进行SSL通信时，会以Server Hello报文作为应答，报文中包含SSL版本及加密组件、公开秘钥证书和一个随机密码串<code>server_random</code>。</li>
+<li>客户端使用CA的公钥验证公开秘钥证书的数字签名的有效性，确认有效后从数字签名获得服务器的公开秘钥，并使用该公钥加密<code>pre-master secret</code>发送给服务端。</li>
+<li>服务器用私钥解密出<code>pre-master secret</code></li>
+<li>客户端和服务端分别使用<code>client_random</code>、<code>server_random</code>、<code>pre-master secret</code>生成<code>master secret</code>用于对称加密通信。</li>
+</ol>
+<p>服务器和客户端的Finished报文交换完毕后，SSL连接建立完成，通信会收到SSL的保护。从此开始HTTP请求。</p>
+<h4 id="HTTPS缺点和解决方法"><a href="#HTTPS缺点和解决方法" class="headerlink" title="HTTPS缺点和解决方法"></a>HTTPS缺点和解决方法</h4><p>HTTPS通信的缺点是使用SSL时，通信速度变慢。</p>
+<p>变慢分为两种：</p>
+<ul>
+<li>和HTTP相比，SSL通信部分消耗网络资源导致通信慢；</li>
+<li>由于HTTPS需要做服务端、客户端双方加密及解密处理，会大量消耗CPU及内存等资源，导致处理速度变慢。</li>
+</ul>
+<p>解决HTTPS通信速度慢的方法：</p>
+<ul>
+<li>使用SSL加速器（硬件加速）</li>
+<li>对非敏感信息使用HTTP通信，对包含个人信息或有特殊权限的敏感数据时使用HTTPS通信。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/26/H5页面调起键盘后页面变大的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1603,152 +1784,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/06/10/ableView的tableHeaderView从xib加载时frame不能自适应的问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Baylee">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/10/ableView的tableHeaderView从xib加载时frame不能自适应的问题/" itemprop="url">TableView的tableHeaderView从xib加载时frame不能自适应的问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">2019-06-10</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift开发笔记/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><code>tableView</code>的<code>tableHeaderView</code>从xib加载时，使用xib加载的默认尺寸，而不设置frame。当<code>tableView</code>还有个<code>sectionHeader</code>时，<code>tableHeaderView</code>在iOS12上显示正常，但在iOS10、11中，<code>tableHeaderView</code>会覆盖cell，并且<code>sectionHeader</code>会显示在<code>tableView</code>的最上面。而给<code>tableViewHeader</code>视图设置frame时，小屏幕上往往要设置远大于实际需要高度才能正常显示。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/10/ableView的tableHeaderView从xib加载时frame不能自适应的问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1800,7 +1835,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">123</span>
+                    <span class="site-state-item-count">124</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1916,7 +1951,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">30</span>
+                      
+                    
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

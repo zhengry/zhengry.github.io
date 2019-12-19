@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：
+
+通信使用明文，内容可能会被窃听
+不验证通信方的身份，有可能是伪装的通信方
+无法证明报文的完整性（正确性），可能已经被篡改
+即使通信内容经过加密处理，加密后的通信内容还是会被看到
+
+什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTPS">
+<meta property="og:url" content="https://zhengry.github.io/2019/10/09/HTTPS通信/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：
+
+通信使用明文，内容可能会被窃听
+不验证通信方的身份，有可能是伪装的通信方
+无法证明报文的完整性（正确性），可能已经被篡改
+即使通信内容经过加密处理，加密后的通信内容还是会被看到
+
+什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
+<meta property="og:image" content="https://zhengry.github.io/../images/HTTPS通信过程.png">
+<meta property="og:updated_time" content="2019-12-19T02:18:22.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTPS">
+<meta name="twitter:description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：
+
+通信使用明文，内容可能会被窃听
+不验证通信方的身份，有可能是伪装的通信方
+无法证明报文的完整性（正确性），可能已经被篡改
+即使通信内容经过加密处理，加密后的通信内容还是会被看到
+
+什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
+<meta name="twitter:image" content="https://zhengry.github.io/../images/HTTPS通信过程.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2019/10/09/HTTPS通信/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>HTTPS | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/10/09/HTTPS通信/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HTTPS</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-09T00:00:00+08:00">2019-10-09</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络/" itemprop="url" rel="index"><span itemprop="name">网络</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="HTTP缺点"><a href="#HTTP缺点" class="headerlink" title="HTTP缺点"></a>HTTP缺点</h4><p>HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：</p>
+<ul>
+<li>通信使用明文，内容可能会被窃听</li>
+<li>不验证通信方的身份，有可能是伪装的通信方</li>
+<li>无法证明报文的完整性（正确性），可能已经被篡改</li>
+<li>即使通信内容经过加密处理，加密后的通信内容还是会被看到</li>
+</ul>
+<h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。</p>
+<p>HTTPS并非是应用层的一种新协议。只是HTTP通信协议部分用SSL和TLS协议代替而已。通常，HTTP直接和TCP通信。当使用SSL时，则是先和SSL通信，再由SSL和TCP通信。SSL是独立于HTTP的协议。其他运行在应用层的SMTP和Telnet等协议也可以配合SSL协议使用。</p>
+<h4 id="加密技术：共享秘钥加密-VS-公开秘钥加密"><a href="#加密技术：共享秘钥加密-VS-公开秘钥加密" class="headerlink" title="加密技术：共享秘钥加密 VS 公开秘钥加密"></a>加密技术：共享秘钥加密 VS 公开秘钥加密</h4><blockquote>
+<p>共享秘钥加密（对称秘钥加密）：加密和解密使用同一个秘钥。</p>
+<p>共享秘钥的难题在于：以共享秘钥方式加密时需要将秘钥发送给对方，但是无法保证发送过程不被监听或篡改，无法安全发送秘钥。</p>
+<p>公开秘钥加密（非对称秘钥加密）：使用一对非对称的秘钥。一把叫做私有秘钥，一把叫做公开秘钥。私有秘钥不能让其他人知道，而公开秘钥可以随意发布，任何人都可以获得。</p>
+<p>使用公开秘钥加密方式时，发送密文的一方使用对方的公开秘钥进行加密，对方收到加密的信息后，再用自己的私有秘钥进行解密。</p>
+<p>这种方式不需要发送用来解密的私钥，也不必担心秘钥被窃听。</p>
+</blockquote>
+<p>公开秘钥比共享秘钥的处理速度要慢。</p>
+<h4 id="HTTPS采用混合加密机制"><a href="#HTTPS采用混合加密机制" class="headerlink" title="HTTPS采用混合加密机制"></a>HTTPS采用混合加密机制</h4><p>HTTPS通信时，先使用公开秘钥加密方式来交换共享秘钥，再使用共享秘钥进行报文通信。</p>
+<p>这个过程中，唯一的问题在于使用公开秘钥加密方式传输共享秘钥时，无法确保传输的秘钥的正确性。为了解决这个问题，使用了由数字证书认证机构（CA）和其相关机构颁发的公开秘钥证书。</p>
+<h4 id="证书的申请和验证"><a href="#证书的申请和验证" class="headerlink" title="证书的申请和验证"></a>证书的申请和验证</h4><p>服务器向认证机构发出公钥申请，证书机构对申请的公钥进行数字签名，将公钥放入公钥证书后绑定在一起。服务器将这个公钥证书发送给客户端，客户端使用证书机构的公钥对证书上的数字签名进行验证。验证通过则证明服务端的公钥是真实有效的。</p>
+<h4 id="HTTPS通信过程"><a href="#HTTPS通信过程" class="headerlink" title="HTTPS通信过程"></a>HTTPS通信过程</h4><p><img src="../images/HTTPS通信过程.png" alt="HTTPS通信过程"></p>
+<ol>
+<li>客户端发送Client Hello报文开始SSL通信。报文包含客户端支持的SSL的指定版本、加密组件（所使用的加密散发和秘钥长度），产生一个随机密码串<code>client_random</code>；</li>
+<li>服务器可以进行SSL通信时，会以Server Hello报文作为应答，报文中包含SSL版本及加密组件、公开秘钥证书和一个随机密码串<code>server_random</code>。</li>
+<li>客户端使用CA的公钥验证公开秘钥证书的数字签名的有效性，确认有效后从数字签名获得服务器的公开秘钥，并使用该公钥加密<code>pre-master secret</code>发送给服务端。</li>
+<li>服务器用私钥解密出<code>pre-master secret</code></li>
+<li>客户端和服务端分别使用<code>client_random</code>、<code>server_random</code>、<code>pre-master secret</code>生成<code>master secret</code>用于对称加密通信。</li>
+</ol>
+<p>服务器和客户端的Finished报文交换完毕后，SSL连接建立完成，通信会收到SSL的保护。从此开始HTTP请求。</p>
+<h4 id="HTTPS缺点和解决方法"><a href="#HTTPS缺点和解决方法" class="headerlink" title="HTTPS缺点和解决方法"></a>HTTPS缺点和解决方法</h4><p>HTTPS通信的缺点是使用SSL时，通信速度变慢。</p>
+<p>变慢分为两种：</p>
+<ul>
+<li>和HTTP相比，SSL通信部分消耗网络资源导致通信慢；</li>
+<li>由于HTTPS需要做服务端、客户端双方加密及解密处理，会大量消耗CPU及内存等资源，导致处理速度变慢。</li>
+</ul>
+<p>解决HTTPS通信速度慢的方法：</p>
+<ul>
+<li>使用SSL加速器（硬件加速）</li>
+<li>对非敏感信息使用HTTP通信，对包含个人信息或有特殊权限的敏感数据时使用HTTPS通信。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2019/10/09/HTTPS通信/" title="HTTPS">https://zhengry.github.io/2019/10/09/HTTPS通信/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络基础/" rel="tag"># 网络基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/26/H5页面调起键盘后页面变大的问题/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">124</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP缺点"><span class="nav-number">1.</span> <span class="nav-text">HTTP缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是HTTPS"><span class="nav-number">2.</span> <span class="nav-text">什么是HTTPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加密技术：共享秘钥加密-VS-公开秘钥加密"><span class="nav-number">3.</span> <span class="nav-text">加密技术：共享秘钥加密 VS 公开秘钥加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS采用混合加密机制"><span class="nav-number">4.</span> <span class="nav-text">HTTPS采用混合加密机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#证书的申请和验证"><span class="nav-number">5.</span> <span class="nav-text">证书的申请和验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS通信过程"><span class="nav-number">6.</span> <span class="nav-text">HTTPS通信过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS缺点和解决方法"><span class="nav-number">7.</span> <span class="nav-text">HTTPS缺点和解决方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
