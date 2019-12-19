@@ -104,20 +104,20 @@
 
 
   <meta name="description" content="关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。iOS中有两个与之相关的运行时函数：objc_setAssociatedObject 和objc_getAssociatedObject。
-在iOS中，关联常用来实现以下功能：在类的定义之外为类增加额外的存储空间。
+在iOS中，关联常用来实现的功能——在类的定义之外为类增加额外的存储空间。
 使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS之关联">
 <meta property="og:url" content="https://zhengry.github.io/2016/09/23/iOS之关联/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。iOS中有两个与之相关的运行时函数：objc_setAssociatedObject 和objc_getAssociatedObject。
-在iOS中，关联常用来实现以下功能：在类的定义之外为类增加额外的存储空间。
+在iOS中，关联常用来实现的功能——在类的定义之外为类增加额外的存储空间。
 使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制">
-<meta property="og:updated_time" content="2018-05-03T02:10:18.065Z">
+<meta property="og:updated_time" content="2019-12-19T01:37:32.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS之关联">
 <meta name="twitter:description" content="关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。iOS中有两个与之相关的运行时函数：objc_setAssociatedObject 和objc_getAssociatedObject。
-在iOS中，关联常用来实现以下功能：在类的定义之外为类增加额外的存储空间。
+在iOS中，关联常用来实现的功能——在类的定义之外为类增加额外的存储空间。
 使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制">
 
 
@@ -396,23 +396,23 @@
 
       
         <p>关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。iOS中有两个与之相关的运行时函数：<code>objc_setAssociatedObject</code> 和<code>objc_getAssociatedObject</code>。</p>
-<p>在iOS中，关联常用来实现以下功能：<strong>在类的定义之外为类增加额外的存储空间</strong>。</p>
+<p>在iOS中，关联常用来实现的功能——<strong>在类的定义之外为类增加额外的存储空间</strong>。</p>
 <p>使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制兼容性的时候是非常有用。</p>
 <p>关联是基于关键字的，因此，我们可以为任何对象增加任意多的关联，每个都使用不同的关键字即可。关联是可以保证被关联的对象在关联对象的整个生命周期都是可用的。<a id="more"></a></p>
 <p>关联相关操作有：创建关联、获取关联相关对象、断开关联。</p>
-<h4 id="创建关联"><a href="#创建关联" class="headerlink" title="创建关联"></a>创建关联</h4><p>创建关联要使用到Objective-C的运行时函数：objc_setAssociatedObject来把一个对象与另外一个对象进行关联。该函数需要四个参数：源对象，关键字，关联的对象和一个关联策略。当然，此处的关键字和关联策略是需要进一步讨论的。</p>
+<h4 id="创建关联"><a href="#创建关联" class="headerlink" title="创建关联"></a>创建关联</h4><p>创建关联要使用到Objective-C的运行时函数：<code>objc_setAssociatedObject</code>来把一个对象与另外一个对象进行关联。该函数需要四个参数：源对象，关键字，关联的对象和一个关联策略。当然，此处的关键字和关联策略是需要进一步讨论的。</p>
 <ul>
-<li><p>关键字是一个void类型的指针。每一个关联的关键字必须是唯一的。通常都是会采用静态变量来作为关键字。</p>
+<li><p>关键字是一个<code>void</code>类型的指针。每一个关联的关键字必须是唯一的。通常都是会采用静态变量来作为关键字。</p>
 </li>
 <li><p>关联策略表明了相关的对象是通过赋值，保留引用还是复制的方式进行关联的；还有这种关联是原子的还是非原子的。这里的关联策略和声明属性时的很类似。这种关联策略是通过使用预先定义好的常量来表示的。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">char</span> myViewKey;  </div><div class="line"><span class="built_in">NSArray</span> * array =[[<span class="built_in">NSArray</span> alloc] initWidthObjects:<span class="string">@"One"</span>, <span class="string">@"Two"</span>, <span class="string">@"Three"</span>, <span class="literal">nil</span>];  </div><div class="line"></div><div class="line"><span class="comment">/*为了演示的目的，这里使用initWithFormat:来确保字符串可以被销毁*/</span></div><div class="line"><span class="built_in">NSString</span> * myView = [[<span class="built_in">NSString</span> alloc] initWithFormat:<span class="string">@"@"</span>,<span class="string">@"First three numbers"</span>];  </div><div class="line">objc_setAssociatedObject(array, &amp;myViewKey, myView, OBJC_ASSOCIATION_RETAIN);     </div><div class="line">[overview release];  </div><div class="line"></div><div class="line"><span class="comment">/*myView仍然是可用的(被alloc，引用计数为1，被retain，引用计数+1，被release一次，引用计数-1，现在的引用计数为1) */</span></div><div class="line">[array release];  </div><div class="line"><span class="comment">//myView 不可用</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h4 id="获取相关联的对象"><a href="#获取相关联的对象" class="headerlink" title="获取相关联的对象"></a>获取相关联的对象</h4><p>​ 获取相关联的对象时使用Objective-C函数<code>objc_getAssociatedObject</code>。接着上面列表的代码，我们可以使用如下代码来获取与array相关联的字符串：</p>
+<h4 id="获取相关联的对象"><a href="#获取相关联的对象" class="headerlink" title="获取相关联的对象"></a>获取相关联的对象</h4><p> 获取相关联的对象时使用Objective-C函数<code>objc_getAssociatedObject</code>。接着上面列表的代码，我们可以使用如下代码来获取与array相关联的字符串：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSString</span> * associatedObject = (<span class="built_in">NSString</span> *)objc_getAssociatedObject(array, &amp;myViewKey);</div></pre></td></tr></table></figure>
-<h4 id="断开关联"><a href="#断开关联" class="headerlink" title="断开关联"></a>断开关联</h4><p>断开关联是使用objc_setAssociatedObject函数，传入nil值即可。</p>
+<h4 id="断开关联"><a href="#断开关联" class="headerlink" title="断开关联"></a>断开关联</h4><p>断开关联是使用<code>objc_setAssociatedObject</code>函数，传入<code>nil</code>值即可。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">objc_setAssociatedObject(array, &amp;overviewKey, <span class="literal">nil</span>, OBJC_ASSOCIATION_ASSIGN); <span class="comment">/*被关联的对象为nil，此时关联策略也就无关紧要了*/</span></div></pre></td></tr></table></figure>
-<p>使用函数objc_removeAssociatedObjects可以断开所有关联。通常情况下不建议使用这个函数，因为他会断开所有关联。只有在需要把对象恢复到“原始状态”的时候才会使用这个函数。</p>
+<p>使用函数<code>objc_removeAssociatedObjects</code>可以断开所有关联。通常情况下不建议使用这个函数，因为他会断开所有关联。只有在需要把对象恢复到“原始状态”的时候才会使用这个函数。</p>
 
       
     </div>

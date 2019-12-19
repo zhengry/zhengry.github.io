@@ -106,7 +106,10 @@
   <meta name="description" content="在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。
 IP协议（网络层）
 TCP/IP协议族中的IP指的的就是网际协议（不是IP地址哦）。
-IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。">
+IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。
+
+IP地址：指明了节点被分配到的地址。
+MAC地址：指网卡所属的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP基础">
 <meta property="og:url" content="https://zhengry.github.io/2015/09/27/HTTP基础/index.html">
@@ -114,14 +117,20 @@ IP协议的作用是把各种数据包传送给对方。而要保证确实传送
 <meta property="og:description" content="在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。
 IP协议（网络层）
 TCP/IP协议族中的IP指的的就是网际协议（不是IP地址哦）。
-IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。">
-<meta property="og:updated_time" content="2018-05-03T02:08:04.985Z">
+IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。
+
+IP地址：指明了节点被分配到的地址。
+MAC地址：指网卡所属的">
+<meta property="og:updated_time" content="2019-12-19T01:36:50.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP基础">
 <meta name="twitter:description" content="在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。
 IP协议（网络层）
 TCP/IP协议族中的IP指的的就是网际协议（不是IP地址哦）。
-IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。">
+IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。
+
+IP地址：指明了节点被分配到的地址。
+MAC地址：指网卡所属的">
 
 
 
@@ -401,14 +410,14 @@ IP协议的作用是把各种数据包传送给对方。而要保证确实传送
         <p>在TCP/IP协议族中跟HTTP协议有三个密不可分的协议。</p>
 <h4 id="IP协议（网络层）"><a href="#IP协议（网络层）" class="headerlink" title="IP协议（网络层）"></a>IP协议（网络层）</h4><ol>
 <li><p>TCP/IP协议族中的IP指的的就是网际<strong>协议</strong>（不是IP地址哦）。</p>
-<p>IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。<a id="more"></a></p>
+<p>IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。</p>
 <ul>
 <li>IP地址：指明了节点被分配到的地址。</li>
 <li>MAC地址：指网卡所属的固定地址。</li>
 </ul>
 <p><strong>IP地址可以和MAC地址进行配对。IP地址可变换，但MAC地址基本不会更改。</strong></p>
 </li>
-<li><p>使用ARP协议凭借MAC地址进行通信</p>
+<li><p>使用ARP协议凭借MAC地址进行通信<a id="more"></a></p>
 <p>IP间的通信依赖MAC地址。网络上通信的双方很少在同一局域网内，通常要经过多台计算机和网络设备中转才能连接到对方。而在进行中转时，会利用下一站中转设备的MAC地址来搜索下一个中转目标。这时就需要采用ARP协议（Address Resolution Protocol）。ARP是一种用以解析地址的协议，根据通信方的IP地址就可以反查出对应的MAC地址。</p>
 </li>
 <li><p>路由选择</p>

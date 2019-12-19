@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="数组的初始化方法总结
 12345678910// 静态初始化 var arr = [&quot;iOS&quot;, &quot;Android&quot;] // 动态初始化var arr1 = Array&amp;lt;String&amp;gt;()var arr2:Array&amp;lt;String&amp;gt; = []var arr3 = [String]()var arr4:[String] = [] // 有默认值的初始化 var arr5 =">
-<meta property="og:updated_time" content="2018-10-10T09:41:50.820Z">
+<meta property="og:updated_time" content="2019-12-19T01:47:28.464Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift Debug">
 <meta name="twitter:description" content="数组的初始化方法总结
@@ -402,7 +402,7 @@
 <li><p>Binary operator ‘*’ cannot be applied to operands of type ‘CGFloat’ and ‘Int’</p>
 <p>使用情景是：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span> ... <span class="number">3</span> &#123;</div><div class="line">    <span class="keyword">let</span> line = <span class="type">UIView</span>(frame: <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="type">CELL_WIDTH</span> * <span class="number">3</span> * i, width: (collection?.bounds.width)!, height: <span class="number">1</span>))<span class="comment">//这里CELL_WIDTH为CGFloat类型，报错</span></div><div class="line">            </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>错误点在于：CGRect的各项参数都是CGFloat类型，需要把Int类型转换成CGFloat类型：</p>
+<p>错误点在于：CGRect的各项参数都是CGFloat类型，需要把<code>Int</code>类型转换成<code>CGFloat</code>类型：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">y: <span class="type">CELL_WIDTH</span> * <span class="type">CGFloat</span>(<span class="number">3</span> * i)</div></pre></td></tr></table></figure>
 </li>
 <li><p>多维数组初始化</p>

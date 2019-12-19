@@ -109,7 +109,7 @@
 <meta property="og:url" content="https://zhengry.github.io/2015/05/28/iOS中的一些UI问题总结/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="tableView使用section，sectionHeader从section = 1开始展示的问题：实现heightForHeaderInSection代理方法，return一个高度即可解决。">
-<meta property="og:updated_time" content="2018-05-03T02:10:50.517Z">
+<meta property="og:updated_time" content="2019-12-19T01:39:53.863Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS中的一些UI问题总结">
 <meta name="twitter:description" content="tableView使用section，sectionHeader从section = 1开始展示的问题：实现heightForHeaderInSection代理方法，return一个高度即可解决。">
@@ -391,16 +391,15 @@
       
         <h5 id="tableView使用section，sectionHeader从section-1开始展示的问题："><a href="#tableView使用section，sectionHeader从section-1开始展示的问题：" class="headerlink" title="tableView使用section，sectionHeader从section = 1开始展示的问题："></a>tableView使用section，sectionHeader从section = 1开始展示的问题：</h5><p>实现<code>heightForHeaderInSection</code>代理方法，return一个高度即可解决。<a id="more"></a></p>
 <h5 id="label高度自适应："><a href="#label高度自适应：" class="headerlink" title="label高度自适应："></a>label高度自适应：</h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">CGFloat</span>)boundingRectWithStr:(<span class="built_in">NSString</span> *)str withFont:(<span class="built_in">UIFont</span> *)font</div><div class="line">&#123;</div><div class="line">    <span class="built_in">NSDictionary</span> *attribute = @&#123;<span class="built_in">NSFontAttributeName</span>: font&#125;;  </div><div class="line">    <span class="built_in">CGSize</span> retSize = [str boundingRectWithSize:<span class="built_in">CGSizeMake</span>(MAXFLOAT, Height) options:</div><div class="line"><span class="built_in">NSStringDrawingTruncatesLastVisibleLine</span>| <span class="built_in">NSStringDrawingUsesLineFragmentOrigin</span> | <span class="built_in">NSStringDrawingUsesFontLeading</span> attributes:attribute context:<span class="literal">nil</span>].size;</div><div class="line">    <span class="keyword">return</span> retSize.height;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h5 id="调用category的方法报错：selector-not-recognized"><a href="#调用category的方法报错：selector-not-recognized" class="headerlink" title="调用category的方法报错：selector not recognized:"></a>调用category的方法报错：selector not recognized:</h5><p>解决方法：Build Settings –&gt; Linking-&gt;  Other Linker Flags 中加上 -ObjC 或者-all_load </p>
+<h5 id="调用category的方法报错：selector-not-recognized"><a href="#调用category的方法报错：selector-not-recognized" class="headerlink" title="调用category的方法报错：selector not recognized:"></a>调用category的方法报错：selector not recognized:</h5><p>解决方法：Build Settings –&gt; Linking-&gt;  Other Linker Flags 中加上<code>-ObjC</code>或者<code>-all_load</code> </p>
 <p>——记得引用category文件啊！！！！——</p>
 <p>原因：</p>
 <p>之所以使用该标志，和Objective-C的一个重要特性：类别（category)有关。Unix的标准静态库实现和Objective-C的动态特性之间有一些冲突：Objective-C没有为每个函数（或者方法）定义链接符号，它 只为每个类创建链接符号。这样当在一个静态库中使用类别来扩展已有类的时候，链接器不知道如何把类原有的方法和类别中的方法整合起来，就会导致你调用类别 中的方法时，出现”selector not recognized”，也就是找不到方法定义的错误。为了解决这个问题，引入了-ObjC标志，它的作用就是将静态库中所有的和对象相关的文件都加载进 来。</p>
-<p> 本来这样就可以解决问题了，不过在64 位的Mac系统或者iOS系统下，链接器有一个bug，会导致只包含有类别的静态库无法使用-ObjC标志来加载文件。变通方法是使用-all_load 或者-force_load标志，它们的作用都是加载静态库中所有文件，不过all_load作用于所有的库，而-force_load后面必须要指定具 体的文件。</p>
+<p> 本来这样就可以解决问题了，不过在64 位的Mac系统或者iOS系统下，链接器有一个bug，会导致只包含有类别的静态库无法使用<code>-ObjC</code>标志来加载文件。变通方法是使用<code>-all_load</code> 或者<code>-force_load</code>标志，它们的作用都是加载静态库中所有文件，不过<code>all_load</code>作用于所有的库，而<code>-force_load</code>后面必须要指定具 体的文件。</p>
 <h5 id="UIScreen的bounds-frame-scale属性"><a href="#UIScreen的bounds-frame-scale属性" class="headerlink" title="UIScreen的bounds,frame,scale属性"></a>UIScreen的bounds,frame,scale属性</h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">CGRect</span> bound = [[<span class="built_in">UIScreen</span> mainScreen] bounds];  <span class="comment">// 返回的是带有状态栏的Rect  </span></div><div class="line"></div><div class="line"><span class="built_in">CGRect</span> frame = [[<span class="built_in">UIScreen</span> mainScreen] applicationFrame];  <span class="comment">// 返回的是不带有状态栏的Rect  </span></div><div class="line"></div><div class="line"><span class="keyword">float</span> scale = [[<span class="built_in">UIScreenmainScreen</span>] scale]; <span class="comment">// 得到设备的自然分辨率</span></div></pre></td></tr></table></figure>
-<p>scale属性的值有两个：</p>
-<p>scale = 1; 的时候是代表当前设备是320*480的分辨率（就是iphone4之前的设备）</p>
-<p>scale = 2; 的时候是代表分辨率为640*960的分辨率</p>
-<p>​</p>
+<p><code>scale</code>属性的值有两个：</p>
+<p><code>scale = 1;</code>的时候是代表当前设备是320*480的分辨率（就是iphone4之前的设备）</p>
+<p><code>scale = 2;</code>的时候是代表分辨率为640*960的分辨率</p>
 
       
     </div>
