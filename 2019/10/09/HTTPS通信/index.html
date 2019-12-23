@@ -124,7 +124,7 @@
 
 什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
 <meta property="og:image" content="https://zhengry.github.io/../images/HTTPS通信过程.png">
-<meta property="og:updated_time" content="2019-12-19T02:18:22.225Z">
+<meta property="og:updated_time" content="2019-12-23T02:03:01.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS">
 <meta name="twitter:description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：
@@ -419,7 +419,7 @@
 <li>无法证明报文的完整性（正确性），可能已经被篡改</li>
 <li>即使通信内容经过加密处理，加密后的通信内容还是会被看到</li>
 </ul>
-<h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。</p>
+<h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。<a id="more"></a></p>
 <p>HTTPS并非是应用层的一种新协议。只是HTTP通信协议部分用SSL和TLS协议代替而已。通常，HTTP直接和TCP通信。当使用SSL时，则是先和SSL通信，再由SSL和TCP通信。SSL是独立于HTTP的协议。其他运行在应用层的SMTP和Telnet等协议也可以配合SSL协议使用。</p>
 <h4 id="加密技术：共享秘钥加密-VS-公开秘钥加密"><a href="#加密技术：共享秘钥加密-VS-公开秘钥加密" class="headerlink" title="加密技术：共享秘钥加密 VS 公开秘钥加密"></a>加密技术：共享秘钥加密 VS 公开秘钥加密</h4><blockquote>
 <p>共享秘钥加密（对称秘钥加密）：加密和解密使用同一个秘钥。</p>
