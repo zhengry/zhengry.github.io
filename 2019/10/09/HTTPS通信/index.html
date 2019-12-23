@@ -112,7 +112,7 @@
 
 什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HTTPS">
+<meta property="og:title" content="HTTPS通信">
 <meta property="og:url" content="https://zhengry.github.io/2019/10/09/HTTPS通信/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：
@@ -124,9 +124,9 @@
 
 什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
 <meta property="og:image" content="https://zhengry.github.io/../images/HTTPS通信过程.png">
-<meta property="og:updated_time" content="2019-12-23T02:03:01.466Z">
+<meta property="og:updated_time" content="2019-12-23T02:13:27.260Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HTTPS">
+<meta name="twitter:title" content="HTTPS通信">
 <meta name="twitter:description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：
 
 通信使用明文，内容可能会被窃听
@@ -152,7 +152,7 @@
   };
 </script>
 
-  <title>HTTPS | Baylee的技术博客</title>
+  <title>HTTPS通信 | Baylee的技术博客</title>
   
 
 
@@ -345,7 +345,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">HTTPS</h1>
+          <h1 class="post-title" itemprop="name headline">HTTPS通信</h1>
         
 
         <div class="post-meta">
@@ -421,16 +421,18 @@
 </ul>
 <h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。<a id="more"></a></p>
 <p>HTTPS并非是应用层的一种新协议。只是HTTP通信协议部分用SSL和TLS协议代替而已。通常，HTTP直接和TCP通信。当使用SSL时，则是先和SSL通信，再由SSL和TCP通信。SSL是独立于HTTP的协议。其他运行在应用层的SMTP和Telnet等协议也可以配合SSL协议使用。</p>
-<h4 id="加密技术：共享秘钥加密-VS-公开秘钥加密"><a href="#加密技术：共享秘钥加密-VS-公开秘钥加密" class="headerlink" title="加密技术：共享秘钥加密 VS 公开秘钥加密"></a>加密技术：共享秘钥加密 VS 公开秘钥加密</h4><blockquote>
-<p>共享秘钥加密（对称秘钥加密）：加密和解密使用同一个秘钥。</p>
+<h4 id="加密技术：共享秘钥加密-VS-公开秘钥加密"><a href="#加密技术：共享秘钥加密-VS-公开秘钥加密" class="headerlink" title="加密技术：共享秘钥加密 VS 公开秘钥加密"></a>加密技术：共享秘钥加密 VS 公开秘钥加密</h4><ul>
+<li><p>共享秘钥加密（对称秘钥加密）：加密和解密使用同一个秘钥。</p>
 <p>共享秘钥的难题在于：以共享秘钥方式加密时需要将秘钥发送给对方，但是无法保证发送过程不被监听或篡改，无法安全发送秘钥。</p>
-<p>公开秘钥加密（非对称秘钥加密）：使用一对非对称的秘钥。一把叫做私有秘钥，一把叫做公开秘钥。私有秘钥不能让其他人知道，而公开秘钥可以随意发布，任何人都可以获得。</p>
+</li>
+<li><p>公开秘钥加密（非对称秘钥加密）：使用一对非对称的秘钥。一把叫做私有秘钥，一把叫做公开秘钥。私有秘钥不能让其他人知道，而公开秘钥可以随意发布，任何人都可以获得。</p>
 <p>使用公开秘钥加密方式时，发送密文的一方使用对方的公开秘钥进行加密，对方收到加密的信息后，再用自己的私有秘钥进行解密。</p>
 <p>这种方式不需要发送用来解密的私钥，也不必担心秘钥被窃听。</p>
-</blockquote>
 <p>公开秘钥比共享秘钥的处理速度要慢。</p>
-<h4 id="HTTPS采用混合加密机制"><a href="#HTTPS采用混合加密机制" class="headerlink" title="HTTPS采用混合加密机制"></a>HTTPS采用混合加密机制</h4><p>HTTPS通信时，先使用公开秘钥加密方式来交换共享秘钥，再使用共享秘钥进行报文通信。</p>
-<p>这个过程中，唯一的问题在于使用公开秘钥加密方式传输共享秘钥时，无法确保传输的秘钥的正确性。为了解决这个问题，使用了由数字证书认证机构（CA）和其相关机构颁发的公开秘钥证书。</p>
+</li>
+</ul>
+<h4 id="HTTPS采用混合加密机制"><a href="#HTTPS采用混合加密机制" class="headerlink" title="HTTPS采用混合加密机制"></a>HTTPS采用混合加密机制</h4><p><strong>HTTPS通信时，先使用公开秘钥加密方式来交换共享秘钥，再使用共享秘钥进行报文通信。</strong></p>
+<p>这个过程中，唯一的问题在于使用公开秘钥加密方式传输共享秘钥时，无法确保传输的秘钥的正确性。为了解决这个问题，使用由数字证书认证机构（CA）和其相关机构颁发的公开秘钥证书来解决。</p>
 <h4 id="证书的申请和验证"><a href="#证书的申请和验证" class="headerlink" title="证书的申请和验证"></a>证书的申请和验证</h4><p>服务器向认证机构发出公钥申请，证书机构对申请的公钥进行数字签名，将公钥放入公钥证书后绑定在一起。服务器将这个公钥证书发送给客户端，客户端使用证书机构的公钥对证书上的数字签名进行验证。验证通过则证明服务端的公钥是真实有效的。</p>
 <h4 id="HTTPS通信过程"><a href="#HTTPS通信过程" class="headerlink" title="HTTPS通信过程"></a>HTTPS通信过程</h4><p><img src="../images/HTTPS通信过程.png" alt="HTTPS通信过程"></p>
 <ol>
@@ -473,7 +475,7 @@
     <strong>本文作者： </strong>Baylee</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://zhengry.github.io/2019/10/09/HTTPS通信/" title="HTTPS">https://zhengry.github.io/2019/10/09/HTTPS通信/</a>
+    <a href="https://zhengry.github.io/2019/10/09/HTTPS通信/" title="HTTPS通信">https://zhengry.github.io/2019/10/09/HTTPS通信/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
