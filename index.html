@@ -477,7 +477,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/09/26/H5页面调起键盘后页面变大的问题/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2019/09/26/H5页面调起键盘后页面变大的问题/" itemprop="url">H5页面调起键盘后页面变大的问题</a></h1>
         
 
         <div class="post-meta">
@@ -489,7 +489,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T23:27:06+08:00">2019-09-26</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T00:00:00+08:00">2019-09-26</time>
             
 
             
@@ -498,6 +498,24 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift开发笔记/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -528,7 +546,7 @@
       
         
           <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-wiedth</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> jScript = <span class="string">"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);"</span></div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let jScript = """</div><div class="line">var meta = document.createElement('meta');</div><div class="line">meta.setAttribute('name', 'viewport');</div><div class="line">meta.setAttribute('content', 'width=device-width');</div><div class="line">document.getElementsByTagName('head')[0].appendChild(meta);</div><div class="line">"""</div></pre></td></tr></table></figure>
 <p>但是在有输入框的H5页面，调起键盘后仍然会使页面放大、输入框被顶出页面顶部等问题。
           <!--noindex-->
           <div class="post-button text-center">
@@ -1925,7 +1943,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                      
+                    
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
