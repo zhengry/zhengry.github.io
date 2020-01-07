@@ -124,7 +124,7 @@
 
 什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
 <meta property="og:image" content="https://zhengry.github.io/images/HTTPS通信过程.png">
-<meta property="og:updated_time" content="2019-12-23T03:29:48.726Z">
+<meta property="og:updated_time" content="2020-01-07T07:53:55.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTPS通信">
 <meta name="twitter:description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：
@@ -436,7 +436,7 @@
 <h4 id="证书的申请和验证"><a href="#证书的申请和验证" class="headerlink" title="证书的申请和验证"></a>证书的申请和验证</h4><p>服务器向认证机构发出公钥申请，证书机构对申请的公钥进行数字签名，将公钥放入公钥证书后绑定在一起。服务器将这个公钥证书发送给客户端，客户端使用证书机构的公钥对证书上的数字签名进行验证。验证通过则证明服务端的公钥是真实有效的。</p>
 <h4 id="HTTPS通信过程"><a href="#HTTPS通信过程" class="headerlink" title="HTTPS通信过程"></a>HTTPS通信过程</h4><p><img src="/images/HTTPS通信过程.png" alt="HTTPS通信过程"></p>
 <ol>
-<li>客户端发送Client Hello报文开始SSL通信。报文包含客户端支持的SSL的指定版本、加密组件（所使用的加密散发和秘钥长度），产生一个随机密码串<code>client_random</code>；</li>
+<li>客户端发送Client Hello报文开始SSL通信。报文包含客户端支持的SSL的指定版本、加密组件（所使用的加密算法和秘钥长度），产生一个随机密码串<code>client_random</code>；</li>
 <li>服务器可以进行SSL通信时，会以Server Hello报文作为应答，报文中包含SSL版本及加密组件、公开秘钥证书和一个随机密码串<code>server_random</code>。</li>
 <li>客户端使用CA的公钥验证公开秘钥证书的数字签名的有效性，确认有效后从数字签名获得服务器的公开秘钥，并使用该公钥加密<code>pre-master secret</code>发送给服务端。</li>
 <li>服务器用私钥解密出<code>pre-master secret</code></li>
@@ -777,7 +777,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate"> 
     <i class="fa fa-user"></i>
   </span>
