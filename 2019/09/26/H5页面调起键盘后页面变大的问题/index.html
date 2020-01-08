@@ -103,19 +103,19 @@
 
 
 
-  <meta name="description" content="iOS开发中，H5页面一般都会做客户端适配，比如在header标签中添加viewport的meta标签，设置宽高100%适配或使用device-wiedth适配宽度，在初始化webview时，客户端一般会再做一层适配，添加width=device-width属性：
-123456let jScript = &quot;&quot;&quot;var meta = document.createElement(&apos;meta&apos;);me">
+  <meta name="description" content="iOS开发中，H5页面一般都会做客户端适配，比如在header标签中添加viewport的meta标签，设置宽高100%适配或使用device-width适配宽度，在初始化webview时，客户端一般会再做一层适配，添加width=device-width属性：
+123456let jScript = &quot;&quot;&quot;var meta = document.createElement(&apos;meta&apos;);met">
 <meta property="og:type" content="article">
 <meta property="og:title" content="H5页面调起键盘后页面变大的问题">
 <meta property="og:url" content="https://zhengry.github.io/2019/09/26/H5页面调起键盘后页面变大的问题/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="iOS开发中，H5页面一般都会做客户端适配，比如在header标签中添加viewport的meta标签，设置宽高100%适配或使用device-wiedth适配宽度，在初始化webview时，客户端一般会再做一层适配，添加width=device-width属性：
-123456let jScript = &quot;&quot;&quot;var meta = document.createElement(&apos;meta&apos;);me">
-<meta property="og:updated_time" content="2019-12-23T03:25:31.398Z">
+<meta property="og:description" content="iOS开发中，H5页面一般都会做客户端适配，比如在header标签中添加viewport的meta标签，设置宽高100%适配或使用device-width适配宽度，在初始化webview时，客户端一般会再做一层适配，添加width=device-width属性：
+123456let jScript = &quot;&quot;&quot;var meta = document.createElement(&apos;meta&apos;);met">
+<meta property="og:updated_time" content="2020-01-07T08:00:59.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="H5页面调起键盘后页面变大的问题">
-<meta name="twitter:description" content="iOS开发中，H5页面一般都会做客户端适配，比如在header标签中添加viewport的meta标签，设置宽高100%适配或使用device-wiedth适配宽度，在初始化webview时，客户端一般会再做一层适配，添加width=device-width属性：
-123456let jScript = &quot;&quot;&quot;var meta = document.createElement(&apos;meta&apos;);me">
+<meta name="twitter:description" content="iOS开发中，H5页面一般都会做客户端适配，比如在header标签中添加viewport的meta标签，设置宽高100%适配或使用device-width适配宽度，在初始化webview时，客户端一般会再做一层适配，添加width=device-width属性：
+123456let jScript = &quot;&quot;&quot;var meta = document.createElement(&apos;meta&apos;);met">
 
 
 
@@ -392,7 +392,7 @@
       
 
       
-        <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-wiedth</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
+        <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-width</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let jScript = """</div><div class="line">var meta = document.createElement('meta');</div><div class="line">meta.setAttribute('name', 'viewport');</div><div class="line">meta.setAttribute('content', 'width=device-width');</div><div class="line">document.getElementsByTagName('head')[0].appendChild(meta);</div><div class="line">"""</div></pre></td></tr></table></figure>
 <p>但是在有输入框的H5页面，调起键盘后仍然会使页面放大、输入框被顶出页面顶部等问题。<a id="more"></a>解决方法是，在适配屏幕的JS中添加 <code>initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0</code>，使初始缩放为1倍（即不缩放），且禁止用户缩放（因为最大最小缩放都为1倍）。完整的适配JS代码：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let jScript = """</div><div class="line">var meta = document.createElement('meta');</div><div class="line">meta.setAttribute('name', 'viewport');</div><div class="line">meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');</div><div class="line">document.getElementsByTagName('head')[0].appendChild(meta);</div><div class="line">"""</div></pre></td></tr></table></figure>

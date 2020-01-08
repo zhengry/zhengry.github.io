@@ -545,7 +545,7 @@
 
       
         
-          <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-wiedth</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
+          <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-width</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let jScript = """</div><div class="line">var meta = document.createElement('meta');</div><div class="line">meta.setAttribute('name', 'viewport');</div><div class="line">meta.setAttribute('content', 'width=device-width');</div><div class="line">document.getElementsByTagName('head')[0].appendChild(meta);</div><div class="line">"""</div></pre></td></tr></table></figure>
 <p>但是在有输入框的H5页面，调起键盘后仍然会使页面放大、输入框被顶出页面顶部等问题。
           <!--noindex-->
@@ -695,10 +695,10 @@
         
           <p>在开发中，点击事件一般都是使用<code>UIButton</code>来实现。有时候也会出现请用户阅读并同意多个协议的情况，不同的协议有不同的跳转，这时就需要做成超链接的形式。在iOS中简单实现超链接的方式就是使用<code>UITextView</code>。</p>
 <p>实现步骤：</p>
-<p>首先，要给文本添加超链接属性，可以响应超链接的文本默认为蓝色，有两种添加方式：</p>
+<p>首先，要给文本添加超链接属性（<code>NSAttributedString.Key.link</code>），可以响应超链接的文本默认为蓝色，有两种添加方式：</p>
 <ul>
-<li>方式1：为文本添加<code>value</code>值为超链接地址的链接属性（<code>NSAttributedString.Key.link</code>）</li>
-<li>方式2：给文本添加<code>value</code>值为自定义<code>URL Scheme</code>的链接属性（<code>NSAttributedString.Key.link</code>）
+<li>方式1：设置该属性的<code>value</code>值为要跳转的超链接地址</li>
+<li>方式2：设置该属性的<code>value</code>值为自定义<code>URL Scheme</code>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/09/16/给富文本添加超链接/#more" rel="contents">
