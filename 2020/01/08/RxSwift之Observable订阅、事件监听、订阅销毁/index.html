@@ -117,7 +117,7 @@
 
 初始化Observable序列时设置的默认值都按顺序通过.next事件发送出来；
 当Observable序列的初始数据都发送完毕，它还会自动发一个.">
-<meta property="og:updated_time" content="2020-01-08T09:55:14.478Z">
+<meta property="og:updated_time" content="2020-01-09T03:48:42.129Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxSwift之Observable订阅、事件监听、订阅销毁">
 <meta name="twitter:description" content="订阅Observable有了Observable，我们还要使用subscribe()方法来订阅它，接收它发出的Event。
@@ -405,7 +405,7 @@
 <h6 id="订阅方法1"><a href="#订阅方法1" class="headerlink" title="订阅方法1"></a>订阅方法1</h6><p>使用<code>subscribe()</code>订阅一个<code>Observable</code>对象，该方法的<code>block</code>回调参数就是被发出的<code>event</code>事件：</p>
 <ul>
 <li>初始化<code>Observable</code>序列时设置的默认值都按顺序通过<code>.next</code>事件发送出来；</li>
-<li>当<code>Observable</code>序列的初始数据都发送完毕，它还会自动发一个<code>.completed</code>事件出来。</li>
+<li>当<code>Observable</code>序列的初始数据都发送完毕，它还会自动发一个<code>.completed</code>事件出来。<a id="more"></a></li>
 </ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span>             </div><div class="line">	<span class="built_in">print</span>(event)</div><div class="line">&#125;</div><div class="line"><span class="comment">//运行结果：</span></div><div class="line">next(<span class="type">A</span>)</div><div class="line">next(<span class="type">B</span>)</div><div class="line">next(<span class="type">C</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
 <p>如果想要获取这个事件里的数据，可以通过<code>event.element</code>得到：</p>
