@@ -305,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/12/28/常见的非野指针类crash及解决方案/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/12/28/KVO notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -324,7 +324,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/12/28/常见的非野指针类crash及解决方案/" itemprop="url">常见的非野指针类crash及解决方案</a></h1>
+                <a class="post-title-link" href="/2015/12/28/KVO notes/" itemprop="url">KVO notes</a></h1>
         
 
         <div class="post-meta">
@@ -357,7 +357,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Debug/" itemprop="url" rel="index"><span itemprop="name">Debug</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/黑魔法/" itemprop="url" rel="index"><span itemprop="name">黑魔法</span></a></span>
 
                 
                 
@@ -392,13 +392,13 @@
 
       
         
-          <h4 id="集合类Crash"><a href="#集合类Crash" class="headerlink" title="集合类Crash"></a>集合类Crash</h4><h5 id="数组越界"><a href="#数组越界" class="headerlink" title="数组越界"></a>数组越界</h5><p>从数组中取某个index的元素时，先对index和数组元素个数进行判断：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(index &lt; <span class="keyword">self</span>.array.count)&#123;</div><div class="line">  <span class="keyword">id</span> obj = <span class="keyword">self</span>.array[index];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><em>注意：在使用数组时，要特别注意对边界条件的判断</em>。</p>
-<h5 id="向数组中插入空对象"><a href="#向数组中插入空对象" class="headerlink" title="向数组中插入空对象"></a>向数组中插入空对象</h5><p>向数组中插入数据时，先判断是否为nil
+          <ol>
+<li><p><code>key</code>或<code>keypath</code>匹配</p>
+<p><code>addObserver: forKeyPath: options: context:</code>的“keypath”和<code>setValue: forKey</code>的“key”或<code>setValue: forKeyPath:</code>的“keyPath”或setter方法对应的属性名保持一致，<code>observeValueForKeyPath: ofObject: change: context:</code>方法才会被触发。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//self.student.name</span></div><div class="line">[<span class="keyword">self</span>.student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"name"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>];</div><div class="line"></div><div class="line">[<span class="keyword">self</span>.student setName:<span class="string">@"baylee"</span>];<span class="comment">//student有"name"属性或成员变量</span></div><div class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@"baylee"</span> forKey:<span class="string">@"name"</span>];</div><div class="line"></div><div class="line"><span class="comment">//self.student有teacher属性，teacher有个className属性</span></div><div class="line">[<span class="keyword">self</span>.student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@"teacher.className"</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>]; </div><div class="line"></div><div class="line"><span class="keyword">self</span>.student.teacher.className = <span class="string">@"english"</span>;</div><div class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@"english"</span> forKeyPath:<span class="string">@"teacher.className"</span>];</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2015/12/28/常见的非野指针类crash及解决方案/#more" rel="contents">
+            <a class="btn" href="/2015/12/28/KVO notes/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

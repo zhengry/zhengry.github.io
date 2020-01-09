@@ -697,7 +697,7 @@
           <h5 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a><code>Observable</code></h5><p><code>Observable&lt;T&gt;</code>就是可观察序列，可以异步地产生一系列的<code>event</code>。</p>
 <ul>
 <li>一个<code>Observable&lt;T&gt;</code>对象会随着时间推移不定期地发出<code>event( element: T )</code>；</li>
-<li><code>Event</code>可以携带数据，它的泛型<code>&lt;T&gt;</code>用来指定Event携带的数据的类型；</li>
+<li><code>Event</code>可以携带数据，它的泛型<code>&lt;T&gt;</code>用来指定<code>Event</code>携带的数据的类型；</li>
 <li>有了可观察序列，还需要有一个<code>Observer</code>来订阅它，这样订阅者才能收到<code>Observable&lt;T&gt;</code>不时发出的<code>Event</code>。</li>
 </ul>
 <h6 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h6><p>Event是一个枚举，表示Observable发出的事件，共有三种类型：
