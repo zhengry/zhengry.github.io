@@ -419,7 +419,7 @@ NSOperation是一个抽象基类，可以为子类提供有用且线程安全地
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</div><div class="line"><span class="comment">//添加操作到队列中</span></div><div class="line">[queue addOperation:someOperation];</div><div class="line">[queue addOperationWithBlock:^&#123;</div><div class="line">    <span class="comment">//doSomething;</span></div><div class="line">&#125;];</div></pre></td></tr></table></figure>
 <h5 id="特殊的addExecutionBlock"><a href="#特殊的addExecutionBlock" class="headerlink" title="特殊的addExecutionBlock"></a>特殊的addExecutionBlock</h5><p>如果一个 <code>NSBlockOperation</code> 对象封装了多个操作，<code>NSBlockOperation</code> 是否开启新线程，取决于操作的个数。如果添加的操作的个数多，就会自动开启新线程，开启的线程数是由系统来决定的。</p>
 <p>凡是添加到主队列的操作，都会放到主线程执行，但是使用<code>addExecutionBlock</code>: 添加的额外操作可能会在其他线程执行：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> op1 = <span class="type">BlockOperation</span>.<span class="keyword">init</span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"Block:<span class="subst">\(Thread.current)</span>"</span>)</div><div class="line">&#125;</div><div class="line">op1.addExecutionBlock &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"executionBlock:<span class="subst">\(Thread.current)</span>"</span>)  </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="type">OperationQueue</span>.main.addOperation &#123;</div><div class="line">    op1.start()</div><div class="line">&#125;</div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="type">Block</span>:&lt;<span class="type">NSThread</span>: <span class="number">0x600001ede140</span>&gt;&#123;number = <span class="number">1</span>, name = main&#125;<span class="comment">//主线程执行init里的操作</span></div><div class="line">executionBlock:&lt;<span class="type">NSThread</span>: <span class="number">0x600001edfec0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;<span class="comment">//子线程执行executionBlock操作</span></div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> op1 = <span class="type">BlockOperation</span>.<span class="keyword">init</span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"Block:\(Thread.current)"</span>)</div><div class="line">&#125;</div><div class="line">op1.addExecutionBlock &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"executionBlock:\(Thread.current)"</span>)  </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="type">OperationQueue</span>.main.addOperation &#123;</div><div class="line">    op1.start()</div><div class="line">&#125;</div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="type">Block</span>:&lt;<span class="type">NSThread</span>: <span class="number">0x600001ede140</span>&gt;&#123;number = <span class="number">1</span>, name = main&#125;<span class="comment">//主线程执行init里的操作</span></div><div class="line">executionBlock:&lt;<span class="type">NSThread</span>: <span class="number">0x600001edfec0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;<span class="comment">//子线程执行executionBlock操作</span></div></pre></td></tr></table></figure>
 <h4 id="NSOperationQueue的一些高级操作"><a href="#NSOperationQueue的一些高级操作" class="headerlink" title="NSOperationQueue的一些高级操作"></a>NSOperationQueue的一些高级操作</h4><p>这些高级操作包括：队列的挂起、队列的取消、添加操作、设置最大并发数和设置操作的依赖关系。</p>
 <h5 id="maxConcurrentOperationCount"><a href="#maxConcurrentOperationCount" class="headerlink" title="maxConcurrentOperationCount"></a>maxConcurrentOperationCount</h5><p>maxConcurrentOperationCount，指最大并发操作数。这个属性用来控制一个队列中可以有多少个操作同时参与并发执行，而不是并发线程的数量。一个操作也并非只能在一个线程中执行。</p>
 <ul>
@@ -578,7 +578,7 @@ NSOperation是一个抽象基类，可以为子类提供有用且线程安全地
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">124</span>
+                    <span class="site-state-item-count">126</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -621,7 +621,9 @@ NSOperation是一个抽象基类，可以为子类提供有用且线程安全地
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -698,7 +700,9 @@ NSOperation是一个抽象基类，可以为子类提供有用且线程安全地
                     
                       
                     
-                    <span class="site-state-item-count">32</span>
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

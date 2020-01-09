@@ -397,7 +397,7 @@
       
         <p>可空链式调用和可空实例绑定区别：可空链式调用允许程序员把多个查询串联为一个可空实例的值。如果链式调用中的每个可空实例都包含之，那么每个调用都会成功。整个查询链会返回期望类型的可空实例。如果查询链式中的任意可空实例是nil，那么整个链式调用会返回nil。</p>
 <p>示例：如果遇到404错误，就用自定义错误码及展示给用户的错误描述代替</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> errorCodeString : <span class="type">String</span>!</div><div class="line">errorCodeString = <span class="string">"404"</span></div><div class="line"><span class="keyword">var</span> errorDescription: <span class="type">String</span>?</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> theError = errorCodeString, <span class="keyword">let</span> errorCodeInteger = <span class="type">Int</span>(theError), errorCodeInteger == <span class="number">404</span> &#123;</div><div class="line">   errorDescription = <span class="string">"<span class="subst">\(errorCodeInteger + <span class="number">200</span>)</span>: resource was not found"</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> upcaseDescription = errorDescription?.uppercased()</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> errorCodeString : <span class="type">String</span>!</div><div class="line">errorCodeString = <span class="string">"404"</span></div><div class="line"><span class="keyword">var</span> errorDescription: <span class="type">String</span>?</div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> theError = errorCodeString, <span class="keyword">let</span> errorCodeInteger = <span class="type">Int</span>(theError), errorCodeInteger == <span class="number">404</span> &#123;</div><div class="line">   errorDescription = <span class="string">"\(errorCodeInteger + 200): resource was not found"</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> upcaseDescription = errorDescription?.uppercased()</div></pre></td></tr></table></figure>
 <p>重点在于最后一句代码！！！<a id="more"></a></p>
 <p>这里使用<code>errorDescription</code>的大写形式给<code>upcaseDescription</code>赋值，使用了问号，为什么呢？因为<code>errorDescription</code>可能为nil。最后这句代码，如果<code>errorDescription</code>不为nil，则可以按照普通的可空实例进行强制展开使用<code>!</code>进行访问。但一旦为nil，就会触发运行时错误了。而用<code>?</code>访问时，无论<code>errorDescription</code>的值是否为nil都可以保证代码安全。</p>
 <p>总结：在访问可能为nil可空实例的值的时候，用?来访问</p>
@@ -535,7 +535,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">124</span>
+                    <span class="site-state-item-count">126</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -578,7 +578,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -655,7 +657,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">32</span>
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

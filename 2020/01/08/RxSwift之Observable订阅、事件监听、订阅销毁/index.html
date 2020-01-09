@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="订阅Observable有了Observable，我们还要使用subscribe()方法来订阅它，接收它发出的Event。
+订阅方法1使用subscribe()订阅一个Observable对象，该方法的block回调参数就是被发出的event事件：
+
+初始化Observable序列时设置的默认值都按顺序通过.next事件发送出来；
+当Observable序列的初始数据都发送完毕，它还会自动发一个.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxSwift之Observable订阅、事件监听、订阅销毁">
+<meta property="og:url" content="https://zhengry.github.io/2020/01/08/RxSwift之Observable订阅、事件监听、订阅销毁/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="订阅Observable有了Observable，我们还要使用subscribe()方法来订阅它，接收它发出的Event。
+订阅方法1使用subscribe()订阅一个Observable对象，该方法的block回调参数就是被发出的event事件：
+
+初始化Observable序列时设置的默认值都按顺序通过.next事件发送出来；
+当Observable序列的初始数据都发送完毕，它还会自动发一个.">
+<meta property="og:updated_time" content="2020-01-08T09:55:14.478Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxSwift之Observable订阅、事件监听、订阅销毁">
+<meta name="twitter:description" content="订阅Observable有了Observable，我们还要使用subscribe()方法来订阅它，接收它发出的Event。
+订阅方法1使用subscribe()订阅一个Observable对象，该方法的block回调参数就是被发出的event事件：
+
+初始化Observable序列时设置的默认值都按顺序通过.next事件发送出来；
+当Observable序列的初始数据都发送完毕，它还会自动发一个.">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2020/01/08/RxSwift之Observable订阅、事件监听、订阅销毁/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>RxSwift之Observable订阅、事件监听、订阅销毁 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/08/RxSwift之Observable订阅、事件监听、订阅销毁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RxSwift之Observable订阅、事件监听、订阅销毁</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-08T00:00:00+08:00">2020-01-08</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/RxSwift基础/" itemprop="url" rel="index"><span itemprop="name">RxSwift基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="订阅Observable"><a href="#订阅Observable" class="headerlink" title="订阅Observable"></a>订阅Observable</h5><p>有了<code>Observable</code>，我们还要使用<code>subscribe()</code>方法来订阅它，接收它发出的<code>Event</code>。</p>
+<h6 id="订阅方法1"><a href="#订阅方法1" class="headerlink" title="订阅方法1"></a>订阅方法1</h6><p>使用<code>subscribe()</code>订阅一个<code>Observable</code>对象，该方法的<code>block</code>回调参数就是被发出的<code>event</code>事件：</p>
+<ul>
+<li>初始化<code>Observable</code>序列时设置的默认值都按顺序通过<code>.next</code>事件发送出来；</li>
+<li>当<code>Observable</code>序列的初始数据都发送完毕，它还会自动发一个<code>.completed</code>事件出来。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span>             </div><div class="line">	<span class="built_in">print</span>(event)</div><div class="line">&#125;</div><div class="line"><span class="comment">//运行结果：</span></div><div class="line">next(<span class="type">A</span>)</div><div class="line">next(<span class="type">B</span>)</div><div class="line">next(<span class="type">C</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<p>如果想要获取这个事件里的数据，可以通过<code>event.element</code>得到：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(event.element)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 运行结果</span></div><div class="line"><span class="type">Optional</span>(<span class="string">"A"</span>)</div><div class="line"><span class="type">Optional</span>(<span class="string">"B"</span>)</div><div class="line"><span class="type">Optional</span>(<span class="string">"C"</span>)</div><div class="line"><span class="literal">nil</span></div></pre></td></tr></table></figure>
+<h6 id="订阅方法2"><a href="#订阅方法2" class="headerlink" title="订阅方法2"></a>订阅方法2</h6><p>使用将<code>event</code>进行分类的<code>subscribe</code>方法：</p>
+<ul>
+<li>通过不同的<code>block</code>回调处理不同类型<code>event</code>，</li>
+<li>会把<code>event</code>携带的数据直接解包作为参数;</li>
+<li><code>subscribe()</code>方法的四个回调参数<code>onNext</code>、<code>onError</code>、<code>onCompleted</code>、<code>onDisposed</code>都是有默认值的，即它们都是可选的，可以只处理<code>onNext</code>。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>)</div><div class="line">observable.subscribe(onNext: &#123; element <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(element)</div><div class="line">&#125;, onError: &#123; error <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(error)</div><div class="line">&#125;, onCompleted: &#123;</div><div class="line">  <span class="built_in">print</span>(<span class="string">"completed"</span>)</div><div class="line">&#125;, onDisposed: &#123;</div><div class="line">  <span class="built_in">print</span>(<span class="string">"disposed"</span>)</div><div class="line">&#125;)</div><div class="line"><span class="comment">//运行结果</span></div><div class="line"><span class="type">A</span></div><div class="line"><span class="type">B</span></div><div class="line"><span class="type">C</span></div><div class="line">completed</div><div class="line">disposed</div></pre></td></tr></table></figure>
+<h5 id="监听事件的生命周期"><a href="#监听事件的生命周期" class="headerlink" title="监听事件的生命周期"></a>监听事件的生命周期</h5><h6 id="doOn"><a href="#doOn" class="headerlink" title="doOn"></a>doOn</h6><ul>
+<li>使用<code>doOn</code>方法来监听事件的生命周期，它会在每一次事件发送前被调用；</li>
+<li><code>doOn</code>方法可以通过不同的block回调处理不同类型的<code>event</code></li>
+<li><code>do( onNext: )</code>方法会在<code>subscribe( onNext: )</code>前调用</li>
+<li><code>do( onCompleted: )</code>方法会在subscribe<code>( onCompleted: )</code></li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>)</div><div class="line"> </div><div class="line">observable</div><div class="line">    .<span class="keyword">do</span>(onNext: &#123; element <span class="keyword">in</span></div><div class="line">        <span class="built_in">print</span>(<span class="string">"Intercepted Next："</span>, element)</div><div class="line">    &#125;, onError: &#123; error <span class="keyword">in</span></div><div class="line">        <span class="built_in">print</span>(<span class="string">"Intercepted Error："</span>, error)</div><div class="line">    &#125;, onCompleted: &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Intercepted Completed"</span>)</div><div class="line">    &#125;, onDispose: &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Intercepted Disposed"</span>)</div><div class="line">    &#125;)</div><div class="line">    .subscribe(onNext: &#123; element <span class="keyword">in</span></div><div class="line">        <span class="built_in">print</span>(element)</div><div class="line">    &#125;, onError: &#123; error <span class="keyword">in</span></div><div class="line">        <span class="built_in">print</span>(error)</div><div class="line">    &#125;, onCompleted: &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"completed"</span>)</div><div class="line">    &#125;, onDisposed: &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"disposed"</span>)</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<h5 id="Observable的销毁（dispose）"><a href="#Observable的销毁（dispose）" class="headerlink" title="Observable的销毁（dispose）"></a>Observable的销毁（dispose）</h5><h5 id="Observable的激活和销毁"><a href="#Observable的激活和销毁" class="headerlink" title="Observable的激活和销毁"></a>Observable的激活和销毁</h5><p>一个<code>Observable</code>序列被创建出来后不会马上被激活，而是要等到被订阅之后才会才激活发出<code>Event</code></p>
+<p><code>Observable</code>序列被激活之后要一直等到它发出了<code>.error</code>或者<code>.completed</code>的<code>event</code>之后才会被销毁。</p>
+<h6 id="dispose-方法"><a href="#dispose-方法" class="headerlink" title="dispose() 方法"></a>dispose() 方法</h6><ul>
+<li>手动调用<code>dispose()</code>：取消订阅</li>
+<li>当一个订阅被<code>dispose</code>了，那么之后<code>Observable</code>如果再发出<code>event</code>，这个<code>dispose</code>的订阅就收不到消息了。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>)</div><div class="line">         </div><div class="line"><span class="comment">//使用subscription常量存储这个订阅方法</span></div><div class="line"><span class="keyword">let</span> subscription = observable.subscribe &#123; event <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;</div><div class="line">         </div><div class="line"><span class="comment">//调用这个订阅的dispose()方法</span></div><div class="line">subscription.dispose()</div></pre></td></tr></table></figure>
+<h6 id="DisposeBag"><a href="#DisposeBag" class="headerlink" title="DisposeBag"></a>DisposeBag</h6><p><code>DisposeBag</code>用来管理多个订阅行为的销毁，它会在自己将要被<code>dealloc</code>的时候，对它里面的所有订阅行为调用<code>dispose()</code>方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> disposeBag = <span class="type">DisposeBag</span>()</div><div class="line">         </div><div class="line"><span class="comment">//第1个Observable，及其订阅</span></div><div class="line"><span class="keyword">let</span> observable1 = <span class="type">Observable</span>.of(<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>)</div><div class="line">observable1.subscribe &#123; event <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: disposeBag)</div><div class="line"> </div><div class="line"><span class="comment">//第2个Observable，及其订阅</span></div><div class="line"><span class="keyword">let</span> observable2 = <span class="type">Observable</span>.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">observable2.subscribe &#123; event <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: disposeBag)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2020/01/08/RxSwift之Observable订阅、事件监听、订阅销毁/" title="RxSwift之Observable订阅、事件监听、订阅销毁">https://zhengry.github.io/2020/01/08/RxSwift之Observable订阅、事件监听、订阅销毁/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxSwift/" rel="tag"># RxSwift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/06/RxSwift之Observable、创建可观察序列/" rel="next" title="RxSwift之Observable、创建可观察序列">
+                <i class="fa fa-chevron-left"></i> RxSwift之Observable、创建可观察序列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">126</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#订阅Observable"><span class="nav-number">1.</span> <span class="nav-text">订阅Observable</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#订阅方法1"><span class="nav-number">1.1.</span> <span class="nav-text">订阅方法1</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#订阅方法2"><span class="nav-number">1.2.</span> <span class="nav-text">订阅方法2</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#监听事件的生命周期"><span class="nav-number">2.</span> <span class="nav-text">监听事件的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#doOn"><span class="nav-number">2.1.</span> <span class="nav-text">doOn</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Observable的销毁（dispose）"><span class="nav-number">3.</span> <span class="nav-text">Observable的销毁（dispose）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Observable的激活和销毁"><span class="nav-number">4.</span> <span class="nav-text">Observable的激活和销毁</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#dispose-方法"><span class="nav-number">4.1.</span> <span class="nav-text">dispose() 方法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#DisposeBag"><span class="nav-number">4.2.</span> <span class="nav-text">DisposeBag</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

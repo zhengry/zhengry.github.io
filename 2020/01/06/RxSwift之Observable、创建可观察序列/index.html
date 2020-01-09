@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="ObservableObservable&amp;lt;T&amp;gt;就是可观察序列，可以异步地产生一系列的event。
+
+一个Observable&amp;lt;T&amp;gt;对象会随着时间推移不定期地发出event( element: T )；
+Event可以携带数据，它的泛型&amp;lt;T&amp;gt;用来指定Event携带的数据的类型；
+有了可观察序列，还需要有一个Observer来订阅它，这样订阅者才能收到Observa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxSwift之Observable、创建可观察序列">
+<meta property="og:url" content="https://zhengry.github.io/2020/01/06/RxSwift之Observable、创建可观察序列/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="ObservableObservable&amp;lt;T&amp;gt;就是可观察序列，可以异步地产生一系列的event。
+
+一个Observable&amp;lt;T&amp;gt;对象会随着时间推移不定期地发出event( element: T )；
+Event可以携带数据，它的泛型&amp;lt;T&amp;gt;用来指定Event携带的数据的类型；
+有了可观察序列，还需要有一个Observer来订阅它，这样订阅者才能收到Observa">
+<meta property="og:updated_time" content="2020-01-09T03:45:33.751Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxSwift之Observable、创建可观察序列">
+<meta name="twitter:description" content="ObservableObservable&amp;lt;T&amp;gt;就是可观察序列，可以异步地产生一系列的event。
+
+一个Observable&amp;lt;T&amp;gt;对象会随着时间推移不定期地发出event( element: T )；
+Event可以携带数据，它的泛型&amp;lt;T&amp;gt;用来指定Event携带的数据的类型；
+有了可观察序列，还需要有一个Observer来订阅它，这样订阅者才能收到Observa">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2020/01/06/RxSwift之Observable、创建可观察序列/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>RxSwift之Observable、创建可观察序列 | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/06/RxSwift之Observable、创建可观察序列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RxSwift之Observable、创建可观察序列</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-06T00:00:00+08:00">2020-01-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/RxSwift基础/" itemprop="url" rel="index"><span itemprop="name">RxSwift基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a><code>Observable</code></h5><p><code>Observable&lt;T&gt;</code>就是可观察序列，可以异步地产生一系列的<code>event</code>。</p>
+<ul>
+<li>一个<code>Observable&lt;T&gt;</code>对象会随着时间推移不定期地发出<code>event( element: T )</code>；</li>
+<li><code>Event</code>可以携带数据，它的泛型<code>&lt;T&gt;</code>用来指定Event携带的数据的类型；</li>
+<li>有了可观察序列，还需要有一个<code>Observer</code>来订阅它，这样订阅者才能收到<code>Observable&lt;T&gt;</code>不时发出的<code>Event</code>。</li>
+</ul>
+<h6 id="Event"><a href="#Event" class="headerlink" title="Event"></a>Event</h6><p>Event是一个枚举，表示Observable发出的事件，共有三种类型：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Event</span>&lt;<span class="title">Element</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">/// Next element is produced.</span></div><div class="line">    <span class="keyword">case</span> next(<span class="type">Element</span>)</div><div class="line"> </div><div class="line">    <span class="comment">/// Sequence terminated with an error.</span></div><div class="line">    <span class="keyword">case</span> error(<span class="type">Swift</span>.<span class="type">Error</span>)</div><div class="line"> </div><div class="line">    <span class="comment">/// Sequence completed successfully.</span></div><div class="line">    <span class="keyword">case</span> completed</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><code>next</code>：<code>next</code>事件就是可以携带数据<code>&lt;T&gt;</code>的事件，表示一个正常的事件；</li>
+<li><code>error</code>：<code>error</code>事件表示一个错误，它可以携带具体的错误内容，一旦<code>Observable</code>发出了<code>error event</code>，这个<code>Observable</code>就终止了，以后它再也不会发出<code>event</code>事件了；</li>
+<li><code>completed</code>：<code>completed</code>事件表示<code>Observable</code>发出的事件正常地结束了，一旦<code>Observable</code>发出了<code>completed event</code>，这个<code>Observable</code>就终止了，以后再也不会发出<code>event</code>事件了。</li>
+</ul>
+<h6 id="Observable与Sequence"><a href="#Observable与Sequence" class="headerlink" title="Observable与Sequence"></a>Observable与Sequence</h6><p>联系：一个<code>Observable( ObservableType)</code>相当于一个序列<code>Sequence(SequenceType)</code>，<code>ObservableType.subscribe(_:)</code>方法相当于<code>SequenceType.generate()</code></p>
+<p>区别：</p>
+<ul>
+<li>swift中的<code>SequenceType</code>是同步的循环，而<code>Observable</code>是异步的；</li>
+<li><code>Observable</code>对象会在有任何<code>Event</code>的时候，自动将<code>Event</code>作为一个参数通过<code>ObservableType.subscribe(_:)</code>发出，并不需要使用<code>next</code>方法。</li>
+</ul>
+<h5 id="创建Observable序列的方法"><a href="#创建Observable序列的方法" class="headerlink" title="创建Observable序列的方法"></a>创建Observable序列的方法</h5><h6 id="just-：通过传入一个默认值来初始化"><a href="#just-：通过传入一个默认值来初始化" class="headerlink" title="just()：通过传入一个默认值来初始化"></a><code>just()</code>：通过传入一个默认值来初始化</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.just(<span class="number">5</span>)<span class="comment">//可以指定类型，也可以通过类型推断</span></div></pre></td></tr></table></figure>
+<h6 id="of-方法：接收可变数量的参数（同类型）"><a href="#of-方法：接收可变数量的参数（同类型）" class="headerlink" title="of()方法：接收可变数量的参数（同类型）"></a><code>of()</code>方法：接收可变数量的参数（同类型）</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>)</div></pre></td></tr></table></figure>
+<h6 id="from-：通过一个数组进行初始化"><a href="#from-：通过一个数组进行初始化" class="headerlink" title="from()：通过一个数组进行初始化"></a><code>from()</code>：通过一个数组进行初始化</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.from([<span class="string">"A"</span>,<span class="string">"B"</span>,<span class="string">"C"</span>])</div></pre></td></tr></table></figure>
+<h6 id="empty-：创建一个空内容的Observable序列"><a href="#empty-：创建一个空内容的Observable序列" class="headerlink" title="empty()：创建一个空内容的Observable序列"></a><code>empty()</code>：创建一个空内容的<code>Observable</code>序列</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.empty()</div></pre></td></tr></table></figure>
+<h6 id="never-：创建一个永远不会发出event，也不会终止的Observable序列"><a href="#never-：创建一个永远不会发出event，也不会终止的Observable序列" class="headerlink" title="never()：创建一个永远不会发出event，也不会终止的Observable序列"></a><code>never()</code>：创建一个永远不会发出event，也不会终止的Observable序列</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.never()</div></pre></td></tr></table></figure>
+<h6 id="error-：创建一个直接发送一个错误的Observable序列"><a href="#error-：创建一个直接发送一个错误的Observable序列" class="headerlink" title="error()：创建一个直接发送一个错误的Observable序列"></a><code>error()</code>：创建一个直接发送一个错误的Observable序列</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">MyError</span>: <span class="title">Error</span> </span>&#123;</div><div class="line">  <span class="keyword">case</span> <span class="type">A</span>,<span class="type">B</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.error(<span class="type">MyError</span>.<span class="type">A</span>)</div></pre></td></tr></table></figure>
+<h6 id="range-：通过指定起始和结束数值，创建一个以这个范围内所有值所谓初始值的Observable序列"><a href="#range-：通过指定起始和结束数值，创建一个以这个范围内所有值所谓初始值的Observable序列" class="headerlink" title="range()：通过指定起始和结束数值，创建一个以这个范围内所有值所谓初始值的Observable序列"></a><code>range()</code>：通过指定起始和结束数值，创建一个以这个范围内所有值所谓初始值的Observable序列</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.range(start:<span class="number">1</span>, <span class="built_in">count</span>:<span class="number">5</span>)</div><div class="line"><span class="comment">// 等价于</span></div><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</div></pre></td></tr></table></figure>
+<h6 id="repeatElement-：创建一个可以无限发出给定元素的Event和Observable序列（永不终止）"><a href="#repeatElement-：创建一个可以无限发出给定元素的Event和Observable序列（永不终止）" class="headerlink" title="repeatElement()：创建一个可以无限发出给定元素的Event和Observable序列（永不终止）"></a><code>repeatElement()</code>：创建一个可以无限发出给定元素的Event和Observable序列（永不终止）</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.repeatElement(<span class="number">1</span>)</div></pre></td></tr></table></figure>
+<h6 id="generate-：创建一个只有当提供的所有判断条件都为true的时候，才会给出动作的Observable序列"><a href="#generate-：创建一个只有当提供的所有判断条件都为true的时候，才会给出动作的Observable序列" class="headerlink" title="generate()：创建一个只有当提供的所有判断条件都为true的时候，才会给出动作的Observable序列"></a><code>generate()</code>：创建一个只有当提供的所有判断条件都为true的时候，才会给出动作的Observable序列</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.generate(</div><div class="line">initialState:<span class="number">0</span>,</div><div class="line">condition:&#123; $<span class="number">0</span> &lt;= <span class="number">10</span> &#125;,</div><div class="line">iterate:&#123; $<span class="number">0</span> + <span class="number">2</span> &#125;</div><div class="line">)</div><div class="line"><span class="comment">// 等价于</span></div><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(<span class="number">0</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>)</div></pre></td></tr></table></figure>
+<h6 id="create-接收一个block参数，对每一个过来的订阅进行处理"><a href="#create-接收一个block参数，对每一个过来的订阅进行处理" class="headerlink" title="create():接收一个block参数，对每一个过来的订阅进行处理"></a><code>create()</code>:接收一个block参数，对每一个过来的订阅进行处理</h6><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//当订阅者订阅一个Observable对象时，会将订阅者作为参数传入block</span></div><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">String</span>&gt;.create &#123; observer <span class="keyword">in</span></div><div class="line">	<span class="comment">//对订阅者发出.next事件，且携带了一个数据“next事件数据”</span></div><div class="line">	observer.onNext(<span class="string">"next事件数据"</span>)                  </div><div class="line">	<span class="comment">// 对订阅者发出了.completed事件</span></div><div class="line">	observer.onCompleted()</div><div class="line">	<span class="comment">// 订阅行为需要一个Disposable类型的返回值</span></div><div class="line">	<span class="keyword">return</span> <span class="type">Disposables</span>.create()</div><div class="line">&#125;</div><div class="line">observable.subscribe&#123;</div><div class="line">  <span class="built_in">print</span>($<span class="number">0</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 运行结果：</span></div><div class="line">next(<span class="string">"next事件数据"</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h6 id="deferred"><a href="#deferred" class="headerlink" title="deferred()"></a><code>deferred()</code></h6><p>该方法相当于创建一个Observable工厂，通过传入一个block来执行延迟Observable序列创建的行为，这个block是真正的实例化序列对象的地方。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> isOdd = <span class="literal">true</span><span class="comment">//判断奇偶的标记</span></div><div class="line"><span class="keyword">let</span> factory : <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt; = <span class="type">Observable</span>.deferred &#123;</div><div class="line">  isOdd = !isOdd</div><div class="line">  <span class="keyword">if</span> isOdd &#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">Observable</span>.of(<span class="number">1</span>,<span class="number">3</span>)</div><div class="line">  &#125;<span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">Observable</span>.of(<span class="number">2</span>,<span class="number">4</span>)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 第一次订阅</span></div><div class="line">factory.subscribe &#123; event <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(<span class="string">"\(isOdd)"</span>, event)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 第二次订阅</span></div><div class="line">factory.subscribe &#123; event <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(<span class="string">"\(isOdd)"</span>, event)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 运行结果：</span></div><div class="line"><span class="literal">false</span> next(<span class="number">2</span>)</div><div class="line"><span class="literal">false</span> next(<span class="number">4</span>)</div><div class="line"><span class="literal">false</span> completed</div><div class="line"><span class="literal">true</span> next(<span class="number">1</span>)</div><div class="line"><span class="literal">true</span> next(<span class="number">3</span>)</div><div class="line"><span class="literal">true</span> completed</div></pre></td></tr></table></figure>
+<h6 id="interval-方法"><a href="#interval-方法" class="headerlink" title="interval()方法"></a><code>interval()</code>方法</h6><p>该方法创建的Observable序列每隔一段设定的时间，会发出一个索引数的元素，而且会一直发送下去</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在主线程上每隔1秒发送一次</span></div><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.interval(<span class="number">1</span>,scheduler:<span class="type">MainScheduler</span>.instance)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(event)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 运行结果</span></div><div class="line">next(<span class="number">0</span>)</div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">...</div></pre></td></tr></table></figure>
+<h6 id="timer"><a href="#timer" class="headerlink" title="timer()"></a><code>timer()</code></h6><ul>
+<li><p>用途1：创建的Observable序列在经过设定的时间后产生一个唯一的元素</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.timer(<span class="number">5</span>, scheduler:<span class="type">MainScheduler</span>.instance)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(event)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 运行结果</span></div><div class="line">next(<span class="number">0</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+</li>
+<li><p>用途2：创建的Observable序列在经过设定的时候后，每隔一段时间产生一个元素</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.timer(<span class="number">5</span>, period:<span class="number">1</span>, scheduler:<span class="type">MainScheduler</span>.instance)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span></div><div class="line">  <span class="built_in">print</span>(event)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 运行结果</span></div><div class="line">next(<span class="number">0</span>)</div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2020/01/06/RxSwift之Observable、创建可观察序列/" title="RxSwift之Observable、创建可观察序列">https://zhengry.github.io/2020/01/06/RxSwift之Observable、创建可观察序列/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxSwift/" rel="tag"># RxSwift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/HTTPS通信/" rel="next" title="HTTPS通信">
+                <i class="fa fa-chevron-left"></i> HTTPS通信
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/08/RxSwift之Observable订阅、事件监听、订阅销毁/" rel="prev" title="RxSwift之Observable订阅、事件监听、订阅销毁">
+                RxSwift之Observable订阅、事件监听、订阅销毁 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">126</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#Observable"><span class="nav-number">1.</span> <span class="nav-text">Observable</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Event"><span class="nav-number">1.1.</span> <span class="nav-text">Event</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Observable与Sequence"><span class="nav-number">1.2.</span> <span class="nav-text">Observable与Sequence</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#创建Observable序列的方法"><span class="nav-number">2.</span> <span class="nav-text">创建Observable序列的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#just-：通过传入一个默认值来初始化"><span class="nav-number">2.1.</span> <span class="nav-text">just()：通过传入一个默认值来初始化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#of-方法：接收可变数量的参数（同类型）"><span class="nav-number">2.2.</span> <span class="nav-text">of()方法：接收可变数量的参数（同类型）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#from-：通过一个数组进行初始化"><span class="nav-number">2.3.</span> <span class="nav-text">from()：通过一个数组进行初始化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#empty-：创建一个空内容的Observable序列"><span class="nav-number">2.4.</span> <span class="nav-text">empty()：创建一个空内容的Observable序列</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#never-：创建一个永远不会发出event，也不会终止的Observable序列"><span class="nav-number">2.5.</span> <span class="nav-text">never()：创建一个永远不会发出event，也不会终止的Observable序列</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#error-：创建一个直接发送一个错误的Observable序列"><span class="nav-number">2.6.</span> <span class="nav-text">error()：创建一个直接发送一个错误的Observable序列</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#range-：通过指定起始和结束数值，创建一个以这个范围内所有值所谓初始值的Observable序列"><span class="nav-number">2.7.</span> <span class="nav-text">range()：通过指定起始和结束数值，创建一个以这个范围内所有值所谓初始值的Observable序列</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#repeatElement-：创建一个可以无限发出给定元素的Event和Observable序列（永不终止）"><span class="nav-number">2.8.</span> <span class="nav-text">repeatElement()：创建一个可以无限发出给定元素的Event和Observable序列（永不终止）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#generate-：创建一个只有当提供的所有判断条件都为true的时候，才会给出动作的Observable序列"><span class="nav-number">2.9.</span> <span class="nav-text">generate()：创建一个只有当提供的所有判断条件都为true的时候，才会给出动作的Observable序列</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#create-接收一个block参数，对每一个过来的订阅进行处理"><span class="nav-number">2.10.</span> <span class="nav-text">create():接收一个block参数，对每一个过来的订阅进行处理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#deferred"><span class="nav-number">2.11.</span> <span class="nav-text">deferred()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#interval-方法"><span class="nav-number">2.12.</span> <span class="nav-text">interval()方法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#timer"><span class="nav-number">2.13.</span> <span class="nav-text">timer()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -404,9 +404,9 @@
 </blockquote>
 <p><code>defer</code>是在当前 <strong>scope</strong> 退出的时候调用而不是在函数退出的时候调用。</p>
 <h4 id="defer和闭包"><a href="#defer和闭包" class="headerlink" title="defer和闭包"></a>defer和闭包</h4><p>虽然<code>defer</code>后面跟了一个闭包，但是它更多地像是一个语法糖，和我们所熟知的闭包特性不一样，并不会持有里面的值。比如：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">foo</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> number = <span class="number">1</span></div><div class="line">    <span class="keyword">defer</span> &#123; <span class="built_in">print</span>(<span class="string">"Statement 2: <span class="subst">\(number)</span>"</span>) &#125;</div><div class="line">    number = <span class="number">100</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"Statement 1: <span class="subst">\(number)</span>"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 输出：</span></div><div class="line"><span class="comment">//Statement 1: 100</span></div><div class="line"><span class="comment">//Statement 2: 100</span></div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">foo</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> number = <span class="number">1</span></div><div class="line">    <span class="keyword">defer</span> &#123; <span class="built_in">print</span>(<span class="string">"Statement 2: \(number)"</span>) &#125;</div><div class="line">    number = <span class="number">100</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"Statement 1: \(number)"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 输出：</span></div><div class="line"><span class="comment">//Statement 1: 100</span></div><div class="line"><span class="comment">//Statement 2: 100</span></div></pre></td></tr></table></figure>
 <p>在 <code>defer</code>中如果要依赖某个变量值时，需要自行进行复制：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">foo</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> number = <span class="number">1</span></div><div class="line">    <span class="keyword">var</span> closureNumber = number</div><div class="line">    <span class="keyword">defer</span> &#123; <span class="built_in">print</span>(<span class="string">"Statement 2: <span class="subst">\(closureNumber)</span>"</span>) &#125;</div><div class="line">    number = <span class="number">100</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"Statement 1: <span class="subst">\(number)</span>"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 输出：</span></div><div class="line"><span class="comment">// Statement 1: 100</span></div><div class="line"><span class="comment">// Statement 2: 1</span></div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">foo</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">var</span> number = <span class="number">1</span></div><div class="line">    <span class="keyword">var</span> closureNumber = number</div><div class="line">    <span class="keyword">defer</span> &#123; <span class="built_in">print</span>(<span class="string">"Statement 2: \(closureNumber)"</span>) &#125;</div><div class="line">    number = <span class="number">100</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"Statement 1: \(number)"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">// 输出：</span></div><div class="line"><span class="comment">// Statement 1: 100</span></div><div class="line"><span class="comment">// Statement 2: 1</span></div></pre></td></tr></table></figure>
 <p>从语言设计上来说，<code>defer</code>的目的就是进行资源清理和避免重复的返回前需要执行的代码，而不是用来以取巧地实现某些功能。这样做只会让代码可读性降低。</p>
 
       
@@ -545,7 +545,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">124</span>
+                    <span class="site-state-item-count">126</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -588,7 +588,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -665,7 +667,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">32</span>
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
