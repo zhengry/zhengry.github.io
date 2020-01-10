@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo-my.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Runtime是什么runtime是一个库，这个库使我们可以在程序运行时创建对象、检查对象，修改类和对象的方法。
+Runtime是怎么工作的要了解Runtime是怎么工作的，首先要知道类和对象在ObjC中是怎么定义的。
+类一个类保存了自身所有的成员变量ivars、所有的方法methodLists、所有实现的协议protocols。
+在objc.h中，Class被定义为指向objc_class的指针">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Runtime">
+<meta property="og:url" content="https://zhengry.github.io/2018/03/26/Runtime/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="Runtime是什么runtime是一个库，这个库使我们可以在程序运行时创建对象、检查对象，修改类和对象的方法。
+Runtime是怎么工作的要了解Runtime是怎么工作的，首先要知道类和对象在ObjC中是怎么定义的。
+类一个类保存了自身所有的成员变量ivars、所有的方法methodLists、所有实现的协议protocols。
+在objc.h中，Class被定义为指向objc_class的指针">
+<meta property="og:image" content="https://zhengry.github.io/images/类和元类.jpg">
+<meta property="og:updated_time" content="2020-01-10T10:02:57.653Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Runtime">
+<meta name="twitter:description" content="Runtime是什么runtime是一个库，这个库使我们可以在程序运行时创建对象、检查对象，修改类和对象的方法。
+Runtime是怎么工作的要了解Runtime是怎么工作的，首先要知道类和对象在ObjC中是怎么定义的。
+类一个类保存了自身所有的成员变量ivars、所有的方法methodLists、所有实现的协议protocols。
+在objc.h中，Class被定义为指向objc_class的指针">
+<meta name="twitter:image" content="https://zhengry.github.io/images/类和元类.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://zhengry.github.io/2018/03/26/Runtime/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Runtime | Baylee的技术博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Baylee的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/03/26/Runtime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Baylee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Runtime</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T00:00:00+08:00">2018-03-26</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Runtime/" itemprop="url" rel="index"><span itemprop="name">Runtime</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Runtime是什么"><a href="#Runtime是什么" class="headerlink" title="Runtime是什么"></a>Runtime是什么</h4><p>runtime是一个库，这个库使我们可以在程序运行时创建对象、检查对象，修改类和对象的方法。</p>
+<h4 id="Runtime是怎么工作的"><a href="#Runtime是怎么工作的" class="headerlink" title="Runtime是怎么工作的"></a>Runtime是怎么工作的</h4><p>要了解Runtime是怎么工作的，首先要知道类和对象在ObjC中是怎么定义的。</p>
+<h5 id="类"><a href="#类" class="headerlink" title="类"></a>类</h5><p>一个类保存了自身所有的成员变量ivars、所有的方法methodLists、所有实现的协议protocols。</p>
+<p>在objc.h中，Class被定义为指向objc_class的指针；objc_class是runtime.h中的一个结构体。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// objc.h</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</div><div class="line"></div><div class="line"><span class="comment">// runtime.h</span></div><div class="line"><span class="keyword">struct</span> objc_class &#123;</div><div class="line">    Class isa;<span class="comment">//实现方法调用的关键</span></div><div class="line">    Class super_class;<span class="comment">//父类</span></div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * name;<span class="comment">//类名</span></div><div class="line">    <span class="keyword">long</span> version;<span class="comment">//类的版本信息，默认为0</span></div><div class="line">    <span class="keyword">long</span> info;<span class="comment">// 类信息，供运行期使用的一些位标识</span></div><div class="line">    <span class="keyword">long</span> instance_size;<span class="comment">//该类的实例变量大小</span></div><div class="line">    <span class="keyword">struct</span> objc_ivar_list * ivars;<span class="comment">//该类的成员变量链表</span></div><div class="line">    <span class="keyword">struct</span> objc_method_list ** methodLists;<span class="comment">// 方法定义的链表</span></div><div class="line">    <span class="keyword">struct</span> objc_cache * cache;<span class="comment">//方法缓存</span></div><div class="line">    <span class="keyword">struct</span> objc_protocol_list * protocols;<span class="comment">//协议链表</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h5><p>ObjC中，对象的定义：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> objc_object &#123;</div><div class="line">    Class isa;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object *<span class="keyword">id</span>;</div></pre></td></tr></table></figure>
+<p><code>id</code>就是我们常用的<code>id</code>类型。<code>id</code>是一个指向<code>objc_object</code>的指针，说明<code>objc_object</code>就是我们常用的对象的定义，它只包含一个 <code>isa</code> 指针。也就是说一个对象唯一保存的信息就是它的<code>Class</code>的地址。</p>
+<p>当我们调用一个对象的方法时，它会通过 isa 去找到对应的 <code>objc_class</code>，然后再在<code>objc_class</code>的<code>methodLists</code> 中找到我们调用的方法，然后执行。</p>
+<p>使用<code>cache</code>加速调用过程：调用方法的过程是个查找<code>methodLists</code>的过程，如果每次调用都去查找，效率非常低。所以，对于调用过的方法，会以<code>map</code>的方式保存在 <code>cache</code> 中，下次再调用就会快很多。</p>
+<h5 id="Meta-Class元类"><a href="#Meta-Class元类" class="headerlink" title="Meta Class元类"></a>Meta Class元类</h5><p>在ObjC中，类也被设计成一个对象。</p>
+<p><code>objc_class</code>和<code>objc_object</code>一样，也包含了<code>isa</code>指针。所以类也是一个对象。类的类型就是元类<code>Meta Class</code>。类的<code>isa</code>指针指向对应的元类。</p>
+<p>在ObjC中，每个类都有对应的元类，而在元类的<code>methodLists</code>中保存了类的方法链表，也就是类方法。</p>
+<p>元类也有一个<code>isa</code>指针，元类也是一个对象。在ObjC的设计中，所有的元类的<code>isa</code>都指向基类（比如<code>NSObject</code>）的元类，基类的元类的<code>isa</code>指针指向自己。</p>
+<p><img src="/images/类和元类.jpg" alt="类和元类"></p>
+<h5 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h5><p>当向一个对象发送消息时，会在这个类的 <code>methodLists</code> 中查找相应的 SEL，如果查不到，则通过 <code>super_class</code> 指针找到父类，然后在父类的 <code>methodLists</code>中查找，层层递进，最后仍然找不到，进行消息转发流程，如果转发失败进入抛异常流程。</p>
+<h5 id="方法的调用"><a href="#方法的调用" class="headerlink" title="方法的调用"></a>方法的调用</h5><h6 id="方法的转化"><a href="#方法的转化" class="headerlink" title="方法的转化"></a>方法的转化</h6><p>在ObjC中，所有的方法调用都会在<code>runtime</code>中转化成向对象发送消息：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// objc_msgSend方法</span></div><div class="line"><span class="keyword">id</span> objc_msgSend(<span class="keyword">id</span> <span class="keyword">self</span>,SEL op, ...);</div><div class="line">[<span class="keyword">self</span> doSomething];</div><div class="line"><span class="comment">// 被转化成</span></div><div class="line">objc_msgSend(<span class="keyword">self</span>,<span class="keyword">@selector</span>(doSomething));</div></pre></td></tr></table></figure>
+<p><code>objc_msgSend</code>会默认传入<code>id</code>和<code>SEL</code>，对应的两个隐含参数就是<code>self</code>和<code>_cmd</code>。</p>
+<h6 id="Method、SEL和IMP"><a href="#Method、SEL和IMP" class="headerlink" title="Method、SEL和IMP"></a>Method、SEL和IMP</h6><ul>
+<li><p><code>Method</code>：一个指向<code>objc_method</code>结构体的指针，该结构体保存了方法名<code>SEL</code>和函数指针<code>IMP</code>；<code>Method</code>建立了<code>SEL</code>和<code>IMP</code>的关联。当对一个对象发送消息时，会通过<code>SEL</code>找到对应的<code>IMP</code>，然后执行。</p>
+</li>
+<li><p><code>SEL</code>：一个指向<code>objc_selector</code>的指针，是一个保存方法名的字符串；</p>
+</li>
+<li><p><code>IMP</code>：函数指针。<strong>函数指针就是指向函数实现的内存地址的指针</strong>。</p>
+<p><code>IMP</code>指向的函数的前两个参数是默认参数<code>id</code>和<code>SEL</code>。对于实例方法来说，<code>self</code>保存了当前对象的地址，对于类方法来说，<code>self</code>保存了当前类对象的地址。<code>SEL</code>就是函数名，后面的省略号是参数列表。</p>
+</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Method</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_method *Method;</div><div class="line"><span class="keyword">struct</span> objc_method &#123;</div><div class="line">    SEL method_name;</div><div class="line">    <span class="keyword">char</span> * method_types;</div><div class="line">    IMP method_imp;</div><div class="line">&#125;</div><div class="line"><span class="comment">// SEL：函数名称</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_selector * SEL;</div><div class="line"><span class="comment">// IMP：函数指针</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="keyword">id</span> (* IMP)(<span class="keyword">id</span>,SEL,...);</div></pre></td></tr></table></figure>
+<h4 id="Runtime常用操作"><a href="#Runtime常用操作" class="headerlink" title="Runtime常用操作"></a>Runtime常用操作</h4><h6 id="获取所有的属性和方法"><a href="#获取所有的属性和方法" class="headerlink" title="获取所有的属性和方法"></a>获取所有的属性和方法</h6><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 获取列表属性</span></div><div class="line">objc_property_t *propertyList = class_copyPropertyList([<span class="keyword">self</span> <span class="keyword">class</span>],&amp;count);</div><div class="line">free(propertyList);</div><div class="line"></div><div class="line"><span class="comment">// 获取方法列表</span></div><div class="line">Method *methodList = class_copyMethodList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;count);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">unsigned</span> <span class="keyword">int</span> i=<span class="number">0</span>; i&lt;count;i++)&#123;</div><div class="line">    Method method = methodList[i];</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"method---&gt;%@"</span>,<span class="built_in">NSStringFromSelector</span>(method_getName(method)));</div><div class="line">&#125;</div><div class="line">free(methodList);</div><div class="line"></div><div class="line"><span class="comment">// 成员变量列表</span></div><div class="line">Ivar *ivarList = class_copyIvarList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;count);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">unsigned</span> <span class="keyword">int</span> i=<span class="number">0</span>; i&lt;count;i++)&#123;</div><div class="line">    Ivar ivar = ivarList[i];</div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *ivarName = ivar_getName(ivar);</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"ivarName---&gt;%@"</span>,[<span class="built_in">NSString</span> stringWithUTF8String:ivarName]);</div><div class="line">&#125;</div><div class="line">free(ivarList);</div><div class="line"></div><div class="line"><span class="comment">// 协议列表</span></div><div class="line">__<span class="keyword">unsafe_unretained</span> Protocol **protocolList = class_copyProtocolList([<span class="keyword">self</span> <span class="keyword">class</span>],&amp;count);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">unsigned</span> <span class="keyword">int</span> i=<span class="number">0</span>; i&lt;count;i++)&#123;</div><div class="line">    Protocol *procotol = protocolList[i];</div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *protocolName = protocol_getName(myProtocal);</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"protocolName---&gt;%@"</span>,[<span class="built_in">NSString</span> stringWithUTF8String:protocolName]);</div><div class="line">&#125;</div><div class="line">free(protocolList);</div></pre></td></tr></table></figure>
+<h5 id="Method-Swizzling-方法混写"><a href="#Method-Swizzling-方法混写" class="headerlink" title="Method Swizzling 方法混写"></a>Method Swizzling 方法混写</h5><h6 id="交换方法的实现"><a href="#交换方法的实现" class="headerlink" title="交换方法的实现"></a>交换方法的实现</h6><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">+(<span class="keyword">void</span>)swizzleMethod：(Class)<span class="keyword">class</span> originalSelector:(Selector)originalSelctor swizzledMethod:(Selector)swizzledMethod &#123;</div><div class="line">  Method originalMethod = class_getInstanceMethod(<span class="keyword">class</span>,(originalSelector));</div><div class="line">  Method swizzledMethod = class_getInstanceMethod(<span class="keyword">class</span>,(swizzledSelector));</div><div class="line">  <span class="comment">// 将 originalMethod 加到想要交换方法的类中</span></div><div class="line">  <span class="built_in">BOOL</span> isSuccess = </div><div class="line">   class_addMethod(<span class="keyword">class</span>,originalSelector,method_getImpletation(swizzledMethod),method_getTypeEncoding(swizzledMethod));</div><div class="line">  <span class="keyword">if</span> (!isSuccess)&#123;</div><div class="line">    <span class="comment">// 加入失败，则直接交换 originalMethod 和 swizzlingMethod 的IMP</span></div><div class="line">      method_exchangeImplementations(originalMethod,swizzledMethod);</div><div class="line">  &#125;<span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// 加入成功，就用 originalMethod 的 IMP 替换掉 swizzlingMethod 的 IMP  </span></div><div class="line">   class_replaceMethod(<span class="keyword">class</span>,swizzledSelector,method_getImplementation(originalMethod),method_getTypeEncoding(originalMethod));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><em>为什么不直接交换？</em></p>
+<p>因为可能会影响父类中的方法。</p>
+<p>比如，在第一个子类中，去交换一个父类中的方法，而这个方法在子类中没有实现，这个时候父类的方法就指向了子类的实现，调用这个方法的时候就会出问题。如果添加失败，说明子类已经实现了该方法，直接进行交换。如果添加成功，说明没有实现这个方法，先添加后替换，不影响父类。</p>
+<p><em>怎么保证只交换一次？</em></p>
+<p>要保证方法只会被交换一次，因为<code>load</code>方法原则上只会被调用一次，所以一般把 Method Swizzling放在<code>load</code>中执行，但<code>load</code>方法也可能被其他类手动调用，这时候就有可能被交换多次，所以用 <code>dispatch_once_t</code>来保证只执行一次：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+(<span class="keyword">void</span>)load&#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken,^&#123;</div><div class="line">        SwizzleMethod([<span class="keyword">self</span> <span class="keyword">class</span>],<span class="keyword">@selector</span>(viewWillAppear:),<span class="keyword">@selector</span>(AA_viewWillAppear));</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果子类和父类中都有交换的时候，子类的<code>load</code>方法可能先于父类执行，造成的结果是子类先拷贝父类的<code>willWillAppear</code>，并进行交换，然后父类再进行交换。这个时候父类的交换结果并不会影响子类，但是无法将父类交换的实现写入子类的<code>viewWillAppear</code>方法中。</p>
+<p>解决思路是：在子类的 <code>swizzledMethod</code>中，动态地查找父类替换后方法的实现，每次调用都去父类中重写查找。这样子类的方法执行结果就和<code>load</code>的加载顺序无关。（使用第三方<code>RSSwizzle</code>）</p>
+<h4 id="Runtime应用"><a href="#Runtime应用" class="headerlink" title="Runtime应用"></a>Runtime应用</h4><p>Runtime的应用都是围绕上面两个操作展开的：</p>
+<ul>
+<li>Method Swizzling：AOP 面向切面编程——对业务逻辑各部分进行隔离，降低业务逻辑各部分之间的耦合度。</li>
+<li>获取所有属性：字典转模型、进行归解档等</li>
+<li>获取所有属性和方法： 热修复、逆向开发等</li>
+</ul>
+<p>对业务逻辑各部分进行隔离，降低业务逻辑各部分之间的耦合度。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Baylee</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://zhengry.github.io/2018/03/26/Runtime/" title="Runtime">https://zhengry.github.io/2018/03/26/Runtime/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Runtime/" rel="tag"># Runtime</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/19/对NSMutableArray进行KVO/" rel="next" title="对NSMutableArray进行KVO">
+                <i class="fa fa-chevron-left"></i> 对NSMutableArray进行KVO
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/03/Xcode Debug/" rel="prev" title="Xcode Debug">
+                Xcode Debug <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Baylee" />
+            
+              <p class="site-author-name" itemprop="name">Baylee</p>
+              <p class="site-description motion-element" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">129</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhengry" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:ruyanzheng@126.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Runtime是什么"><span class="nav-number">1.</span> <span class="nav-text">Runtime是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Runtime是怎么工作的"><span class="nav-number">2.</span> <span class="nav-text">Runtime是怎么工作的</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#类"><span class="nav-number">2.1.</span> <span class="nav-text">类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对象"><span class="nav-number">2.2.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Meta-Class元类"><span class="nav-number">2.3.</span> <span class="nav-text">Meta Class元类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类的继承"><span class="nav-number">2.4.</span> <span class="nav-text">类的继承</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法的调用"><span class="nav-number">2.5.</span> <span class="nav-text">方法的调用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#方法的转化"><span class="nav-number">2.5.1.</span> <span class="nav-text">方法的转化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Method、SEL和IMP"><span class="nav-number">2.5.2.</span> <span class="nav-text">Method、SEL和IMP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Runtime常用操作"><span class="nav-number">3.</span> <span class="nav-text">Runtime常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#获取所有的属性和方法"><span class="nav-number">3.0.1.</span> <span class="nav-text">获取所有的属性和方法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Method-Swizzling-方法混写"><span class="nav-number">3.1.</span> <span class="nav-text">Method Swizzling 方法混写</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#交换方法的实现"><span class="nav-number">3.1.1.</span> <span class="nav-text">交换方法的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Runtime应用"><span class="nav-number">4.</span> <span class="nav-text">Runtime应用</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate"> 
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
