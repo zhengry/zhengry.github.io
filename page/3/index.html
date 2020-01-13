@@ -393,9 +393,9 @@
       
         
           <h5 id="元类型"><a href="#元类型" class="headerlink" title="元类型"></a>元类型</h5><p>元类型就是类型的类型。元类型表述为metaType。</p>
-<h5 id="Type和-self"><a href="#Type和-self" class="headerlink" title=".Type和.self"></a>.Type和.self</h5><p>Swift中元类型用.Type表示。比如Int.Type就是Int的元类型。</p>
-<p>类型和值有着不同的形式，比如说5是个Int类型的值。</p>
-<p><strong>.Type是类型的元类型；类型的.self是元类型的值，也就是类型本身。</strong>
+<h5 id="Type和-self"><a href="#Type和-self" class="headerlink" title=".Type和.self"></a>.Type和.self</h5><p>Swift中元类型用<code>.Type</code>表示。比如<code>Int.Type</code>就是<code>Int</code>的元类型。</p>
+<p>类型和值有着不同的形式，比如说5是个<code>Int</code>类型的值。</p>
+<p><strong><code>.Type</code>是类型的元类型；类型的<code>.self</code>是元类型的值，也就是类型本身。</strong>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/12/08/Swift中的元类型：.Type与.self/#more" rel="contents">
@@ -1662,7 +1662,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/设备方向与动作方向/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/AFNetworking的特殊设置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Baylee">
@@ -1681,7 +1681,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/01/设备方向与动作方向/" itemprop="url">设备方向与动作方向</a></h1>
+                <a class="post-title-link" href="/2018/05/01/AFNetworking的特殊设置/" itemprop="url">AFNetworking的特殊设置</a></h1>
         
 
         <div class="post-meta">
@@ -1714,7 +1714,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a></span>
 
                 
                 
@@ -1749,17 +1749,21 @@
 
       
         
-          <p>加速计物理特性</p>
-<p>iOS设备内的加速计是个三轴元件，能够检测到三维空间中的运动或重力。也就是说，加速计不但可以指示用户握持设备的方式（同自动旋转功能），而且可以指示设备是否被放在桌子上，甚至指示正面朝上还是朝下。加速计可以测量重力。加速计返回值为1.0时，表示在特定方向上感知到的重力是1g。</p>
+          <p>项目中的网络请求需要在Header中添加Authorization，并进行base64编码后请求数据。</p>
+<ol>
+<li><p>设置SecurityPolicy</p>
+<p>有两种情况需要设置SecurityPollicy：</p>
 <ul>
-<li>静止握持设备，没有任何运动，地球引力对其施加的力大约为1g</li>
-<li>纵向竖直地握持，那么设备会检测并报告在其y轴上的力大约为1g</li>
-<li>如果以一定角度握持，那么1g的力会分布到不同的轴上，这取决于握持的方式。在以45度角握持时，1g的力会均匀地分解到两个轴上。</li>
+<li>使用HTTP请求，则需要在plist文件中设置允许HTTP请求，并添加host地址到白名单，但有时请求仍会被Cancel（-999错误）；</li>
+<li>HTTPS请求，但是证书过期或无效了，请求可能被cancel</li>
 </ul>
-<p>如果检测到的加速计值远大于1g，那么可以判断这是突然运动。正常使用时，加速计在任一轴上都不会检测到大于1g的值。如果摇动、投掷或设备坠落，那么加速计便会在一个或多个轴上检测到很大的力。
+<p>设置SecurityPolicy：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</div><div class="line">   securityPolicy.validatesDomainName = <span class="literal">NO</span>;</div><div class="line">   securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</div><div class="line">  </div><div class="line">   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</div><div class="line">   manager.securityPolicy = securityPolicy;</div></pre></td></tr></table></figure>
+</li>
+<li><p>设置base64编码过的Authorization
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/05/01/设备方向与动作方向/#more" rel="contents">
+            <a class="btn" href="/2018/05/01/AFNetworking的特殊设置/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
