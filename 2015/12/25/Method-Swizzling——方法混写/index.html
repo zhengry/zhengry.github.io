@@ -111,7 +111,7 @@
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="在OC语言的runtime特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的SEL，这个SEL对应着一个IMP(一个IMP可以对应多个SEL)，通过这个IMP找到对应的方法调用。
 在每个类中都有一个Dispatch Table，这个Dispatch Table本质是将类中的SEL和IMP(可以理解为函数指针)进行对应。而Method Swiz">
-<meta property="og:updated_time" content="2020-01-10T08:40:54.066Z">
+<meta property="og:updated_time" content="2020-01-13T06:34:22.273Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Method Swizzling——方法混写">
 <meta name="twitter:description" content="在OC语言的runtime特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的SEL，这个SEL对应着一个IMP(一个IMP可以对应多个SEL)，通过这个IMP找到对应的方法调用。
@@ -392,9 +392,9 @@
       
 
       
-        <p>在OC语言的runtime特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的SEL，这个SEL对应着一个<code>IMP</code>(一个<code>IMP</code>可以对应多个<code>SEL</code>)，通过这个IMP找到对应的方法调用。</p>
-<p>在每个类中都有一个Dispatch Table，这个Dispatch Table本质是将类中的<code>SEL</code>和<code>IMP</code>(可以理解为函数指针)进行对应。而Method Swizzling就是对这个table进行操作，交换两个SEL的IMP。<a id="more"></a></p>
-<p>在实现Method Swizzling时，核心代码主要就是一个runtime的C语言API：</p>
+        <p>在OC语言的<code>runtime</code>特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的<code>SEL</code>，这个<code>SEL</code>对应着一个<code>IMP</code>(一个<code>IMP</code>可以对应多个<code>SEL</code>)，通过这个<code>IMP</code>找到对应的方法调用。</p>
+<p>在每个类中都有一个<code>Dispatch Table</code>，这个<code>Dispatch Table</code>本质是将类中的<code>SEL</code>和<code>IMP</code>(可以理解为函数指针)进行对应。而Method Swizzling就是对这个<code>table</code>进行操作，交换两个<code>SEL</code>的<code>IMP</code>。<a id="more"></a></p>
+<p>在实现Method Swizzling时，核心代码主要就是一个<code>runtime</code>的C语言API：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OBJC_EXPORT <span class="keyword">void</span> method_exchangeImplementations(Method m1, Method m2)</div></pre></td></tr></table></figure>
 <p>在项目中，我们经常需要增加友盟统计之类的功能，在用户进入某些页面时添加一次打点统计，我们可能会考虑逐个页面添加或者使用继承。但是当需要打点的页面很多时，逐个添加的话工作量太大，让所有<code>controller</code>继承一个基类<code>controller</code>并在基类方法里添加打点统计的话也需要给<code>controller</code>逐个修改继承关系，而且可定制性差，不利于代码的后期维护。如果考虑使用<code>category</code>扩展<code>controller</code>的打点统计方法，Method Swizzling就派上用场了。</p>
 <p>我们先给<code>UIViewController</code>添加一个Category，然后在Category中的<code>+(void)load</code>方法中添加Method Swizzling方法，我们用来替换的方法也写在这个Category中。由于<code>load</code>类方法是程序运行时这个类被加载到内存中就调用的一个方法，这个方法只会被调用一次，并且不需要我们手动调用。</p>
@@ -457,8 +457,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/12/28/KVO notes/" rel="prev" title="KVO notes">
-                KVO notes <i class="fa fa-chevron-right"></i>
+              <a href="/2015/12/28/常见的非野指针类crash及解决方案/" rel="prev" title="常见的非野指针类crash及解决方案">
+                常见的非野指针类crash及解决方案 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
