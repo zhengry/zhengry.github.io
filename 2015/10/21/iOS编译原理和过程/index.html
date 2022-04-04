@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="编译器先了解一下编译器相关的LLVM和Clang： LLVMLLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS编译原理和过程">
+<meta property="og:url" content="https://zhengry.github.io/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="编译器先了解一下编译器相关的LLVM和Clang： LLVMLLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengry.github.io/images/%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.png">
+<meta property="og:image" content="https://zhengry.github.io/images/Clang.png">
+<meta property="og:image" content="https://zhengry.github.io/images/LLVM%E4%BC%98%E5%8C%96%E5%99%A8.png">
+<meta property="og:image" content="https://zhengry.github.io/images/LLVM%E6%9C%BA%E5%99%A8%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8.png">
+<meta property="article:published_time" content="2015-10-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2018-05-03T02:08:31.698Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="Xcode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengry.github.io/images/%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.png">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/","path":"2015/10/21/iOS编译原理和过程/","title":"iOS编译原理和过程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS编译原理和过程 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">编译器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#LLVM"><span class="nav-number">1.1.</span> <span class="nav-text">LLVM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Clang"><span class="nav-number">1.2.</span> <span class="nav-text">Clang</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#iOS%E7%BC%96%E8%AF%91"><span class="nav-number">2.</span> <span class="nav-text">iOS编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">编译过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">具体的编译过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E7%9A%84%E6%8E%A7%E5%88%B6"><span class="nav-number">3.2.</span> <span class="nav-text">编译过程的控制</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS编译原理和过程 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS编译原理和过程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2015-10-21 00:00:00" itemprop="dateCreated datePublished" datetime="2015-10-21T00:00:00+08:00">2015-10-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2018-05-03 10:08:31" itemprop="dateModified" datetime="2018-05-03T10:08:31+08:00">2018-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Xcode/" itemprop="url" rel="index"><span itemprop="name">Xcode</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h4><p>先了解一下编译器相关的LLVM和Clang：</p>
+<h5 id="LLVM"><a href="#LLVM" class="headerlink" title="LLVM"></a>LLVM</h5><p>LLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以<span id="more"></span>任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，进行在线编译优化、代码生成。对开发者保持开放，并兼容已有脚本。LLVM的项目是一个模块化和可重复使用的编译器和工具技术的集合。LLVM是伊利诺伊大学的一个研究项目，提供一个现代化的，基于SSA的编译策略能够同时支持静态和动态的任意编程语言的编译目标。</p>
+<h5 id="Clang"><a href="#Clang" class="headerlink" title="Clang"></a>Clang</h5><p>Clang是一个C语言、C++、Objective-C、C++语言的轻量级编译器。</p>
+<p>特点：</p>
+<ul>
+<li><strong>终端用户特色：</strong>快速编译和较少内存占用；有诊断功能；兼容GCC；</li>
+<li><strong>实用工具和应用：</strong>基础架构模块库；可满足多样的客户需求代码重构，静态分析，代码生成；</li>
+<li><strong>内部设计与实现：</strong>一个简单的可移植的代码库；一个为C语言、Objective-C、C++、Objective-C设计的通用的语法解析器；与C&#x2F;C++&#x2F;Objective-C及它们的衍生语言具有高度一致性。</li>
+</ul>
+<h4 id="iOS编译"><a href="#iOS编译" class="headerlink" title="iOS编译"></a>iOS编译</h4><p>不管是OC还是Swift，都是采用Clang作为编译器前端，LLVM(Low level vritual machine)作为编译器后端。所以简单的编译过程如图：</p>
+<p><img src="/images/%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B.png" alt="编译过程"></p>
+<p>编译器前端的任务：进行语法分析，语义分析，生成中间代码(intermediate representation )。在这个过程中，会进行类型检查，如果发现错误或者警告会标注出来在哪一行。</p>
+<p><img src="/images/Clang.png" alt="Clang"></p>
+<p>编译器后端任务：进行机器无关的代码优化，生成机器语言，并且进行机器相关的代码优化。iOS的编译过程，后端的处理如下：</p>
+<ul>
+<li><strong>LVVM优化器会进行BitCode的生成，链接期优化等等</strong>。</li>
+</ul>
+<p><img src="/images/LLVM%E4%BC%98%E5%8C%96%E5%99%A8.png" alt="LLVM优化器"></p>
+<ul>
+<li><p><strong>LLVM机器码生成器会针对不同的架构，比如arm64等生成不同的机器码</strong>。</p>
+<p><img src="/images/LLVM%E6%9C%BA%E5%99%A8%E7%A0%81%E7%94%9F%E6%88%90%E5%99%A8.png" alt="LLVM机器码生成器"></p>
+</li>
+</ul>
+<h4 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h4><ol>
+<li>预处理（Pre-process）：替换宏、删除注释、展开头文件、产生.i文件</li>
+<li>编译（Compliling）：把之前的 <strong>.i</strong> 文件转换成汇编语言，产生 <strong>.s</strong>文件。</li>
+<li>汇编（Asembly）：把汇编语言文件转换为机器码文件，产生 <strong>.o</strong> 文件。</li>
+<li>链接（Link）：对**.o**文件中的对于其他的库的引用的地方进行引用，生成最后的可执行文件（同时也包括多个 <strong>.o</strong> 文件进行 link）。</li>
+</ol>
+<p>xcode 是根据 target 分开进行编译的。首先切换到 pch 的目录下，然后设置环境变量，然后启动 clang 并进行一系列的配置。在这之后一般就会产生具体的 <code>.o</code>文件作为产出（一般是有多个，针对不同的平台架构分别有一个，不过一般紧接着会把这些聚合成一个通用的 library）。不同的 target 也是有编译顺序的，具体的要看 target 之间的依赖关系。</p>
+<h5 id="具体的编译过程"><a href="#具体的编译过程" class="headerlink" title="具体的编译过程"></a>具体的编译过程</h5><ol>
+<li><p>编译信息写入辅助文件，创建编译后的文件架构(name.app)</p>
+</li>
+<li><p>处理文件打包信息，例如在debug环境下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Entitlements:</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;application-identifier&quot;</span> = <span class="string">&quot;app的bundleid&quot;</span>;</span><br><span class="line">    <span class="string">&quot;aps-environment&quot;</span> = development;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行CocoaPod编译前脚本 </p>
+<p>例如对于使用CocoaPod的工程会执行<code>CheckPods Manifest.lock</code></p>
+</li>
+<li><p>编译各个.m文件，使用<code>CompileC</code>和<code>clang</code>命令</p>
+<p>例如：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CompileC ClassName.o ClassName.m normal x86_64 objective-c com.apple.compilers.llvm.clang<span class="number">.1</span>_0.compiler</span><br><span class="line"><span class="keyword">export</span> LANG=en_US.US-ASCII</span><br><span class="line"><span class="keyword">export</span> PATH=<span class="string">&quot;...&quot;</span></span><br><span class="line">clang -x objective-c -arch x86_64 -fmessage-length=<span class="number">0</span> -fobjc-arc... -Wno-missing-field-initializers ... -DDEBUG=<span class="number">1</span> ... -isysroot iPhoneSimulator10<span class="number">.1</span>.sdk -fasm-blocks ... -I 上文提到的文件 -F 所需要的Framework  -iquote 所需要的Framework  ... -c ClassName.c -o ClassName.o</span><br></pre></td></tr></table></figure>
+
+<p>这些编译命令表示</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">clang是实际的编译命令</span><br><span class="line">-x      objective-c 指定了编译的语言</span><br><span class="line">-arch   x86_64制定了编译的架构，类似还有arm7等</span><br><span class="line">-fobjc-arc 一些列-f开头的，指定了采用arc等信息。这个也就是为什么你可以对单独的一个.m文件采用非ARC编程。</span><br><span class="line">-Wno-missing-field-initializers 一系列以-W开头的，指的是编译的警告选项，通过这些你可以定制化编译选项</span><br><span class="line">-DDEBUG=<span class="number">1</span> 一些列-D开头的，指的是预编译宏，通过这些宏可以实现条件编译</span><br><span class="line">-iPhoneSimulator10<span class="number">.1</span>.sdk 制定了编译采用的iOS SDK版本</span><br><span class="line">-I 把编译信息写入指定的辅助文件</span><br><span class="line">-F 链接所需要的Framework</span><br><span class="line">-c ClassName.c 编译文件</span><br><span class="line">-o ClassName.o 编译产物</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>链接需要的Framework，例如<code>Foundation.framework</code>,<code>AFNetworking.framework</code>,<code>ALiPay.fframework</code></p>
+</li>
+<li><p>编译xib文件</p>
+</li>
+<li><p>拷贝xib，图片等资源文件到结果目录</p>
+</li>
+<li><p>编译ImageAssets</p>
+</li>
+<li><p>处理info.plist</p>
+</li>
+<li><p>执行CocoaPod脚本</p>
+</li>
+<li><p>拷贝Swift标准库</p>
+</li>
+<li><p>创建.app文件和对其签名</p>
+</li>
+</ol>
+<h5 id="编译过程的控制"><a href="#编译过程的控制" class="headerlink" title="编译过程的控制"></a>编译过程的控制</h5><p>在 xcode 中可以通过<code> Build phases</code>,<code>Build settings</code>以及<code> Build rules</code>来进行控制。</p>
+<p><strong>Build phases：</strong>主要是用来控制从源文件到可执行文件的整个过程的，所以应该说是面向源文件的，包括编译哪些文件，以及在编译过程中执行一些自定义的脚本什么的。</p>
+<p><strong>Build rules：</strong> 主要是用来控制如何编译某种类型的源文件的，如果相对某种类型的原文件进行特定的编译，那么就应该在Build rules里进行编辑了。同时这里也会大量的运用一些 xcode 中的环境变量。</p>
+<p><strong>Build settings：</strong>是对编译工作的细节进行设定，在这个窗口里可以看见大量的设置选项，从编译到打包再到代码签名都有，这里要注意 settings 的 section 分类，一般通过右侧的 inspector 就可以很好的理解选项的意义了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/" title="iOS编译原理和过程">https://zhengry.github.io/2015/10/21/iOS编译原理和过程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Xcode/" rel="tag"># Xcode</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/" rel="prev" title="Autoreleasepool中的对象什么时候释放">
+                  <i class="fa fa-chevron-left"></i> Autoreleasepool中的对象什么时候释放
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/11/27/%E5%B8%B8%E8%A7%81%E7%9A%84%E9%87%8E%E6%8C%87%E9%92%88Crash/" rel="next" title="常见的野指针Crash">
+                  常见的野指针Crash <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

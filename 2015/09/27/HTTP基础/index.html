@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在TCP&#x2F;IP协议族中跟HTTP协议有三个密不可分的协议。 IP协议（网络层） TCP&#x2F;IP协议族中的IP指的的就是网际协议（不是IP地址哦）。 IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。  IP地址：指明了节点被分配到的地址。 MA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP基础">
+<meta property="og:url" content="https://zhengry.github.io/2015/09/27/HTTP%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="在TCP&#x2F;IP协议族中跟HTTP协议有三个密不可分的协议。 IP协议（网络层） TCP&#x2F;IP协议族中的IP指的的就是网际协议（不是IP地址哦）。 IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。  IP地址：指明了节点被分配到的地址。 MA">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2015-09-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-12-19T01:36:50.253Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="HTTP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2015/09/27/HTTP%E5%9F%BA%E7%A1%80/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2015/09/27/HTTP%E5%9F%BA%E7%A1%80/","path":"2015/09/27/HTTP基础/","title":"HTTP基础"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HTTP基础 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#IP%E5%8D%8F%E8%AE%AE%EF%BC%88%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">IP协议（网络层）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP%E5%8D%8F%E8%AE%AE%EF%BC%88%E4%BC%A0%E8%BE%93%E5%B1%82%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">TCP协议（传输层）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS%E6%9C%8D%E5%8A%A1%EF%BC%88%E5%BA%94%E7%94%A8%E5%B1%82%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">DNS服务（应用层）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">HTTP通信过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">HTTP协议</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/09/27/HTTP%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HTTP基础 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTP基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2015-09-27 00:00:00" itemprop="dateCreated datePublished" datetime="2015-09-27T00:00:00+08:00">2015-09-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2019-12-19 09:36:50" itemprop="dateModified" datetime="2019-12-19T09:36:50+08:00">2019-12-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在TCP&#x2F;IP协议族中跟HTTP协议有三个密不可分的协议。</p>
+<h4 id="IP协议（网络层）"><a href="#IP协议（网络层）" class="headerlink" title="IP协议（网络层）"></a>IP协议（网络层）</h4><ol>
+<li><p>TCP&#x2F;IP协议族中的IP指的的就是网际<strong>协议</strong>（不是IP地址哦）。</p>
+<p>IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。</p>
+<ul>
+<li>IP地址：指明了节点被分配到的地址。</li>
+<li>MAC地址：指网卡所属的固定地址。</li>
+</ul>
+<p><strong>IP地址可以和MAC地址进行配对。IP地址可变换，但MAC地址基本不会更改。</strong></p>
+</li>
+<li><p>使用ARP协议凭借MAC地址进行通信<span id="more"></span></p>
+<p>IP间的通信依赖MAC地址。网络上通信的双方很少在同一局域网内，通常要经过多台计算机和网络设备中转才能连接到对方。而在进行中转时，会利用下一站中转设备的MAC地址来搜索下一个中转目标。这时就需要采用ARP协议（Address Resolution Protocol）。ARP是一种用以解析地址的协议，根据通信方的IP地址就可以反查出对应的MAC地址。</p>
+</li>
+<li><p>路由选择</p>
+<p>在传输过程中，要经过很多计算机和网络设备中转，所以，计算机和路由器等网络设备只能获取很粗略的传输路线。</p>
+</li>
+</ol>
+<h4 id="TCP协议（传输层）"><a href="#TCP协议（传输层）" class="headerlink" title="TCP协议（传输层）"></a>TCP协议（传输层）</h4><ol>
+<li><p>提供可靠的字节流服务。</p>
+<p>字节流服务：为了方便传输，将大块数据分割成以报文段（Segment）为单位的数据包进行管理，并确认数据能够准确可靠地送达到对方。</p>
+</li>
+<li><p>确保数据能够到达目标</p>
+<p>TCP协议采用三次握手策略。用TCP协议把数据包送出去后，TCP会向对方确认是否成功送达。</p>
+</li>
+<li><p>TCP三次握手</p>
+<p>TCP的flag：SYN（Synchronize）和ACK（Acknowledgement）</p>
+<p>握手过程：</p>
+<ol>
+<li>发送端发送一个带SYN标志的数据包给对方。</li>
+<li>接收端收到后，回传一个带有SYN&#x2F;ACK标志的数据包以示传达确认信息。</li>
+<li>发送端在回传一个带ACK标志的数据包，表示握手结束。</li>
+</ol>
+</li>
+</ol>
+<h4 id="DNS服务（应用层）"><a href="#DNS服务（应用层）" class="headerlink" title="DNS服务（应用层）"></a>DNS服务（应用层）</h4><p>DNS协议提供域名到IP地址之间的解析服务。</p>
+<p>用户通常通过使用主机名或域名来访问对方的计算机，但计算机则擅长处理数字式的IP。</p>
+<h4 id="HTTP通信过程"><a href="#HTTP通信过程" class="headerlink" title="HTTP通信过程"></a>HTTP通信过程</h4><ul>
+<li>请求过程<ol>
+<li>客户端发起对某个网页的请求</li>
+<li>DNS负责解析请求网页的IP地址</li>
+<li>HTTP协议负责生成针对目标web服务器的HTTP请求报文</li>
+<li>TCP协议为了方便通信，将HTTP请求报文按序号分割成报文段，把每个报文段可靠地传送给对方</li>
+<li>IP协议搜索对方的地址，一边中转一边传送到达服务端</li>
+<li>在服务端，TCP协议将从对方那里接收到的报文段按顺序进行重组得到完整报文信息。</li>
+<li>在服务端HTTP协议负责对Web服务器请求的内容进行处理</li>
+</ol>
+</li>
+<li>以上是请求的通信过程，响应的过程同样是利用TCP&#x2F;IP通信协议向用户进行回转。</li>
+</ul>
+<h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><ol>
+<li><p>请求从客户端发出，最后服务器端响应该请求并返回</p>
+<p><strong>请求报文</strong>包括请求方法、请求URI、协议版本、可选的请求首部字段和内容实体。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /form/entey  HTTP/1.1			**依次是请求方法 URI和协议版本</span><br><span class="line">Host: hackr.jp					**请求首部字段</span><br><span class="line">Connection: keep_alive				**请求首部字段</span><br><span class="line">Content_Type: application/x-www_form_urlencoded	**请求首部字段</span><br><span class="line">Content-Length: 16				**请求首部字段</span><br><span class="line">name=jiang&amp;age = 16				**内容实体</span><br></pre></td></tr></table></figure>
+
+<p><strong>响应报文</strong>基本上由协议版本、状态码、用以解释状态码的原因短语、可选的首部字段以及实体主题构成。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1  200  OK				**协议版本、状态码、原因短语</span><br><span class="line">Date: Tue, 10 Jul 2012 08:20:23  GMT		**响应首部字段</span><br><span class="line">Content-Length:362				**同上</span><br><span class="line">Content-Type:text/html				**同上</span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span>						**主体</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HTTP是一种无状态协议</p>
+<p>使用HTTP协议，每当有新的请求发送时，就会有对应的新响应产生。协议本身并不保留之前一切的请求或响应报文的信息。这时为了更快地处理大量事务，确保协议的可伸缩性。</p>
+<p>现在很多网站为了能够保存用户状态引入了Cookie技术，可以管理用户状态。</p>
+</li>
+<li><p>URI准确定位请求资源</p>
+<p>当客户端请求访问资源而发送请求时，URI需要把作为请求报文中的请求URI包含在内。</p>
+<p>URI：Uniform Resource Identifier统一资源标识符，用字符串标识某一互联网资源。使用统一格式（遵守某种协议）的方便可处理的文档、图像、服务等能够区别于其他类型的资源（Resource）构成的标识符（Identifier）。</p>
+<p>比如：<a href="ftp://ftp.is.co.za/rfc/rfc1808.txt">ftp://ftp.is.co.za/rfc/rfc1808.txt</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.ietf.org/rtf/rtf2396.txt">http://www.ietf.org/rtf/rtf2396.txt</a></p>
+<p>URL：Uniform Resource Locator统一资源定位符，标识资源的在互联网上所处的位置。是URI的子集。是使用浏览器访问web页面时需要输入的网页地址</p>
+<p>比如：<a href="https://zhengry.github.io/">https://zhengry.github.io</a></p>
+</li>
+<li><p>HTTP常用的方法</p>
+<ul>
+<li><p>GET：获取资源</p>
+<p>GET方法用来请求访问已经被URI识别的资源，指定的资源经服务器端解析后返回响应内容。</p>
+</li>
+<li><p>POST：传输实体主体</p>
+<p>POST的主要目的不是获取响应的主体消息，而是向服务端发送信息实体。</p>
+</li>
+<li><p>PUT：传输文件</p>
+</li>
+<li><p>HEAD：获得报文首部，跟GET相似，只是不返回报文主体部分，用于确认URI的有效性及资源更新的日期时间等</p>
+</li>
+<li><p>DELETE：按请求URI删除指定的资源</p>
+</li>
+<li><p>OPTIONS：查询针对请求URI指定的资源支持的方法（比如支持GET和HEAD方法）</p>
+</li>
+<li><p>CONNECT：要求在与代理服务器通信时建立隧道，实现用隧道协议进行TCP通信。主要使用SSL和TLS协议把通信内容加密后经网络隧道传输。（也就是HTTPs）</p>
+</li>
+</ul>
+</li>
+<li><p>HTTP&#x2F;1.1的持久连接</p>
+<p>HTTP&#x2F;1.1以前，每进行一次HTTP童新年就要断开一次TCP连接，在浏览同一个页面的不同资源时，每次的请求都会造成无谓的TCP连接建立和断开，增加通信量的开销。</p>
+<p>HTTP&#x2F;1.1增加了持久连接的方法，只要任意一端没有明确提出断开连接，则保持TCP连接状态。</p>
+<p>持久连接技术出现后使<strong>管线化</strong>成为可能：可以同时并行发送多个请求，而不需要一个接一个等待响应。</p>
+</li>
+<li><p>使用Cookie管理状态</p>
+<p>Cookie技术通过在请求和响应报文中写入Cookie信息来控制客户端的状态。Cookie会根据从服务端发送的响应报文内一个叫做Set-Cookie的首部字段信息，通知客户端保存Cookie。下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入Cookie值后发送出去。服务端发现客户端发送过来的Cookie后，会检查究竟是从哪一个客户端发送来的连接请求，然后对比服务器上的记录，最后得到之前的状态信息。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2015/09/27/HTTP%E5%9F%BA%E7%A1%80/" title="HTTP基础">https://zhengry.github.io/2015/09/27/HTTP基础/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2015/09/03/CocoaPods%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" rel="prev" title="CocoaPods工作原理">
+                  <i class="fa fa-chevron-left"></i> CocoaPods工作原理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2015/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/" rel="next" title="Autoreleasepool中的对象什么时候释放">
+                  Autoreleasepool中的对象什么时候释放 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

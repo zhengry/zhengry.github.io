@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="项目中的网络请求需要在Header中添加Authorization，并进行base64编码后请求数据。  设置SecurityPolicy 有两种情况需要设置SecurityPollicy：  使用HTTP请求，则需要在plist文件中设置允许HTTP请求，并添加host地址到白名单，但有时请求仍会被Cancel（-999错误）； HTTPS请求，但是证书过期或无效了，请求可能被cancel  设">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFNetworking的特殊设置">
+<meta property="og:url" content="https://zhengry.github.io/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="项目中的网络请求需要在Header中添加Authorization，并进行base64编码后请求数据。  设置SecurityPolicy 有两种情况需要设置SecurityPollicy：  使用HTTP请求，则需要在plist文件中设置允许HTTP请求，并添加host地址到白名单，但有时请求仍会被Cancel（-999错误）； HTTPS请求，但是证书过期或无效了，请求可能被cancel  设">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-30T16:00:00.000Z">
+<meta property="article:modified_time" content="2018-10-10T09:40:37.102Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="OC网络">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/","path":"2018/05/01/AFNetworking的特殊设置/","title":"AFNetworking的特殊设置"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AFNetworking的特殊设置 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AFNetworking的特殊设置 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AFNetworking的特殊设置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-01 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-01T00:00:00+08:00">2018-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2018-10-10 17:40:37" itemprop="dateModified" datetime="2018-10-10T17:40:37+08:00">2018-10-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>项目中的网络请求需要在Header中添加Authorization，并进行base64编码后请求数据。</p>
+<ol>
+<li><p>设置SecurityPolicy</p>
+<p>有两种情况需要设置SecurityPollicy：</p>
+<ul>
+<li>使用HTTP请求，则需要在plist文件中设置允许HTTP请求，并添加host地址到白名单，但有时请求仍会被Cancel（-999错误）；</li>
+<li>HTTPS请求，但是证书过期或无效了，请求可能被cancel</li>
+</ul>
+<p>设置SecurityPolicy：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</span><br><span class="line">   securityPolicy.validatesDomainName = <span class="literal">NO</span>;</span><br><span class="line">   securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</span><br><span class="line">  </span><br><span class="line">   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</span><br><span class="line">   manager.securityPolicy = securityPolicy;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置base64编码过的Authorization<span id="more"></span></p>
+<p>在get请求时，可以使用AFHTTPSessionManager；但在post请求中AFHTTPSessionManager无法满足需要，需要使用AFURLSessionManager，并自定义Request来实现。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment">//Authorization数据</span></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *dic = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</span><br><span class="line">    [dic setValue:<span class="string">@&quot;IOS&quot;</span> forKey:<span class="string">@&quot;os_type&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span> (login) &#123;</span><br><span class="line">        <span class="keyword">if</span> (![DDUser checkLogin]) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        [dic setValue:[DDUser mainUser].token forKey:<span class="string">@&quot;token&quot;</span>];</span><br><span class="line">        [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@&quot;userId&quot;</span>];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ([DDUser checkLogin]) &#123;</span><br><span class="line">            [dic setValue:[DDUser mainUser].token forKey:<span class="string">@&quot;token&quot;</span>];</span><br><span class="line">            [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@&quot;userId&quot;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">//base64编码</span></span><br><span class="line">    <span class="built_in">NSError</span> *error;</span><br><span class="line">    <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:dic options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;error];</span><br><span class="line">    <span class="built_in">NSString</span> *str = [jsonData base64EncodedStringWithOptions:(<span class="built_in">NSDataBase64EncodingOptions</span>)<span class="number">0</span>];</span><br><span class="line">AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</span><br><span class="line">   [manager.requestSerializer setValue:str forHTTPHeaderField:<span class="string">@&quot;Authorization&quot;</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>url编码</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *getURL = [urlString stringByAddingPercentEncodingWithAllowedCharacters:[<span class="built_in">NSCharacterSet</span> characterSetWithCharactersInString:<span class="string">@&quot;#%^&#123;&#125;\&quot;[]|\\&lt;&gt; &quot;</span>].invertedSet];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>post请求的参数需要转成json时，需要使用<code>AFURLSessionManager</code>而不是<code>AFHTTPSessionManager</code>，需要自己来设置request的<code>header</code>和<code>body</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//post参数需要转成json时使用AFURLSessionManager</span></span><br><span class="line">AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[<span class="built_in">NSURLSessionConfiguration</span> defaultSessionConfiguration]];</span><br><span class="line">    manager.securityPolicy = securityPolicy;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableURLRequest</span> *request = [[AFJSONRequestSerializer serializer] requestWithMethod:<span class="string">@&quot;POST&quot;</span> URLString:postURL parameters:<span class="literal">nil</span> error:<span class="literal">nil</span>];</span><br><span class="line">    request.timeoutInterval= <span class="number">60</span>;</span><br><span class="line">    [request setValue:str forHTTPHeaderField:<span class="string">@&quot;Authorization&quot;</span>];</span><br><span class="line">    [request addValue:<span class="string">@&quot;application/json;charset=utf-8&quot;</span> forHTTPHeaderField:<span class="string">@&quot;Content-Type&quot;</span>];</span><br><span class="line">    [request addValue:<span class="string">@&quot;application/json&quot;</span> forHTTPHeaderField:<span class="string">@&quot;Accept&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span> (parameters != <span class="literal">nil</span>) &#123;</span><br><span class="line">    <span class="built_in">NSError</span> *xxError;</span><br><span class="line">        </span><br><span class="line">    [request setHTTPBody:[<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:parameters options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;xxError]];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [[manager dataTaskWithRequest:request uploadProgress:<span class="literal">nil</span> downloadProgress:<span class="literal">nil</span> completionHandler:^(<span class="built_in">NSURLResponse</span> * _Nonnull response, <span class="type">id</span>  _Nullable responseObject, <span class="built_in">NSError</span> * _Nullable error) &#123;</span><br><span class="line">        [<span class="keyword">self</span> dismissHUD];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">            <span class="keyword">if</span> (successBlock) &#123;</span><br><span class="line">                    successBlock(responseObject);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (failureBlock) &#123;</span><br><span class="line">                failureBlock(error);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;] resume];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置response数据格式</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//get请求</span></span><br><span class="line">manager.responseSerializer = [AFHTTPResponseSerializer serializer];</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes = [<span class="built_in">NSSet</span> setWithObjects:<span class="string">@&quot;application/json&quot;</span>, <span class="string">@&quot;text/json&quot;</span>, <span class="string">@&quot;text/javascript&quot;</span>,<span class="string">@&quot;text/html&quot;</span>,<span class="string">@&quot;text/plain&quot;</span>, <span class="literal">nil</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>post方法上传图片（拼接formData），需要注意的是post的数据参数名需要跟服务端要求的参数名保持一致：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//securityPolicy	</span></span><br><span class="line">	AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</span><br><span class="line">    securityPolicy.validatesDomainName = <span class="literal">NO</span>;</span><br><span class="line">    securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</span><br><span class="line">    </span><br><span class="line">    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</span><br><span class="line">    manager.securityPolicy = securityPolicy;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//url编码</span></span><br><span class="line">    <span class="built_in">NSString</span> *urlStr = [url stringByAddingPercentEncodingWithAllowedCharacters:[<span class="built_in">NSCharacterSet</span> URLQueryAllowedCharacterSet]];</span><br><span class="line"></span><br><span class="line">	<span class="comment">//header数据</span></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *dic = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</span><br><span class="line">    [dic setValue:<span class="string">@&quot;IOS&quot;</span> forKey:<span class="string">@&quot;os_type&quot;</span>];</span><br><span class="line">    <span class="keyword">if</span> (login) &#123;</span><br><span class="line">        <span class="keyword">if</span> (![DDUser checkLogin]) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        [dic setValue:[DDUser mainUser].token forKey:<span class="string">@&quot;token&quot;</span>];</span><br><span class="line">        [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@&quot;userId&quot;</span>];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> ([DDUser checkLogin]) &#123;</span><br><span class="line">            [dic setValue:[DDUser mainUser].token forKey:<span class="string">@&quot;token&quot;</span>];</span><br><span class="line">            [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@&quot;userId&quot;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//base64编码</span></span><br><span class="line">    <span class="built_in">NSError</span> *error;</span><br><span class="line">    <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:dic options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;error];</span><br><span class="line">    <span class="built_in">NSString</span> *str = [jsonData base64EncodedStringWithOptions:(<span class="built_in">NSDataBase64EncodingOptions</span>)<span class="number">0</span>];</span><br><span class="line">	<span class="comment">//设置请求头</span></span><br><span class="line">    [manager.requestSerializer setValue:str forHTTPHeaderField:<span class="string">@&quot;Authorization&quot;</span>];</span><br><span class="line">    [manager.requestSerializer setValue:<span class="string">@&quot;multipart/form-data&quot;</span> forHTTPHeaderField:<span class="string">@&quot;Content-Type&quot;</span>];</span><br><span class="line">    manager.requestSerializer.timeoutInterval = <span class="number">60</span>;</span><br><span class="line">    manager.responseSerializer = [AFHTTPResponseSerializer serializer];</span><br><span class="line">    manager.responseSerializer.acceptableContentTypes = [<span class="built_in">NSSet</span> setWithObjects:<span class="string">@&quot;application/json&quot;</span>, <span class="string">@&quot;text/json&quot;</span>, <span class="string">@&quot;text/javascript&quot;</span>,<span class="string">@&quot;text/html&quot;</span>,<span class="string">@&quot;text/plain&quot;</span>, <span class="literal">nil</span>];</span><br><span class="line">    [manager POST:urlStr parameters:parameters constructingBodyWithBlock:^(<span class="type">id</span>&lt;AFMultipartFormData&gt;  _Nonnull formData) &#123;</span><br><span class="line">        <span class="built_in">NSString</span> *key = dataDic.allKeys.firstObject;</span><br><span class="line">        <span class="built_in">NSData</span> *data = dataDic[key];</span><br><span class="line">        <span class="built_in">NSString</span> *file = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@.jpeg&quot;</span>,key];</span><br><span class="line">		<span class="comment">//注意这里的参数名跟服务端要求的参数名称保持一致</span></span><br><span class="line">        [formData appendPartWithFileData:data name:<span class="string">@&quot;editormd-image-file&quot;</span><span class="comment">//参数名</span></span><br><span class="line">                                fileName:file mimeType:<span class="string">@&quot;image/jpeg&quot;</span>];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">         progress:<span class="literal">nil</span> success:^(<span class="built_in">NSURLSessionDataTask</span> * _Nonnull task, <span class="type">id</span>  _Nullable responseObject) &#123;</span><br><span class="line">             <span class="keyword">if</span> (successBlock) &#123;</span><br><span class="line">                 <span class="built_in">NSDictionary</span> *dict = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:responseObject options:<span class="built_in">NSJSONReadingMutableLeaves</span> error:<span class="literal">nil</span>];</span><br><span class="line">                 successBlock(dict);</span><br><span class="line">             &#125;</span><br><span class="line">             </span><br><span class="line">         &#125; failure:^(<span class="built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="built_in">NSError</span> * _Nonnull error) &#123;</span><br><span class="line">             [<span class="keyword">self</span> dismissHUD];</span><br><span class="line">             <span class="keyword">if</span> (failureBlock) &#123;</span><br><span class="line">                 failureBlock(error);</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用原生post请求（需要设置base64编码过的Authorization，需要url编码，设置HTTPHeader）：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Header数据</span></span><br><span class="line"><span class="built_in">NSMutableDictionary</span> *dic = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</span><br><span class="line">[dic setValue:<span class="string">@&quot;IOS&quot;</span> forKey:<span class="string">@&quot;os_type&quot;</span>];</span><br><span class="line"><span class="keyword">if</span> (login) &#123;</span><br><span class="line">   <span class="keyword">if</span> (![DDUser checkLogin]) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    [dic setValue:[DDUser mainUser].token forKey:<span class="string">@&quot;token&quot;</span>];</span><br><span class="line">    [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@&quot;userId&quot;</span>];</span><br><span class="line"> &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ([DDUser checkLogin]) &#123;</span><br><span class="line">        [dic setValue:[DDUser mainUser].token forKey:<span class="string">@&quot;token&quot;</span>];</span><br><span class="line">        [dic setValue:[DDUser mainUser].userId forKey:<span class="string">@&quot;userId&quot;</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSError</span> *error;</span><br><span class="line">    <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:dic options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;error];</span><br><span class="line">    <span class="comment">//base64编码</span></span><br><span class="line"><span class="built_in">NSString</span> *str = [jsonData base64EncodedStringWithOptions:(<span class="built_in">NSDataBase64EncodingOptions</span>)<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURLSession</span> *session = [<span class="built_in">NSURLSession</span> sharedSession];</span><br><span class="line"></span><br><span class="line"><span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:urlString];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSMutableURLRequest</span> *request = [<span class="built_in">NSMutableURLRequest</span> requestWithURL:url];</span><br><span class="line">    [request setValue:str forHTTPHeaderField:<span class="string">@&quot;Authorization&quot;</span>];</span><br><span class="line">    [request addValue:<span class="string">@&quot;application/json;charset=utf-8&quot;</span> forHTTPHeaderField:<span class="string">@&quot;Content-Type&quot;</span>];</span><br><span class="line">    [request addValue:<span class="string">@&quot;application/json&quot;</span> forHTTPHeaderField:<span class="string">@&quot;Accept&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    request.HTTPMethod = <span class="string">@&quot;POST&quot;</span>;</span><br><span class="line">    <span class="keyword">if</span> (parameters != <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="built_in">NSError</span> *xxError;</span><br><span class="line">        </span><br><span class="line">        [request setHTTPBody:[<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:parameters options:<span class="built_in">NSJSONWritingPrettyPrinted</span> error:&amp;xxError]];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSURLSessionDataTask</span> *dataTask = [session dataTaskWithRequest:request completionHandler:^(<span class="built_in">NSData</span> * _Nullable data, <span class="built_in">NSURLResponse</span> * _Nullable response, <span class="built_in">NSError</span> * _Nullable error) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!error) &#123;</span><br><span class="line">            <span class="keyword">if</span> (successBlock) &#123;</span><br><span class="line">                <span class="built_in">NSDictionary</span> *dic = [<span class="built_in">NSJSONSerialization</span> JSONObjectWithData:data options:<span class="built_in">NSJSONReadingMutableLeaves</span> error:<span class="literal">nil</span>];</span><br><span class="line">                successBlock(dic);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (failureBlock) &#123;</span><br><span class="line">                failureBlock(error);</span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@&quot;请求发生错误error---&gt;%@&quot;</span>, error);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [dataTask resume];</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/" title="AFNetworking的特殊设置">https://zhengry.github.io/2018/05/01/AFNetworking的特殊设置/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/OC%E7%BD%91%E7%BB%9C/" rel="tag"># OC网络</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/05/01/%E8%AE%BE%E5%A4%87%E6%96%B9%E5%90%91%E4%B8%8E%E5%8A%A8%E4%BD%9C%E6%96%B9%E5%90%91/" rel="prev" title="设备方向与动作方向">
+                  <i class="fa fa-chevron-left"></i> 设备方向与动作方向
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/06/12/Swift%E7%89%88%E6%95%B0%E7%8B%AC%E5%B0%8F%E6%B8%B8%E6%88%8F%E6%80%BB%E7%BB%93/" rel="next" title="Swift版数独小游戏总结">
+                  Swift版数独小游戏总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

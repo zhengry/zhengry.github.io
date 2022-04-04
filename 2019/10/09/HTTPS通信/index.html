@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：  通信使用明文，内容可能会被窃听 不验证通信方的身份，有可能是伪装的通信方 无法证明报文的完整性（正确性），可能已经被篡改 即使通信内容经过加密处理，加密后的通信内容还是会被看到  什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTPS通信">
+<meta property="og:url" content="https://zhengry.github.io/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="HTTP缺点HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：  通信使用明文，内容可能会被窃听 不验证通信方的身份，有可能是伪装的通信方 无法证明报文的完整性（正确性），可能已经被篡改 即使通信内容经过加密处理，加密后的通信内容还是会被看到  什么是HTTPSHTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transpor">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengry.github.io/images/HTTPS%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.png">
+<meta property="article:published_time" content="2019-10-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-07T07:53:55.793Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="网络基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengry.github.io/images/HTTPS%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.png">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/","path":"2019/10/09/HTTPS通信/","title":"HTTPS通信"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>HTTPS通信 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP%E7%BC%BA%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">HTTP缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFHTTPS"><span class="nav-number">2.</span> <span class="nav-text">什么是HTTPS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%8A%80%E6%9C%AF%EF%BC%9A%E5%85%B1%E4%BA%AB%E7%A7%98%E9%92%A5%E5%8A%A0%E5%AF%86-VS-%E5%85%AC%E5%BC%80%E7%A7%98%E9%92%A5%E5%8A%A0%E5%AF%86"><span class="nav-number">3.</span> <span class="nav-text">加密技术：共享秘钥加密 VS 公开秘钥加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS%E9%87%87%E7%94%A8%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86%E6%9C%BA%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">HTTPS采用混合加密机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E7%9A%84%E7%94%B3%E8%AF%B7%E5%92%8C%E9%AA%8C%E8%AF%81"><span class="nav-number">5.</span> <span class="nav-text">证书的申请和验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">HTTPS通信过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS%E7%BC%BA%E7%82%B9%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">7.</span> <span class="nav-text">HTTPS缺点和解决方法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="HTTPS通信 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTTPS通信
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-10-09 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-09T00:00:00+08:00">2019-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2020-01-07 15:53:55" itemprop="dateModified" datetime="2020-01-07T15:53:55+08:00">2020-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h4 id="HTTP缺点"><a href="#HTTP缺点" class="headerlink" title="HTTP缺点"></a>HTTP缺点</h4><p>HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：</p>
+<ul>
+<li>通信使用明文，内容可能会被窃听</li>
+<li>不验证通信方的身份，有可能是伪装的通信方</li>
+<li>无法证明报文的完整性（正确性），可能已经被篡改</li>
+<li>即使通信内容经过加密处理，加密后的通信内容还是会被看到</li>
+</ul>
+<h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。<span id="more"></span></p>
+<p>HTTPS并非是应用层的一种新协议。只是HTTP通信协议部分用SSL和TLS协议代替而已。通常，HTTP直接和TCP通信。当使用SSL时，则是先和SSL通信，再由SSL和TCP通信。SSL是独立于HTTP的协议。其他运行在应用层的SMTP和Telnet等协议也可以配合SSL协议使用。</p>
+<h4 id="加密技术：共享秘钥加密-VS-公开秘钥加密"><a href="#加密技术：共享秘钥加密-VS-公开秘钥加密" class="headerlink" title="加密技术：共享秘钥加密 VS 公开秘钥加密"></a>加密技术：共享秘钥加密 VS 公开秘钥加密</h4><ul>
+<li><p>共享秘钥加密（对称秘钥加密）：加密和解密使用同一个秘钥。</p>
+<p>共享秘钥的难题在于：以共享秘钥方式加密时需要将秘钥发送给对方，但是无法保证发送过程不被监听或篡改，无法安全发送秘钥。</p>
+</li>
+<li><p>公开秘钥加密（非对称秘钥加密）：使用一对非对称的秘钥。一把叫做私有秘钥，一把叫做公开秘钥。私有秘钥不能让其他人知道，而公开秘钥可以随意发布，任何人都可以获得。</p>
+<p>使用公开秘钥加密方式时，发送密文的一方使用对方的公开秘钥进行加密，对方收到加密的信息后，再用自己的私有秘钥进行解密。</p>
+<p>这种方式不需要发送用来解密的私钥，也不必担心秘钥被窃听。</p>
+<p>公开秘钥比共享秘钥的处理速度要慢。</p>
+</li>
+</ul>
+<h4 id="HTTPS采用混合加密机制"><a href="#HTTPS采用混合加密机制" class="headerlink" title="HTTPS采用混合加密机制"></a>HTTPS采用混合加密机制</h4><p><strong>HTTPS通信时，先使用公开秘钥加密方式来交换共享秘钥，再使用共享秘钥进行报文通信。</strong></p>
+<p>这个过程中，唯一的问题在于使用公开秘钥加密方式传输共享秘钥时，无法确保传输的秘钥的正确性。为了解决这个问题，使用由数字证书认证机构（CA）和其相关机构颁发的公开秘钥证书来解决。</p>
+<h4 id="证书的申请和验证"><a href="#证书的申请和验证" class="headerlink" title="证书的申请和验证"></a>证书的申请和验证</h4><p>服务器向认证机构发出公钥申请，证书机构对申请的公钥进行数字签名，将公钥放入公钥证书后绑定在一起。服务器将这个公钥证书发送给客户端，客户端使用证书机构的公钥对证书上的数字签名进行验证。验证通过则证明服务端的公钥是真实有效的。</p>
+<h4 id="HTTPS通信过程"><a href="#HTTPS通信过程" class="headerlink" title="HTTPS通信过程"></a>HTTPS通信过程</h4><p><img src="/images/HTTPS%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B.png" alt="HTTPS通信过程"></p>
+<ol>
+<li>客户端发送Client Hello报文开始SSL通信。报文包含客户端支持的SSL的指定版本、加密组件（所使用的加密算法和秘钥长度），产生一个随机密码串<code>client_random</code>；</li>
+<li>服务器可以进行SSL通信时，会以Server Hello报文作为应答，报文中包含SSL版本及加密组件、公开秘钥证书和一个随机密码串<code>server_random</code>。</li>
+<li>客户端使用CA的公钥验证公开秘钥证书的数字签名的有效性，确认有效后从数字签名获得服务器的公开秘钥，并使用该公钥加密<code>pre-master secret</code>发送给服务端。</li>
+<li>服务器用私钥解密出<code>pre-master secret</code></li>
+<li>客户端和服务端分别使用<code>client_random</code>、<code>server_random</code>、<code>pre-master secret</code>生成<code>master secret</code>用于对称加密通信。</li>
+</ol>
+<p>服务器和客户端的Finished报文交换完毕后，SSL连接建立完成，通信会收到SSL的保护。从此开始HTTP请求。</p>
+<h4 id="HTTPS缺点和解决方法"><a href="#HTTPS缺点和解决方法" class="headerlink" title="HTTPS缺点和解决方法"></a>HTTPS缺点和解决方法</h4><p>HTTPS通信的缺点是使用SSL时，通信速度变慢。</p>
+<p>变慢分为两种：</p>
+<ul>
+<li>和HTTP相比，SSL通信部分消耗网络资源导致通信慢；</li>
+<li>由于HTTPS需要做服务端、客户端双方加密及解密处理，会大量消耗CPU及内存等资源，导致处理速度变慢。</li>
+</ul>
+<p>解决HTTPS通信速度慢的方法：</p>
+<ul>
+<li>使用SSL加速器（硬件加速）</li>
+<li>对非敏感信息使用HTTP通信，对包含个人信息或有特殊权限的敏感数据时使用HTTPS通信。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/" title="HTTPS通信">https://zhengry.github.io/2019/10/09/HTTPS通信/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" rel="tag"># 网络基础</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/09/26/H5%E9%A1%B5%E9%9D%A2%E8%B0%83%E8%B5%B7%E9%94%AE%E7%9B%98%E5%90%8E%E9%A1%B5%E9%9D%A2%E5%8F%98%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="H5页面调起键盘后页面变大的问题">
+                  <i class="fa fa-chevron-left"></i> H5页面调起键盘后页面变大的问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/01/06/RxSwift%E4%B9%8BObservable%E3%80%81%E5%88%9B%E5%BB%BA%E5%8F%AF%E8%A7%82%E5%AF%9F%E5%BA%8F%E5%88%97/" rel="next" title="RxSwift之Observable、创建可观察序列">
+                  RxSwift之Observable、创建可观察序列 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

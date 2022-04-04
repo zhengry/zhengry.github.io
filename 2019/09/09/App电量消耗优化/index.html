@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="App中的耗电大户：CPU和I&#x2F;O操作 如何获取电量IOKit framework是专门用于跟硬件或内核服务通信的。所以，我们可以通过IOKit framework来获取硬件信息，进而获取到电量消耗信息。 使用：导入IOPowerSources.h、IOPSKeys.h、IOKit,将batteryMonitoringEnable设置为true，通过代码获取精确到1%的电量信息：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="App电量消耗优化">
+<meta property="og:url" content="https://zhengry.github.io/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="App中的耗电大户：CPU和I&#x2F;O操作 如何获取电量IOKit framework是专门用于跟硬件或内核服务通信的。所以，我们可以通过IOKit framework来获取硬件信息，进而获取到电量消耗信息。 使用：导入IOPowerSources.h、IOPSKeys.h、IOKit,将batteryMonitoringEnable设置为true，通过代码获取精确到1%的电量信息：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-09-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2019-09-09T03:30:20.113Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="电量">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/","path":"2019/09/09/App电量消耗优化/","title":"App电量消耗优化"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>App电量消耗优化 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96%E7%94%B5%E9%87%8F"><span class="nav-number">1.</span> <span class="nav-text">如何获取电量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%8A%E6%96%ADCPU%E9%80%A0%E6%88%90%E7%9A%84%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97"><span class="nav-number">2.</span> <span class="nav-text">诊断CPU造成的电量消耗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO%E6%93%8D%E4%BD%9C%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">IO操作优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">其他优化</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="App电量消耗优化 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          App电量消耗优化
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2019-09-09 00:00:00 / 修改时间：11:30:20" itemprop="dateCreated datePublished" datetime="2019-09-09T00:00:00+08:00">2019-09-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>App中的耗电大户：CPU和I&#x2F;O操作</p>
+<h4 id="如何获取电量"><a href="#如何获取电量" class="headerlink" title="如何获取电量"></a>如何获取电量</h4><p><code>IOKit framework</code>是专门用于跟硬件或内核服务通信的。所以，我们可以通过<code>IOKit framework</code>来获取硬件信息，进而获取到电量消耗信息。</p>
+<p>使用：导入<code>IOPowerSources.h</code>、<code>IOPSKeys.h</code>、<code>IOKit</code>,将<code>batteryMonitoringEnable</code>设置为<code>true</code>，通过代码获取精确到1%的电量信息：<span id="more"></span></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="string">&quot;IOPSKeys.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;IOPowerSources.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">-(<span class="type">double</span>) getBatteryLevel&#123;</span><br><span class="line">    <span class="comment">// 返回电量信息</span></span><br><span class="line">    <span class="built_in">CFTypeRef</span> blob = IOPSCopyPowerSourcesInfo();</span><br><span class="line">    <span class="comment">// 返回电量句柄列表数据</span></span><br><span class="line">    <span class="built_in">CFArrayRef</span> sources = IOPSCopyPowerSourcesList(blob);</span><br><span class="line">    <span class="built_in">CFDictionaryRef</span> pSource = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="type">void</span> *psValue;</span><br><span class="line">    <span class="comment">// 返回数组大小</span></span><br><span class="line">    <span class="type">int</span> numOfSources = <span class="built_in">CFArrayGetCount</span>(sources);</span><br><span class="line">    <span class="comment">// 计算大小出错处理</span></span><br><span class="line">    <span class="keyword">if</span> (numOfSources == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;Error in CFArrayGetCount&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1.0</span>f;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算所剩电量</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i=<span class="number">0</span>; i&lt;numOfSources; i++) &#123;</span><br><span class="line">        <span class="comment">// 返回电源可读信息的字典</span></span><br><span class="line">        pSource = IOPSGetPowerSourceDescription(blob, <span class="built_in">CFArrayGetValueAtIndex</span>(sources, i));</span><br><span class="line">        <span class="keyword">if</span> (!pSource) &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;Error in IOPSGetPowerSourceDescription&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1.0</span>f;</span><br><span class="line">        &#125;</span><br><span class="line">        psValue = (<span class="built_in">CFStringRef</span>) <span class="built_in">CFDictionaryGetValue</span>(pSource, <span class="built_in">CFSTR</span>(kIOPSNameKey));</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> curCapacity = <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> maxCapacity = <span class="number">0</span>;</span><br><span class="line">        <span class="type">double</span> percentage;</span><br><span class="line"></span><br><span class="line">        psValue = <span class="built_in">CFDictionaryGetValue</span>(pSource, <span class="built_in">CFSTR</span>(kIOPSCurrentCapacityKey));</span><br><span class="line">        <span class="built_in">CFNumberGetValue</span>((<span class="built_in">CFNumberRef</span>)psValue, kCFNumberSInt32Type, &amp;curCapacity);</span><br><span class="line"></span><br><span class="line">        psValue = <span class="built_in">CFDictionaryGetValue</span>(pSource, <span class="built_in">CFSTR</span>(kIOPSMaxCapacityKey));</span><br><span class="line">        <span class="built_in">CFNumberGetValue</span>((<span class="built_in">CFNumberRef</span>)psValue, kCFNumberSInt32Type, &amp;maxCapacity);</span><br><span class="line"></span><br><span class="line">        percentage = ((<span class="type">double</span>) curCapacity / (<span class="type">double</span>) maxCapacity * <span class="number">100.0</span>f);</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;curCapacity : %d / maxCapacity: %d , percentage: %.1f &quot;</span>, curCapacity, maxCapacity, percentage);</span><br><span class="line">        <span class="keyword">return</span> percentage;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="诊断CPU造成的电量消耗"><a href="#诊断CPU造成的电量消耗" class="headerlink" title="诊断CPU造成的电量消耗"></a>诊断CPU造成的电量消耗</h4><ol>
+<li><p>获取所有线程信息</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">thread_act_array_t threads;</span><br><span class="line">mach_msg_type_number_t threadCount = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> task_t thisTask = mach_task_self();</span><br><span class="line">kern_return_t kr = task_threads(thisTask, &amp;threads, &amp;threadCount);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>检查多线程的CPU使用情况，找到CPU占用高的线程,获取线程堆栈信息，并优化线程操作。</p>
+<p>线程基本信息结构体：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> thread_basic_info &#123;</span><br><span class="line">        time_value_t    user_time;      <span class="comment">/* user 运行的时间 */</span></span><br><span class="line">        time_value_t    system_time;    <span class="comment">/* system 运行的时间 */</span></span><br><span class="line">        integer_t       cpu_usage;      <span class="comment">/* CPU 使用百分比 */</span></span><br><span class="line">        policy_t        policy;         <span class="comment">/* 有效的计划策略 */</span></span><br><span class="line">        integer_t       run_state;      <span class="comment">/* run state (see below) */</span></span><br><span class="line">        integer_t       flags;          <span class="comment">/* various flags (see below) */</span></span><br><span class="line">        integer_t       suspend_count;  <span class="comment">/* suspend count for thread */</span></span><br><span class="line">        integer_t       sleep_time;     <span class="comment">/* 休眠时间 */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>通过遍历所有线程，去查看是哪个线程的 CPU 使用百分比过高了。如果某个线程的CPU使用率长时间都比较高的话，比如超过了90%，就能够推断出它是有问题的。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 轮询检查多个线程 CPU 情况</span></span><br><span class="line">+ (<span class="type">void</span>)updateCPU &#123;</span><br><span class="line">    thread_act_array_t threads;</span><br><span class="line">    mach_msg_type_number_t threadCount = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> task_t thisTask = mach_task_self();</span><br><span class="line">    kern_return_t kr = task_threads(thisTask, &amp;threads, &amp;threadCount);</span><br><span class="line">    <span class="keyword">if</span> (kr != KERN_SUCCESS) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++) &#123;</span><br><span class="line">        thread_info_data_t threadInfo;</span><br><span class="line">        thread_basic_info_t threadBaseInfo;</span><br><span class="line">        mach_msg_type_number_t threadInfoCount = THREAD_INFO_MAX;</span><br><span class="line">        <span class="keyword">if</span> (thread_info((thread_act_t)threads[i], THREAD_BASIC_INFO, (thread_info_t)threadInfo, &amp;threadInfoCount) == KERN_SUCCESS) &#123;</span><br><span class="line">            threadBaseInfo = (thread_basic_info_t)threadInfo;</span><br><span class="line">            <span class="keyword">if</span> (!(threadBaseInfo-&gt;flags &amp; TH_FLAGS_IDLE)) &#123;</span><br><span class="line">                integer_t cpuUsage = threadBaseInfo-&gt;cpu_usage / <span class="number">10</span>;</span><br><span class="line">                <span class="keyword">if</span> (cpuUsage &gt; <span class="number">90</span>) &#123;</span><br><span class="line">                    <span class="comment">//cup 消耗大于 90 时打印和记录堆栈</span></span><br><span class="line">                    <span class="built_in">NSString</span> *reStr = smStackOfThread(threads[i]);</span><br><span class="line">                    <span class="comment">//记录数据库中</span></span><br><span class="line">                    [[[SMLagDB shareInstance] increaseWithStackString:reStr] subscribeNext:^(<span class="type">id</span> x) &#123;&#125;];</span><br><span class="line">                    <span class="built_in">NSLog</span>(<span class="string">@&quot;CPU useage overload thread stack：\n%@&quot;</span>,reStr);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="IO操作优化"><a href="#IO操作优化" class="headerlink" title="IO操作优化"></a>IO操作优化</h4><p>任何的 I&#x2F;O 操作，都会破坏掉低功耗状态。针对优化 I&#x2F;O 操作，普遍的做法是，将碎片化的数据磁盘存储操作延后，先在内存中聚合，然后再进行磁盘存储。碎片化的数据进行聚合，在内存中进行存储的机制，可以使用系统自带的<code>NSCache</code>来完成。</p>
+<p><code>NSCache</code>是线程安全的，<code>NSCache</code>会在到达预设缓存空间值时清理缓存，这时会触发<code>cache:willEvictObject:</code>方法的回调，在这个回调里就可以对数据进行 I&#x2F;O 操作，达到将聚合的数据 I&#x2F;O 延后的目的。I&#x2F;O 操作的次数减少了，对电量的消耗也就减少了。比如<code>SDWebImage</code>，在图片的读取缓存处理时没有直接使用I&#x2F;O，而是使用了<code>NSCache</code>：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIImage</span> *)imageFromMemoryCacheForKey:(<span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="keyword">self</span>.memCache objectForKey:key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">UIImage</span> *)imageFromDiskCacheForKey:(<span class="built_in">NSString</span> *)key &#123;</span><br><span class="line">    <span class="comment">// 检查 NSCache 里是否有</span></span><br><span class="line">    <span class="built_in">UIImage</span> *image = [<span class="keyword">self</span> imageFromMemoryCacheForKey:key];</span><br><span class="line">    <span class="keyword">if</span> (image) &#123;</span><br><span class="line">        <span class="keyword">return</span> image;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 从磁盘里读</span></span><br><span class="line">    <span class="built_in">UIImage</span> *diskImage = [<span class="keyword">self</span> diskImageForKey:key];</span><br><span class="line">    <span class="keyword">if</span> (diskImage &amp;&amp; <span class="keyword">self</span>.shouldCacheImagesInMemory) &#123;</span><br><span class="line">        <span class="built_in">NSUInteger</span> cost = SDCacheCostForImage(diskImage);</span><br><span class="line">        [<span class="keyword">self</span>.memCache setObject:diskImage forKey:key cost:cost];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> diskImage;</span><br></pre></td></tr></table></figure>
+
+<p><code>SDWebImage</code>将获取的图片数据都放到了<code>NSCache</code>里，利用<code>NSCache</code>缓存策略进行图片缓存内存的管理。每次读取图片时，会检查<code>NSCache</code>是否已经存在图片数据：如果有，就直接从<code>NSCache</code>里读取；如果没有，才会通过 I&#x2F;O 读取磁盘缓存图片。</p>
+<p>使用了<code>NSCache</code>内存缓存能够有效减少 I&#x2F;O 操作，你在写类似功能时也可以采用这样的思路，让你的 App 更省电。</p>
+<h4 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h4><p>对于大量数据的复杂计算，应该把数据传到服务器去处理，如果必须要在 App 内处理复杂数据计算，可以通过 GCD 的 <code>dispatch_block_create_with_qos_class</code>方法指定队列的<code>Qos</code>为<code>QOS_CLASS_UTILITY</code>，将计算工作放到这个队列的<code>block</code>里。在 <code>QOS_CLASS_UTILITY</code>这种 <code>Qos</code>模式下，系统针对大量数据的计算，以及复杂数据处理专门做了电量优化。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/" title="App电量消耗优化">https://zhengry.github.io/2019/09/09/App电量消耗优化/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B5%E9%87%8F/" rel="tag"># 电量</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/09/09/iOS%E4%B8%AD%E5%8A%A0%E8%BD%BD%E5%90%AB%E6%9C%89%E7%94%B5%E5%AD%90%E7%AD%BE%E7%AB%A0%E7%9A%84PDF/" rel="prev" title="iOS中加载含有电子签章的PDF">
+                  <i class="fa fa-chevron-left"></i> iOS中加载含有电子签章的PDF
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/09/16/%E7%BB%99%E5%AF%8C%E6%96%87%E6%9C%AC%E6%B7%BB%E5%8A%A0%E8%B6%85%E9%93%BE%E6%8E%A5/" rel="next" title="给富文本添加超链接">
+                  给富文本添加超链接 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。 功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。 功能实现1. 推送功能推送功能相对简单，项目中集成了极光推送，就极光推送中遇到的坑做个简单记录：  生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推送+后台语音播报功能实现">
+<meta property="og:url" content="https://zhengry.github.io/2017/07/11/%E6%8E%A8%E9%80%81+%E5%90%8E%E5%8F%B0%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。 功能需求在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。 功能实现1. 推送功能推送功能相对简单，项目中集成了极光推送，就极光推送中遇到的坑做个简单记录：  生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengry.github.io/images/extension%E8%AF%81%E4%B9%A6%E6%8A%A5%E9%94%99.png">
+<meta property="og:image" content="https://zhengry.github.io/images/Extension%E5%9C%A8ios8%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF.png">
+<meta property="og:image" content="https://zhengry.github.io/images/extension%E5%9C%A8ios8%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95.png">
+<meta property="article:published_time" content="2017-07-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-15T11:27:58.357Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="OC-音视频">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengry.github.io/images/extension%E8%AF%81%E4%B9%A6%E6%8A%A5%E9%94%99.png">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2017/07/11/%E6%8E%A8%E9%80%81+%E5%90%8E%E5%8F%B0%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2017/07/11/%E6%8E%A8%E9%80%81+%E5%90%8E%E5%8F%B0%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/","path":"2017/07/11/推送+后台语音播报功能实现/","title":"推送+后台语音播报功能实现"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>推送+后台语音播报功能实现 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="nav-number">1.</span> <span class="nav-text">功能需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%8E%A8%E9%80%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.1.</span> <span class="nav-text">1. 推送功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E4%B8%80%E8%88%AC%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">2. 一般语音播报功能实现：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%90%8E%E5%8F%B0%E8%AF%AD%E9%9F%B3"><span class="nav-number">2.3.</span> <span class="nav-text">3. 如何实现后台语音</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Notification-Service-Extension%E6%8A%A5%E9%94%99%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">Notification Service Extension报错处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/07/11/%E6%8E%A8%E9%80%81+%E5%90%8E%E5%8F%B0%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="推送+后台语音播报功能实现 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          推送+后台语音播报功能实现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-07-11 00:00:00" itemprop="dateCreated datePublished" datetime="2017-07-11T00:00:00+08:00">2017-07-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2020-04-15 19:27:58" itemprop="dateModified" datetime="2020-04-15T19:27:58+08:00">2020-04-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>总结一下最近项目中由于语音播报功能中遇到的坑和解决方案。</p>
+<h4 id="功能需求"><a href="#功能需求" class="headerlink" title="功能需求"></a>功能需求</h4><p>在用户产生交易记录后，后台发送推送消息给登录的用户，用户收到推送消息后，对消息内容进行语音播报。</p>
+<h4 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h4><h5 id="1-推送功能"><a href="#1-推送功能" class="headerlink" title="1. 推送功能"></a>1. 推送功能</h5><p>推送功能相对简单，项目中集成了<strong>极光推送</strong>，就极光推送中遇到的坑做个简单记录：</p>
+<ol>
+<li><p>生成别名不成功：别名传入的参数必须确保是字符串类型，检查是否有类型错误。<span id="more"></span></p>
+</li>
+<li><p>什么时候调用[JPushService setBadge：x];和[JPushService resetBadge];？</p>
+<p>关于这一点，极光的官方文档和社区问答写的实在是不尽人意，让人不知所云。经验总结：</p>
+</li>
+</ol>
+<ul>
+<li><p>本地消息数的展示：直接使用推送消息中的badge进行展示</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">    [<span class="built_in">UIApplication</span> sharedApplication] setApplicationBadgeNumber:badge];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果badge在推送中使用+1的方式，则在需要增减badge时，就需要调用下[JPushService setBadge：x]，让JPush帮忙保存badge。比如用户通过点击消息进入app，这时候badge需要-1，那么调用[JPushService setBadge：badge-1]来保存到JPush服务器，本地展示调用</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="built_in">UIApplication</span> sharedApplication] setApplicationBadgeNumber:badge<span class="number">-1</span>];</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>配置JPush时，注意区分debug和release模式下的apsForProduction参数（发布的时候一定不要忘，否则上线后收不到推送），可以使用宏来配置，就不必每次发布的时候进行修改。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[JPUSHService setupWithOption:launchOptions appKey:JPushAppKey channel:<span class="string">@&quot;release&quot;</span> apsForProduction:<span class="literal">YES</span> advertisingIdentifier:advertisingId];</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>推送消息处理：收到推送消息后，所有的消息都会走<code>application: didReceiveRemoteNotification: fetchCompletionHandler:</code>方法，所以需要对消息进行的统一处理，放在这个方法中：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)application:(<span class="built_in">UIApplication</span> *)application didReceiveRemoteNotification:(<span class="built_in">NSDictionary</span> *)userInfo fetchCompletionHandler:(<span class="type">void</span> (^)(<span class="built_in">UIBackgroundFetchResult</span>))completionHandler &#123;</span><br><span class="line">    </span><br><span class="line">  [JPUSHService handleRemoteNotification:userInfo];<span class="comment">// Required, iOS 7 Support</span></span><br><span class="line">    <span class="comment">//回调</span></span><br><span class="line">    completionHandler(<span class="built_in">UIBackgroundFetchResultNewData</span>);</span><br><span class="line">    <span class="built_in">NSDictionary</span> *aps = [userInfo valueForKey:<span class="string">@&quot;aps&quot;</span>];</span><br><span class="line">    <span class="built_in">NSInteger</span> badge = [[aps valueForKey:<span class="string">@&quot;badge&quot;</span>] integerValue]; <span class="comment">//badge数量</span></span><br><span class="line">    <span class="built_in">NSString</span> *content = [userInfo valueForKey:<span class="string">@&quot;iosNotification&quot;</span>]; <span class="comment">//推送显示的内容</span></span><br><span class="line">    [JPUSHService setBadge:badge];<span class="comment">//JPush保存badge</span></span><br><span class="line">    [application setApplicationIconBadgeNumber:badge];<span class="comment">//badge展示</span></span><br><span class="line">    </span><br><span class="line">  <span class="comment">//播放声音</span></span><br><span class="line">    <span class="keyword">if</span> (content.length ) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;推送消息-------&gt;content=%@&quot;</span>,content);</span><br><span class="line">        [PPUtility broadcastMessage:content];</span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>点击消息的处理放在JPush的<code>jpushNotificationCenter: didReceiveNotificationResponse: withCompletionHandler:</code>方法中。比如点击消息后，跳转到相关页面并设置badge-1。</p>
+</li>
+</ul>
+<h5 id="2-一般语音播报功能实现："><a href="#2-一般语音播报功能实现：" class="headerlink" title="2. 一般语音播报功能实现："></a>2. 一般语音播报功能实现：</h5><p>一般语音播报功能实现起来很简单：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//语音播报功能</span></span><br><span class="line">+(<span class="type">void</span>)broadcastMessage:(<span class="built_in">NSString</span> *)message</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">AVSpeechSynthesizer</span> *speechSynthesizer = [[<span class="built_in">AVSpeechSynthesizer</span> alloc]init];</span><br><span class="line">    <span class="built_in">AVSpeechUtterance</span> *utterance = [<span class="built_in">AVSpeechUtterance</span> speechUtteranceWithString:message];</span><br><span class="line">    utterance.voice = [<span class="built_in">AVSpeechSynthesisVoice</span> voiceWithLanguage:<span class="string">@&quot;zh-CN&quot;</span>];</span><br><span class="line">    <span class="built_in">CGFloat</span> rate = <span class="number">0.5</span>;</span><br><span class="line">    <span class="keyword">if</span> (IOS_VERSION &gt;= <span class="number">9.0</span> &amp;&amp; IOS_VERSION &lt; <span class="number">10.0</span>) &#123;</span><br><span class="line">        rate = <span class="number">0.52</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span> (IOS_VERSION &gt;= <span class="number">8.0</span> &amp;&amp; IOS_VERSION &lt; <span class="number">9.0</span>)&#123;</span><br><span class="line">        rate = <span class="number">0.15</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    utterance.rate = rate;</span><br><span class="line">    utterance.preUtteranceDelay = <span class="number">0.0</span>;</span><br><span class="line">    </span><br><span class="line">    [speechSynthesizer speakUtterance:utterance];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有个坑需要注意：</p>
+<p>由于苹果API的问题，在iOS8和iOS9上和iOS10上，语音播报的速度各不相同，正常情况下，0.5是默认语速，但iOS8上语速奇快，也是让人心醉。另外iOS8.1不支持语音播报（包括真机和模拟器），iOS8.2以上可以支持。</p>
+<h5 id="3-如何实现后台语音"><a href="#3-如何实现后台语音" class="headerlink" title="3. 如何实现后台语音"></a>3. 如何实现后台语音</h5><p>很多人可能会选择开启back-ground modes里的audio功能，这的确是个最简单的实现方式，只要开启这个选项（证书里也需要勾选audio），在处理推送消息时调用上面的方法就可以实现前台、后台状态下的语音播报。<strong>但是</strong>，拿去审核的时候会被苹果拒掉！！官方文档对于background modes下的audio功能是这样描述的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">The app plays audible content to the user or records audio while in the background. (This content includes streaming audio or video content using AirPlay.)</span><br><span class="line">The user must grant permission for apps to use the microphone prior to the first use.</span><br></pre></td></tr></table></figure>
+
+<p>在被拒的邮件中苹果给出的解释是：audio功能只能用于需要持续播放音频或持续后台录音的app。但根据我们的项目需求，显然不符合条件，浪费了audio持续后台的功能。没办法，只好舍弃iOS8和iOS9的后台语音播报，改用notification extention框架对iOS10进行支持。</p>
+<p><strong>实现步骤</strong>：</p>
+<ol>
+<li>File——New——Target 新建Notification Service Extension</li>
+<li>在新生成的NotificationService.m文件的<code>didReceiveNotificationRequest:withContentHandler:</code>方法中实现语音播报功能：</li>
+</ol>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(<span class="type">void</span> (^)(UNNotificationContent * _Nonnull))contentHandler &#123;</span><br><span class="line">    <span class="keyword">self</span>.contentHandler = contentHandler;</span><br><span class="line">    <span class="keyword">self</span>.bestAttemptContent = [request.content mutableCopy];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//语音播报</span></span><br><span class="line">    <span class="keyword">if</span> ([[[<span class="built_in">UIDevice</span> currentDevice] systemVersion] floatValue] &gt;= <span class="number">10.0</span>) &#123;</span><br><span class="line">        <span class="built_in">AVSpeechUtterance</span> *utterance = [<span class="built_in">AVSpeechUtterance</span> speechUtteranceWithString:<span class="keyword">self</span>.bestAttemptContent.body];<span class="comment">//根据要播报的内容传入不同参数</span></span><br><span class="line"></span><br><span class="line">        utterance.voice =  [<span class="built_in">AVSpeechSynthesisVoice</span> voiceWithLanguage:<span class="string">@&quot;zh-CN&quot;</span>];</span><br><span class="line">        <span class="comment">//设置播报语速</span></span><br><span class="line">        utterance.rate = <span class="number">0.5</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">AVSpeechSynthesizer</span> *synth = [[<span class="built_in">AVSpeechSynthesizer</span> alloc] init];</span><br><span class="line">        [synth speakUtterance:utterance];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Modify the notification content here...</span></span><br><span class="line"><span class="comment">//    self.bestAttemptContent.title = [NSString stringWithFormat:@&quot;%@ [modified]&quot;, self.bestAttemptContent.title];</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.contentHandler(<span class="keyword">self</span>.bestAttemptContent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>还有一个必不可少的操作是</strong>：在推送的aps中增加mutable-content参数为1。</p>
+<p>这样收到的效果是：iOS10以后的手机，无论何时收到推送消息都能即时语音播报。</p>
+<h4 id="Notification-Service-Extension报错处理"><a href="#Notification-Service-Extension报错处理" class="headerlink" title="Notification Service Extension报错处理"></a>Notification Service Extension报错处理</h4><ol>
+<li><p>添加Extension后，提示：</p>
+<p><img src="/images/extension%E8%AF%81%E4%B9%A6%E6%8A%A5%E9%94%99.png" alt="extension证书报错"></p>
+<p>即使证书设置完全相同，仍然报错。</p>
+<p>解决方法：在钥匙串中找到Apple Worldwide Developer Relations Certification Authority证书，修改始终信任为系统默认，重新编译即可。</p>
+</li>
+<li><p>最低版本支持iOS8.0的项目，添加了支持iOS10以上的extension之后，无法运行在iOS8的手机上：<code>This app contains an app extension that specifies an extension point identifier that is not supported on this version of iOS for the value of the NSExtensionPointIdentifier key in its Info.plist. </code> 报出下面的弹窗： </p>
+<p><img src="/images/Extension%E5%9C%A8ios8%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF.png" alt="Extension在ios8安装错误"></p>
+<p>解决方法：</p>
+<p>修改target——NotificationService——general里面的deployment target为10.0。</p>
+<p><img src="/images/extension%E5%9C%A8ios8%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95.png" alt="extension在ios8安装错误解决方法"></p>
+</li>
+</ol>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>推送+语音播报功能实现了支持iOS8、9的前台语音播报和iOS10前后台语音播报推送消息。</p>
+<p>检查点：</p>
+<ol>
+<li>JPush集成注意推送环境参数设置apsForProduciton、channel、别名为字符串类型，服务端aps是否设置了production环境等</li>
+<li>推送消息的badge注意保存到JPush服务器，及时增减</li>
+<li>语音播报注意报错处理，deployment target设置，语音播报速度在各iOS系统上的差异处理等</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2017/07/11/%E6%8E%A8%E9%80%81+%E5%90%8E%E5%8F%B0%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/" title="推送+后台语音播报功能实现">https://zhengry.github.io/2017/07/11/推送+后台语音播报功能实现/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/OC-%E9%9F%B3%E8%A7%86%E9%A2%91/" rel="tag"># OC-音视频</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/07/09/iOS%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5%E5%8A%9F%E8%83%BD/" rel="prev" title="iOS语音播报功能">
+                  <i class="fa fa-chevron-left"></i> iOS语音播报功能
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/08/11/WKWebView%E7%A6%81%E7%94%A8%E6%8D%8F%E5%90%88%E6%89%8B%E5%8A%BF/" rel="next" title="WKWebView禁用捏合手势">
+                  WKWebView禁用捏合手势 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

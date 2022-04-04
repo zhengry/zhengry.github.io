@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Nib文件是一种特殊类型的资源文件，它用于保存iPhone OS或Mac OS X应用程序的用户接口。Nib文件是Interface  Builder文档。通常您会使用Interface  Builder设计应用程序的可视部分－例如窗口或视图。有些时候，您可能也用它来配置一些不可视的对象，例如控制器对象（用于管理窗口和视图）。实际上，所有这些操作都是在编辑一份Interface  Builder">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nib文件">
+<meta property="og:url" content="https://zhengry.github.io/2016/02/24/nib%E6%96%87%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="Nib文件是一种特殊类型的资源文件，它用于保存iPhone OS或Mac OS X应用程序的用户接口。Nib文件是Interface  Builder文档。通常您会使用Interface  Builder设计应用程序的可视部分－例如窗口或视图。有些时候，您可能也用它来配置一些不可视的对象，例如控制器对象（用于管理窗口和视图）。实际上，所有这些操作都是在编辑一份Interface  Builder">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-02-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2018-05-04T02:33:03.614Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="OC-UI">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2016/02/24/nib%E6%96%87%E4%BB%B6/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2016/02/24/nib%E6%96%87%E4%BB%B6/","path":"2016/02/24/nib文件/","title":"nib文件"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>nib文件 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/02/24/nib%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="nib文件 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          nib文件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-02-24 00:00:00" itemprop="dateCreated datePublished" datetime="2016-02-24T00:00:00+08:00">2016-02-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2018-05-04 10:33:03" itemprop="dateModified" datetime="2018-05-04T10:33:03+08:00">2018-05-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p> Nib文件是一种特殊类型的资源文件，它用于保存iPhone OS或Mac OS X应用程序的用户接口。Nib文件是Interface  Builder文档。通常您会使用Interface  Builder设计应用程序的可视部分－例如窗口或视图。有些时候，您可能也用它来配置一些不可视的对象，例如控制器对象（用于管理窗口和视图）。实际上，所有这些操作都是在编辑一份Interface  Builder文档，即在创建一份对象图。保存文件的时候，就是将该对象图进行归档，加载文件的时候，就是将对象图进行解档。</p>
+<p> Nib文件—也就是对象图－可以包含占位对象，这种对象用于指涉存在于文档之外的对象。这些对象虽然不在文档中，但却可能含有文档内对象的引用，或者被文档内的对象引用。文件拥有者就是一种特殊的占位对象。<span id="more"></span></p>
+<p> 在程序运行的时候，您可以使用 <code>loadNibNamed:owner:</code>(或者此方法变种)加载Nib文件。在Nib文件中，文件拥有者是个占位对象，它表示您通过owner参数传给此方法的对象。加载Nib文件的时候，所有在Interface Builder中建立的关联（文件拥有者和其他对象之间的关联）都能够在运行时重新建立起来。</p>
+<p> nib文件是一种数据文件，用于存储可在应用程序需要时使用的一些“冻结”的对象。大多数情况下，应用程序使用nib文件来存储构成用户界面的窗口和视图。当您将nib文件载入应用程序时，nib装载代码会将文件中的内容转化为应用程序可以操作的真正对象。通过这个机制，nib文件省去了用代码创建那些对象的工作。</p>
+<p> Interface  Builder是一个可视化的设计环境，您可以用它来创建nib文件。您可以将标准对象（比如UIKit框架中提供的窗口和视图）和Xcode工程中的定制对象放到nib文件中。在Interface   Builder中创建视图层次相当简单，只需要对视图对象进行简单拖拽就可以了。您也可以通过查看器窗口来配置每个对象的属性，以及通过创建对象间的连接来定义它们在运行时的关系。您所做的改变最终都会作为nib文件的一部分存储到磁盘上。</p>
+<p> 在运行时，当您需要nib文件中包含的对象时，就将nib文件装载到程序中。典型情况下，装载nib文件的时机是当用户界面发生变化和需要在屏幕上显示某些新视图的时候。如果您的应用程序使用视图控制器，则视图控制器会自动处理nib文件的装载过程，当然，您也可以通过类的方法自行装载。</p>
+<p> 初始化的另一个任务是装载应用程序的主nib文件。如果应用程序的信息属性列表(<code>Info.plist</code>)文件中含有<code>NSMainNibFile</code>键，则作为初始化过程的一个部分，<code>UIApplication</code>对象会装载该键指定的nib文件。主nib文件是唯一一个自动装载的nib文件，其它的nib文件可以在稍后根据需要进行装载。</p>
+<p> Nib文件是基于磁盘的资源文件，用于存储一或多个对象的快照。iPhone应用程序的主nib文件通常包含一个窗口对象和一个应用程序委托对象，还可能包含一个或多个管理窗口的其它重要对象。装载一个nib文件会使该文件中的对象被重新构造，从而将每个对象的磁盘表示转化为应用程序可以操作的内存对象。从nib文件中装载的对象和通过编程方式创建的对象之间没有区别。然而，对于用户界面而言，以图形的方式（使用Interface  Builder程序）创建与用户界面相关联的对象并将它们存储在nib文件中通常比以编程的方式进行创建更加方便。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2016/02/24/nib%E6%96%87%E4%BB%B6/" title="nib文件">https://zhengry.github.io/2016/02/24/nib文件/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/OC-UI/" rel="tag"># OC-UI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/02/02/setObject%EF%BC%9AforKey%EF%BC%9A%E5%92%8CsetValue%EF%BC%9AforKey%EF%BC%9A/" rel="prev" title="setObject：forKey：和setValue：forKey：">
+                  <i class="fa fa-chevron-left"></i> setObject：forKey：和setValue：forKey：
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/02/26/textView%E9%99%90%E5%88%B6%E8%BE%93%E5%85%A5%E9%97%AE%E9%A2%98/" rel="next" title="textView限制输入问题">
+                  textView限制输入问题 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

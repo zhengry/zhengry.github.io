@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在Swift中，类和结构体既相似又各有不同。 基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。 基本语法 结构体和类都可以添加属性和方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift之类和结构体">
+<meta property="og:url" content="https://zhengry.github.io/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="在Swift中，类和结构体既相似又各有不同。 基本知识点：基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择。 基本语法 结构体和类都可以添加属性和方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-09-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2018-05-07T09:06:05.922Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="Swift基础">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/","path":"2016/09/07/Swift之类和结构体/","title":"Swift之类和结构体"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Swift之类和结构体 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">基本语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">类型方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mutating%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">mutating方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E6%AF%94%E8%BE%83"><span class="nav-number">4.</span> <span class="nav-text">类和结构体比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-number">5.</span> <span class="nav-text">类和结构体的选择</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Swift之类和结构体 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swift之类和结构体
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-07 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-07T00:00:00+08:00">2016-09-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2018-05-07 17:06:05" itemprop="dateModified" datetime="2018-05-07T17:06:05+08:00">2018-05-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在Swift中，类和结构体既相似又各有不同。</p>
+<p>基本知识点：<strong>基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择</strong>。</p>
+<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ol>
+<li><p>结构体和类都可以添加属性和方法<span id="more"></span></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 结构体</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Resolution</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> width <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> height <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">PrintDesc</span>()&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;this is a structure instance method&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">VideoMode</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> resolution <span class="operator">=</span> <span class="type">Resolution</span>()</span><br><span class="line">    <span class="keyword">var</span> interlaced <span class="operator">=</span> <span class="literal">false</span></span><br><span class="line">    <span class="keyword">var</span> frameRate <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">PrintVideoDesc</span>()&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;this is a VideoMode instaince method&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>点语法访问或赋值</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> someResolution <span class="operator">=</span> <span class="type">Resolution</span>()</span><br><span class="line"><span class="keyword">let</span> someVideoMode <span class="operator">=</span> <span class="type">VideoMode</span>()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Swift允许直接设置结构体属性的子属性</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> width <span class="operator">=</span> someResolution.width</span><br><span class="line"><span class="keyword">let</span> width2 <span class="operator">=</span> someVideoMode.resolution.width</span><br><span class="line">someVideoMode.resolution.width <span class="operator">=</span> <span class="number">1280</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结构体都有一个自动生成的成员逐一构造器，用于初始化结构体成员的属性</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> vga <span class="operator">=</span> <span class="type">Resolution</span>(width: <span class="number">640</span>, height: <span class="number">1280</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>结构体是值类型，类是引用类型。</p>
+<p>值类型被赋予给一个变量、常量或者被传递给一个函数的时候，其值会被拷贝。Swift中，所有的基本类型如整型、浮点数、布尔值、字符串、数组和字典都是值类型，并且<strong>在底层都是以结构体的形式实现的</strong>。在Swift中，所有的结构体和枚举类型都是值类型。所以它们的实例，以及实例中所包含的任何值类型属性，在代码中传递的时候都会被复制。</p>
+<p>引用类型在被赋予到一个变量、常量或者被传递到一个函数时，其值不会被拷贝。引用的是已存在的实例本身而不是其拷贝。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明一个叫tenEighty的常量</span></span><br><span class="line"><span class="keyword">let</span> tenEighty <span class="operator">=</span> <span class="type">VideoMode</span>()</span><br><span class="line">tenEighty.resolution <span class="operator">=</span> hd</span><br><span class="line">tenEighty.interlaced <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">tenEighty.name <span class="operator">=</span> <span class="string">&quot;1080i&quot;</span></span><br><span class="line">tenEighty.frameRate <span class="operator">=</span> <span class="number">25.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//把tenEighty赋给新常量alsoTenEighty，并修改alsoTenEighty</span></span><br><span class="line"><span class="keyword">let</span> alsoTenEighty <span class="operator">=</span> tenEighty</span><br><span class="line">alsoTenEighty.frameRate <span class="operator">=</span> <span class="number">30.0</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;the frameRate property of tenEighty is now <span class="subst">\(tenEighty.frameRate)</span>&quot;</span>)</span><br><span class="line"><span class="comment">//the frameRate property of tenEighty is now 30.0</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p><code>tenEighty</code> 和 <code>alsoTenEighty</code>被声明为常量而不是变量。然而你依然可以修改<code>tenEighty.frameRate</code> 和<code> alsoTenEighty.frameRate</code>。因为<code>tenEighty</code>和<code>alsoTenEighty</code>这两个常量的值并未改变。他们并不存储这个<code>VideoMode</code>实例，而仅仅是对<code>VideoMode</code>实例的引用。所以改变的是被引用的<code>VideoMode</code>的<code>frameRate</code>属性，而不是引用<code>VideoMode</code>的常量。</p>
+</li>
+<li><p>类的继承</p>
+<p>类不同于结构体和枚举的重要一点就是继承。继承可以重写类的实例方法和类型方法。被override的方法前需要加上<code>override</code>关键字来标记重写。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">var</span> voice: <span class="type">String</span>?</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">printDesc</span>()&#123;</span><br><span class="line">        print<span class="string">&quot;this is A instance method.&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AA</span>: <span class="title class_">A</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> language: <span class="type">String</span> <span class="operator">=</span> <span class="string">&quot;English&quot;</span></span><br><span class="line">    <span class="comment">// 重写父类方法</span></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">printDesc</span>()&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;this is a new instance method&quot;</span>)</span><br><span class="line">        <span class="keyword">super</span>.printDesc()<span class="comment">//调用父类方法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>恒等运算符</p>
+<p>因为类是引用类型，有可能有多个常量和变量同时引用同一个类实例。如果能够判定两个常量或者变量是否引用同一个类实例会很有帮助。运用等价于<code>===</code>和不等价于<code>!==</code>这两个运算符可以检测两个常量或者变量是否引用同一个实例。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if tenEighty === alsoTenEighty &#123;</span><br><span class="line">    print(&quot;tenEighty and alsoTenEighty refer to the same Resolution instance.&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//打印 &quot;tenEighty and alsoTenEighty refer to the same Resolution instance.&quot;</span><br></pre></td></tr></table></figure>
+
+<p><code>===</code>不同于<code>==</code>：</p>
+<p>等价于<code>===</code>表示两个类类型的常量或者变量引用同一个类实例。等于<code>==</code>表示两个实例的值相等或相同。</p>
+</li>
+</ol>
+<h4 id="类型方法"><a href="#类型方法" class="headerlink" title="类型方法"></a>类型方法</h4><ol>
+<li><p>结构体的类型方法用<code>static</code>关键字，类的类型方法用<code>class</code>关键字</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 结构体</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Square</span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">numberOfSides</span>() -&gt; <span class="type">Int</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">4</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> sides <span class="operator">=</span> <span class="type">Square</span>.numberOfSides()</span><br><span class="line"></span><br><span class="line"><span class="comment">//类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Rectangle</span>&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">func</span> <span class="title class_">numberOfSides</span>() -&gt; <span class="title class_">Int</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">4</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rectangleSides <span class="operator">=</span> <span class="type">Rectangle</span>.numberOfSides()</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>禁止子类自己实现的类型方法用<code>static</code>关键字或<code>final class</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">funcName</span>()&#123;</span><br><span class="line">    <span class="comment">//子类不能通过override class func funcName来重写此方法</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">func</span> <span class="title class_">funcNameAgain</span>()&#123;</span><br><span class="line">    <span class="comment">//子类不能重写</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关键字<code>static</code>告诉编译器不要让子类为这个方法提供自己的实现。</p>
+</li>
+</ol>
+<h4 id="mutating方法"><a href="#mutating方法" class="headerlink" title="mutating方法"></a>mutating方法</h4><p>结构体中，一个实例方法要修改结构体的属性，必须用<code>mutating</code>标记。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> firstName <span class="operator">=</span> <span class="string">&quot;Matt&quot;</span></span><br><span class="line">    <span class="keyword">var</span> lastName <span class="operator">=</span> <span class="string">&quot;Mathias&quot;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">changeTo</span>(<span class="params">firstName</span>: <span class="type">String</span>, <span class="params">lastName</span>: <span class="type">String</span>)&#123;</span><br><span class="line">        <span class="keyword">self</span>.firstName <span class="operator">=</span> firstName</span><br><span class="line">        <span class="keyword">self</span>.lastName <span class="operator">=</span> lastName</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p <span class="operator">=</span> <span class="type">Person</span>()</span><br><span class="line">p.changeTo(firstName:<span class="string">&quot;Mary&quot;</span>, lastName:<span class="string">&quot;Gallagher&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(p.firstName)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="类和结构体比较"><a href="#类和结构体比较" class="headerlink" title="类和结构体比较"></a>类和结构体比较</h4><p>共同点：</p>
+<ol>
+<li>定义属性用于存储值</li>
+<li>定义方法用于提供功能</li>
+<li>定义下标操作使得可以通过下标语法来访问实例所包含的值</li>
+<li>定义构造器用于生成初始值</li>
+<li>通过扩展以增加默认实现的功能</li>
+<li>实现协议以提供某种标准功能</li>
+</ol>
+<p>与结构体相比，类的附加功能：</p>
+<ol>
+<li>继承允许一个类继承另一个类的特征</li>
+<li>类型转换允许在运行时检查和解释一个类实例的类型</li>
+<li>析构器允许一个类实例释放任何其所被分配的资源</li>
+<li>引用计数允许对一个类的多次引用</li>
+</ol>
+<p>注意：</p>
+<p>结构体总是通过被复制的方式在代码中传递，不使用引用计数。</p>
+<h4 id="类和结构体的选择"><a href="#类和结构体的选择" class="headerlink" title="类和结构体的选择"></a>类和结构体的选择</h4><p>可以选择使用类和结构体来自定义数据类型。然而结构体实例总是通过值传递，类实例总是通过引用传递。</p>
+<p>符合下列一个或多个条件时，适合构建结构体：</p>
+<ul>
+<li>该数据结构的主要目的是用来封装少量相关简单数据值</li>
+<li>有理由预计该数据结构的实例在被赋值或传递时，封装的数据将会被拷贝而不是被引用</li>
+<li>该数据结构中存储的值类型属性，也应该被拷贝，而不是被引用</li>
+<li>该数据结构不需要去继承另一个既有类型的属性或者行为</li>
+</ul>
+<p>定义一个类，生成一个它的实例，并通过引用来管理和传递。实际中，这意味着绝大部分的自定义数据构造都应该是类，而非结构体。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/" title="Swift之类和结构体">https://zhengry.github.io/2016/09/07/Swift之类和结构体/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Swift%E5%9F%BA%E7%A1%80/" rel="tag"># Swift基础</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2016/08/21/Swift%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B/" rel="prev" title="Swift枚举类型（enumeration）">
+                  <i class="fa fa-chevron-left"></i> Swift枚举类型（enumeration）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2016/09/09/%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91/" rel="next" title="一等公民">
+                  一等公民 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
