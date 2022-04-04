@@ -20,28 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="题目：给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。 比如，输入：head &#x3D; [1,2,3,4,5]，输出：[5,4,3,2,1] 输入：head &#x3D; []，输出：[] 题解： 使用swift语言，需要声明链表结构： 123456789&#x2F;&#x2F; 单向链表，比如： 1-&gt;2-&gt;3-&gt;4-&gt;nilclass ListNode &amp;#123;  var val:">
+    <meta name="description" content="题目描述给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。 提示：  链表中节点的数目范围是 [0, 5000] -5000 &lt;&#x3D; Node.val &lt;&#x3D; 5000  示例： 12输入：head &#x3D; [1,2,3,4,5]输出：[5,4,3,2,1]  12输入：head &#x3D; []输出：[]  题解使用swift语言，需要声明链表结构： 123456789&#x2F;&#x2F; 单向链表">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法：反转链表">
-<meta property="og:url" content="https://zhengry.github.io/2018/04/02/%E7%AE%97%E6%B3%95%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/index.html">
+<meta property="og:title" content="LeetCode-206.反转链表">
+<meta property="og:url" content="https://zhengry.github.io/2018/04/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="题目：给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。 比如，输入：head &#x3D; [1,2,3,4,5]，输出：[5,4,3,2,1] 输入：head &#x3D; []，输出：[] 题解： 使用swift语言，需要声明链表结构： 123456789&#x2F;&#x2F; 单向链表，比如： 1-&gt;2-&gt;3-&gt;4-&gt;nilclass ListNode &amp;#123;  var val:">
+<meta property="og:description" content="题目描述给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。 提示：  链表中节点的数目范围是 [0, 5000] -5000 &lt;&#x3D; Node.val &lt;&#x3D; 5000  示例： 12输入：head &#x3D; [1,2,3,4,5]输出：[5,4,3,2,1]  12输入：head &#x3D; []输出：[]  题解使用swift语言，需要声明链表结构： 123456789&#x2F;&#x2F; 单向链表">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-04-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-04T08:40:16.668Z">
+<meta property="article:modified_time" content="2022-04-04T10:11:20.050Z">
 <meta property="article:author" content="Baylee">
-<meta property="article:tag" content="算法">
+<meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://zhengry.github.io/2018/04/02/%E7%AE%97%E6%B3%95%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+<link rel="canonical" href="https://zhengry.github.io/2018/04/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2018/04/02/%E7%AE%97%E6%B3%95%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/","path":"2018/04/02/算法：反转链表/","title":"算法：反转链表"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2018/04/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/","path":"2018/04/02/LeetCode-206.反转链表/","title":"LeetCode-206.反转链表"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>算法：反转链表 | Baylee的技术博客</title>
+<title>LeetCode-206.反转链表 | Baylee的技术博客</title>
   
 
 
@@ -103,7 +103,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -116,6 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E8%A7%A3"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -193,7 +194,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/04/02/%E7%AE%97%E6%B3%95%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/04/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -206,12 +207,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="算法：反转链表 | Baylee的技术博客">
+      <meta itemprop="name" content="LeetCode-206.反转链表 | Baylee的技术博客">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          算法：反转链表
+          LeetCode-206.反转链表
         </h1>
 
         <div class="post-meta-container">
@@ -244,11 +245,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>题目：给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p>
-<p>比如，输入：<code>head = [1,2,3,4,5]</code>，输出：<code>[5,4,3,2,1]</code></p>
-<p>输入：<code>head = []</code>，输出：<code>[]</code></p>
-<p>题解：</p>
-<p>使用<code>swift</code>语言，需要声明链表结构：</p>
+        <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p>
+<p><strong>提示：</strong></p>
+<ul>
+<li>链表中节点的数目范围是 <code>[0, 5000]</code></li>
+<li><code>-5000 &lt;= Node.val &lt;= 5000</code></li>
+</ul>
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：head = [1,2,3,4,5]</span><br><span class="line">输出：[5,4,3,2,1]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：head = []</span><br><span class="line">输出：[]</span><br></pre></td></tr></table></figure>
+
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>使用<code>swift</code>语言，需要声明链表结构：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单向链表，比如： 1-&gt;2-&gt;3-&gt;4-&gt;nil</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ListNode</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> val: <span class="type">Int</span></span><br><span class="line">  <span class="keyword">var</span> next: <span class="type">ListNode</span>?</span><br><span class="line">  <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">val</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">      <span class="keyword">self</span>.val <span class="operator">=</span> val</span><br><span class="line">      <span class="keyword">self</span>.next <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <span id="more"></span>
@@ -278,7 +286,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://zhengry.github.io/2018/04/02/%E7%AE%97%E6%B3%95%EF%BC%9A%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="算法：反转链表">https://zhengry.github.io/2018/04/02/算法：反转链表/</a>
+      <a href="https://zhengry.github.io/2018/04/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="LeetCode-206.反转链表">https://zhengry.github.io/2018/04/02/LeetCode-206.反转链表/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -287,7 +295,7 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+              <a href="/tags/LeetCode/" rel="tag"><i class="fa fa-tag"></i> LeetCode</a>
           </div>
 
         
