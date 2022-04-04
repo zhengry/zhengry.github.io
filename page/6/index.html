@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">133</span>
+          <span class="site-state-item-count">134</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,97 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/07/03/TableView%E4%B8%AD%E5%A4%9A%E4%B8%AAtimer%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/07/03/TableView%E4%B8%AD%E5%A4%9A%E4%B8%AAtimer%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">TableView中多个timer处理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-07-03 00:00:00" itemprop="dateCreated datePublished" datetime="2017-07-03T00:00:00+08:00">2017-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在同一个tableView上展示多个倒计时的场景，在电商类App中非常常见。比如，在待支付订单列表中，每个订单都有个距离订单被取消的倒计时展示。</p>
+<h4 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h4><ol>
+<li>给每个cell添加自己的timer，并自行处理展示;</li>
+<li>在退出当前controller（tableView的代理类）时，发送销毁timer通知;</li>
+<li>cell监听到通知后，销毁timer。</li>
+</ol>
+<p>问题：每个cell都有个timer，内存消耗太大，造成资源浪费。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/03/TableView%E4%B8%AD%E5%A4%9A%E4%B8%AAtimer%E5%A4%84%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -944,95 +1035,6 @@
     
     <div class="post-body" itemprop="articleBody">
           <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIImage</span> *)createImageWithColor:(<span class="built_in">UIColor</span> *)color &#123;</span><br><span class="line">	    </span><br><span class="line">	    <span class="built_in">CGRect</span> rect = <span class="built_in">CGRectMake</span>(<span class="number">0.0</span>f, <span class="number">0.0</span>f, <span class="number">1.0</span>f, <span class="number">1.0</span>f);</span><br><span class="line">	    <span class="built_in">UIGraphicsBeginImageContext</span>(rect.size);</span><br><span class="line">	    <span class="built_in">CGContextRef</span> context = <span class="built_in">UIGraphicsGetCurrentContext</span>();</span><br><span class="line">	    <span class="built_in">CGContextSetFillColorWithColor</span>(context, [color <span class="built_in">CGColor</span>]);</span><br><span class="line">	    <span class="built_in">CGContextFillRect</span>(context, rect);</span><br><span class="line">	    <span class="built_in">UIImage</span> *theImage = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();</span><br><span class="line">	    <span class="built_in">UIGraphicsEndImageContext</span>();</span><br><span class="line">	    <span class="keyword">return</span> theImage;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/01/13/as%E3%80%81as?%E5%92%8Cas!/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/01/13/as%E3%80%81as?%E5%92%8Cas!/" class="post-title-link" itemprop="url">as、as?和as!</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-01-13 00:00:00" itemprop="dateCreated datePublished" datetime="2017-01-13T00:00:00+08:00">2017-01-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="as"><a href="#as" class="headerlink" title="as"></a>as</h4><p>Guaranteed conversation + Upcasting</p>
-<p>有保证的转换，从派生类转换为基类的向上转型。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num <span class="operator">=</span> <span class="number">1</span> <span class="keyword">as</span> <span class="type">CGFloat</span>	<span class="comment">//将1转成float</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//dog转成父类animal</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Animal</span>&#123;&#125;</span><br><span class="line">calss <span class="type">Dog</span>: <span class="type">Animal</span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> d <span class="operator">=</span> <span class="type">Dog</span>()</span><br><span class="line">d <span class="keyword">as</span> <span class="type">Animal</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="as-1"><a href="#as-1" class="headerlink" title="as!"></a>as!</h4><p>Forced conversation + Downcasting
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/01/13/as%E3%80%81as?%E5%92%8Cas!/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
