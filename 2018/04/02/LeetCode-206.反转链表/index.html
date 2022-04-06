@@ -28,7 +28,7 @@
 <meta property="og:description" content="题目描述给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。 提示：  链表中节点的数目范围是 [0, 5000] -5000 &lt;&#x3D; Node.val &lt;&#x3D; 5000  示例： 12输入：head &#x3D; [1,2,3,4,5]输出：[5,4,3,2,1]  12输入：head &#x3D; []输出：[]  题解使用swift语言，需要声明链表结构： 123456789&#x2F;&#x2F; 单向链表">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-04-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-04T10:11:20.050Z">
+<meta property="article:modified_time" content="2022-04-06T02:06:25.874Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
@@ -131,7 +131,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">134</span>
+          <span class="site-state-item-count">135</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -267,7 +267,7 @@
 
 <p>方法二：递归</p>
 <p>基本思路：假设链表的其余部分已经被反转，由于当前的<code>head</code>节点的next指针仍然指向其余部分的尾节点，所以将其余部分的末尾节点的<code>next</code>指向当前的<code>head</code>节点即可。比如，原始链表为<code>1-&gt;2-&gt;3-&gt;4-&gt;nil</code>，当前<code>head</code>为<code>1</code>，其余部分反转后的结果将是<code>4-&gt;3-&gt;2-&gt;nil</code>，则现在需要将<code>2</code>的节点的<code>next</code>指向当前的<code>head</code>（<code>1</code>）。由于<code>head.next</code>仍然指向<code>val</code>为<code>2</code>的节点，所以将<code>head.next.next</code>指向<code>head</code>即可。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 反转链表：递归*/</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">reverseList2</span>(<span class="keyword">_</span> <span class="params">head</span>: <span class="type">ListNode</span>?) -&gt; <span class="type">ListNode</span>? &#123;</span><br><span class="line">  <span class="keyword">if</span> head <span class="operator">==</span> <span class="literal">nil</span> <span class="operator">||</span> head<span class="operator">?</span>.next <span class="operator">==</span> <span class="literal">nil</span> &#123; <span class="keyword">return</span> head &#125;</span><br><span class="line">  <span class="keyword">let</span> newHead <span class="operator">=</span> reverseList(head<span class="operator">?</span>.next)</span><br><span class="line">  head<span class="operator">?</span>.next<span class="operator">?</span>.next <span class="operator">=</span> head</span><br><span class="line">  head<span class="operator">?</span>.next <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">  <span class="keyword">return</span> newHead</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 反转链表：递归*/</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">reverseList2</span>(<span class="keyword">_</span> <span class="params">head</span>: <span class="type">ListNode</span>?) -&gt; <span class="type">ListNode</span>? &#123;</span><br><span class="line">  <span class="keyword">if</span> head <span class="operator">==</span> <span class="literal">nil</span> <span class="operator">||</span> head<span class="operator">?</span>.next <span class="operator">==</span> <span class="literal">nil</span> &#123; <span class="keyword">return</span> head &#125;</span><br><span class="line">  <span class="keyword">let</span> newHead <span class="operator">=</span> reverseList2(head<span class="operator">?</span>.next)</span><br><span class="line">  head<span class="operator">?</span>.next<span class="operator">?</span>.next <span class="operator">=</span> head</span><br><span class="line">  head<span class="operator">?</span>.next <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">  <span class="keyword">return</span> newHead</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
     </div>
