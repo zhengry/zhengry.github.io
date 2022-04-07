@@ -28,7 +28,7 @@
 <meta property="og:description" content="题目描述给你一个链表数组，每个链表都已经按升序排列。 请你将所有链表合并到一个升序链表中，返回合并后的链表。 示例： 12345678910输入：lists &#x3D; [[1,4,5],[1,3,4],[2,6]]输出：[1,1,2,3,4,4,5,6]解释：链表数组如下：[  1-&gt;4-&gt;5,  1-&gt;3-&gt;4,  2-&gt;6]将它们合并到一个有序链表中得到。1-&gt;1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-04-06T14:53:50.141Z">
+<meta property="article:modified_time" content="2022-04-07T01:38:08.232Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
@@ -257,7 +257,7 @@
 <p><strong>提示</strong> </p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k <span class="operator">==</span> lists.length</span><br><span class="line"><span class="number">0</span> <span class="operator">&lt;=</span> k <span class="operator">&lt;=</span> <span class="number">10</span><span class="operator">^</span><span class="number">4</span></span><br><span class="line"><span class="number">0</span> <span class="operator">&lt;=</span> lists[i].length <span class="operator">&lt;=</span> <span class="number">500</span></span><br><span class="line"><span class="operator">-</span><span class="number">10</span><span class="operator">^</span><span class="number">4</span> <span class="operator">&lt;=</span> lists[i][j] <span class="operator">&lt;=</span> <span class="number">10</span><span class="operator">^</span><span class="number">4</span></span><br><span class="line">lists[i] 按 升序 排列</span><br><span class="line">lists[i].length 的总和不超过 <span class="number">10</span><span class="operator">^</span><span class="number">4</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p><strong>归并排序</strong></p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p><strong>归并思想</strong></p>
 <p>如果是两个有序链表合并，我们可能会利用归并排序合并阶段的思想：准备双指针分别放在两个链表头，每次取出较小的一个元素加入新的大链表，将其指针后移，继续比较，这样我们出去的都是最小的元素，自然就完成了排序。</p>
 <p>其实只要遍历链表数组，取出开头的两个链表，按照上述思路合并，然后新链表再与后一个继续合并，如此循环，直到全部合并完成。但是，这样太浪费时间了。</p>
 <p>既然都是归并排序的思想了，那我们可不可以直接归并的分治来做，而不是顺序遍历合并链表呢？答案是可以的！</p>
