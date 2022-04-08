@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">140</span>
+          <span class="site-state-item-count">141</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,97 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/10/17/UINavigationBar%E5%92%8CUIBarButtonItem%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/10/17/UINavigationBar%E5%92%8CUIBarButtonItem%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">UINavigationBar和UIBarButtonItem相关设置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-10-17 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-17T00:00:00+08:00">2017-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="UINavigationBar设置纯色背景"><a href="#UINavigationBar设置纯色背景" class="headerlink" title="UINavigationBar设置纯色背景"></a>UINavigationBar设置纯色背景</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[nav.navigationBar setBarTintColor:MAIN_COLOR];</span><br><span class="line">[nav.navigationBar setTintColor:MAIN_COLOR];</span><br></pre></td></tr></table></figure>
+
+<p>问题：导航条颜色透明度不是1，颜色略淡。</p>
+<p>####UINavigationBar设置为图片</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIImage</span> *bgImage = [[<span class="built_in">UIImage</span> createImageWithColor:MAIN_COLOR] resizableImageWithCapInsets:<span class="built_in">UIEdgeInsetsZero</span> resizingMode:<span class="built_in">UIImageResizingModeStretch</span>];</span><br><span class="line">[[<span class="built_in">UINavigationBar</span> appearance] setBackgroundImage:bgImage forBarMetrics:<span class="built_in">UIBarMetricsDefault</span>];    </span><br></pre></td></tr></table></figure>
+
+<p>注意设置为图片后controller视图的位置变化：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/10/17/UINavigationBar%E5%92%8CUIBarButtonItem%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -978,95 +1069,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/04/27/present%E4%B8%80%E4%B8%AAxib%20controller%E4%BA%A7%E7%94%9Fframe%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/04/27/present%E4%B8%80%E4%B8%AAxib%20controller%E4%BA%A7%E7%94%9Fframe%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">present一个xib controller产生frame错误的问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-04-27 00:00:00" itemprop="dateCreated datePublished" datetime="2017-04-27T00:00:00+08:00">2017-04-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Debug/" itemprop="url" rel="index"><span itemprop="name">Debug</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>最近写项目时，发现了一个问题：</p>
-<p>使用<code>presentViewController</code>方法present到一个包含childViewControllers的<em>containerController</em>时，<em>containerController</em>的childViewConroller是一个xib创建的<em>viewControllerA</em>，present之后，<em>ViewControllerA</em>的frame等于<em>ViewControllerA</em>的xib尺寸，而不是屏幕大小（比如，ViewControllerA的xib尺寸是375x667，在7 Plus上展示的时候，得到的<em>ViewControllerA</em>仍然是375x667）；而同样是作为childViewController的<em>ViewControllerB</em>用纯代码创建，则能够按照屏幕尺寸正确展示。</p>
-<h4 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/04/27/present%E4%B8%80%E4%B8%AAxib%20controller%E4%BA%A7%E7%94%9Fframe%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
