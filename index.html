@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">144</span>
+          <span class="site-state-item-count">145</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -979,7 +979,7 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你两个单链表的头节点 <code>headA </code>和 <code>headB </code>，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 <code>null </code>。</p>
 <p>图示两个链表在节点 <code>c1 </code>开始相交：</p>
-
+<img src="/2020/11/03/LeetCode-160.%E7%9B%B8%E4%BA%A4%E9%93%BE%E8%A1%A8/two-list-intersection1.png" class="" title="两个链表的第一个公共节点示例1">
 
 <p>题目数据 <strong>保证</strong> 整个链式结构中不存在环。</p>
 <p><strong>注意</strong>，函数返回结果后，链表必须 <strong>保持其原始结构</strong> 。</p>
@@ -1018,7 +1018,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/08/29/LeetCode-%E5%89%91%E6%8C%87offer025-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/08/29/LeetCode-2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -1036,7 +1036,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/08/29/LeetCode-%E5%89%91%E6%8C%87offer025-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/" class="post-title-link" itemprop="url">LeetCode-剑指offer025.链表中的两数相加</a>
+          <a href="/2020/08/29/LeetCode-2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/" class="post-title-link" itemprop="url">LeetCode-2.两数相加</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1069,18 +1069,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定两个 非空链表 l1和 l2 来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储一位数字。将这两数相加会返回一个新的链表。</p>
-<p>可以假设除了数字 0 之外，这两个数字都不会以零开头。</p>
-<p><strong>示例1</strong></p>
-<img src="/2020/08/29/LeetCode-%E5%89%91%E6%8C%87offer025-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/list-add-num1.png" class="" title="链表中的两数相加示例1">
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。</p>
+<p>请你将两个数相加，并以相同形式返回一个表示和的链表。</p>
+<p>你可以假设除了数字 0 之外，这两个数都不会以 0 开头。</p>
+<p><strong>示例</strong></p>
+<img src="/2020/08/29/LeetCode-2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/addtwonumber1.jpg" class="" title="两数相加示例1">
 
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 <span class="operator">=</span> [<span class="number">7</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">3</span>], l2 <span class="operator">=</span> [<span class="number">5</span>,<span class="number">6</span>,<span class="number">4</span>]</span><br><span class="line">输出：[<span class="number">7</span>,<span class="number">8</span>,<span class="number">0</span>,<span class="number">7</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 <span class="operator">=</span> [<span class="number">2</span>,<span class="number">4</span>,<span class="number">3</span>], l2 <span class="operator">=</span> [<span class="number">5</span>,<span class="number">6</span>,<span class="number">4</span>]</span><br><span class="line">输出：[<span class="number">7</span>,<span class="number">0</span>,<span class="number">8</span>]</span><br><span class="line">解释：<span class="number">342</span> <span class="operator">+</span> <span class="number">465</span> <span class="operator">=</span> <span class="number">807</span>.</span><br></pre></td></tr></table></figure>
 
-<p><strong>示例2</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 <span class="operator">=</span> [<span class="number">2</span>,<span class="number">4</span>,<span class="number">3</span>], l2 <span class="operator">=</span> [<span class="number">5</span>,<span class="number">6</span>,<span class="number">4</span>]</span><br><span class="line">输出：[<span class="number">8</span>,<span class="number">0</span>,<span class="number">7</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 <span class="operator">=</span> [<span class="number">0</span>], l2 <span class="operator">=</span> [<span class="number">0</span>]</span><br><span class="line">输出：[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]</span><br><span class="line">输出：[8,9,9,9,0,0,0,1]</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/08/29/LeetCode-%E5%89%91%E6%8C%87offer025-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/#more" rel="contents">
+              <a class="btn" href="/2020/08/29/LeetCode-2-%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
