@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">142</span>
+          <span class="site-state-item-count">143</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,102 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">AFNetworking的特殊设置</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-01 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-01T00:00:00+08:00">2018-05-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>项目中的网络请求需要在Header中添加Authorization，并进行base64编码后请求数据。</p>
+<ol>
+<li><p>设置SecurityPolicy</p>
+<p>有两种情况需要设置SecurityPollicy：</p>
+<ul>
+<li>使用HTTP请求，则需要在plist文件中设置允许HTTP请求，并添加host地址到白名单，但有时请求仍会被Cancel（-999错误）；</li>
+<li>HTTPS请求，但是证书过期或无效了，请求可能被cancel</li>
+</ul>
+<p>设置SecurityPolicy：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];</span><br><span class="line">   securityPolicy.validatesDomainName = <span class="literal">NO</span>;</span><br><span class="line">   securityPolicy.allowInvalidCertificates = <span class="literal">YES</span>;</span><br><span class="line">  </span><br><span class="line">   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];</span><br><span class="line">   manager.securityPolicy = securityPolicy;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置base64编码过的Authorization
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1018,94 +1114,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/03/12/Core-Location%E5%92%8CMap-Kit%E7%A1%AE%E5%AE%9A%E4%BD%8D%E7%BD%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" class="post-title-link" itemprop="url">Swift3到Swift4的一些坑</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E6%96%B0%E7%89%B9%E6%80%A7/" itemprop="url" rel="index"><span itemprop="name">Swift新特性</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="一、Substring"><a href="#一、Substring" class="headerlink" title="一、Substring"></a>一、Substring</h4><p>Swift 4 中有一个很大的变化就是<strong>String</strong>可以当做<strong>Collection</strong>来用，并不是因为<strong>String</strong>实现了<strong>Collection</strong>协议，而是<strong>String</strong>本身增加了很多<strong>Collection</strong>协议中的方法，使得<strong>String</strong> 在使用时看上去就是个<strong>Collection</strong>。 </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> string <span class="operator">=</span> <span class="string">&quot;IamBaylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.prefix(<span class="number">3</span>))		<span class="comment">//&quot;Iam&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.suffix(<span class="number">6</span>))		<span class="comment">//&quot;Baylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.dropFirst())	<span class="comment">//&quot;amBaylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.dropLast())	<span class="comment">//&quot;IamBayle&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>比如上面的样例，我们使用一些<strong>Collection</strong>协议的方法对字符串进行截取，只不过它们的返回结果不是<strong>String</strong>类型，而是 Swift4 新增的<strong>Substring</strong>类型。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
