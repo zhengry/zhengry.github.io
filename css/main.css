@@ -1322,8 +1322,9 @@ pre code {
 }
 .site-description {
   color: #999;
-  font-size: 0.8125em;
+  font-size: 12px;
   margin-top: 0;
+  text-align: center;
 }
 .site-author {
   padding-left: 50px;
