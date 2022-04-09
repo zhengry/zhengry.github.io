@@ -524,7 +524,7 @@
           <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>输入一个链表，输出该链表中倒数第<code>k</code>个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。</p>
 <p>例如，一个链表有 6 个节点，从头节点开始，它们的值依次是 1、2、3、4、5、6。这个链表的倒数第 3 个节点是值为 4 的节点。</p>
 <p><strong>示例</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">给定一个链表: 1-&gt;2-&gt;3-&gt;4-&gt;5, 和 k = 2.</span><br><span class="line"></span><br><span class="line">返回链表 4-&gt;5.</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">给定一个链表: <span class="number">1</span>-&gt;<span class="number">2</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span>-&gt;<span class="number">5</span>, 和 k <span class="operator">=</span> <span class="number">2</span>.</span><br><span class="line"></span><br><span class="line">返回链表 <span class="number">4</span>-&gt;<span class="number">5</span>.</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/09/19/LeetCode-%E5%89%91%E6%8C%87offer22-%E9%93%BE%E8%A1%A8%E4%B8%AD%E5%80%92%E6%95%B0k%E4%B8%AA%E8%8A%82%E7%82%B9/#more" rel="contents">
@@ -609,13 +609,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个链表的头节点 head ，判断链表中是否有环。</p>
-<p>如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。</p>
-<p>如果链表中存在环 ，则返回 true 。 否则，返回 false 。</p>
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个链表的头节点 <code>head</code>，判断链表中是否有环。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code>指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code>来表示链表尾连接到链表中的位置（索引从<code>0</code> 开始）。注意：<code>pos</code>不作为参数进行传递 。仅仅是为了标识链表的实际情况。</p>
+<p>如果链表中存在环 ，则返回 <code> true</code>。 否则，返回 <code>false </code>。</p>
 <p><strong>示例1</strong></p>
 <img src="/2021/08/08/LeetCode-141-%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF/circular-linked-list1.png" class="" title="示例1：链表中有环">
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head = [3,2,0,-4], pos = 1</span><br><span class="line">输出：true</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head <span class="operator">=</span> [<span class="number">3</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="operator">-</span><span class="number">4</span>], pos <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">输出：<span class="literal">true</span></span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点<span class="operator">。</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/08/LeetCode-141-%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF/#more" rel="contents">
@@ -700,13 +700,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个链表的头节点  <code>head </code>，返回链表开始入环的第一个节点。 如果链表无环，则返回 <code>null</code>。</p>
-<p>如果链表中有某个节点，可以通过连续跟踪 <code>next </code>指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。如果 <code>pos </code>是 -1，则在该链表中没有环。注意：<code>pos </code>不作为参数进行传递，仅仅是为了标识链表的实际情况。</p>
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个链表的头节点  <code>head</code>，返回链表开始入环的第一个节点。 如果链表无环，则返回 <code>null</code>。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code>指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code>来表示链表尾连接到链表中的位置（索引从<code>0</code>开始）。如果 <code>pos</code>是 -1，则在该链表中没有环。注意：<code>pos</code>不作为参数进行传递，仅仅是为了标识链表的实际情况。</p>
 <p>不允许修改 <code>链表</code>。</p>
 <p><strong>示例1</strong></p>
 <img src="/2021/08/08/LeetCode-142-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/circular-linked-list1.png" class="" title="示例1：链表中有环">
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head = [3,2,0,-4], pos = 1</span><br><span class="line">输出：返回索引为 1 的链表节点</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点。</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head <span class="operator">=</span> [<span class="number">3</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="operator">-</span><span class="number">4</span>], pos <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">输出：返回索引为 <span class="number">1</span> 的链表节点</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点<span class="operator">。</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2021/08/08/LeetCode-142-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/#more" rel="contents">
