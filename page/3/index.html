@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">155</span>
+          <span class="site-state-item-count">157</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,279 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/09/RxSwift%E4%B9%8BAnyObserver%E3%80%81Binder/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/09/RxSwift%E4%B9%8BAnyObserver%E3%80%81Binder/" class="post-title-link" itemprop="url">RxSwift之AnyObserver、Binder</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-09 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-09T00:00:00+08:00">2020-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/RxSwift%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">RxSwift基础</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h5 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h5><p>观察者<code>Observer</code>的作用就是监听事件，然后对这个事件作出响应。任何响应事件的行为都是观察者。</p>
+<p>比如，点击按钮后弹出一个提示框，那么“弹出一个提示框”就是观察者。</p>
+<h5 id="创建观察者"><a href="#创建观察者" class="headerlink" title="创建观察者"></a>创建观察者</h5><ul>
+<li><p>在<code>subscribe</code>方法中创建</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> observable <span class="operator">=</span> <span class="type">Observable</span>.of(<span class="string">&quot;A&quot;</span>,<span class="string">&quot;B&quot;</span>,<span class="string">&quot;C&quot;</span>)</span><br><span class="line">observable.subscribe( onNext: &#123; element <span class="keyword">in</span></span><br><span class="line">  <span class="built_in">print</span>(element)</span><br><span class="line">&#125;, onError: &#123; error <span class="keyword">in</span></span><br><span class="line">  <span class="built_in">print</span>(error)</span><br><span class="line">&#125;, onCompleted: &#123;</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;completed&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>bind</code>方法中创建
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/09/RxSwift%E4%B9%8BAnyObserver%E3%80%81Binder/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/08/LeetCode-141-%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/08/LeetCode-141-%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF/" class="post-title-link" itemprop="url">LeetCode-141.判断链表中是否有环</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-08T00:00:00+08:00">2020-01-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个链表的头节点 <code>head</code>，判断链表中是否有环。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code>指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code>来表示链表尾连接到链表中的位置（索引从<code>0</code> 开始）。注意：<code>pos</code>不作为参数进行传递 。仅仅是为了标识链表的实际情况。</p>
+<p>如果链表中存在环 ，则返回 <code> true</code>。 否则，返回 <code>false </code>。</p>
+<p><strong>示例1</strong></p>
+<img src="/2020/01/08/LeetCode-141-%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF/circular-linked-list1.png" class="" title="示例1：链表中有环">
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head <span class="operator">=</span> [<span class="number">3</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="operator">-</span><span class="number">4</span>], pos <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">输出：<span class="literal">true</span></span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点<span class="operator">。</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/08/LeetCode-141-%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/08/LeetCode-142-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/08/LeetCode-142-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/" class="post-title-link" itemprop="url">LeetCode-142.链表中环的入口节点</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-08T00:00:00+08:00">2020-01-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个链表的头节点  <code>head</code>，返回链表开始入环的第一个节点。 如果链表无环，则返回 <code>null</code>。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code>指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code>来表示链表尾连接到链表中的位置（索引从<code>0</code>开始）。如果 <code>pos</code>是 -1，则在该链表中没有环。注意：<code>pos</code>不作为参数进行传递，仅仅是为了标识链表的实际情况。</p>
+<p>不允许修改 <code>链表</code>。</p>
+<p><strong>示例1</strong></p>
+<img src="/2020/01/08/LeetCode-142-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/circular-linked-list1.png" class="" title="示例1：链表中有环">
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：head <span class="operator">=</span> [<span class="number">3</span>,<span class="number">2</span>,<span class="number">0</span>,<span class="operator">-</span><span class="number">4</span>], pos <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">输出：返回索引为 <span class="number">1</span> 的链表节点</span><br><span class="line">解释：链表中有一个环，其尾部连接到第二个节点<span class="operator">。</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/08/LeetCode-142-%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%8E%AF%E7%9A%84%E5%85%A5%E5%8F%A3%E8%8A%82%E7%82%B9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -248,6 +521,194 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/01/08/RxSwift%E4%B9%8BObservable%E8%AE%A2%E9%98%85%E3%80%81%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E3%80%81%E8%AE%A2%E9%98%85%E9%94%80%E6%AF%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/07/LeetCode-23-%E5%90%88%E5%B9%B6k%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/07/LeetCode-23-%E5%90%88%E5%B9%B6k%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">LeetCode-23.合并k个有序链表</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-07 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-07T00:00:00+08:00">2020-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个链表数组，每个链表都已经按升序排列。</p>
+<p>请你将所有链表合并到一个升序链表中，返回合并后的链表。</p>
+<p>示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输入：lists <span class="operator">=</span> [[<span class="number">1</span>,<span class="number">4</span>,<span class="number">5</span>],[<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>],[<span class="number">2</span>,<span class="number">6</span>]]</span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line">解释：链表数组如下：</span><br><span class="line">[</span><br><span class="line">  <span class="number">1</span>-&gt;<span class="number">4</span>-&gt;<span class="number">5</span>,</span><br><span class="line">  <span class="number">1</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span>,</span><br><span class="line">  <span class="number">2</span>-&gt;<span class="number">6</span></span><br><span class="line">]</span><br><span class="line">将它们合并到一个有序链表中得到<span class="operator">。</span></span><br><span class="line"><span class="number">1</span>-&gt;<span class="number">1</span>-&gt;<span class="number">2</span>-&gt;<span class="number">3</span>-&gt;<span class="number">4</span>-&gt;<span class="number">4</span>-&gt;<span class="number">5</span>-&gt;<span class="number">6</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：lists <span class="operator">=</span> []</span><br><span class="line">输出：[]</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/07/LeetCode-23-%E5%90%88%E5%B9%B6k%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/06/LeetCode-21-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/06/LeetCode-21-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">LeetCode-21.合并两个有序链表</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-06 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-06T00:00:00+08:00">2020-01-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>将两个升序链表合并为一个新的 <strong>升序</strong> 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </p>
+<p>比如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 <span class="operator">=</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>], l2 <span class="operator">=</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 <span class="operator">=</span> [], l2 <span class="operator">=</span> []</span><br><span class="line">输出：[]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：l1 <span class="operator">=</span> [], l2 <span class="operator">=</span> [<span class="number">0</span>]</span><br><span class="line">输出：[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
+<ul>
+<li>两个链表的节点数目范围是 <code>[0, 50]</code></li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+<li><code>l1</code> 和 <code>l2</code> 均按 <strong>非递减顺序</strong> 排列</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/06/LeetCode-21-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -369,7 +830,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/05/LeetCode-25-k%E4%B8%AA%E4%B8%80%E7%BB%84%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -387,7 +848,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/" class="post-title-link" itemprop="url">HTTPS通信</a>
+          <a href="/2020/01/05/LeetCode-25-k%E4%B8%AA%E4%B8%80%E7%BB%84%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">LeetCode-25.k个一组反转链表</a>
         </h2>
 
         <div class="post-meta-container">
@@ -398,7 +859,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-10-09 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-09T00:00:00+08:00">2019-10-09</time>
+      <time title="创建时间：2020-01-05 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-05T00:00:00+08:00">2020-01-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -406,7 +867,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
         </span>
     </span>
 
@@ -420,631 +881,210 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h4 id="HTTP缺点"><a href="#HTTP缺点" class="headerlink" title="HTTP缺点"></a>HTTP缺点</h4><p>HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：</p>
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个链表，每 <code>k</code> 个节点一组进行翻转，请你返回翻转后的链表。</p>
+<p><code>k</code> 是一个正整数，它的值小于或等于链表的长度。</p>
+<p>如果节点总数不是 <code>k</code> 的整数倍，那么请将最后剩余的节点保持原有顺序。</p>
+<p>进阶：</p>
+<p>你可以设计一个只使用常数额外空间的算法来解决此问题吗？<br>你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>递归法：</p>
+<ol>
+<li>链表需要分组后对每组进行反转，然后将反转后的各组进行连接；
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/05/LeetCode-25-k%E4%B8%AA%E4%B8%80%E7%BB%84%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/04/LeetCode-92.%E5%8F%8D%E8%BD%AC%E9%83%A8%E5%88%86%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/04/LeetCode-92.%E5%8F%8D%E8%BD%AC%E9%83%A8%E5%88%86%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">LeetCode-92.反转部分链表</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-04T00:00:00+08:00">2020-01-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你单链表的头指针 <code>head </code>和两个整数 <code>left </code>和 <code>right </code>，其中 <code>left </code>&lt;&#x3D; <code>right </code>。请你反转从位置 <code>left </code>到位置 <code>right </code>的链表节点，返回 反转后的链表 。</p>
+<p><strong>示例：</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：head <span class="operator">=</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>], left <span class="operator">=</span> <span class="number">2</span>, right <span class="operator">=</span> <span class="number">4</span></span><br><span class="line">输出：[<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：head <span class="operator">=</span> [<span class="number">5</span>], left <span class="operator">=</span> <span class="number">1</span>, right <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">输出：[<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>提示：</strong></p>
 <ul>
-<li>通信使用明文，内容可能会被窃听</li>
-<li>不验证通信方的身份，有可能是伪装的通信方</li>
-<li>无法证明报文的完整性（正确性），可能已经被篡改</li>
-<li>即使通信内容经过加密处理，加密后的通信内容还是会被看到</li>
+<li>链表中节点数目为 <code>n</code></li>
+<li><code>1 &lt;= n &lt;= 500</code></li>
+<li><code>-500 &lt;= Node.val &lt;= 500</code></li>
+<li><code>1 &lt;= left &lt;= right &lt;= n</code>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/04/LeetCode-92.%E5%8F%8D%E8%BD%AC%E9%83%A8%E5%88%86%E9%93%BE%E8%A1%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/01/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/01/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">LeetCode-206.反转链表</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-02T00:00:00+08:00">2020-01-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p>
+<p><strong>提示：</strong></p>
+<ul>
+<li>链表中节点的数目范围是 <code>[0, 5000]</code></li>
+<li><code>-5000 &lt;= Node.val &lt;= 5000</code></li>
 </ul>
-<h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。
+<p><strong>示例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：head = [1,2,3,4,5]</span><br><span class="line">输出：[5,4,3,2,1]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：head = []</span><br><span class="line">输出：[]</span><br></pre></td></tr></table></figure>
+
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>使用<code>swift</code>语言，需要声明链表结构：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单向链表，比如： 1-&gt;2-&gt;3-&gt;4-&gt;nil</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ListNode</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> val: <span class="type">Int</span></span><br><span class="line">  <span class="keyword">var</span> next: <span class="type">ListNode</span>?</span><br><span class="line">  <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">val</span>: <span class="type">Int</span>) &#123;</span><br><span class="line">      <span class="keyword">self</span>.val <span class="operator">=</span> val</span><br><span class="line">      <span class="keyword">self</span>.next <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/10/09/HTTPS%E9%80%9A%E4%BF%A1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/26/H5%E9%A1%B5%E9%9D%A2%E8%B0%83%E8%B5%B7%E9%94%AE%E7%9B%98%E5%90%8E%E9%A1%B5%E9%9D%A2%E5%8F%98%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/09/26/H5%E9%A1%B5%E9%9D%A2%E8%B0%83%E8%B5%B7%E9%94%AE%E7%9B%98%E5%90%8E%E9%A1%B5%E9%9D%A2%E5%8F%98%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">H5页面调起键盘后页面变大的问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-09-26 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-26T00:00:00+08:00">2019-09-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>iOS开发中，H5页面一般都会做客户端适配，比如在<code>header</code>标签中添加<code>viewport</code>的<code>meta</code>标签，设置宽高100%适配或使用<code>device-width</code>适配宽度，在初始化<code>webview</code>时，客户端一般会再做一层适配，添加<code>width=device-width</code>属性：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> jScript <span class="operator">=</span> <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">var meta = document.createElement(&#x27;meta&#x27;);</span></span><br><span class="line"><span class="string">meta.setAttribute(&#x27;name&#x27;, &#x27;viewport&#x27;);</span></span><br><span class="line"><span class="string">meta.setAttribute(&#x27;content&#x27;, &#x27;width=device-width&#x27;);</span></span><br><span class="line"><span class="string">document.getElementsByTagName(&#x27;head&#x27;)[0].appendChild(meta);</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>但是在有输入框的H5页面，调起键盘后仍然会使页面放大、输入框被顶出页面顶部等问题。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/26/H5%E9%A1%B5%E9%9D%A2%E8%B0%83%E8%B5%B7%E9%94%AE%E7%9B%98%E5%90%8E%E9%A1%B5%E9%9D%A2%E5%8F%98%E5%A4%A7%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/16/%E7%BB%99%E5%AF%8C%E6%96%87%E6%9C%AC%E6%B7%BB%E5%8A%A0%E8%B6%85%E9%93%BE%E6%8E%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/09/16/%E7%BB%99%E5%AF%8C%E6%96%87%E6%9C%AC%E6%B7%BB%E5%8A%A0%E8%B6%85%E9%93%BE%E6%8E%A5/" class="post-title-link" itemprop="url">给富文本添加超链接</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-09-16 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-16T00:00:00+08:00">2019-09-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在开发中，点击事件一般都是使用<code>UIButton</code>来实现。有时候也会出现请用户阅读并同意多个协议的情况，不同的协议有不同的跳转，这时就需要做成超链接的形式。在iOS中简单实现超链接的方式就是使用<code>UITextView</code>。</p>
-<p>实现步骤：</p>
-<p>首先，要给文本添加超链接属性（<code>NSAttributedString.Key.link</code>），可以响应超链接的文本默认为蓝色，有两种添加方式：</p>
-<ul>
-<li>方式1：设置该属性的<code>value</code>值为要跳转的超链接地址</li>
-<li>方式2：设置该属性的<code>value</code>值为自定义<code>URL Scheme</code>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/16/%E7%BB%99%E5%AF%8C%E6%96%87%E6%9C%AC%E6%B7%BB%E5%8A%A0%E8%B6%85%E9%93%BE%E6%8E%A5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">App电量消耗优化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-09-09 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-09T00:00:00+08:00">2019-09-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>App中的耗电大户：CPU和I&#x2F;O操作</p>
-<h4 id="如何获取电量"><a href="#如何获取电量" class="headerlink" title="如何获取电量"></a>如何获取电量</h4><p><code>IOKit framework</code>是专门用于跟硬件或内核服务通信的。所以，我们可以通过<code>IOKit framework</code>来获取硬件信息，进而获取到电量消耗信息。</p>
-<p>使用：导入<code>IOPowerSources.h</code>、<code>IOPSKeys.h</code>、<code>IOKit</code>,将<code>batteryMonitoringEnable</code>设置为<code>true</code>，通过代码获取精确到1%的电量信息：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/09/App%E7%94%B5%E9%87%8F%E6%B6%88%E8%80%97%E4%BC%98%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/09/09/iOS%E4%B8%AD%E5%8A%A0%E8%BD%BD%E5%90%AB%E6%9C%89%E7%94%B5%E5%AD%90%E7%AD%BE%E7%AB%A0%E7%9A%84PDF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/09/09/iOS%E4%B8%AD%E5%8A%A0%E8%BD%BD%E5%90%AB%E6%9C%89%E7%94%B5%E5%AD%90%E7%AD%BE%E7%AB%A0%E7%9A%84PDF/" class="post-title-link" itemprop="url">iOS中加载含有电子签章的PDF</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-09-09 00:00:00" itemprop="dateCreated datePublished" datetime="2019-09-09T00:00:00+08:00">2019-09-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在iOS开发中，要加载PDF，一般可以直接使用WKWebview来加载。但是PDF中的电子签章常常显示失败。除了使用第三方库来解决之外，有没有其他解决方案呢？我的解决方案是下载PDF文件后保存到本地，然后使用<code>QLPreviewController</code>加载本地文件。</p>
-<h4 id="QLPreviewController简介"><a href="#QLPreviewController简介" class="headerlink" title="QLPreviewController简介"></a>QLPreviewController简介</h4><p>QLPreviewController API在iOS中用来预览文件，它支持的文件类型有iWork文档、RTF文档、PDF文件、图片、文本文件和CVS文件等。使用的时候需要遵守并实现<code>QLPreviewControllerDataSource</code>和<code>QLPreviewControllerDelegate</code>两个代理的方法。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/09/09/iOS%E4%B8%AD%E5%8A%A0%E8%BD%BD%E5%90%AB%E6%9C%89%E7%94%B5%E5%AD%90%E7%AD%BE%E7%AB%A0%E7%9A%84PDF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/08/26/WKWebView%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89userAgent/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/08/26/WKWebView%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89userAgent/" class="post-title-link" itemprop="url">WKWebView设置自定义userAgent</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-26T00:00:00+08:00">2019-08-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在iOS中，如果需要使用H5页面，前端经常需要使用userAgent来判断调用页面的客户端类型。</p>
-<p>如果我们要设置自定义userAgent，可以直接调用<code>webView.customUserAgent = &quot;your customer userAgent&quot;</code>。但是很多时候，前端需要的是原始userAgent拼接自定义内容，这时候就需要先获取webView的原始userAgent。</p>
-<p>在iOS中，要获取WKWebview的原始userAgent，可以使用<code>evaluateJavaScript</code>方法来获取。这个方法是异步的，所以在自定义的WKWebview中，url加载完成可能早于获取到userAgent，从而造成加载H5的页面时，前端获取不到自定义的userAgent。所以我们可以在工程启动的时候，获取并设置WKWebview的全局userAgent。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/08/26/WKWebView%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89userAgent/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/08/22/3DES%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/08/22/3DES%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/" class="post-title-link" itemprop="url">3DES加密和解密</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-08-22 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">2019-08-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>使用3DES加密时，遇到后端加解密数据与iOS加解密数据不一致的问题，特此记录下。</p>
-<p>后端使用的算法<code>algorithm</code>参数是<code>ecb</code>，iOS端使用<code>kCCOptionECBMode</code>或者<code>kCCOptionPKCS7Padding</code>时，如果加密的原始数据全是数字类型时，可以得到相同的加解密结果。但是，当原始数据包含特殊字符或者字母时就跟后端得到的不一致了，正确的设置是使用<code>(kCCOptionECBMode + kCCOptionPKCS7Padding)</code>。</p>
-<p>在3DES加密中，key值是24位字符串，一般我们是将原始key值经过md5加密后截取前24位作为3DES加解密的key来使用。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/08/22/3DES%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/08/19/iOS11%E5%90%8E%E8%B0%83%E7%94%A8%E7%9B%B8%E5%86%8C%E5%90%8E%EF%BC%8C%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E7%9B%B8%E5%86%8C%E7%85%A7%E7%89%87%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/08/19/iOS11%E5%90%8E%E8%B0%83%E7%94%A8%E7%9B%B8%E5%86%8C%E5%90%8E%EF%BC%8C%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E7%9B%B8%E5%86%8C%E7%85%A7%E7%89%87%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">iOS11后调用相册后，导航栏遮挡相册照片问题</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-08-19 10:08:58" itemprop="dateCreated datePublished" datetime="2019-08-19T10:08:58+08:00">2019-08-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>iOS11后，如果没有设置<code>UIScrollView.appearance().contentInsetAdjustmentBehavior = .automatic</code>，调用相册后，导航栏会遮挡相册照片。解决方法：</p>
-<p><code>present</code> <code>UIImagePickerController</code>之前设置：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">#available</span>(<span class="keyword">iOS</span> <span class="number">11.0</span>, <span class="operator">*</span>) &#123;</span><br><span class="line">		<span class="type">UIScrollView</span>.appearance().contentInsetAdjustmentBehavior <span class="operator">=</span> .automatic</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>dismiss</code>之前设置：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/08/19/iOS11%E5%90%8E%E8%B0%83%E7%94%A8%E7%9B%B8%E5%86%8C%E5%90%8E%EF%BC%8C%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E7%9B%B8%E5%86%8C%E7%85%A7%E7%89%87%E9%97%AE%E9%A2%98/#more" rel="contents">
+              <a class="btn" href="/2020/01/02/LeetCode-206.%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
