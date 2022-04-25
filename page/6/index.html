@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">168</span>
+          <span class="site-state-item-count">172</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,354 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/08/26/WKWebView%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89userAgent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/08/26/WKWebView%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89userAgent/" class="post-title-link" itemprop="url">WKWebView设置自定义userAgent</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-26T00:00:00+08:00">2019-08-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在iOS中，如果需要使用H5页面，前端经常需要使用userAgent来判断调用页面的客户端类型。</p>
+<p>如果我们要设置自定义userAgent，可以直接调用<code>webView.customUserAgent = &quot;your customer userAgent&quot;</code>。但是很多时候，前端需要的是原始userAgent拼接自定义内容，这时候就需要先获取webView的原始userAgent。</p>
+<p>在iOS中，要获取WKWebview的原始userAgent，可以使用<code>evaluateJavaScript</code>方法来获取。这个方法是异步的，所以在自定义的WKWebview中，url加载完成可能早于获取到userAgent，从而造成加载H5的页面时，前端获取不到自定义的userAgent。所以我们可以在工程启动的时候，获取并设置WKWebview的全局userAgent。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/08/26/WKWebView%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%AE%9A%E4%B9%89userAgent/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/08/22/3DES%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/08/22/3DES%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/" class="post-title-link" itemprop="url">3DES加密和解密</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-22 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-22T00:00:00+08:00">2019-08-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>使用3DES加密时，遇到后端加解密数据与iOS加解密数据不一致的问题，特此记录下。</p>
+<p>后端使用的算法<code>algorithm</code>参数是<code>ecb</code>，iOS端使用<code>kCCOptionECBMode</code>或者<code>kCCOptionPKCS7Padding</code>时，如果加密的原始数据全是数字类型时，可以得到相同的加解密结果。但是，当原始数据包含特殊字符或者字母时就跟后端得到的不一致了，正确的设置是使用<code>(kCCOptionECBMode + kCCOptionPKCS7Padding)</code>。</p>
+<p>在3DES加密中，key值是24位字符串，一般我们是将原始key值经过md5加密后截取前24位作为3DES加解密的key来使用。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/08/22/3DES%E5%8A%A0%E5%AF%86%E5%92%8C%E8%A7%A3%E5%AF%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/08/19/iOS11%E5%90%8E%E8%B0%83%E7%94%A8%E7%9B%B8%E5%86%8C%E5%90%8E%EF%BC%8C%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E7%9B%B8%E5%86%8C%E7%85%A7%E7%89%87%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/08/19/iOS11%E5%90%8E%E8%B0%83%E7%94%A8%E7%9B%B8%E5%86%8C%E5%90%8E%EF%BC%8C%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E7%9B%B8%E5%86%8C%E7%85%A7%E7%89%87%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">iOS11后调用相册后，导航栏遮挡相册照片问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-19 10:08:58" itemprop="dateCreated datePublished" datetime="2019-08-19T10:08:58+08:00">2019-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>iOS11后，如果没有设置<code>UIScrollView.appearance().contentInsetAdjustmentBehavior = .automatic</code>，调用相册后，导航栏会遮挡相册照片。解决方法：</p>
+<p><code>present</code> <code>UIImagePickerController</code>之前设置：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">#available</span>(<span class="keyword">iOS</span> <span class="number">11.0</span>, <span class="operator">*</span>) &#123;</span><br><span class="line">		<span class="type">UIScrollView</span>.appearance().contentInsetAdjustmentBehavior <span class="operator">=</span> .automatic</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>dismiss</code>之前设置：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/08/19/iOS11%E5%90%8E%E8%B0%83%E7%94%A8%E7%9B%B8%E5%86%8C%E5%90%8E%EF%BC%8C%E5%AF%BC%E8%88%AA%E6%A0%8F%E9%81%AE%E6%8C%A1%E7%9B%B8%E5%86%8C%E7%85%A7%E7%89%87%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/08/06/%E4%B8%A4%E4%B8%AA%E9%9A%90%E8%97%8F%E5%AF%BC%E8%88%AA%E6%9D%A1%E7%9A%84tab%E5%88%87%E6%8D%A2%E6%97%B6%E5%87%BA%E7%8E%B0%E8%A7%86%E5%9B%BE%E4%B8%8A%E7%A7%BB%E5%8A%A8%E7%94%BB%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/08/06/%E4%B8%A4%E4%B8%AA%E9%9A%90%E8%97%8F%E5%AF%BC%E8%88%AA%E6%9D%A1%E7%9A%84tab%E5%88%87%E6%8D%A2%E6%97%B6%E5%87%BA%E7%8E%B0%E8%A7%86%E5%9B%BE%E4%B8%8A%E7%A7%BB%E5%8A%A8%E7%94%BB%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">两个隐藏导航条的tab切换时出现视图上移动画问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-06 00:00:00" itemprop="dateCreated datePublished" datetime="2019-08-06T00:00:00+08:00">2019-08-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>当tab的<code>childController</code>都是<code>navigationController</code>，其中两个<code>navigationController</code>的<code>rootViewController</code>都是需要隐藏导航条的，在这两个<code>controller</code>的<code>viewWillAppear</code>中设置了<code> navigationController?.setNavigationBarHidden(false, animated: true)</code>，但是在切换这两个tab的时候，视图会发生明显的上移动画，这是我们不希望的。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/08/06/%E4%B8%A4%E4%B8%AA%E9%9A%90%E8%97%8F%E5%AF%BC%E8%88%AA%E6%9D%A1%E7%9A%84tab%E5%88%87%E6%8D%A2%E6%97%B6%E5%87%BA%E7%8E%B0%E8%A7%86%E5%9B%BE%E4%B8%8A%E7%A7%BB%E5%8A%A8%E7%94%BB%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -708,372 +1056,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/02/19/Swift%E4%B8%ADdefer%E7%9A%84%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/02/19/Swift%E4%B8%ADdefer%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Swift中defer的使用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-02-19T00:00:00+08:00">2019-02-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="defer基本理解"><a href="#defer基本理解" class="headerlink" title="defer基本理解"></a>defer基本理解</h4><p>在Swift中，defer所声明的block会在当前代码执行退出后被调用。正因为它提供了一种延时调用的方式，所以一般会被用来做资源释放或者销毁，这在某个函数有多个返回出口的时候特别有用。</p>
-<p>示例：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">operateOnFile</span>(<span class="params">descriptor</span>: <span class="type">Int32</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> fileHandle <span class="operator">=</span> <span class="type">FileHandle</span>(fileDescriptor: descriptor)</span><br><span class="line">    <span class="keyword">defer</span> &#123; fileHandle.closeFile() &#125;</span><br><span class="line">    <span class="keyword">let</span> data <span class="operator">=</span> fileHandle.readDataToEndOfFile()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="comment">/* onlyRead */</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> shouldWrite <span class="operator">=</span> <span class="comment">/* 是否需要写文件 */</span></span><br><span class="line">    <span class="keyword">guard</span> shouldWrite <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">    </span><br><span class="line">    fileHandle.seekToEndOfFile()</span><br><span class="line">    fileHandle.write(someData)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>需要特别注意的是<code>defer</code>的作用域。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/02/19/Swift%E4%B8%ADdefer%E7%9A%84%E4%BD%BF%E7%94%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/12/18/%E4%B8%80%E4%BA%9BUI%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/12/18/%E4%B8%80%E4%BA%9BUI%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">一些UI设置总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-12-18 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-18T00:00:00+08:00">2018-12-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ol>
-<li><p>一个视图既要圆角又要阴影效果</p>
-<p>因为设置圆角需要设置maskToBounds为YES，而要设置阴影则maskToBounds为NO，二者不可兼得</p>
-<p>解决方法：</p>
-<ul>
-<li>A为父视图，B为子视图，设置B与A的约束边距都为0；</li>
-<li>设置A的背景色为clearColor，设置A的阴影效果</li>
-<li>设置B的背景色为视图实际背景色，设置B的圆角</li>
-</ul>
-<p>另外发现一种更简单的方式：</p>
-<p>需要设置UIView.layer.masksToBounds &#x3D; NO并且设置UIView.layer.borderWidth &#x3D; CGFLOAT_MIN即可，某些自定义view在这样设置之后如果仍然无法实现，尝试下设置背景色即可。</p>
-</li>
-<li><p>convertRect的正确使用
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/18/%E4%B8%80%E4%BA%9BUI%E6%80%BB%E7%BB%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/12/08/Swift%E4%B8%AD%E7%9A%84%E5%85%83%E7%B1%BB%E5%9E%8B%EF%BC%9A.Type%E4%B8%8E.self/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/12/08/Swift%E4%B8%AD%E7%9A%84%E5%85%83%E7%B1%BB%E5%9E%8B%EF%BC%9A.Type%E4%B8%8E.self/" class="post-title-link" itemprop="url">Swift中的元类型：.Type与.self</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-12-08 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-08T00:00:00+08:00">2018-12-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h5 id="元类型"><a href="#元类型" class="headerlink" title="元类型"></a>元类型</h5><p>元类型就是类型的类型。元类型表述为metaType。</p>
-<h5 id="Type和-self"><a href="#Type和-self" class="headerlink" title=".Type和.self"></a>.Type和.self</h5><p>Swift中元类型用<code>.Type</code>表示。比如<code>Int.Type</code>就是<code>Int</code>的元类型。</p>
-<p>类型和值有着不同的形式，比如说5是个<code>Int</code>类型的值。</p>
-<p><strong><code>.Type</code>是类型的元类型；类型的<code>.self</code>是元类型的值，也就是类型本身。</strong>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/08/Swift%E4%B8%AD%E7%9A%84%E5%85%83%E7%B1%BB%E5%9E%8B%EF%BC%9A.Type%E4%B8%8E.self/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/12/03/present%E4%B8%80%E4%B8%AA%E5%8D%8A%E9%80%8F%E6%98%8E%E7%9A%84controller/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/12/03/present%E4%B8%80%E4%B8%AA%E5%8D%8A%E9%80%8F%E6%98%8E%E7%9A%84controller/" class="post-title-link" itemprop="url">present一个半透明的controller</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-12-03 00:00:00" itemprop="dateCreated datePublished" datetime="2018-12-03T00:00:00+08:00">2018-12-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>有时候想要实现类似系统的弹窗效果，但是又需要自定义弹窗视图时，往往都会自定义一个view类，放到window上，其实还可以使用自定义一个背景色透明或半透明的controller来实现，这样可以使加载和销毁视图更方便。</p>
-<p>那怎样present一个半透明的controller呢？</p>
-<p>在当前controller中要present一个半透明的TestViewController：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TestViewController</span> <span class="operator">*</span> testVC <span class="operator">=</span> [<span class="type">TestViewController</span> new];</span><br><span class="line"><span class="keyword">self</span>.definesPresentationContext <span class="operator">=</span> <span class="type">YES</span>; <span class="comment">//设置当前控制器为present上下文</span></span><br><span class="line">testVC.view.backgroundColor <span class="operator">=</span> [<span class="type">UIColor</span> colorWithRed:<span class="number">0</span> green:<span class="number">0</span> blue:<span class="number">0</span> alpha:.<span class="number">4</span>];</span><br><span class="line">testVC.modalPresentationStyle <span class="operator">=</span> <span class="type">UIModalPresentationOverCurrentContext</span>;<span class="comment">//或者UIModalPresentationOverFullScreen 这两个都是全屏效果，其他Style会遮盖当前控制器内容</span></span><br><span class="line">[<span class="keyword">self</span> presentViewController:testVC animated:<span class="type">YES</span> completion:<span class="literal">nil</span>];</span><br></pre></td></tr></table></figure>
-
-<p>这时，present动画效果是系统默认的自下而上的动画效果，还可以修改动画效果，
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/12/03/present%E4%B8%80%E4%B8%AA%E5%8D%8A%E9%80%8F%E6%98%8E%E7%9A%84controller/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
