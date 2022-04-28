@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">177</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">20</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">38</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">178</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">20</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">38</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">178</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,91 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/07/22/WkWebViewJavaScriptBridge%E7%9A%84json%E4%BC%A0%E5%80%BC%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/07/22/WkWebViewJavaScriptBridge%E7%9A%84json%E4%BC%A0%E5%80%BC%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">WkWebViewJavaScriptBridge的json传值问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-07-22 00:00:00" itemprop="dateCreated datePublished" datetime="2019-07-22T00:00:00+08:00">2019-07-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>bridge在<code>registerHandler</code>时可以获取<code>data</code>，如果前端传过来的<code>data</code>是个json数据，我们却无法直接将data作为json处理。这是由于<code>JavaScriptBridge</code>对前端传来的data做了处理，data是个对象，而不是json。所以我们需要将data对象转成json再进行处理：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/07/22/WkWebViewJavaScriptBridge%E7%9A%84json%E4%BC%A0%E5%80%BC%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -965,96 +1050,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/12/03/present%E4%B8%80%E4%B8%AA%E5%8D%8A%E9%80%8F%E6%98%8E%E7%9A%84controller/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/10/25/%E4%B8%AA%E5%88%ABcontroller%E7%9A%84statusBarStyle%E4%B8%8D%E5%90%8C%E4%BA%8E%E6%95%B4%E4%BD%93%E6%A0%B7%E5%BC%8F%E6%97%B6%E7%9A%84%E8%AE%BE%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/10/25/%E4%B8%AA%E5%88%ABcontroller%E7%9A%84statusBarStyle%E4%B8%8D%E5%90%8C%E4%BA%8E%E6%95%B4%E4%BD%93%E6%A0%B7%E5%BC%8F%E6%97%B6%E7%9A%84%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">个别controller的statusBarStyle不同于整体样式时的设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-10-25 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-25T00:00:00+08:00">2018-10-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h4><p>整体Style 为lightContent样式，这些页面通常是navigationcontroller的子控制器，通常使用push方式；个别页面为default样式，这些页面使用present或push方法弹出。</p>
-<p>App页面中的StatusBarStyle整体一个样式，个别页面一个样式时，实现方式有两种：</p>
-<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><ol>
-<li><p>plist中设置<code>Status bar style</code>为<code>lightContent</code>，设置<code>View controller-based status bar appearance</code>为<code>YES</code></p>
-</li>
-<li><p>扩展或在自定义navigationBarController中实现两个方法如下：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/10/25/%E4%B8%AA%E5%88%ABcontroller%E7%9A%84statusBarStyle%E4%B8%8D%E5%90%8C%E4%BA%8E%E6%95%B4%E4%BD%93%E6%A0%B7%E5%BC%8F%E6%97%B6%E7%9A%84%E8%AE%BE%E7%BD%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

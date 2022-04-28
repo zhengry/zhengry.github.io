@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">177</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">20</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">38</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">178</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">20</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">38</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">178</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,92 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/24/iOS10%E6%96%B0%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/24/iOS10%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">iOS10新特性</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-24 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-24T00:00:00+08:00">2016-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="1、SiriKit"><a href="#1、SiriKit" class="headerlink" title="1、SiriKit"></a>1、SiriKit</h4><p>SiriKit 提供一全套从语音识别到代码处理，最后向用户展示结果的流程。Apple 加入了一套全新的框架 Intents.framework 来表示 Siri 获取并解析的结果。你的应用需要提供一些关键字表明可以接受相关输入，而 Siri 扩展只需要监听系统识别的用户意图 (intent)，作出合适的响应，修改以及实际操作，最后通过 IntentsUI.framework 提供反馈。 在 iOS 10 中，我们只能用 SiriKit 来做六类事情，分别是：语音和视频通话、发送消息、发送或接收付款、搜索照片、约车、管理健身。如果你的应用恰好正在处理这些领域的问题的话，添加 Intents Extension 的支持会是很棒的选择。它将提高用户使用你的应用的可能性，也能让用户在其他像是地图这样的系统级应用中使用你的服务。</p>
+<h4 id="2、-iMessage-App-Extension"><a href="#2、-iMessage-App-Extension" class="headerlink" title="2、 iMessage App Extension"></a>2、 iMessage App Extension</h4><p>在 iOS 10 里面开发者可以给 Message.app 提供两种 App Extension，分别是可以提供一个表情包（没错，英文名就叫 Sticker Pack），和一个自定义的界面，用于表情搜索等。添加了新的贴纸包，自动转换颜文字，发送全屏效果等功能。Xcode 8 中添加了Messages Application模板。同时，模拟器甚至还开发了新的双人对话模式，以供开发者调试这类 app。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/24/iOS10%E6%96%B0%E7%89%B9%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -366,95 +452,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">Swift可空链式调用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-10-14 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-14T00:00:00+08:00">2016-10-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>可空链式调用和可空实例绑定区别：可空链式调用允许程序员把多个查询串联为一个可空实例的值。如果链式调用中的每个可空实例都包含之，那么每个调用都会成功。整个查询链会返回期望类型的可空实例。如果查询链式中的任意可空实例是nil，那么整个链式调用会返回nil。</p>
-<p>示例：如果遇到404错误，就用自定义错误码及展示给用户的错误描述代替</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCodeString : <span class="type">String</span>!</span><br><span class="line">errorCodeString <span class="operator">=</span> <span class="string">&quot;404&quot;</span></span><br><span class="line"><span class="keyword">var</span> errorDescription: <span class="type">String</span>?</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> theError <span class="operator">=</span> errorCodeString, <span class="keyword">let</span> errorCodeInteger <span class="operator">=</span> <span class="type">Int</span>(theError), errorCodeInteger <span class="operator">==</span> <span class="number">404</span> &#123;</span><br><span class="line">   errorDescription <span class="operator">=</span> <span class="string">&quot;<span class="subst">\(errorCodeInteger <span class="operator">+</span> <span class="number">200</span>)</span>: resource was not found&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> upcaseDescription <span class="operator">=</span> errorDescription<span class="operator">?</span>.uppercased()</span><br></pre></td></tr></table></figure>
-
-<p>重点在于最后一句代码！！！
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9A%90%E5%BC%8F%E5%B1%95%E5%BC%80%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -516,6 +513,95 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9A%90%E5%BC%8F%E5%B1%95%E5%BC%80%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">Swift可空链式调用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-14 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-14T00:00:00+08:00">2016-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>可空链式调用和可空实例绑定区别：可空链式调用允许程序员把多个查询串联为一个可空实例的值。如果链式调用中的每个可空实例都包含之，那么每个调用都会成功。整个查询链会返回期望类型的可空实例。如果查询链式中的任意可空实例是nil，那么整个链式调用会返回nil。</p>
+<p>示例：如果遇到404错误，就用自定义错误码及展示给用户的错误描述代替</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCodeString : <span class="type">String</span>!</span><br><span class="line">errorCodeString <span class="operator">=</span> <span class="string">&quot;404&quot;</span></span><br><span class="line"><span class="keyword">var</span> errorDescription: <span class="type">String</span>?</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> theError <span class="operator">=</span> errorCodeString, <span class="keyword">let</span> errorCodeInteger <span class="operator">=</span> <span class="type">Int</span>(theError), errorCodeInteger <span class="operator">==</span> <span class="number">404</span> &#123;</span><br><span class="line">   errorDescription <span class="operator">=</span> <span class="string">&quot;<span class="subst">\(errorCodeInteger <span class="operator">+</span> <span class="number">200</span>)</span>: resource was not found&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> upcaseDescription <span class="operator">=</span> errorDescription<span class="operator">?</span>.uppercased()</span><br></pre></td></tr></table></figure>
+
+<p>重点在于最后一句代码！！！
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -963,94 +1049,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/09/09/%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/" class="post-title-link" itemprop="url">Swift之类和结构体</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-09-07 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-07T00:00:00+08:00">2016-09-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在Swift中，类和结构体既相似又各有不同。</p>
-<p>基本知识点：<strong>基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择</strong>。</p>
-<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ol>
-<li><p>结构体和类都可以添加属性和方法
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
