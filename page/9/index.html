@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">165</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">40</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">166</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">40</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">165</span>
+          <span class="site-state-item-count">166</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/09/13/%E8%8E%B7%E5%8F%96%E9%80%9A%E8%AE%AF%E5%BD%95%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/09/13/%E8%8E%B7%E5%8F%96%E9%80%9A%E8%AE%AF%E5%BD%95%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">获取通讯录联系人信息</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-13 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-13T00:00:00+08:00">2018-09-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在获取通讯录联系人相关信息时，要特别注意的是必须在获取前指定要获取的具体字段，另外，在添加到数组或字典中的联系人信息要注意提供默认值，防止数据为nil时崩溃。</p>
+<p>指定要获取的数据：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//姓：CNContactFamilyNameKey</span></span><br><span class="line"><span class="comment">//名：CNContactGivenNameKey</span></span><br><span class="line"><span class="comment">//手机号：CNContactPhoneNumbersKey</span></span><br><span class="line"><span class="comment">//邮箱：CNContactEmailAddressesKey</span></span><br><span class="line"><span class="comment">//备注：CNContactNoteKey</span></span><br><span class="line"><span class="comment">//公司名称：CNContactOrganizationNameKey</span></span><br><span class="line"><span class="built_in">NSArray</span> *keysToFetch = @[<span class="built_in">CNContactGivenNameKey</span>, <span class="built_in">CNContactFamilyNameKey</span>, <span class="built_in">CNContactPhoneNumbersKey</span>,<span class="built_in">CNContactEmailAddressesKey</span>,<span class="built_in">CNContactNoteKey</span>,<span class="built_in">CNContactOrganizationNameKey</span>];</span><br><span class="line"></span><br><span class="line"><span class="built_in">CNContactFetchRequest</span> *fetchRequest = [[<span class="built_in">CNContactFetchRequest</span> alloc] initWithKeysToFetch:keysToFetch];</span><br></pre></td></tr></table></figure>
+
+<p>开始获取数据：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/09/13/%E8%8E%B7%E5%8F%96%E9%80%9A%E8%AE%AF%E5%BD%95%E8%81%94%E7%B3%BB%E4%BA%BA%E4%BF%A1%E6%81%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1008,93 +1097,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/12/09/URL%20Scheme/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/12/09/URL%20Scheme/" class="post-title-link" itemprop="url">URL Scheme</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-12-09 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-09T00:00:00+08:00">2017-12-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>URL Scheme就是一种协议URL，同我们常见的http、ftp一样，是一种资源定位符。scheme表示一个URL的最初始位置，即:&#x2F;&#x2F;之前的字符，比如ftp、http。</p>
-<p>在iOS中，因为苹果的沙盒机制，应用只能访问它声明可能访问的资源。但苹果允许App之间通过URL Scheme来实现App之间的互相调起。URL Scheme也是App之间互相调起的唯一标识。</p>
-<p>要跳转到某个app，就要知道这个app的跳转协议是什么，需要传入什么参数。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/12/09/URL%20Scheme/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
