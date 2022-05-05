@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">176</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">40</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">178</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">40</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">176</span>
+          <span class="site-state-item-count">178</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,185 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/07/03/TableView%E4%B8%AD%E5%A4%9A%E4%B8%AAtimer%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/07/03/TableView%E4%B8%AD%E5%A4%9A%E4%B8%AAtimer%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">TableView中多个timer处理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-07-03 00:00:00" itemprop="dateCreated datePublished" datetime="2017-07-03T00:00:00+08:00">2017-07-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在同一个tableView上展示多个倒计时的场景，在电商类App中非常常见。比如，在待支付订单列表中，每个订单都有个距离订单被取消的倒计时展示。</p>
+<h4 id="方案一"><a href="#方案一" class="headerlink" title="方案一"></a>方案一</h4><ol>
+<li>给每个cell添加自己的timer，并自行处理展示;</li>
+<li>在退出当前controller（tableView的代理类）时，发送销毁timer通知;</li>
+<li>cell监听到通知后，销毁timer。</li>
+</ol>
+<p>问题：每个cell都有个timer，内存消耗太大，造成资源浪费。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/07/03/TableView%E4%B8%AD%E5%A4%9A%E4%B8%AAtimer%E5%A4%84%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/06/21/WKWebview%E8%87%AA%E9%80%82%E5%BA%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/06/21/WKWebview%E8%87%AA%E9%80%82%E5%BA%94/" class="post-title-link" itemprop="url">WKWebView自适应</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-06-21 00:00:00" itemprop="dateCreated datePublished" datetime="2017-06-21T00:00:00+08:00">2017-06-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ol>
+<li><p>自适应屏幕宽度</p>
+<p>在创建WKWebview时，添加js：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *jScript = <span class="string">@&quot;var meta = document.createElement(&#x27;meta&#x27;); meta.setAttribute(&#x27;name&#x27;,&#x27;viewport&#x27;); meta.setAttribute(&#x27;content&#x27;, &#x27;width=device-width&#x27;); document.getElementsByTagName(&#x27;head&#x27;)[0].appendChild(meta);&quot;</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="built_in">WKUserScript</span> *wkUScript = [[<span class="built_in">WKUserScript</span> alloc] initWithSource:jScript injectionTime:<span class="built_in">WKUserScriptInjectionTimeAtDocumentEnd</span> forMainFrameOnly:<span class="literal">YES</span>];</span><br><span class="line">   <span class="built_in">WKUserContentController</span> *wkUController = [[<span class="built_in">WKUserContentController</span> alloc] init];</span><br><span class="line">   [wkUController addUserScript:wkUScript];</span><br><span class="line">   </span><br><span class="line">   <span class="built_in">WKWebViewConfiguration</span> *wkWebConfig = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</span><br><span class="line">   wkWebConfig.userContentController = wkUController;</span><br><span class="line">   </span><br><span class="line">   <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:<span class="keyword">self</span>.view.bounds configuration:wkWebConfig];</span><br><span class="line">   webView.backgroundColor = [<span class="built_in">UIColor</span> clearColor];</span><br><span class="line">   webView.UIDelegate = <span class="keyword">self</span>;</span><br><span class="line">   webView.navigationDelegate = <span class="keyword">self</span>;</span><br><span class="line">   [<span class="keyword">self</span>.view addSubview:webView];</span><br><span class="line">   <span class="keyword">self</span>.webView = webView;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/06/21/WKWebview%E8%87%AA%E9%80%82%E5%BA%94/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -849,181 +1028,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/01/13/as%E3%80%81as?%E5%92%8Cas!/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/12/23/%E7%BA%BF%E7%A8%8B%E9%94%81NSLock/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/12/23/%E7%BA%BF%E7%A8%8B%E9%94%81NSLock/" class="post-title-link" itemprop="url">线程锁NSLock</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2016-12-23T00:00:00+08:00">2016-12-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/OC/" itemprop="url" rel="index"><span itemprop="name">OC</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在多线程操作中，为了保证多线程安全，可以使用NSLock类使多个线程间互斥地使用全局变量等共享资源。NSLock类的实例就是可以调整多线程行为的信号量或互斥型信号量。在Cocoa环境中叫锁。</p>
-<p>加锁和解锁的方法都声明在NSLocking协议中。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/12/23/%E7%BA%BF%E7%A8%8B%E9%94%81NSLock/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/12/07/Equatable%E5%92%8CComparable/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/12/07/Equatable%E5%92%8CComparable/" class="post-title-link" itemprop="url">Equatable和Comparable</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-12-07 00:00:00" itemprop="dateCreated datePublished" datetime="2016-12-07T00:00:00+08:00">2016-12-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>自定义<u>值类型</u>实现Equatable协议，可以测试相等性；实现Comparable，可以测试可比性。</p>
-<h4 id="Equatable协议"><a href="#Equatable协议" class="headerlink" title="Equatable协议"></a>Equatable协议</h4><p>Equatable协议指出，符合这个协议的类型应该有一个静态方法<code>==</code>；一旦一个类型通过实现自己的<code>==</code>符合了Equatable，也就有了<code>!=</code>函数。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>:<span class="title class_">Equatable</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> x: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">let</span> y: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">func</span> <span class="title function_">==</span>(<span class="params">point1</span>: <span class="type">Point</span>, <span class="params">point2</span>: <span class="type">Point</span>) -&gt; <span class="type">Bool</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (point1.x <span class="operator">==</span> point2.x) <span class="operator">&amp;&amp;</span> (point1.y <span class="operator">==</span> point2.y)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a <span class="operator">=</span> <span class="type">Point</span>(x:<span class="number">3</span>, y:<span class="number">4</span>)</span><br><span class="line"><span class="keyword">let</span> b <span class="operator">=</span> <span class="type">Point</span>(x:<span class="number">12</span>, y:<span class="number">5</span>)</span><br><span class="line"><span class="keyword">let</span> abEqual <span class="operator">=</span> (a<span class="operator">==</span>b)</span><br><span class="line"><span class="keyword">let</span> abNotEqual <span class="operator">=</span> (a<span class="operator">!=</span>b)</span><br></pre></td></tr></table></figure>
-
-<p><code>==</code>声明为静态方法，但<code>==</code>的调用并不是在Point类型上，这时因为<code>==</code>这样的运算符在Swift中是定义在全局层面的。<code>==</code>在Swift标准库中的定义：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/12/07/Equatable%E5%92%8CComparable/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
