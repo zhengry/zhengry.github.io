@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="NSOperationNSOperation是基于GCD实现的。相对GCD来说，可控性更强，并且可以添加操作依赖。 NSOperation是一个抽象基类，可以为子类提供线程安全的建立状态、优先级、依赖和取消等操作。 默认情况下，NSOperation单独使用时系统在当前线程同步执行操作。 使用NSOperation的方式： 使用系统子类：NSBlockOperation、NSInvocationO">
+    <meta name="description" content="NSOperationNSOperation是基于GCD实现的。相对GCD来说，可控性更强，并且可以添加操作依赖。 NSOperation是一个抽象基类，可以为子类提供线程安全的建立状态、优先级、依赖和取消等操作。 默认情况下，NSOperation单独使用时系统在当前线程同步执行操作。 使用NSOperation的方式 使用系统子类：NSBlockOperation、NSInvocationOp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS多线程：NSOperation&#x2F;NSOperationQueue">
 <meta property="og:url" content="https://zhengry.github.io/2018/07/23/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9ANSOperation:NSOperationQueue/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="NSOperationNSOperation是基于GCD实现的。相对GCD来说，可控性更强，并且可以添加操作依赖。 NSOperation是一个抽象基类，可以为子类提供线程安全的建立状态、优先级、依赖和取消等操作。 默认情况下，NSOperation单独使用时系统在当前线程同步执行操作。 使用NSOperation的方式： 使用系统子类：NSBlockOperation、NSInvocationO">
+<meta property="og:description" content="NSOperationNSOperation是基于GCD实现的。相对GCD来说，可控性更强，并且可以添加操作依赖。 NSOperation是一个抽象基类，可以为子类提供线程安全的建立状态、优先级、依赖和取消等操作。 默认情况下，NSOperation单独使用时系统在当前线程同步执行操作。 使用NSOperation的方式 使用系统子类：NSBlockOperation、NSInvocationOp">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2018-07-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-06T08:58:39.708Z">
+<meta property="article:modified_time" content="2022-05-06T09:25:32.980Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NSOperation"><span class="nav-number">1.</span> <span class="nav-text">NSOperation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8NSOperation%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">使用NSOperation的方式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSOperationQueue"><span class="nav-number">3.</span> <span class="nav-text">NSOperationQueue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97"><span class="nav-number">4.</span> <span class="nav-text">自定义队列</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NSOperation"><span class="nav-number">1.</span> <span class="nav-text">NSOperation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8NSOperation%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">使用NSOperation的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSOperationQueue"><span class="nav-number">3.</span> <span class="nav-text">NSOperationQueue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%98%9F%E5%88%97"><span class="nav-number">4.</span> <span class="nav-text">自定义队列</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -248,16 +248,16 @@
         <h2 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h2><p><code>NSOperation</code>是基于GCD实现的。相对GCD来说，可控性更强，并且可以添加操作依赖。</p>
 <p><code>NSOperation</code>是一个抽象基类，可以为子类提供<strong>线程安全</strong>的建立状态、优先级、依赖和取消等操作。</p>
 <p>默认情况下，<code>NSOperation</code>单独使用时系统<strong>在当前线程同步执行操作</strong>。</p>
-<h2 id="使用NSOperation的方式："><a href="#使用NSOperation的方式：" class="headerlink" title="使用NSOperation的方式："></a>使用NSOperation的方式：</h2><ol>
+<h2 id="使用NSOperation的方式"><a href="#使用NSOperation的方式" class="headerlink" title="使用NSOperation的方式"></a>使用NSOperation的方式</h2><ol>
 <li><p>使用系统子类：<code>NSBlockOperation</code>、<code>NSInvocationOperation</code>（因为ARC下不是类型安全的，swift中废弃该类）</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NSInvocationOperation</span></span><br><span class="line"><span class="built_in">NSInvocationOperation</span> *operation1 = [[<span class="built_in">NSInvocationOperation</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run:) object:<span class="string">@&quot;zh&quot;</span>];</span><br><span class="line"><span class="comment">/* 调用start会马上执行封装好的操作 */</span></span><br><span class="line">[operation1 start];</span><br><span class="line"></span><br><span class="line"><span class="comment">// NSBlockOperation</span></span><br><span class="line"><span class="built_in">NSBlockOperation</span> *operation2 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^()&#123;</span><br><span class="line">	<span class="built_in">NSLog</span>(<span class="string">@&quot;执行了一个操作&quot;</span>);</span><br><span class="line">&#125;];</span><br><span class="line"><span class="comment">/*开始执行任务*/</span></span><br><span class="line">[operation2 start];</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>自定义<code>NSOperation</code></p>
 <p>一般通过重写<code>main</code>或者<code>start</code>方法来定义自己的<code>NSOperation</code>对象。</p>
 <p>重写<code>main</code>方法比较简单，我们不需要管理操作的状态属性<code>isExecuting</code>和<code>isFinished</code>。当<code>main()</code> 执行完返回的时候，这个操作就结束了。</p>
-</li>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ImageFilterOperation</span>: <span class="title class_">Operation</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> inputImage:<span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">var</span> outputImage:<span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">        outputImage <span class="operator">=</span> filter(image:inputImage)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ImageFilterOperation</span>: <span class="title class_">Operation</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> inputImage:<span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">var</span> outputImage:<span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">        outputImage <span class="operator">=</span> filter(image:inputImage)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
 <h2 id="NSOperationQueue"><a href="#NSOperationQueue" class="headerlink" title="NSOperationQueue"></a>NSOperationQueue</h2><ol>
 <li><p><strong>特点</strong></p>
@@ -272,15 +272,16 @@
 <li><p><strong>使用</strong></p>
 <p>由于默认情况下，<code>NSOperation</code>单独使用时系统在当前线程同步执行操作，所以配合<code>NSOperationQueue</code>才能实现异步执行。</p>
 <ul>
-<li>将创建的<code>NSOperation</code>添加到<code>NSOperationQueue</code>，系统会自动将<code>NSOperationQueue</code>中的<code>NSOperation</code>取出来，在新线程中执行操作。</li>
-<li>在<code>NSOperationQueue</code>中使用<code>NSBlockOperation</code>：<ul>
+<li><p>将创建的<code>NSOperation</code>添加到<code>NSOperationQueue</code>，系统会自动将<code>NSOperationQueue</code>中的<code>NSOperation</code>取出来，在新线程中执行操作。</p>
+</li>
+<li><p>在<code>NSOperationQueue</code>中使用<code>NSBlockOperation</code>：</p>
+<ul>
 <li>一个 <code>NSBlockOperation</code> 对象可以封装多个操作</li>
 <li><code>NSBlockOperation</code> 是否开启新线程，取决于操作的个数。如果添加的操作的个数多，就会自动开启新线程，开启的线程数是由系统来决定的。</li>
 <li><strong>凡是添加到主队列的操作，都会放到主线程执行。但是使用<code>addExecutionBlock:</code> 添加的额外操作可能会在其他线程执行：</strong></li>
 </ul>
-</li>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> op1 <span class="operator">=</span> <span class="type">BlockOperation</span>.<span class="keyword">init</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Block:<span class="subst">\\</span>(Thread.current)&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">op1.addExecutionBlock &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;executionBlock:<span class="subst">\\</span>(Thread.current)&quot;</span>)  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">OperationQueue</span>.main.addOperation &#123;</span><br><span class="line">    op1.start()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//打印结果：</span></span><br><span class="line"><span class="type">Block</span>:<span class="operator">&lt;</span><span class="type">NSThread</span>: <span class="number">0x600001ede140</span><span class="operator">&gt;</span>&#123;number <span class="operator">=</span> <span class="number">1</span>, name <span class="operator">=</span> main&#125;<span class="comment">//主线程执行init里的操作</span></span><br><span class="line">executionBlock:<span class="operator">&lt;</span><span class="type">NSThread</span>: <span class="number">0x600001edfec0</span><span class="operator">&gt;</span>&#123;number <span class="operator">=</span> <span class="number">4</span>, name <span class="operator">=</span> (null)&#125;<span class="comment">//子线程执行executionBlock操作</span></span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> op1 <span class="operator">=</span> <span class="type">BlockOperation</span>.<span class="keyword">init</span> &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Block:<span class="subst">\\</span>(Thread.current)&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line">op1.addExecutionBlock &#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;executionBlock:<span class="subst">\\</span>(Thread.current)&quot;</span>)  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">OperationQueue</span>.main.addOperation &#123;</span><br><span class="line">    op1.start()</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//打印结果：</span></span><br><span class="line"><span class="type">Block</span>:<span class="operator">&lt;</span><span class="type">NSThread</span>: <span class="number">0x600001ede140</span><span class="operator">&gt;</span>&#123;number <span class="operator">=</span> <span class="number">1</span>, name <span class="operator">=</span> main&#125;<span class="comment">//主线程执行init里的操作</span></span><br><span class="line">executionBlock:<span class="operator">&lt;</span><span class="type">NSThread</span>: <span class="number">0x600001edfec0</span><span class="operator">&gt;</span>&#123;number <span class="operator">=</span> <span class="number">4</span>, name <span class="operator">=</span> (null)&#125;<span class="comment">//子线程执行executionBlock操作</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p><strong>cancel</strong></p>
 <p>在<code>NSOperationQueue</code>中有个<code>cancel()</code>方法。它做的唯一工作就是将Operation的<code>isCancelled</code>属性从<code>false</code>改为<code>true</code>。</p>
@@ -288,11 +289,11 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ArraySumOperation</span>:<span class="title class_">Operation</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> nums:[<span class="type">Int</span>]</span><br><span class="line">    <span class="keyword">var</span> sum: <span class="type">Int</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">nums</span>:[<span class="type">Int</span>])&#123;</span><br><span class="line">        <span class="keyword">self</span>.nums <span class="operator">=</span> nums</span><br><span class="line">        <span class="keyword">self</span>.sum <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">        <span class="keyword">for</span> num <span class="keyword">in</span> nums &#123;</span><br><span class="line">						<span class="comment">// 根据isCancelled属性来判断是否要暂停操作</span></span><br><span class="line">            <span class="keyword">if</span> isCancelled &#123;</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;</span><br><span class="line">            sum <span class="operator">+=</span> num</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> queue <span class="operator">=</span> <span class="type">OperationQueue</span>()</span><br><span class="line"><span class="keyword">let</span> someOperation <span class="operator">=</span> <span class="type">ArraySumOperation</span>(nums:<span class="type">Array</span>(<span class="number">1</span><span class="operator">...</span><span class="number">1000</span>))</span><br><span class="line"><span class="comment">// 一旦加入OperationQueue中，Operation就开始执行</span></span><br><span class="line">queue.addOperation(someOperation)</span><br><span class="line">someOperation.cancel()</span><br><span class="line"><span class="comment">// someOperation在彻底完成前已经暂停，sum值小于500500</span></span><br><span class="line">someOperation.completionBlock <span class="operator">=</span> &#123; <span class="built_in">print</span>(someOperation.sum)&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 <h2 id="自定义队列"><a href="#自定义队列" class="headerlink" title="自定义队列"></a>自定义队列</h2><ul>
-<li>添加到自定义队列的操作会自动放到子线程中执行，同时包含了串行、并发功能。</li>
-<li>添加操作到队列有两种方法：<code>addOperation:</code>和<code>addOperationWithBlock:</code></li>
+<li><p>添加到自定义队列的操作会自动放到子线程中执行，同时包含了串行、并发功能。</p>
+</li>
+<li><p>添加操作到队列有两种方法：<code>addOperation:</code>和<code>addOperationWithBlock:</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line"><span class="comment">//添加操作到队列中</span></span><br><span class="line">[queue addOperation:someOperation];</span><br><span class="line">[queue addOperationWithBlock:^&#123;</span><br><span class="line">    <span class="comment">//doSomething;</span></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></li>
 </ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line"><span class="comment">//添加操作到队列中</span></span><br><span class="line">[queue addOperation:someOperation];</span><br><span class="line">[queue addOperationWithBlock:^&#123;</span><br><span class="line">    <span class="comment">//doSomething;</span></span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-
 <ol>
 <li><p><strong>最大并发操作数——<code>maxConcurrentOperationCount</code></strong></p>
 <ul>
@@ -305,6 +306,8 @@
 <li><p><strong>NSOperation的操作依赖</strong></p>
 <p>通过操作依赖可以控制操作之间的执行先后顺序。</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//添加依赖</span></span><br><span class="line">-(<span class="type">void</span>)addDependency:(<span class="built_in">NSOperation</span> *)op;</span><br><span class="line"></span><br><span class="line"><span class="comment">//移除依赖，取消当前操作对操作op的依赖</span></span><br><span class="line">-(<span class="type">void</span>)removeDependency:(<span class="built_in">NSOperation</span> *)op;</span><br><span class="line"></span><br><span class="line"><span class="comment">//当前操作开始执行之前完成执行的所有操作对象</span></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">readonly</span>, <span class="keyword">copy</span>) <span class="built_in">NSArray</span>&lt;<span class="built_in">NSOperation</span> *&gt; *dependencies;</span><br></pre></td></tr></table></figure>
+
+
 </li>
 <li><p><strong>NSOperation的优先级</strong></p>
 <ul>
@@ -312,22 +315,20 @@
 <li>默认情况下新创建的操作对象优先级都是<code>NSOperationQueuePriorityNormal</code>。</li>
 <li>可以通过 <code>setQueuePriority:</code>方法来改变当前操作在同一队列中的执行优先级。</li>
 </ul>
-</li>
-</ol>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//优先级枚举值</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>,<span class="built_in">NSOperationQueuePriority</span>)&#123;</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityLow</span> = <span class="number">-8</span>L,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityLow</span> = <span class="number">-4</span>L,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriotityNormal</span> = <span class="number">0</span>,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityHigh</span> = <span class="number">4</span>,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityVeryHigh</span> = <span class="number">8</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//优先级枚举值</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>,<span class="built_in">NSOperationQueuePriority</span>)&#123;</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityLow</span> = <span class="number">-8</span>L,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityLow</span> = <span class="number">-4</span>L,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriotityNormal</span> = <span class="number">0</span>,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityHigh</span> = <span class="number">4</span>,</span><br><span class="line">    <span class="built_in">NSOperationQueuePriorityVeryHigh</span> = <span class="number">8</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<ol>
-<li><p>操作的状态</p>
-<p>NSOperation的状态有：</p>
+
+</li>
+<li><p>操作的状态和执行顺序</p>
+<p>NSOperation的状态有：<code>ready（准备就绪）/ </code>isExecuting<code>（正在执行）/ </code>isCancelled<code>**（已取消）/ **</code>isFinished&#96;**（已完成）</p>
 <ul>
-<li><strong>ready</strong>（准备就绪）</li>
-<li><strong>isExecuting</strong>（正在执行）</li>
-<li><strong>isCancelled</strong>（已取消）</li>
-<li><strong>isFinished</strong>（已完成）</li>
+<li><p>对于添加到队列中的操作，是否进入就绪状态取决于操作之间的依赖关系</p>
+</li>
+<li><p>当一个<strong>操作的所有依赖都已经完成</strong>时，操作对象通常会进入<strong>准备就绪状态</strong>，等待执行。</p>
+</li>
+<li><p>进入就绪状态的操作的开始执行顺序由操作之间相对的优先级（<code>queuePriority</code>属性）决定。</p>
+</li>
 </ul>
-<p>对于添加到队列中的操作，首先进入准备就绪状态（就绪状态取决于操作之间的依赖关系）</p>
-<p>当一个<strong>操作的所有依赖都已经完成</strong>时，操作对象通常会进入<strong>准备就绪状态</strong>，等待执行。</p>
-<p>进入就绪状态的操作的开始执行顺序由操作之间相对的优先级决定。</p>
 <p><code>queuePriority</code> 属性决定了<strong>进入准备就绪状态下的操作</strong>之间的开始执行顺序：</p>
 <ul>
 <li>如果一个队列中既有高优先级操作，又有低优先级操作，并且两个操作都已经准备就绪，那么队列先执行高优先级操作。</li>
@@ -336,22 +337,22 @@
 </li>
 <li><p>队列的暂停和取消</p>
 <ul>
-<li>队列的暂停和取消，并不是将当前的操作立即暂停或取消，而是在当前操作执行完毕之后不再执行新的操作。</li>
-<li>暂停操作之后还可以恢复操作，继续向下执行；</li>
+<li>队列的暂停和取消，并不是将当前的操作立即暂停或取消，而是<u>在当前操作执行完毕之后不再执行新的操作</u>。</li>
+<li>暂停之后还可以恢复，继续向下执行；</li>
 <li>取消之后，所有的操作就清空了，无法继续执行剩下的操作。</li>
 </ul>
 </li>
-<li><p>取消操作</p>
+<li><p>操作的取消</p>
 <ul>
 <li>取消操作对象会将该对象保留在队列中，但会通知该对象它应尽快停止其任务。</li>
 <li>对于当前正在执行的操作，这意味着操作对象的工作代码必须检查取消状态，停止正在执行的操作，并将自身标记为完成。</li>
 <li>对于已排队但尚未执行的操作，队列必须仍然调用操作对象的<code>start()</code>方法，以便它可以处理取消事件并将其自身标记为<code>finished</code>。</li>
 </ul>
+<p>取消操作会导致该操作忽略其可能具有的任何依赖关系。此行为使队列有可能尽快执行操作的<code>start()</code>方法。该<code>start()</code>方法又将操作移至完成状态，以便可以将其从队列中删除。</p>
 </li>
 </ol>
-<p>取消操作会导致该操作忽略其可能具有的任何依赖关系。此行为使队列有可能尽快执行操作的<code>start()</code>方法。该<code>start()</code>方法又将操作移至完成状态，以便可以将其从队列中删除。</p>
 <p>在多线程中使用单个的<code>operationQueue</code>对象是线程安全的。不需要加锁来同步操作。</p>
-<p><code>OperationQueue</code>使用Dispatch框架来启动其操作的执行。结果，无论操作被指定为同步还是异步，操作始终在单独的线程上执行。</p>
+<p>Swift中，<code>OperationQueue</code>使用Dispatch框架来启动其操作的执行。无论操作被指定为同步还是异步，操作始终在单独的线程上执行。</p>
 
     </div>
 
