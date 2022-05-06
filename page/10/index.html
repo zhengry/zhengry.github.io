@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">182</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">41</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">177</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">19</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">42</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">182</span>
+          <span class="site-state-item-count">177</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -138,7 +138,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -180,6 +180,194 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/02/19/Swift%E4%B8%ADdefer%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/02/19/Swift%E4%B8%ADdefer%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Swift中defer的使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-02-19T00:00:00+08:00">2019-02-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">Swift开发笔记</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="defer基本理解"><a href="#defer基本理解" class="headerlink" title="defer基本理解"></a>defer基本理解</h4><p>在Swift中，defer所声明的block会在当前代码执行退出后被调用。正因为它提供了一种延时调用的方式，所以一般会被用来做资源释放或者销毁，这在某个函数有多个返回出口的时候特别有用。</p>
+<p>示例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">operateOnFile</span>(<span class="params">descriptor</span>: <span class="type">Int32</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> fileHandle <span class="operator">=</span> <span class="type">FileHandle</span>(fileDescriptor: descriptor)</span><br><span class="line">    <span class="keyword">defer</span> &#123; fileHandle.closeFile() &#125;</span><br><span class="line">    <span class="keyword">let</span> data <span class="operator">=</span> fileHandle.readDataToEndOfFile()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="comment">/* onlyRead */</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> shouldWrite <span class="operator">=</span> <span class="comment">/* 是否需要写文件 */</span></span><br><span class="line">    <span class="keyword">guard</span> shouldWrite <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">    </span><br><span class="line">    fileHandle.seekToEndOfFile()</span><br><span class="line">    fileHandle.write(someData)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要特别注意的是<code>defer</code>的作用域。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/02/19/Swift%E4%B8%ADdefer%E7%9A%84%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2019/02/06/iOS%E4%B9%8B__bridge%20:%20__bridge-retained%20:%20__bridge-transfer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/02/06/iOS%E4%B9%8B__bridge%20:%20__bridge-retained%20:%20__bridge-transfer/" class="post-title-link" itemprop="url">iOS之__bridge / __bridge_retained / __bridge_transfer</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-06 00:00:00" itemprop="dateCreated datePublished" datetime="2019-02-06T00:00:00+08:00">2019-02-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><code>__bridge</code>, <code>__bridge_retianed</code> 和 <code>__bridge_transfer</code>用来处理OC对象和CF对象的转换。</p>
+<p>转换规则：</p>
+<ul>
+<li><code>__bridge</code>：只转换对象类型，不涉及对象所有权的转换（不增加对象引用计数）；容易造成悬垂指针。<ul>
+<li>悬垂指针：指针指向的内存已经被释放；</li>
+<li>野指针：没有被正确初始化的指针，指向内存中随机的位置；</li>
+</ul>
+</li>
+<li><code>__bridge_retained</code>：OC对象转换成CF对象，OC对象所有权交给CF对象（CF指针也会持有对象），CF对象需要自己管理内存。</li>
+<li><code>__bridge_transfer</code>：CF对象转换成OC对象，将CF对象所有权交给OC对象（CF指针不再持有对象），ARC自动管理内存。</li>
+</ul>
+<p><strong>ARC环境下编译器会自动管理OC对象的内存，但是不会自动管理CF对象的内存。</strong></p>
+<p><strong>CF对象需要手动释放。</strong></p>
+<p><code>__bridge</code>示例：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">id</span> obj = [[<span class="built_in">NSObject</span> alloc] init];</span><br><span class="line"></span><br><span class="line"><span class="comment">// OC转CF pointer指针不持有对象，不会增加obj的引用计数</span></span><br><span class="line"><span class="type">void</span> *pointer = (__bridge <span class="type">void</span> *)(obj);</span><br><span class="line"></span><br><span class="line"><span class="comment">// CF转OC</span></span><br><span class="line">obj = (__bridge <span class="type">id</span>)(pointer);</span><br></pre></td></tr></table></figure>
+
+<p><code>__bridge_retained</code>示例：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *pointer = <span class="literal">NULL</span>;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">id</span> obj = [[<span class="built_in">NSObject</span> alloc] init];</span><br><span class="line">		<span class="comment">// pointer会引用obj对象</span></span><br><span class="line">    pointer = (__bridge_retained <span class="type">void</span> *)obj;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;retain count:%ld&quot;</span>, <span class="built_in">CFGetRetainCount</span>((__bridge <span class="built_in">CFTypeRef</span>)((__bridge <span class="type">id</span>)pointer)));  <span class="comment">//retain count:1</span></span><br></pre></td></tr></table></figure>
+
+<p><code>__bridge_transfer</code>示例：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> *pointer = <span class="literal">NULL</span>;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">id</span> obj = [[<span class="built_in">NSObject</span> alloc] init];</span><br><span class="line">    pointer = (__bridge_retained <span class="type">void</span> *)obj;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//pointer持有对象</span></span><br><span class="line"><span class="type">id</span> object = (__bridge_transfer <span class="type">id</span>)pointer;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -920,322 +1108,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/07/23/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9ANSOperation:NSOperationQueue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/07/23/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9ANSOperation:NSOperationQueue/" class="post-title-link" itemprop="url">iOS多线程：NSOperation/NSOperationQueue</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-07-23 00:00:00" itemprop="dateCreated datePublished" datetime="2018-07-23T00:00:00+08:00">2018-07-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h2><p><code>NSOperation</code>是基于GCD实现的。相对GCD来说，可控性更强，并且可以添加操作依赖。</p>
-<p><code>NSOperation</code>是一个抽象基类，可以为子类提供<strong>线程安全</strong>的建立状态、优先级、依赖和取消等操作。</p>
-<p>默认情况下，<code>NSOperation</code>单独使用时系统<u><strong>在当前线程同步执行操作</strong></u>。</p>
-<h2 id="使用NSOperation的方式"><a href="#使用NSOperation的方式" class="headerlink" title="使用NSOperation的方式"></a>使用NSOperation的方式</h2><ol>
-<li><p>使用系统子类：<code>NSBlockOperation</code>、<code>NSInvocationOperation</code>（因为ARC下不是类型安全的，swift中废弃该类）</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NSInvocationOperation</span></span><br><span class="line"><span class="built_in">NSInvocationOperation</span> *operation1 = [[<span class="built_in">NSInvocationOperation</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run:) object:<span class="string">@&quot;zh&quot;</span>];</span><br><span class="line"><span class="comment">/* 调用start会马上执行封装好的操作 */</span></span><br><span class="line">[operation1 start];</span><br><span class="line"></span><br><span class="line"><span class="comment">// NSBlockOperation</span></span><br><span class="line"><span class="built_in">NSBlockOperation</span> *operation2 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^()&#123;</span><br><span class="line">	<span class="built_in">NSLog</span>(<span class="string">@&quot;执行了一个操作&quot;</span>);</span><br><span class="line">&#125;];</span><br><span class="line"><span class="comment">/*开始执行任务*/</span></span><br><span class="line">[operation2 start];</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>自定义<code>NSOperation</code></p>
-<p>一般通过重写<code>main</code>或者<code>start</code>方法来定义自己的<code>NSOperation</code>对象。</p>
-<p>重写<code>main</code>方法比较简单，我们不需要管理操作的状态属性<code>isExecuting</code>和<code>isFinished</code>。当<code>main()</code> 执行完返回的时候，这个操作就结束了。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ImageFilterOperation</span>: <span class="title class_">Operation</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> inputImage:<span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">var</span> outputImage:<span class="type">UIImage</span>?</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">        outputImage <span class="operator">=</span> filter(image:inputImage)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/07/23/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9ANSOperation:NSOperationQueue/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/06/20/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9AGCD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/06/20/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9AGCD/" class="post-title-link" itemprop="url">iOS多线程：GCD</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-06-20 00:00:00" itemprop="dateCreated datePublished" datetime="2018-06-20T00:00:00+08:00">2018-06-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><ol>
-<li><p><strong>什么是队列？</strong></p>
-<ul>
-<li>队列是执行任务的等待队列，用来存放任务。</li>
-<li>它是一种特殊的线性表，采用FIFO（先进先出）的原则，新任务总是被插入到队列的末尾；</li>
-<li>读取任务的时候总是从队列的头部开始读取。每读取一个任务，则从队列中释放一个任务。</li>
-<li>队列负责管理多个任务，并拥有一个线程池，线程池中有一个或者多个线程。它按要求将每个任务调度到某个线程中执行。</li>
-</ul>
-</li>
-<li><p><strong>串行队列 VS 并发队列</strong></p>
-<p>队列类型决定了任务的执行方式（并发或者串行）</p>
-<p><strong>串行队列</strong>：一个任务执行完毕后，继续执行下一个任务</p>
-<p><strong>并发队列</strong>：多个任务同时执行</p>
-</li>
-<li><p><strong>同步 VS 异步</strong></p>
-<p>同步和异步决定是否了是否具备开启新线程的能力</p>
-<p><strong>同步：</strong>在当前线程执行，不具备开启新线程的能力</p>
-<p><strong>异步：</strong>在新的线程执行，具备开启新线程的能力</p>
-</li>
-</ol>
-<h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><ol>
-<li><p>GCD的特点</p>
-<ul>
-<li>GCD是Apple开发的一个在线程池模式的基础上执行并发任务的多线程方案。</li>
-<li>它可以自动利用更多的CPU内核进行并行运算，并<strong>自动管理线程的生命周期</strong>；我们只需要追加要执行的任务到适当的队列中，不需要编写任何线程管理代码。</li>
-<li>GCD的任务以<code>block</code>形式追加到队列中。</li>
-<li>GCD默认提供了主队列，<strong>所有主队列的任务都会放到主线程执行</strong>。</li>
-<li>GCD默认提供了全局并发队列，使用<code>dispatch_get_global_queue</code>方法来获取。</li>
-</ul>
-</li>
-<li><p>同步任务（dispatch_sync）和异步任务（dispatch_async）：</p>
-<p><code>dispatch_async</code> 和 <code>dispatch_sync</code> 的作用：</p>
-<ul>
-<li>将 <strong>任务（block）</strong>添加进指定的队列中</li>
-<li><code>**async**</code>和**<code>sync</code>决定调用该函数的线程是否需要阻塞，阻塞则等到<code>block</code>执行完毕后返回，不阻塞则立即返回**。<ul>
-<li><code>dispatch_sync(queue, block)</code>：把一个<code>block</code>加入到指定的队列，并阻塞当前线程直到执行完<code>block</code>，这个函数才返回；</li>
-<li><code>dispatch_async(queue, block)</code>：把一个<code>block</code>加入到指定的队列中，不阻塞执行<code>block</code>的线程，这个函数立刻返回。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>队列和任务的执行组合</p>
-<table>
-<thead>
-<tr>
-<th>区别</th>
-<th>并发队列</th>
-<th>串行队列</th>
-<th>主队列</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>同步</td>
-<td>没有开启新线程\br串行执行任务</td>
-<td>没有开启新线程\br串行执行任务</td>
-<td>没有开启新线程\br串行执行任务（死锁）</td>
-</tr>
-<tr>
-<td>异步</td>
-<td>有开启新线程\br并发执行任务</td>
-<td>有开启新线程\br串行执行任务</td>
-<td>没有开启新线程\br串行执行任务</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>死锁</p>
-<p>使用<code>sync</code>函数往<strong>当前串行队列</strong>中添加任务，会卡住当前的串行队列，产生死锁。</p>
-<p>示例1：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> main(<span class="type">int</span> argc, <span class="keyword">const</span> <span class="type">char</span> * argv[]) &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        <span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), ^(<span class="type">void</span>)&#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@&quot;这里死锁了&quot;</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>分析：</p>
-<p>在主线程上调用<code>dispatch_sync</code>，添加<code>block</code>到主队列，并阻塞当前线程也就是主线程等待<code>block</code>执行完成；</p>
-<p>主队列在主线程上调用，<code>block</code>在<code>dispatch_asyn</code>函数返回后才能执行，而主线程现在处于被阻塞状态，因为<code>block</code>执行后<code>dispatch_sync</code>函数才能返回。所以无法执行<code>block</code>。运行这段代码后，并不是卡在<code>block</code>中无法返回，而是根本无法执行<code>block</code>。</p>
-<p>示例2：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="type">void</span>)deadLockCase2 &#123; </span><br><span class="line">			<span class="built_in">dispatch_queue_t</span> aSerialDispatchQueue = dispatch_queue_create(</span><br><span class="line">					<span class="string">&quot;com.test.deadlock.queue&quot;</span>, </span><br><span class="line">						DISPATCH_QUEUE_SERIAL); </span><br><span class="line">			<span class="built_in">NSLog</span>(<span class="string">@&quot;1&quot;</span>);</span><br><span class="line">			<span class="built_in">dispatch_sync</span>(aSerialDispatchQueue, ^&#123; </span><br><span class="line">					<span class="built_in">NSLog</span>(<span class="string">@&quot;2&quot;</span>);</span><br><span class="line">					<span class="built_in">dispatch_sync</span>(aSerialDispatchQueue, ^&#123; </span><br><span class="line">							<span class="built_in">NSLog</span>(<span class="string">@&quot;3&quot;</span>);</span><br><span class="line">				  &#125;); </span><br><span class="line">					<span class="built_in">NSLog</span>(<span class="string">@&quot;4&quot;</span>);</span><br><span class="line">			&#125;); </span><br><span class="line">			<span class="built_in">NSLog</span>(<span class="string">@&quot;5&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>执行结果是1，2</p>
-<p>原因是外层<code>dispatch_sync</code>执行完打印4才能返回，然后打印后追加到队列的任务——打印3；内层<code>dispatch_sync</code>会阻塞当前的串行队列直到打印3之后才能返回去调用打印4，两者相互等待，造成死锁。</p>
-</li>
-</ol>
-<h2 id="Dispatch-Group"><a href="#Dispatch-Group" class="headerlink" title="Dispatch Group"></a>Dispatch Group</h2><p>常用场景：分别异步执行两个任务，当两个任务都执行完毕后再回到主线程执行特定任务。</p>
-<p>实现上分为两步：</p>
-<ol>
-<li>添加耗时任务：<code>dispatch_async</code> + <code>dispatch group</code></li>
-<li>耗时任务完成后回到主线程执行特定任务：<code>dispatch_group_notify</code> &#x2F; <code>dispatch_group_wait</code> &#x2F; <code>dispatch_group_enter</code> + <code>dispatch_group_leave</code></li>
-</ol>
-<ul>
-<li><p><code>dispatch_group_notify</code>示例：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="type">void</span>)groupNotify &#123;  </span><br><span class="line">		dispatch_group_t group = dispatch_group_create(); </span><br><span class="line">		<span class="built_in">dispatch_queue_t</span> quque = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,<span class="number">0</span>); </span><br><span class="line">		dispatch_group_async(group, queue, ^&#123; </span><br><span class="line">				<span class="comment">// 异步任务1</span></span><br><span class="line">		&#125;); </span><br><span class="line">		dispatch_group_async(group, queue, ^&#123; </span><br><span class="line">				<span class="comment">// 异步任务2  </span></span><br><span class="line">		&#125;); </span><br><span class="line">		dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123; </span><br><span class="line">				<span class="comment">// 任务1、2结束后调用</span></span><br><span class="line">				<span class="built_in">NSLog</span>(<span class="string">@&quot;group end&quot;</span>); </span><br><span class="line">		&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-<li><p><code>dispatch_group_wait</code>示例：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="type">void</span>)groupWait &#123; </span><br><span class="line">		dispatch_group_t group = dispatch_group_create(); </span><br><span class="line">		<span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>); </span><br><span class="line">		dispatch_group_async(group, queue, ^&#123; </span><br><span class="line">				<span class="comment">//追加异步任务1 </span></span><br><span class="line">		&#125;); </span><br><span class="line">		dispatch_group_async(group, queue, ^&#123; </span><br><span class="line">				<span class="comment">// 追加异步任务2 </span></span><br><span class="line">		&#125;); </span><br><span class="line">		<span class="comment">// 任务1、2执行完后，会往下继续执行</span></span><br><span class="line">		dispatch_group_wait(group, DISPATCH_TIME_FOREVER); </span><br><span class="line">		<span class="built_in">NSLog</span>(<span class="string">@&quot;group---end&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-<li><p><code>dispatch_group_enter</code> + <code>dispatch_group_leave</code></p>
-<p><code>dispatch_group_enter</code>：标志着一个任务追加到Group，执行一次，相当于Group中未执行任务数 + 1</p>
-<p><code>dispatch_group_leave</code>：标志着一个任务离开了Group，执行一次，相当于Group中未执行任务数 - 1</p>
-<p>当Group中未执行任务数为0时，才会使<code>dispatch_group_wait</code>解除阻塞，并执行追加到<code>dispatch_group_notify</code>中的任务。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="type">void</span>)groupEnterAndLeave &#123; </span><br><span class="line">		dispatch_group_t group = dispatch_group_create(); </span><br><span class="line">		<span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">		dispatch_group_enter(group); </span><br><span class="line">		<span class="built_in">dispatch_async</span>(queue, ^&#123; </span><br><span class="line">				<span class="comment">// 追加任务1</span></span><br><span class="line">				dispatch_group_leave(group); <span class="comment">// 每执行完一个任务调用一次</span></span><br><span class="line">		&#125;); </span><br><span class="line"></span><br><span class="line">		dispatch_group_enter(group); </span><br><span class="line">		<span class="built_in">dispatch_async</span>(queue, ^&#123; </span><br><span class="line">				<span class="comment">// 追加任务2 </span></span><br><span class="line">				dispatch_group_leave(group); </span><br><span class="line">		&#125;); </span><br><span class="line"></span><br><span class="line">		dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123; </span><br><span class="line">				<span class="comment">// 等前面的异步操作都执行完毕后，回到主线程.  </span></span><br><span class="line">				<span class="built_in">NSLog</span>(<span class="string">@&quot;group---end&quot;</span>); </span><br><span class="line">		&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="其他常用API"><a href="#其他常用API" class="headerlink" title="其他常用API"></a>其他常用API</h2><ol>
-<li><p>快速迭代方法：dispatch_apply</p>
-<p><code>dispatch_apply</code>按照指定的次数将指定的任务追加到特定的队列中，并<strong>等待全部队列执行结束</strong>。</p>
-<ul>
-<li>在串行队列：就和<strong>for循环</strong>一样，按顺序<strong>同步执行</strong>。</li>
-<li>在并发队列：异步执行，可在多个线程中同时执行多个任务。</li>
-</ul>
-<p>无论是串行队列还是并发队列，<code>dispatch_apply</code>都会等待全部任务执行完毕。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 快速迭代</span></span><br><span class="line">-(<span class="type">void</span>)apply&#123;</span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,<span class="number">0</span>);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;apply begin&quot;</span>);</span><br><span class="line">    dispatch_apply(<span class="number">6</span>, queue, ^(size_t index)&#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@&quot;%zd---%@&quot;</span>,index,[<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;apply end&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 因为在并发队列中异步执行任务，各个任务的执行时间长短不定，最后结束时间也不定。</span></span><br><span class="line"><span class="comment">// apply end一定在最后执行，因为dispatch_apply方法会等待全部任务执行完毕。</span></span><br></pre></td></tr></table></figure>
-
-
-</li>
-<li><p>GCD信号量：dispatch_semaphore</p>
-<ul>
-<li><code>semaphore</code>的值表示线程最大并发数。</li>
-<li>常用来进行加锁操作；</li>
-<li>也可以用来控制线程的最大并发数。</li>
-</ul>
-<p>使用：</p>
-<ul>
-<li>信号量&gt;0，使信号量-1，并继续执行；</li>
-<li>信号量&lt;&#x3D;0，新进来的线程就会进入休眠，直到<code>dispatch_semaphore_signal(semaphore)</code>使信号量&gt;0时，被唤醒。</li>
-</ul>
-<p><code>dispatch_semaphore_create</code>：创建一个Semaphore并初始化信号的总量</p>
-<p><code>dispatch_semaphore_wait</code>：使信号量 -1，信号总量小于0就会一直阻塞所在线程，否则就可以正常执行。</p>
-<p><code>dispatch_semaphore_signal</code>：发送一个信号，让信号总量加1</p>
-</li>
-<li><p><code>dispatch_barrier_async</code>、<code>dispatch_barrier_sync</code></p>
-<ul>
-<li><p>异步栅栏<code>dispatch_barrier_async</code>：不会等待栅栏函数内任务执行完，就会执行后面主线程的任务。</p>
-</li>
-<li><p>同步栅栏<code>dispatch_barrier_sync</code>：会等待栅栏函数内的任务执行完，再执行后面的主线程或者子线程任务。</p>
-</li>
-</ul>
-<p>优点：不会阻塞主线程</p>
-<p>生效必要条件：使用自定义的并发队列，不能使用全局并发队列。使用全局并发队列时，效果同<code>dispatch_async</code>和<code>dispatch_sync</code></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">&quot;test&quot;</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;       </span><br><span class="line">	<span class="comment">// 异步任务1</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;       </span><br><span class="line">	<span class="comment">// 异步任务2</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 任务1、2执行完成后执行栅栏任务</span></span><br><span class="line">dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">	<span class="comment">// 栅栏任务</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;       </span><br><span class="line">	<span class="comment">// 异步任务3</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
