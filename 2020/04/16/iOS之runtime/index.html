@@ -22,38 +22,38 @@
 
     <meta name="description" content="Runtime是什么Runtime是一个库，这个库使我们可以在程序运行时创建对象、检查对象，修改类和对象的方法。  OC是一门动态性比较强的编程语言，允许很多操作推迟到程序运行时再进行； Runtime是一套C语言的API，封装了很多动态性相关的函数； OC的动态性就是由Runtime API来支撑和实现的  基础知识 在arm64架构之前，isa就是一个普通的指针，存储着Class、Meta-C">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iOS之runtime">
-<meta property="og:url" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/index.html">
+<meta property="og:title" content="iOS之Runtime">
+<meta property="og:url" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
 <meta property="og:description" content="Runtime是什么Runtime是一个库，这个库使我们可以在程序运行时创建对象、检查对象，修改类和对象的方法。  OC是一门动态性比较强的编程语言，允许很多操作推迟到程序运行时再进行； Runtime是一套C语言的API，封装了很多动态性相关的函数； OC的动态性就是由Runtime API来支撑和实现的  基础知识 在arm64架构之前，isa就是一个普通的指针，存储着Class、Meta-C">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/isa.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/objc_object.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/objc_class.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/class_rw_t.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/class_ro_t.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/method_t.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/cache_t.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/objc_msgSend.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/msgSend.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/resolveInstanceMethod.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/forwardingTarget.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/isa.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/objc_object.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/objc_class.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/class_rw_t.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/class_ro_t.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/method_t.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/cache_t.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/objc_msgSend.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/msgSend.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/resolveInstanceMethod.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/forwardingTarget.png">
 <meta property="article:published_time" content="2020-04-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-07T02:18:24.427Z">
+<meta property="article:modified_time" content="2022-05-07T04:33:38.782Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="runtime">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/isa.png">
+<meta name="twitter:image" content="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/isa.png">
 
 
-<link rel="canonical" href="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/">
+<link rel="canonical" href="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/","path":"2020/04/16/iOS之runtime/","title":"iOS之runtime"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/","path":"2020/04/16/iOS之Runtime/","title":"iOS之Runtime"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>iOS之runtime | Baylee的技术博客</title>
+<title>iOS之Runtime | Baylee的技术博客</title>
   
 
 
@@ -97,7 +97,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">178</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">18</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">41</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">176</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">33</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -143,18 +143,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">178</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -206,7 +206,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -219,12 +219,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="iOS之runtime | Baylee的技术博客">
+      <meta itemprop="name" content="iOS之Runtime | Baylee的技术博客">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          iOS之runtime
+          iOS之Runtime
         </h1>
 
         <div class="post-meta-container">
@@ -270,13 +270,13 @@
 </ol>
 <p><code>isa</code>的位域信息：</p>
 <p>​    isa共用体的64位数中有33位存储的是类&#x2F;元类的内存地址信息<span id="more"></span></p>
-<p>​    <img src="/2020/04/16/iOS%E4%B9%8Bruntime/isa.png" class="" title="isa的位域信息"></p>
+<p>​    <img src="/2020/04/16/iOS%E4%B9%8BRuntime/isa.png" class="" title="isa的位域信息"></p>
 <p>iOS中对象的底层结构：</p>
-<p>​    <img src="/2020/04/16/iOS%E4%B9%8Bruntime/objc_object.png" class="" title="对象的底层结构"></p>
+<p>​    <img src="/2020/04/16/iOS%E4%B9%8BRuntime/objc_object.png" class="" title="对象的底层结构"></p>
 <h2 id="类Class的结构"><a href="#类Class的结构" class="headerlink" title="类Class的结构"></a>类Class的结构</h2><p>类和元类本质上都是Class，Class是一个objc_class类型的结构体指针：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</span><br></pre></td></tr></table></figure>
 
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/objc_class.png" class="" title="objc_class结构">
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/objc_class.png" class="" title="objc_class结构">
 
 <h2 id="class-rw-t的结构"><a href="#class-rw-t的结构" class="headerlink" title="class_rw_t的结构"></a><code>class_rw_t</code>的结构</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> class_rw_t &#123;</span><br><span class="line">	<span class="keyword">const</span> class_ro_t *ro;</span><br><span class="line">	method_list_t *methods;</span><br><span class="line">	property_list_t *properties;</span><br><span class="line">	<span class="keyword">const</span> protocol_list_t *protocols;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -284,9 +284,9 @@
 <li><p>可读可写：可以动态地给对象添加协议、方法、属性</p>
 </li>
 <li><p><code>class_rw_t</code>里面的<code>methods</code>、<code>properties</code>、<code>protocols</code>是二维数组，包含了类的初始内容和<code>category</code>的内容。</p>
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/class_rw_t.png" class="" title="class_rw_t的结构"></li>
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/class_rw_t.png" class="" title="class_rw_t的结构"></li>
 </ul>
-<h2 id="class-ro-t的结构"><a href="#class-ro-t的结构" class="headerlink" title="class_ro_t的结构"></a>class_ro_t的结构</h2><img src="/2020/04/16/iOS%E4%B9%8Bruntime/class_ro_t.png" class="" title="class_ro_t的结构">
+<h2 id="class-ro-t的结构"><a href="#class-ro-t的结构" class="headerlink" title="class_ro_t的结构"></a>class_ro_t的结构</h2><img src="/2020/04/16/iOS%E4%B9%8BRuntime/class_ro_t.png" class="" title="class_ro_t的结构">
 
 <ul>
 <li><p>包含了类的初始内容：成员变量、属性、方法、协议</p>
@@ -297,7 +297,7 @@
 </li>
 </ul>
 <h2 id="method-t的结构"><a href="#method-t的结构" class="headerlink" title="method_t的结构"></a>method_t的结构</h2><p><code>method_t</code>是对方法&#x2F;函数的封装</p>
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/method_t.png" class="" title="method_t的结构">
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/method_t.png" class="" title="method_t的结构">
 
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> method_t &#123;</span><br><span class="line">	SEL name; <span class="comment">// 函数名</span></span><br><span class="line">	<span class="keyword">const</span> <span class="type">char</span> *types; <span class="comment">// 函数编码，包含返回值类型、参数类型</span></span><br><span class="line">	IMP imp; <span class="comment">// 函数地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -324,7 +324,7 @@
 </li>
 </ul>
 <h2 id="方法缓存cache-t"><a href="#方法缓存cache-t" class="headerlink" title="方法缓存cache_t"></a>方法缓存cache_t</h2><p>Class内部结构中有个方法缓存cache_t，是用散列表来缓存曾经调用过的方法，可以提高方法的查找速度</p>
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/cache_t.png" class="" title="cache_t的结构">
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/cache_t.png" class="" title="cache_t的结构">
 
 <p>缓存方法过程：</p>
 <ol>
@@ -366,17 +366,17 @@
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ZZPerson: NSObject</span></span><br><span class="line"><span class="comment">// NO, ZZPerson是ZZPerson的元类对象的实例</span></span><br><span class="line">[ZZPerson isMemeberOfClass: [ZZperson <span class="keyword">class</span>]]; </span><br><span class="line"><span class="comment">// NO, ZZPerson是ZZPerson的元类对象NSObject的元类也就是NSObject的实例</span></span><br><span class="line">[ZZPerson isKindOfClass: [ZZperson <span class="keyword">class</span>]];</span><br><span class="line"><span class="comment">// YES，OC中任意一个类最终都继承自NSObject，NSObject的元类对象仍是NSObject</span></span><br><span class="line">[ZZPerson isKindOfClass: [<span class="built_in">NSObject</span> <span class="keyword">class</span>]];</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="消息发送机制"><a href="#消息发送机制" class="headerlink" title="消息发送机制"></a>消息发送机制</h2><p>OC中的方法调用，都是转换为objc_msgSend(receiver, SEL) objc_msgSend的执行流程分为三大阶段：消息发送——动态方法解析——消息转发。</p>
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/objc_msgSend.png" class="" title="消息发送机制">
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/objc_msgSend.png" class="" title="消息发送机制">
 
 <ol>
 <li><p>消息发送阶段</p>
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/msgSend.png" class="" title="消息发送">
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/msgSend.png" class="" title="消息发送">
 </li>
 <li><p>动态方法解析</p>
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/resolveInstanceMethod.png" class="" title="动态方法解析">
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/resolveInstanceMethod.png" class="" title="动态方法解析">
 </li>
 <li><p>消息转发</p>
-<img src="/2020/04/16/iOS%E4%B9%8Bruntime/forwardingTarget.png" class="" title="消息发送"></li>
+<img src="/2020/04/16/iOS%E4%B9%8BRuntime/forwardingTarget.png" class="" title="消息发送"></li>
 </ol>
 <h2 id="Runtime的应用"><a href="#Runtime的应用" class="headerlink" title="Runtime的应用"></a>Runtime的应用</h2><ul>
 <li>修改私有属性</li>
@@ -404,7 +404,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8Bruntime/" title="iOS之runtime">https://zhengry.github.io/2020/04/16/iOS之runtime/</a>
+      <a href="https://zhengry.github.io/2020/04/16/iOS%E4%B9%8BRuntime/" title="iOS之Runtime">https://zhengry.github.io/2020/04/16/iOS之Runtime/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！

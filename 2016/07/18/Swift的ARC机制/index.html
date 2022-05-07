@@ -28,9 +28,9 @@
 <meta property="og:description" content="Swift中的ARC机制和Objective-C类似。每次创建一个类的新的实例的时候，ARC会分配一块内存在存储该实例信息，内存中会包含实例的类型信息以及这个实例所有相关的存储型属性的值。当实例不再被使用时，ARC会释放所占用的内存。 鉴定一个实例是否被释放的方法：在析构函数中添加打印信息，若实例被置为nil后，没有打印析构函数信息，则实例仍然存在引用，没有被销毁。 解决类实例之间的循环强引用根据">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-07-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2018-05-03T02:14:45.028Z">
+<meta property="article:modified_time" content="2022-05-07T15:44:22.298Z">
 <meta property="article:author" content="Baylee">
-<meta property="article:tag" content="Swift基础">
+<meta property="article:tag" content="内存管理">
 <meta name="twitter:card" content="summary">
 
 
@@ -85,7 +85,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">178</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">18</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">41</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">176</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">16</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">33</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E7%B1%BB%E5%AE%9E%E4%BE%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">解决类实例之间的循环强引用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8%E5%92%8C%E6%97%A0%E4%B8%BB%E5%BC%95%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="nav-number">1.1.</span> <span class="nav-text">弱引用和无主引用区别：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.2.</span> <span class="nav-text">使用示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E5%BC%95%E8%B5%B7%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">闭包引起的循环强引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%97%AD%E5%8C%85%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">解决闭包循环引用</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E7%B1%BB%E5%AE%9E%E4%BE%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">解决类实例之间的循环强引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%B1%E5%BC%95%E7%94%A8%E5%92%8C%E6%97%A0%E4%B8%BB%E5%BC%95%E7%94%A8%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="nav-number">1.0.1.</span> <span class="nav-text">弱引用和无主引用区别：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.0.2.</span> <span class="nav-text">使用示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%E5%BC%95%E8%B5%B7%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">闭包引起的循环强引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%97%AD%E5%8C%85%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">解决闭包循环引用</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -131,18 +131,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">178</span>
+          <span class="site-state-item-count">176</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -247,11 +247,18 @@
     <div class="post-body" itemprop="articleBody">
         <p>Swift中的ARC机制和Objective-C类似。每次创建一个类的新的实例的时候，ARC会分配一块内存在存储该实例信息，内存中会包含实例的类型信息以及这个实例所有相关的存储型属性的值。当实例不再被使用时，ARC会释放所占用的内存。</p>
 <p>鉴定一个实例是否被释放的方法：<br>在析构函数中添加打印信息，若实例被置为nil后，没有打印析构函数信息，则实例仍然存在引用，没有被销毁。</p>
-<h4 id="解决类实例之间的循环强引用"><a href="#解决类实例之间的循环强引用" class="headerlink" title="解决类实例之间的循环强引用"></a>解决类实例之间的循环强引用</h4><p>根据使用场景不同有三种解决方法：弱引用、无主引用和<em>无主引用与隐式解析可选属性结合</em>。</p>
+<h2 id="解决类实例之间的循环强引用"><a href="#解决类实例之间的循环强引用" class="headerlink" title="解决类实例之间的循环强引用"></a>解决类实例之间的循环强引用</h2><p>根据使用场景不同有三种解决方法：</p>
+<ul>
+<li>弱引用</li>
+<li>无主引用</li>
+<li>无主引用与隐式解析可选属性结合</li>
+</ul>
 <p>弱引用和无主引用都不会保持所引用的实例，从而实现在循环引用中的一个实例引用而另一个实例不保持强引用。<span id="more"></span></p>
-<h5 id="弱引用和无主引用区别："><a href="#弱引用和无主引用区别：" class="headerlink" title="弱引用和无主引用区别："></a>弱引用和无主引用区别：</h5><p>弱引用类型的属性或变量为<strong>可选类型变量</strong>，ARC会在被引用的实例被销毁后自动将其赋值为nil。<strong>弱引用允许它们的值在运行时被赋值为nil</strong>。</p>
-<p>无主引用类型的属性或变量为<strong>非可选类型变量</strong>，<strong>不允许被赋值为nil</strong>。ARC无法在实例被销毁后将无主引用设为nil。</p>
-<p><em>无主引用必须确保引用始终指向一个未销毁的实例</em>。</p>
+<h4 id="弱引用和无主引用区别："><a href="#弱引用和无主引用区别：" class="headerlink" title="弱引用和无主引用区别："></a>弱引用和无主引用区别：</h4><ul>
+<li>弱引用类型的属性或变量为<strong>可选类型变量</strong>，ARC会在被引用的实例被销毁后自动将其赋值为nil。<strong>弱引用允许它们的值在运行时被赋值为nil</strong>。</li>
+<li>无主引用类型的属性或变量为<strong>非可选类型变量</strong>，<strong>不允许被赋值为nil</strong>。ARC无法在实例被销毁后将无主引用设为nil。</li>
+<li><em>无主引用必须确保引用始终指向一个未销毁的实例</em>。</li>
+</ul>
 <p>使用场景区别：</p>
 <ul>
 <li><p>两个相互引用的属性的值都允许为nil，并会潜在的产生循环强引用。这种场景最适合用弱引用来解决。</p>
@@ -261,7 +268,7 @@
 <li><p>当两个互相引用的属性都必须有值，并且初始化完成后永远不会为nil。<br>需要一个类使用无主属性，另一个类使用隐式解析可选属性。</p>
 </li>
 </ul>
-<h5 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h5><ol>
+<h4 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h4><ol>
 <li>弱引用—— weak reference</li>
 </ol>
 <p>当其他的实例有更短的生命周期也就是其他实例析构在先时，使用弱引用。弱引用类型的属性或变量的值可以为nil。</p>
@@ -280,13 +287,15 @@
 <p>每个国家必须有首都，每个城市必须属于一个国家。为了实现这种关系，Country类拥有一个capitalCity属性，而City类有一个country属性：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Country</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    通过在类型结尾处加上感叹号（City!）的方式，将Country的capitalCity</span></span><br><span class="line"><span class="comment">    属性声明为隐式解析可选类型的属性。这意味着像其他可选类型一样，</span></span><br><span class="line"><span class="comment">    capitalCity属性的默认值为nil，但是不需要展开它的值就能访问它。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">var</span> capitalCity: <span class="type">City</span>!</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">capitalName</span>: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.capitalCity <span class="operator">=</span> <span class="type">City</span>(name: capitalName, country: <span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">City</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">let</span> country: <span class="type">Country</span></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">country</span>: <span class="type">Country</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.country <span class="operator">=</span> country</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Country的构造函数调用了City的构造函数。只有Country的实例完全初始化后，</span></span><br><span class="line"><span class="comment">Country的构造函数才能把self传给City的构造函数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> country <span class="operator">=</span> <span class="type">Country</span>(name: <span class="string">&quot;Canada&quot;</span>, capitalName: <span class="string">&quot;Ottawa&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(country.name)</span>&#x27;s capital city is called <span class="subst">\(country.capitalCity.name)</span>&quot;</span>)</span><br><span class="line"><span class="comment">// 打印 “Canada&#x27;s capital city is called Ottawa”</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h4 id="闭包引起的循环强引用"><a href="#闭包引起的循环强引用" class="headerlink" title="闭包引起的循环强引用"></a>闭包引起的循环强引用</h4><p>使用闭包时循环强引用的产生，是因为闭包和类相似，都是引用类型。当你把一个闭包赋值给某个属性时，你是将这个闭包的引用赋值给了属性。</p>
+
+
+<h2 id="闭包引起的循环强引用"><a href="#闭包引起的循环强引用" class="headerlink" title="闭包引起的循环强引用"></a>闭包引起的循环强引用</h2><p>使用闭包时循环强引用的产生，是因为闭包和类相似，都是引用类型。当你把一个闭包赋值给某个属性时，你是将这个闭包的引用赋值给了属性。</p>
 <p>Swift提供了一种优雅的方法来解决这个问题，称之为闭包捕获列表（closure capture list）</p>
 <p>循环强引用示例：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">HTMLElement</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> text: <span class="type">String</span>?</span><br><span class="line"></span><br><span class="line">    <span class="keyword">lazy</span> <span class="keyword">var</span> asHTML: <span class="type">Void</span> -&gt; <span class="type">String</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> text <span class="operator">=</span> <span class="keyword">self</span>.text &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&lt;<span class="subst">\(<span class="keyword">self</span>.name)</span>&gt;<span class="subst">\(text)</span>&lt;/<span class="subst">\(<span class="keyword">self</span>.name)</span>&gt;&quot;</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&lt;<span class="subst">\(<span class="keyword">self</span>.name)</span> /&gt;&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(<span class="params">name</span>: <span class="type">String</span>, <span class="params">text</span>: <span class="type">String</span>? <span class="operator">=</span> <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name <span class="operator">=</span> name</span><br><span class="line">        <span class="keyword">self</span>.text <span class="operator">=</span> text</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">deinit</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(name)</span> is being deinitialized&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>实例的asHTML属性持有闭包的强引用。但是，闭包在其闭包体内使用了<code>self</code>（引用了<code>self.name</code>和<code>self.text</code>），因此闭包捕获了<code>self</code>，这意味着闭包又反过来持有了<code>HTMLElement</code>实例的强引用。这样两个对象就产生了循环强引用。</p>
 <p><strong>说明</strong>：asHTML声明为<code>lazy</code>属性，因为只有当元素确实需要被处理为<code>HTML</code>输出的字符串时，才需要使用<code>asHTML</code>。也就是说，在默认的闭包中可以使用<code>self</code>，因为只有当初始化完成以及<code>self</code>确实存在后，才能访问<code>lazy</code>属性。</p>
-<h4 id="解决闭包循环引用"><a href="#解决闭包循环引用" class="headerlink" title="解决闭包循环引用"></a>解决闭包循环引用</h4><p>通过在定义闭包时同时定义捕获列表作为闭包的一部分来解决。捕获列表定义了闭包体内捕获一个或者多个引用类型的规则。跟解决两个类实例间的循环强引用一样，声明每个捕获的引用为弱引用或无主引用，而不是强引用。应当根据代码关系来决定使用弱引用还是无主引用。</p>
+<h2 id="解决闭包循环引用"><a href="#解决闭包循环引用" class="headerlink" title="解决闭包循环引用"></a>解决闭包循环引用</h2><p>通过在定义闭包时同时定义捕获列表作为闭包的一部分来解决。捕获列表定义了闭包体内捕获一个或者多个引用类型的规则。跟解决两个类实例间的循环强引用一样，声明每个捕获的引用为弱引用或无主引用，而不是强引用。应当根据代码关系来决定使用弱引用还是无主引用。</p>
 <p>Swift 有如下要求：只要在闭包内使用self的成员，就要用self.someProperty或者self.someMethod()（而不只是someProperty或someMethod()）。这提醒你可能会一不小心就捕获了self。</p>
 <p>捕获列表中的每一项都由一对元素组成，一个元素是weak或unowned关键字，另一个元素是类实例的引用（例如self）或初始化过的变量（如delegate &#x3D; self.delegate!）。这些项在方括号中用逗号分开。</p>
 <p>如果闭包有参数列表和返回类型，把捕获列表放在它们前面：</p>
@@ -329,7 +338,7 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/Swift%E5%9F%BA%E7%A1%80/" rel="tag"><i class="fa fa-tag"></i> Swift基础</a>
+              <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="tag"><i class="fa fa-tag"></i> 内存管理</a>
           </div>
 
         
