@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://zhengry.github.io/2020/04/18/iOS%E4%B9%8BCategory/category_t.jpg">
 <meta property="og:image" content="https://zhengry.github.io/2020/04/18/iOS%E4%B9%8BCategory/associationsManager.jpg">
 <meta property="article:published_time" content="2020-04-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-07T03:24:50.075Z">
+<meta property="article:modified_time" content="2022-05-07T03:55:44.638Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="iOS基础">
 <meta name="twitter:card" content="summary">
@@ -119,7 +119,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E7%9A%84%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">Category的底层结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">Category的加载处理过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">Category的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E5%92%8CExtension%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">Category和Extension的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E5%92%8Cload-%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">Category和load()方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Category%E4%B8%AD%E6%9C%89load%E6%96%B9%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">5.0.1.</span> <span class="nav-text">1. Category中有load方法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%85%B3%E4%BA%8Eload%E6%96%B9%E6%B3%95"><span class="nav-number">5.0.2.</span> <span class="nav-text">2. 关于load方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-initialize%E5%92%8C-load"><span class="nav-number">5.0.3.</span> <span class="nav-text">3. initialize和 load</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">Category添加成员的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E5%92%8C%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1"><span class="nav-number">7.</span> <span class="nav-text">Category和关联对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1API%EF%BC%9A"><span class="nav-number">7.0.1.</span> <span class="nav-text">1. 关联对象API：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%85%B3%E8%81%94%E7%AD%96%E7%95%A5%E5%92%8C%E5%AF%B9%E5%BA%94%E7%9A%84%E4%BF%AE%E9%A5%B0%E7%AC%A6%EF%BC%9A"><span class="nav-number">7.0.2.</span> <span class="nav-text">2. 关联策略和对应的修饰符：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E6%97%B6key%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95"><span class="nav-number">7.0.3.</span> <span class="nav-text">3. 关联对象时key的常见用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">7.0.4.</span> <span class="nav-text">4. 关联对象实现原理</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E7%9A%84%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">Category的底层结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">Category的加载处理过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">Category的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E5%92%8CExtension%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.</span> <span class="nav-text">Category和Extension的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E5%92%8Cload-%E6%96%B9%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">Category和load()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load%E5%92%8Cinitialize"><span class="nav-number">6.</span> <span class="nav-text">load和initialize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">Category添加成员的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Category%E5%92%8C%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1"><span class="nav-number">8.</span> <span class="nav-text">Category和关联对象</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -262,99 +262,73 @@
 <li>里面存储着分类的对象方法、类方法、属性、协议信息。</li>
 <li>在程序运行时，<code>runtime</code>会将<code>Category</code>的数据合并到类信息中（类对象、元类对象中）</li>
 </ul>
-<h2 id="Category和Extension的区别"><a href="#Category和Extension的区别" class="headerlink" title="Category和Extension的区别"></a>Category和Extension的区别</h2><ul>
+<h2 id="Category和Extension的区别"><a href="#Category和Extension的区别" class="headerlink" title="Category和Extension的区别"></a>Category和Extension的区别</h2><p>​    备注：OC的Extension通常是放在<code>.m</code>中：可以声明私有的成员变量、属性、方法等</p>
+<ul>
 <li><p>决议时间不同：</p>
-<blockquote>
 <ul>
 <li>Class Extension在<code>编译</code>的时候，它的数据就已经包含在类信息中；</li>
 <li>Category是在<code>运行时</code>才将数据合并到类信息中</li>
 </ul>
-</blockquote>
 </li>
 <li><p>目标和能力不同：</p>
-<p>Extension：</p>
-<blockquote>
-<p>主要用于扩展类的<strong>私有</strong>成员、属性、方法</p>
-</blockquote>
-<p>Category：</p>
-<blockquote>
 <ul>
+<li>Extension：主要用于扩展类的<strong>私有</strong>成员、属性、方法</li>
+<li>Category：<ul>
 <li>主要用来拆分功能模块；</li>
 <li>可以增加<code>instanceMethods</code>、<code>classMethods</code>、<code>protocols</code>；</li>
+<li>Category中的<code>properties</code>只会增加该属性对应的setter、getter的方法声明，不会增加对应的成员和方法实现。</li>
 </ul>
-<ul>
-<li>Category中的<code>properties</code>只会增加该属性对应的setter、getter的方法声明，不会增加对应的成员和方法实现</li>
-</ul>
-</blockquote>
 </li>
 </ul>
-<p>备注：OC的Extension通常是放在<code>.m</code>中：可以声明私有的成员变量、属性、方法等</p>
-<h2 id="Category和load-方法"><a href="#Category和load-方法" class="headerlink" title="Category和load()方法"></a>Category和load()方法</h2><h4 id="1-Category中有load方法吗？"><a href="#1-Category中有load方法吗？" class="headerlink" title="1. Category中有load方法吗？"></a>1. Category中有load方法吗？</h4><p>​    Category中可以有load方法；</p>
-<h4 id="2-关于load方法"><a href="#2-关于load方法" class="headerlink" title="2. 关于load方法"></a>2. 关于load方法</h4><ul>
-<li><p>调用时机：<code>+load</code>方法会在<code>runtime</code>加载类、分类时调用</p>
 </li>
-<li><p>调用方式：</p>
-<blockquote>
+</ul>
+<h2 id="Category和load-方法"><a href="#Category和load-方法" class="headerlink" title="Category和load()方法"></a>Category和load()方法</h2><ul>
+<li><p>Category中可以有load方法</p>
+</li>
+<li><p><code>load</code>方法调用</p>
 <ul>
+<li><code>+load</code>方法会在<code>runtime</code>加载类、分类时调用</li>
 <li>每个类、分类的<code>+load</code>方法在程序运行中只会被调用一次</li>
-<li>类和分类中的<code>+load</code>方法是直接根据<code>+load</code>函数的指针地址直接调用的；</li>
-<li>类的其他类方法是使用消息发送机制调用的；</li>
 </ul>
-</blockquote>
+</li>
+<li><p><code>load</code>方法调用顺序：</p>
+<ol>
+<li>先调用类的<code>load</code>方法<ol>
+<li>按照编译顺序先后调用（先编译的先调用）</li>
+<li>先调用父类的<code>load</code>方法，再调用子类的<code>load</code>方法</li>
+</ol>
+</li>
+<li>再调用分类的load方法：按照编译顺序先后调用</li>
+</ol>
+</li>
+<li><p>load方法的独特性</p>
+<ul>
+<li>类和分类中的<code>+load</code>方法是直接根据<code>+load</code>函数的指针地址直接调用的；类的其他类方法是使用消息发送机制调用的；</li>
+<li><code>load</code>方法可以继承，但是一般不会主动调用<code>+load</code>方法，而是让系统自动调用。</li>
+<li>手动调用<code>+load</code>方法时跟系统调用机制不同，手动调用不是通过函数指针地址来直接调用<code>load</code>方法，而是通过<code>objc_msgSend</code>和<code>isa</code>来调用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="load和initialize"><a href="#load和initialize" class="headerlink" title="load和initialize"></a><code>load</code>和<code>initialize</code></h2><ul>
+<li><p><code>+initialize</code>方法会在类第一次接收到消息时调用</p>
+<p>这句话可以理解为如果多次调用<code>[ZZPerson alloc]</code>，<code>ZZPerson</code>的<code>+initialize</code>方法只会被调用一次。</p>
 </li>
 <li><p>调用顺序：</p>
-<blockquote>
 <ol>
-<li><p>先调用类的<code>load</code>方法</p>
+<li><p>先调用父类的<code>initialize</code>，然后调用子类的<code>initialize</code>（先初始化父类，再初始化子类，每个类只会初始化一次）；</p>
 </li>
-<li><p>按照编译顺序先后调用（先编译的先调用）</p>
-</li>
-<li><p>先调用父类的<code>load</code>方法，再调用子类的<code>load</code>方法</p>
-</li>
-<li><p>再调用分类的<code>load</code>方法：按照编译顺序先后调用</p>
-</li>
-</ol>
-</blockquote>
-</li>
-</ul>
-<ul>
-<li><p>继承问题：</p>
-<blockquote>
-<ul>
-<li><p><code>load</code>方法可以继承，但是一般不会主动调用<code>+load</code>方法，而是让系统自动调用。</p>
-</li>
-<li><p>手动调用<code>+load</code>方法时跟系统调用机制不同，手动调用不是通过函数指针地址来直接调用<code>load</code>方法，而是通过<code>objc_msgSend</code>和<code>isa</code>来调用。</p>
-</li>
-</ul>
-</blockquote>
-</li>
-</ul>
-<h4 id="3-initialize和-load"><a href="#3-initialize和-load" class="headerlink" title="3. initialize和 load"></a>3. <code>initialize</code>和 <code>load</code></h4><ul>
-<li><p><code>+initialize</code>方法会在类第一次接收到消息时调用</p>
-<blockquote>
-<p>这句话可以理解为如果多次调用<code>[ZZPerson alloc]</code>，<code>ZZPerson</code>的<code>+initialize</code>方法只会被调用一次。</p>
-</blockquote>
-</li>
-<li><p><code>initialize</code>调用顺序：</p>
-<blockquote>
-<ol>
-<li><p>先调用父类的<code>initialize</code>，然后调用子类的<code>initialize</code>（先初始化父类，再初始化子类，每个类只会初始化一次）</p>
-</li>
-<li><p>如果子类没有实现<code>+initialize</code>，会调用父类的<code>+initialize</code> ,</p>
+<li><p>如果子类没有实现<code>+initialize</code>，会调用父类的<code>+initialize</code> ；</p>
 <p>当父类有多个子类，这些子类都没有实现<code>+initialize</code>方法时，最终会通过<code>isa</code>指针和<code>superclass</code>指针找到父类的<code>+initialize</code>方法，所以父类的<code>+initialize</code>可能会被调用多次，多次被调用不代表父类被初始化多次</p>
 </li>
-<li><p>如果分类实现了<code>+initialize</code>，会覆盖类本身的<code>+initialize</code>调用</p>
+<li><p>如果分类实现了<code>+initialize</code>，会覆盖类本身的<code>+initialize</code>调用。</p>
 </li>
 </ol>
-</blockquote>
 </li>
 <li><p><code>+initialize</code>和<code>+load</code>方法的区别：</p>
-<blockquote>
 <ol>
-<li>调用方式不同： <code>+initialize</code>是通过<code>objc_msgSend</code>进行调用的；<code>+load</code>是通过函数指针直接调用的</li>
+<li>调用方式不同： <code>+initialize</code>是通过<code>objc_msgSend</code>进行调用的；<code>+load</code>是通过函数指针直接调用的；</li>
 <li>调用时机不同：<code>+load</code>是在<code>runtime</code>加载类、分类的时候调用，并且只会调用一次；<code>+initialize</code>是在类第一次接收到消息时调用，当前类没有实现<code>+initialize</code>方法时，父类的<code>+initialize</code>可能被调用多次。</li>
 </ol>
-</blockquote>
 </li>
 </ul>
 <h2 id="Category添加成员的问题"><a href="#Category添加成员的问题" class="headerlink" title="Category添加成员的问题"></a>Category添加成员的问题</h2><ul>
@@ -381,15 +355,19 @@
 </ul>
 </blockquote>
 <p>使用全局字典示例：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局的字典</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MJKey [NSString stringWithFormat:@<span class="string">&quot;%p&quot;</span>, self]</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MJPerson</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NSMutableDictionary</span> *names_;</span><br><span class="line"><span class="built_in">NSMutableDictionary</span> *weights_;</span><br><span class="line">+ (<span class="type">void</span>)load</span><br><span class="line">&#123;</span><br><span class="line">    weights_ = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    names_ = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setName:(<span class="built_in">NSString</span> *)name</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    names_[MJKey] = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)name</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    <span class="keyword">return</span> names_[MJKey];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setWeight:(<span class="type">int</span>)weight</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    weights_[MJKey] = @(weight);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">int</span>)weight</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    <span class="keyword">return</span> [weights_[MJKey] intValue];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局的字典</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ZZKey [NSString stringWithFormat:@<span class="string">&quot;%p&quot;</span>, self]</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ZZPerson</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NSMutableDictionary</span> *names_;</span><br><span class="line"><span class="built_in">NSMutableDictionary</span> *weights_;</span><br><span class="line">+ (<span class="type">void</span>)load</span><br><span class="line">&#123;</span><br><span class="line">    weights_ = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    names_ = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setName:(<span class="built_in">NSString</span> *)name</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    names_[ZZKey] = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)name</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    <span class="keyword">return</span> names_[ZZKey];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setWeight:(<span class="type">int</span>)weight</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    weights_[ZZKey] = @(weight);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">int</span>)weight</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    <span class="keyword">return</span> [weights_[ZZKey] intValue];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 <h2 id="Category和关联对象"><a href="#Category和关联对象" class="headerlink" title="Category和关联对象"></a>Category和关联对象</h2><p>Category中通常使用关联对象来添加属性&#x2F;成员。</p>
-<h4 id="1-关联对象API："><a href="#1-关联对象API：" class="headerlink" title="1. 关联对象API："></a>1. 关联对象API：</h4><ul>
-<li>添加关联对象 <code>void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociatedPolicy policy)</code> </li>
+<ol>
+<li><p>关联对象API：</p>
+<ul>
+<li>添加关联对象 <code>void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociatedPolicy policy)</code></li>
 <li>获取关联对象 <code>id objc_getAssociatedObject(id object, const void *key)</code>     </li>
 <li>移除所有关联对象 <code>void objc_removeAssociatedObject(id object)</code></li>
 </ul>
-<h4 id="2-关联策略和对应的修饰符："><a href="#2-关联策略和对应的修饰符：" class="headerlink" title="2. 关联策略和对应的修饰符："></a>2. 关联策略和对应的修饰符：</h4><table>
+</li>
+<li><p>关联策略和对应的修饰符：</p>
+<table>
 <thead>
 <tr>
 <th>objc_AssociatedPolicy</th>
@@ -417,14 +395,21 @@
 <td>copy, atomic</td>
 </tr>
 </tbody></table>
-<h4 id="3-关联对象时key的常见用法"><a href="#3-关联对象时key的常见用法" class="headerlink" title="3. 关联对象时key的常见用法"></a>3. 关联对象时key的常见用法</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 静态指针</span></span><br><span class="line"><span class="keyword">static</span> void <span class="operator">*</span><span class="type">MyKey</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="type">MyKey</span>;</span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="type">MyKey</span>, value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="type">MyKey</span>)</span><br><span class="line"><span class="comment">// 静态变量的地址值</span></span><br><span class="line"><span class="keyword">static</span> char <span class="type">MyKey</span>;</span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="operator">&amp;</span><span class="type">MyKey</span>, value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="operator">&amp;</span><span class="type">MyKey</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用属性名作为key</span></span><br><span class="line">objc_setAssoiciatedObject(obj, @<span class="string">&quot;property&quot;</span>, value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, @<span class="string">&quot;property&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用get方法的@selector作为key</span></span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="meta">@selector</span>(getter), value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="meta">@selector</span>(getter))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关联对象时key的常见用法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 静态指针</span></span><br><span class="line"><span class="keyword">static</span> <span class="type">void</span> *MyKey = &amp;MyKey;</span><br><span class="line">objc_setAssoiciatedObject(obj, MyKey, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC)</span><br><span class="line">objc_getAssociatedObject(obj, MyKey)</span><br><span class="line"><span class="comment">// 静态变量的地址值</span></span><br><span class="line"><span class="keyword">static</span> <span class="type">char</span> MyKey;</span><br><span class="line">objc_setAssoiciatedObject(obj, &amp;MyKey, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC)</span><br><span class="line">objc_getAssociatedObject(obj, &amp;MyKey)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用属性名作为key</span></span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="string">@&quot;property&quot;</span>, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="string">@&quot;property&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用get方法的@selector作为key</span></span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="keyword">@selector</span>(<span class="keyword">getter</span>), value, OBJC_ASSOCIATION_RETAIN_NONATOMIC)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="keyword">@selector</span>(<span class="keyword">getter</span>))</span><br></pre></td></tr></table></figure>
 
-<h4 id="4-关联对象实现原理"><a href="#4-关联对象实现原理" class="headerlink" title="4. 关联对象实现原理"></a>4. 关联对象实现原理</h4><ul>
+
+</li>
+<li><p>关联对象实现原理</p>
+<ul>
 <li><p>关联对象并不是存储在被关联对象自身的内存中</p>
 </li>
 <li><p>关联对象存储在全局的一个AssociatesManager中，是一个哈希表结构</p>
 <img src="/2020/04/18/iOS%E4%B9%8BCategory/associationsManager.jpg" class="" title="associationManager结构"></li>
 </ul>
+</li>
+</ol>
 
     </div>
 
