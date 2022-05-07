@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">177</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">18</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">41</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">178</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">18</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">41</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">178</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -438,6 +438,259 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/04/18/iOS%E4%B9%8BCategory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/04/18/iOS%E4%B9%8BCategory/" class="post-title-link" itemprop="url">iOS之Category</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-18T00:00:00+08:00">2020-04-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="Category的底层结构"><a href="#Category的底层结构" class="headerlink" title="Category的底层结构"></a>Category的底层结构</h2><p>编译后的分类信息都保存在<code>category_t</code>结构体中（定义在<code>objc-runtime-new.h</code>中）：</p>
+<img src="/2020/04/18/iOS%E4%B9%8BCategory/category_t.jpg" class="" title="category结构">
+
+<h2 id="Category的加载处理过程"><a href="#Category的加载处理过程" class="headerlink" title="Category的加载处理过程"></a>Category的加载处理过程</h2><p><code>Category</code>中的方法是在程序运行时通过<code>runtime</code>动态地将分类中的方法合并到类对象、元类对象中。</p>
+<ol>
+<li>通过Runtime加载某个类的所有<code>Category</code>数据（方法、属性、协议）；</li>
+<li>把所有<code>Category</code>的方法、属性、协议数据，合并到一个大数组中，参与编译的<code>Category</code>数据，会放在数组的前面</li>
+<li>将合并后的分类数据（方法、属性、协议），插入到类原来数据的前面</li>
+</ol>
+<h2 id="Category的实现原理"><a href="#Category的实现原理" class="headerlink" title="Category的实现原理"></a>Category的实现原理</h2><ul>
+<li>Category编译之后的底层结构是<code>struct category_t</code>；</li>
+<li>里面存储着分类的对象方法、类方法、属性、协议信息。</li>
+<li>在程序运行时，<code>runtime</code>会将<code>Category</code>的数据合并到类信息中（类对象、元类对象中）</li>
+</ul>
+<h2 id="Category和Extension的区别"><a href="#Category和Extension的区别" class="headerlink" title="Category和Extension的区别"></a>Category和Extension的区别</h2><ul>
+<li><p>决议时间不同：</p>
+<blockquote>
+<ul>
+<li>Class Extension在<code>编译</code>的时候，它的数据就已经包含在类信息中；</li>
+<li>Category是在<code>运行时</code>才将数据合并到类信息中</li>
+</ul>
+</blockquote>
+</li>
+<li><p>目标和能力不同：</p>
+<p>Extension：</p>
+<blockquote>
+<p>主要用于扩展类的<strong>私有</strong>成员、属性、方法</p>
+</blockquote>
+<p>Category：</p>
+<blockquote>
+<ul>
+<li>主要用来拆分功能模块；</li>
+<li>可以增加<code>instanceMethods</code>、<code>classMethods</code>、<code>protocols</code>；</li>
+</ul>
+<ul>
+<li>Category中的<code>properties</code>只会增加该属性对应的setter、getter的方法声明，不会增加对应的成员和方法实现</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>备注：OC的Extension通常是放在<code>.m</code>中：可以声明私有的成员变量、属性、方法等</p>
+<h2 id="Category和load-方法"><a href="#Category和load-方法" class="headerlink" title="Category和load()方法"></a>Category和load()方法</h2><h4 id="1-Category中有load方法吗？"><a href="#1-Category中有load方法吗？" class="headerlink" title="1. Category中有load方法吗？"></a>1. Category中有load方法吗？</h4><p>​    Category中可以有load方法；</p>
+<h4 id="2-关于load方法"><a href="#2-关于load方法" class="headerlink" title="2. 关于load方法"></a>2. 关于load方法</h4><ul>
+<li><p>调用时机：<code>+load</code>方法会在<code>runtime</code>加载类、分类时调用</p>
+</li>
+<li><p>调用方式：</p>
+<blockquote>
+<ul>
+<li>每个类、分类的<code>+load</code>方法在程序运行中只会被调用一次</li>
+<li>类和分类中的<code>+load</code>方法是直接根据<code>+load</code>函数的指针地址直接调用的；</li>
+<li>类的其他类方法是使用消息发送机制调用的；</li>
+</ul>
+</blockquote>
+</li>
+<li><p>调用顺序：</p>
+<blockquote>
+<ol>
+<li><p>先调用类的<code>load</code>方法</p>
+</li>
+<li><p>按照编译顺序先后调用（先编译的先调用）</p>
+</li>
+<li><p>先调用父类的<code>load</code>方法，再调用子类的<code>load</code>方法</p>
+</li>
+<li><p>再调用分类的<code>load</code>方法：按照编译顺序先后调用</p>
+</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li><p>继承问题：</p>
+<blockquote>
+<ul>
+<li><p><code>load</code>方法可以继承，但是一般不会主动调用<code>+load</code>方法，而是让系统自动调用。</p>
+</li>
+<li><p>手动调用<code>+load</code>方法时跟系统调用机制不同，手动调用不是通过函数指针地址来直接调用<code>load</code>方法，而是通过<code>objc_msgSend</code>和<code>isa</code>来调用。</p>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h4 id="3-initialize和-load"><a href="#3-initialize和-load" class="headerlink" title="3. initialize和 load"></a>3. <code>initialize</code>和 <code>load</code></h4><ul>
+<li><p><code>+initialize</code>方法会在类第一次接收到消息时调用</p>
+<blockquote>
+<p>这句话可以理解为如果多次调用<code>[ZZPerson alloc]</code>，<code>ZZPerson</code>的<code>+initialize</code>方法只会被调用一次。</p>
+</blockquote>
+</li>
+<li><p><code>initialize</code>调用顺序：</p>
+<blockquote>
+<ol>
+<li><p>先调用父类的<code>initialize</code>，然后调用子类的<code>initialize</code>（先初始化父类，再初始化子类，每个类只会初始化一次）</p>
+</li>
+<li><p>如果子类没有实现<code>+initialize</code>，会调用父类的<code>+initialize</code> ,</p>
+<p>当父类有多个子类，这些子类都没有实现<code>+initialize</code>方法时，最终会通过<code>isa</code>指针和<code>superclass</code>指针找到父类的<code>+initialize</code>方法，所以父类的<code>+initialize</code>可能会被调用多次，多次被调用不代表父类被初始化多次</p>
+</li>
+<li><p>如果分类实现了<code>+initialize</code>，会覆盖类本身的<code>+initialize</code>调用</p>
+</li>
+</ol>
+</blockquote>
+</li>
+<li><p><code>+initialize</code>和<code>+load</code>方法的区别：</p>
+<blockquote>
+<ol>
+<li>调用方式不同： <code>+initialize</code>是通过<code>objc_msgSend</code>进行调用的；<code>+load</code>是通过函数指针直接调用的</li>
+<li>调用时机不同：<code>+load</code>是在<code>runtime</code>加载类、分类的时候调用，并且只会调用一次；<code>+initialize</code>是在类第一次接收到消息时调用，当前类没有实现<code>+initialize</code>方法时，父类的<code>+initialize</code>可能被调用多次。</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h2 id="Category添加成员的问题"><a href="#Category添加成员的问题" class="headerlink" title="Category添加成员的问题"></a>Category添加成员的问题</h2><ul>
+<li><p>Category为什么不能直接添加成员变量？</p>
+<blockquote>
+<p>已注册类的实例对象大小和内存布局都已经确定，如果添加实例变量就会破坏类的内部布局，这对编译型语言来说是灾难性的。比如：一个类只有注册过才能用来创建对象，假设一个已经注册过的类创建了对象A，然后我们又给这个类增加了一个实例变量,并用这个类又创建了对象B，那么A和B的存储结构都不一样，那么A和B还能算是同一类对象吗？所以从逻辑上讲，也不能允许添加实例变量。</p>
+</blockquote>
+<p>Category为什么能添加方法呢？</p>
+<blockquote>
+<p>因为方法列表存放在类对象中，为类对象增加一个方法，所有该类的实例对象都会拥有这个方法，因此实例对象之间没有造成差异，还是同一个类型。</p>
+</blockquote>
+</li>
+<li><p>Category添加属性的本质</p>
+<blockquote>
+<p>在Category中添加属性后，相当于只是声明了属性变量的<code>setter</code>、<code>getter</code>，没有实现<code>setter</code>、<code>getter</code>，也没有属性对应的成员变量。</p>
+</blockquote>
+</li>
+<li><p>添加成员变量的方案：</p>
+<blockquote>
+<ul>
+<li>使用全局的字典变量：使用字典是为了一个类可能有多个对象时防止混淆不同对象的成员变量值。</li>
+<li>使用关联对象</li>
+</ul>
+</blockquote>
+<p>使用全局字典示例：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局的字典</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MJKey [NSString stringWithFormat:@<span class="string">&quot;%p&quot;</span>, self]</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MJPerson</span> (<span class="title">Test</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NSMutableDictionary</span> *names_;</span><br><span class="line"><span class="built_in">NSMutableDictionary</span> *weights_;</span><br><span class="line">+ (<span class="type">void</span>)load</span><br><span class="line">&#123;</span><br><span class="line">    weights_ = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    names_ = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setName:(<span class="built_in">NSString</span> *)name</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    names_[MJKey] = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSString</span> *)name</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    <span class="keyword">return</span> names_[MJKey];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setWeight:(<span class="type">int</span>)weight</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    weights_[MJKey] = @(weight);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">int</span>)weight</span><br><span class="line">&#123;</span><br><span class="line"><span class="comment">//    NSString *key = [NSString stringWithFormat:@&quot;%p&quot;, self];</span></span><br><span class="line">    <span class="keyword">return</span> [weights_[MJKey] intValue];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Category和关联对象"><a href="#Category和关联对象" class="headerlink" title="Category和关联对象"></a>Category和关联对象</h2><p>Category中通常使用关联对象来添加属性&#x2F;成员。</p>
+<h4 id="1-关联对象API："><a href="#1-关联对象API：" class="headerlink" title="1. 关联对象API："></a>1. 关联对象API：</h4><ul>
+<li>添加关联对象 <code>void objc_setAssociatedObject(id object, const void *key, id value, objc_AssociatedPolicy policy)</code> </li>
+<li>获取关联对象 <code>id objc_getAssociatedObject(id object, const void *key)</code>     </li>
+<li>移除所有关联对象 <code>void objc_removeAssociatedObject(id object)</code></li>
+</ul>
+<h4 id="2-关联策略和对应的修饰符："><a href="#2-关联策略和对应的修饰符：" class="headerlink" title="2. 关联策略和对应的修饰符："></a>2. 关联策略和对应的修饰符：</h4><table>
+<thead>
+<tr>
+<th>objc_AssociatedPolicy</th>
+<th>对应的修饰符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>OBJC_ASSOCIATION_ASSIGN</td>
+<td>assign</td>
+</tr>
+<tr>
+<td>OBJC_ASSOCIATION_RETAIN_NONATOMIC</td>
+<td>strong, nonatomic</td>
+</tr>
+<tr>
+<td>OBJC_ASSOCIATION_COPY_NONATOMIC</td>
+<td>copy, nonatomic</td>
+</tr>
+<tr>
+<td>OBJC_ASSOCIATION_RETAIN</td>
+<td>strong, atomic</td>
+</tr>
+<tr>
+<td>OBJC_ASSOCIATION_COPY</td>
+<td>copy, atomic</td>
+</tr>
+</tbody></table>
+<h4 id="3-关联对象时key的常见用法"><a href="#3-关联对象时key的常见用法" class="headerlink" title="3. 关联对象时key的常见用法"></a>3. 关联对象时key的常见用法</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 静态指针</span></span><br><span class="line"><span class="keyword">static</span> void <span class="operator">*</span><span class="type">MyKey</span> <span class="operator">=</span> <span class="operator">&amp;</span><span class="type">MyKey</span>;</span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="type">MyKey</span>, value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="type">MyKey</span>)</span><br><span class="line"><span class="comment">// 静态变量的地址值</span></span><br><span class="line"><span class="keyword">static</span> char <span class="type">MyKey</span>;</span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="operator">&amp;</span><span class="type">MyKey</span>, value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="operator">&amp;</span><span class="type">MyKey</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用属性名作为key</span></span><br><span class="line">objc_setAssoiciatedObject(obj, @<span class="string">&quot;property&quot;</span>, value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, @<span class="string">&quot;property&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用get方法的@selector作为key</span></span><br><span class="line">objc_setAssoiciatedObject(obj, <span class="meta">@selector</span>(getter), value, <span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">objc_getAssociatedObject(obj, <span class="meta">@selector</span>(getter))</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-关联对象实现原理"><a href="#4-关联对象实现原理" class="headerlink" title="4. 关联对象实现原理"></a>4. 关联对象实现原理</h4><ul>
+<li><p>关联对象并不是存储在被关联对象自身的内存中</p>
+</li>
+<li><p>关联对象存储在全局的一个AssociatesManager中，是一个哈希表结构</p>
+<img src="/2020/04/18/iOS%E4%B9%8BCategory/associationsManager.jpg" class="" title="associationManager结构"></li>
+</ul>
+
       
     </div>
 
@@ -1008,108 +1261,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/03/03/LeetCode-46-%E5%85%A8%E6%8E%92%E5%88%97/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/03/02/LeetCode-33-%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/03/02/LeetCode-33-%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">LeetCode-33.搜索旋转排序数组</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-03-02 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">2020-03-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>整数数组 <code>nums</code> 按升序排列，数组中的值 互不相同 。</p>
-<p>在传递给函数之前，<code>nums</code> 在预先未知的某个下标 <code>k</code>（<code>0 &lt;= k &lt; nums.length</code>）上进行了 旋转，使数组变为 <code>[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]</code>（下标 从 <code>0</code> 开始 计数）。例如， <code>[0,1,2,4,5,6,7]</code> 在下标 <code>3</code> 处经旋转后可能变为 <code>[4,5,6,7,0,1,2]</code> 。</p>
-<p>给你 旋转后 的数组 <code>nums</code> 和一个整数 <code>target</code> ，如果 <code>nums</code> 中存在这个目标值 <code>target</code> ，则返回它的下标，否则返回 <code>-1</code> 。</p>
-<p><strong>示例</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>], target <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">输出：<span class="number">4</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>], target <span class="operator">=</span> <span class="number">3</span></span><br><span class="line">输出：<span class="operator">-</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">1</span>], target <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">输出：<span class="operator">-</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-<p>提示：</p>
-<ul>
-<li><code>1 &lt;= nums.length &lt;= 5000</code></li>
-<li><code>-10^4 &lt;= nums[i] &lt;= 10^4</code></li>
-<li><code>nums</code> 中的每个值都 独一无二</li>
-<li>题目数据保证 <code>nums</code> 在预先未知的某个下标上进行了旋转</li>
-<li><code>-10^4 &lt;= target &lt;= 10^4</code></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/02/LeetCode-33-%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
