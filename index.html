@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">177</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">178</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">177</span>
+          <span class="site-state-item-count">178</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -448,6 +448,116 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/05/03/iOS%E4%B9%8BAutoreleasePool/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/05/03/iOS%E4%B9%8BAutoreleasePool/" class="post-title-link" itemprop="url">iOS之AutoreleasePool</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-05-03 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-03T00:00:00+08:00">2020-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><code>AutoreleasePool</code>底层涉及的数据结构：<code>__AtAutoreleasePool</code>和<code>AutoreleasePoolPage</code></p>
+<p>调用了<code>autorelease</code>的对象最终都是通过<code>AutoreleasePoolPage</code>对象来管理的。</p>
+<p><strong><code>AutoreleasePoolPage</code>结构</strong></p>
+<ul>
+<li><p>每个<code>AutoreleasePoolPage</code>对象占用4096个字节</p>
+</li>
+<li><p>存放Page<strong>自身的成员变量</strong>和<code>autorelease对象</code></p>
+</li>
+<li><p>Page自身是<strong>栈</strong>结构</p>
+</li>
+<li><p>Page与Page之间通过<code>parent</code>和<code>child</code>指针连接成双向链表</p>
+<img src="/2020/05/03/iOS%E4%B9%8BAutoreleasePool/AutoreleasePoolPage.png" class="" title="AutoreleasePoolPage结构"></li>
+</ul>
+<p><strong><code>AutoreleasePool</code>的实现原理：</strong></p>
+<p><code>AutoreleasePool</code>底层是个结构体<code>__AtAutoreleasePool</code>，包含有<code>push</code>和<code>pop</code>两个方法（<code>objc_autoreleasePoolPush</code>和<code>objc_autoreleasePoolPop</code>）：</p>
+<ul>
+<li><code>@autoreleasePool</code>开始的位置，调用<code>push()</code>方法：该方法返回一个地址值<code>PoolBoundary</code>，表示autoreleasePoolPage中存放<code>autorelease对象</code>的起始位置（也就是从PoolBoundary下一个位置开始存对象）；</li>
+<li>在<code>@autoreleasePool</code>结束的位置，调用<code>pop(address)</code>方法：该传入<strong>PoolBoundary</strong>，表示从<code>AutoreleasePoolPage</code>栈顶开始，向栈上的<code>autorelease对象</code>发送<code>release消息</code>，直到遇到<strong>PoolBoundary</strong>为止，表示当前这个autoreleasePool中的<code>autorelease对象</code>已被释放完毕。</li>
+</ul>
+<h2 id="RunLoop和Autorelease"><a href="#RunLoop和Autorelease" class="headerlink" title="RunLoop和Autorelease"></a>RunLoop和Autorelease</h2><p><strong>autorelease对象是什么时候调用release方法的？</strong></p>
+<p>iOS在主线程的RunLoop注册了两个Observer：</p>
+<p>第一个Observer：监听了<code>kCFRunLoopEntry</code>事件，会调用<code>objc_autoreleasePoolPush()</code></p>
+<p>第二个Observer：</p>
+<ul>
+<li>监听了<code>kCFRunLoopBeforeWaiting</code>事件，监听到事件时会调用<code>objc_autoreleasePoolPop()</code>和<code>objc_autoreleasePoolPush()</code>方法</li>
+<li>监听了<code>kCFRunLoopExit</code>事件，监听到事件时会调用<code>objc_autoreleasePoolPop()</code></li>
+</ul>
+<p>所以在RunLoop进入<strong>休眠状态</strong>或<strong>退出</strong>时会对<code>autorelease对象</code>发送<code>release消息</code>。</p>
+<p>方法内部的局部对象，出了方法后会立即释放吗？</p>
+<ul>
+<li>会</li>
+<li>在ARC中，如果在某个方法内创建了一个对象，前端编译器会在方法末尾自动插入release语句以销毁它</li>
+</ul>
+
       
     </div>
 
@@ -1013,101 +1123,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/03/05/LeetCode-56-%E5%90%88%E5%B9%B6%E5%8C%BA%E9%97%B4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/03/04/LeetCode-300-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/03/04/LeetCode-300-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/" class="post-title-link" itemprop="url">LeetCode-300.最长递增子序列</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-03-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-04T00:00:00+08:00">2020-03-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。</p>
-<p>子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，<code>[3,6,2,7]</code> 是数组 <code>[0,3,1,6,2,2,7]</code> 的子序列。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">10</span>,<span class="number">9</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">101</span>,<span class="number">18</span>]</span><br><span class="line">输出：<span class="number">4</span></span><br><span class="line">解释：最长递增子序列是 [<span class="number">2</span>,<span class="number">3</span>,<span class="number">7</span>,<span class="number">101</span>]，因此长度为 <span class="number">4</span> <span class="operator">。</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums <span class="operator">=</span> [<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">输出：<span class="number">4</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>提示：</strong></p>
-<ul>
-<li><code>1 &lt;= nums.length &lt;= 2500</code></li>
-<li><code>-104 &lt;= nums[i] &lt;= 104</code></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/04/LeetCode-300-%E6%9C%80%E9%95%BF%E9%80%92%E5%A2%9E%E5%AD%90%E5%BA%8F%E5%88%97/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
