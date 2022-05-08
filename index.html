@@ -524,7 +524,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><code>AutoreleasePool</code>底层涉及的数据结构：<code>__AtAutoreleasePool</code>和<code>AutoreleasePoolPage</code></p>
+          <p>AutoreleasePool底层涉及的数据结构：<code>__AtAutoreleasePool</code>和<code>AutoreleasePoolPage</code></p>
 <p>调用了<code>autorelease</code>的对象最终都是通过<code>AutoreleasePoolPage</code>对象来管理的。</p>
 <p><strong><code>AutoreleasePoolPage</code>结构</strong></p>
 <ul>
@@ -535,29 +535,15 @@
 <li><p>Page自身是<strong>栈</strong>结构</p>
 </li>
 <li><p>Page与Page之间通过<code>parent</code>和<code>child</code>指针连接成双向链表</p>
-<img src="/2020/05/03/iOS%E4%B9%8BAutoreleasePool/AutoreleasePoolPage.png" class="" title="AutoreleasePoolPage结构"></li>
-</ul>
-<p><strong><code>AutoreleasePool</code>的实现原理：</strong></p>
-<p><code>AutoreleasePool</code>底层是个结构体<code>__AtAutoreleasePool</code>，包含有<code>push</code>和<code>pop</code>两个方法（<code>objc_autoreleasePoolPush</code>和<code>objc_autoreleasePoolPop</code>）：</p>
-<ul>
-<li><code>@autoreleasePool</code>开始的位置，调用<code>push()</code>方法：该方法返回一个地址值<code>PoolBoundary</code>，表示autoreleasePoolPage中存放<code>autorelease对象</code>的起始位置（也就是从PoolBoundary下一个位置开始存对象）；</li>
-<li>在<code>@autoreleasePool</code>结束的位置，调用<code>pop(address)</code>方法：该传入<strong>PoolBoundary</strong>，表示从<code>AutoreleasePoolPage</code>栈顶开始，向栈上的<code>autorelease对象</code>发送<code>release消息</code>，直到遇到<strong>PoolBoundary</strong>为止，表示当前这个autoreleasePool中的<code>autorelease对象</code>已被释放完毕。</li>
-</ul>
-<h2 id="RunLoop和Autorelease"><a href="#RunLoop和Autorelease" class="headerlink" title="RunLoop和Autorelease"></a>RunLoop和Autorelease</h2><p><strong>autorelease对象是什么时候调用release方法的？</strong></p>
-<p>iOS在主线程的RunLoop注册了两个Observer：</p>
-<p>第一个Observer：监听了<code>kCFRunLoopEntry</code>事件，会调用<code>objc_autoreleasePoolPush()</code></p>
-<p>第二个Observer：</p>
-<ul>
-<li>监听了<code>kCFRunLoopBeforeWaiting</code>事件，监听到事件时会调用<code>objc_autoreleasePoolPop()</code>和<code>objc_autoreleasePoolPush()</code>方法</li>
-<li>监听了<code>kCFRunLoopExit</code>事件，监听到事件时会调用<code>objc_autoreleasePoolPop()</code></li>
-</ul>
-<p>所以在RunLoop进入<strong>休眠状态</strong>或<strong>退出</strong>时会对<code>autorelease对象</code>发送<code>release消息</code>。</p>
-<p>方法内部的局部对象，出了方法后会立即释放吗？</p>
-<ul>
-<li>会</li>
-<li>在ARC中，如果在某个方法内创建了一个对象，前端编译器会在方法末尾自动插入release语句以销毁它</li>
-</ul>
-
+<img src="/2020/05/03/iOS%E4%B9%8BAutoreleasePool/AutoreleasePoolPage.png" class="" title="AutoreleasePoolPage结构">
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/03/iOS%E4%B9%8BAutoreleasePool/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

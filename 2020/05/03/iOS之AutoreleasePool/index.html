@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhengry.github.io/2020/05/03/iOS%E4%B9%8BAutoreleasePool/AutoreleasePoolPage.png">
 <meta property="article:published_time" content="2020-05-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-08T14:15:55.101Z">
+<meta property="article:modified_time" content="2022-05-08T14:29:34.000Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="内存管理">
 <meta name="twitter:card" content="summary">
@@ -247,7 +247,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><code>AutoreleasePool</code>底层涉及的数据结构：<code>__AtAutoreleasePool</code>和<code>AutoreleasePoolPage</code></p>
+        <p>AutoreleasePool底层涉及的数据结构：<code>__AtAutoreleasePool</code>和<code>AutoreleasePoolPage</code></p>
 <p>调用了<code>autorelease</code>的对象最终都是通过<code>AutoreleasePoolPage</code>对象来管理的。</p>
 <p><strong><code>AutoreleasePoolPage</code>结构</strong></p>
 <ul>
@@ -258,13 +258,15 @@
 <li><p>Page自身是<strong>栈</strong>结构</p>
 </li>
 <li><p>Page与Page之间通过<code>parent</code>和<code>child</code>指针连接成双向链表</p>
-<img src="/2020/05/03/iOS%E4%B9%8BAutoreleasePool/AutoreleasePoolPage.png" class="" title="AutoreleasePoolPage结构"></li>
+<img src="/2020/05/03/iOS%E4%B9%8BAutoreleasePool/AutoreleasePoolPage.png" class="" title="AutoreleasePoolPage结构">
+
+<span id="more"></span></li>
 </ul>
-<p><strong><code>AutoreleasePool</code>的实现原理：</strong></p>
-<p><code>AutoreleasePool</code>底层是个结构体<code>__AtAutoreleasePool</code>，包含有<code>push</code>和<code>pop</code>两个方法（<code>objc_autoreleasePoolPush</code>和<code>objc_autoreleasePoolPop</code>）：</p>
+<p><strong>AutoreleasePool的实现原理：</strong></p>
+<p>AutoreleasePool底层是个结构体<code>__AtAutoreleasePool</code>，包含有<code>push</code>和<code>pop</code>两个方法（<code>objc_autoreleasePoolPush</code>和<code>objc_autoreleasePoolPop</code>）：</p>
 <ul>
 <li><code>@autoreleasePool</code>开始的位置，调用<code>push()</code>方法：该方法返回一个地址值<code>PoolBoundary</code>，表示autoreleasePoolPage中存放<code>autorelease对象</code>的起始位置（也就是从PoolBoundary下一个位置开始存对象）；</li>
-<li>在<code>@autoreleasePool</code>结束的位置，调用<code>pop(address)</code>方法：该传入<strong>PoolBoundary</strong>，表示从<code>AutoreleasePoolPage</code>栈顶开始，向栈上的<code>autorelease对象</code>发送<code>release消息</code>，直到遇到<strong>PoolBoundary</strong>为止，表示当前这个autoreleasePool中的<code>autorelease对象</code>已被释放完毕。</li>
+<li>在<code>@autoreleasePool</code>结束的位置，调用<code>pop(address)</code>方法：该方法入参<strong>PoolBoundary</strong>，表示从<code>AutoreleasePoolPage</code>栈顶开始，向栈上的<code>autorelease对象</code>发送<code>release消息</code>，直到遇到<strong>PoolBoundary</strong>为止，表示当前这个autoreleasePool中的<code>autorelease对象</code>已被释放完毕。</li>
 </ul>
 <h2 id="RunLoop和Autorelease"><a href="#RunLoop和Autorelease" class="headerlink" title="RunLoop和Autorelease"></a>RunLoop和Autorelease</h2><p><strong>autorelease对象是什么时候调用release方法的？</strong></p>
 <p>iOS在主线程的RunLoop注册了两个Observer：</p>
