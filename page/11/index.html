@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">179</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">180</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">179</span>
+          <span class="site-state-item-count">180</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,96 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/10/25/iOS%E4%B8%ADstatusBar%E6%A0%B7%E5%BC%8F%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/10/25/iOS%E4%B8%ADstatusBar%E6%A0%B7%E5%BC%8F%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">iOS中statusBar样式设置问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-25 00:00:00" itemprop="dateCreated datePublished" datetime="2018-10-25T00:00:00+08:00">2018-10-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h4><p>整体Style 为lightContent样式，这些页面通常是navigationcontroller的子控制器，通常使用push方式；个别页面为default样式，这些页面使用present或push方法弹出。</p>
+<p>App页面中的StatusBarStyle整体一个样式，个别页面一个样式时，实现方式有两种：</p>
+<h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><ol>
+<li><p>plist中设置<code>Status bar style</code>为<code>lightContent</code>，设置<code>View controller-based status bar appearance</code>为<code>YES</code></p>
+</li>
+<li><p>扩展或在自定义navigationBarController中实现两个方法如下：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/10/25/iOS%E4%B8%ADstatusBar%E6%A0%B7%E5%BC%8F%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1125,98 +1215,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/05/01/AFNetworking%E7%9A%84%E7%89%B9%E6%AE%8A%E8%AE%BE%E7%BD%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/05/01/iOS%E4%B9%8B%E8%AE%BE%E5%A4%87%E6%96%B9%E5%90%91%E4%B8%8E%E5%8A%A8%E4%BD%9C%E6%96%B9%E5%90%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/05/01/iOS%E4%B9%8B%E8%AE%BE%E5%A4%87%E6%96%B9%E5%90%91%E4%B8%8E%E5%8A%A8%E4%BD%9C%E6%96%B9%E5%90%91/" class="post-title-link" itemprop="url">iOS之设备方向与动作方向</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-05-01 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-01T00:00:00+08:00">2018-05-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>加速计物理特性</p>
-<p>iOS设备内的加速计是个三轴元件，能够检测到三维空间中的运动或重力。也就是说，加速计不但可以指示用户握持设备的方式（同自动旋转功能），而且可以指示设备是否被放在桌子上，甚至指示正面朝上还是朝下。加速计可以测量重力。加速计返回值为1.0时，表示在特定方向上感知到的重力是1g。</p>
-<ul>
-<li>静止握持设备，没有任何运动，地球引力对其施加的力大约为1g</li>
-<li>纵向竖直地握持，那么设备会检测并报告在其y轴上的力大约为1g</li>
-<li>如果以一定角度握持，那么1g的力会分布到不同的轴上，这取决于握持的方式。在以45度角握持时，1g的力会均匀地分解到两个轴上。</li>
-</ul>
-<p>如果检测到的加速计值远大于1g，那么可以判断这是突然运动。正常使用时，加速计在任一轴上都不会检测到大于1g的值。如果摇动、投掷或设备坠落，那么加速计便会在一个或多个轴上检测到很大的力。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/05/01/iOS%E4%B9%8B%E8%AE%BE%E5%A4%87%E6%96%B9%E5%90%91%E4%B8%8E%E5%8A%A8%E4%BD%9C%E6%96%B9%E5%90%91/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

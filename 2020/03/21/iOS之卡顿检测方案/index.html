@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="卡顿检测的方案根据线程是否相关分为两大类：  检测任务耗时 检测主线程是否能响应任务  与主线程相关的检测方案：  fps ping RunLoop  与主线程不相关的检测方案：  stack backtrace msgSend Observe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS之卡顿检测方案">
+<meta property="og:url" content="https://zhengry.github.io/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="卡顿检测的方案根据线程是否相关分为两大类：  检测任务耗时 检测主线程是否能响应任务  与主线程相关的检测方案：  fps ping RunLoop  与主线程不相关的检测方案：  stack backtrace msgSend Observe">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengry.github.io/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/%E7%BE%8E%E5%9B%A2hertz%E6%96%B9%E6%A1%88.png">
+<meta property="article:published_time" content="2020-03-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-05-09T03:37:54.964Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengry.github.io/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/%E7%BE%8E%E5%9B%A2hertz%E6%96%B9%E6%A1%88.png">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/","path":"2020/03/21/iOS之卡顿检测方案/","title":"iOS之卡顿检测方案"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS之卡顿检测方案 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">180</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FPS%E7%9B%91%E6%B5%8B"><span class="nav-number">1.</span> <span class="nav-text">FPS监测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ping"><span class="nav-number">2.</span> <span class="nav-text">Ping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#runloop"><span class="nav-number">3.</span> <span class="nav-text">runloop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stack-backtrace"><span class="nav-number">4.</span> <span class="nav-text">stack backtrace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#msgSend-observe"><span class="nav-number">5.</span> <span class="nav-text">msgSend observe</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">180</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS之卡顿检测方案 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS之卡顿检测方案
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-21 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-21T00:00:00+08:00">2020-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>卡顿检测的方案根据线程是否相关分为两大类：</p>
+<ul>
+<li>检测任务耗时</li>
+<li>检测主线程是否能响应任务</li>
+</ul>
+<p>与主线程相关的检测方案：</p>
+<ul>
+<li>fps</li>
+<li>ping</li>
+<li>RunLoop</li>
+</ul>
+<p>与主线程不相关的检测方案：</p>
+<ul>
+<li>stack backtrace</li>
+<li>msgSend Observe</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="FPS监测"><a href="#FPS监测" class="headerlink" title="FPS监测"></a>FPS监测</h2><p>原理：</p>
+<ol>
+<li>通常情况下，屏幕会保持<code>60hz/s</code>的刷新速度。</li>
+<li>每次刷新时会发出一个屏幕刷新信号，<code>CADisplayLink</code>允许我们注册一个与刷新信号同步的回调处理。</li>
+<li>记录上次计算<code>fps</code>的时间，计算本次回调的时间和上次计算时间间隔<code>interval</code>，计算fps：<code>fps = 1 / interval</code></li>
+<li>每次计算<code>fps</code>的同时，更新上次计算<code>fps</code>时间为当前时间，开始新一轮的记录。</li>
+</ol>
+<p>获取fps：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)startFpsMonitoring &#123;</span><br><span class="line">    WeakProxy *proxy = [WeakProxy proxyWithClient: <span class="keyword">self</span>];</span><br><span class="line">    <span class="keyword">self</span>.fpsDisplay = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget: proxy selector: <span class="keyword">@selector</span>(tick:)];</span><br><span class="line">    [<span class="keyword">self</span>.fpsDisplay addToRunLoop: [<span class="built_in">NSRunLoop</span> mainRunLoop] forMode: <span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="type">void</span>)tick:(<span class="built_in">CADisplayLink</span> *)link</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSTimeInterval</span> deltaTime = link.timestamp - <span class="keyword">self</span>.lastTime;</span><br><span class="line">    <span class="keyword">self</span>.currentFPS = <span class="number">1</span> / deltaTime;</span><br><span class="line">    <span class="keyword">self</span>.lastTime = link.timestamp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Ping"><a href="#Ping" class="headerlink" title="Ping"></a>Ping</h2><p>ping是常用的网络测试工具，用来测试数据包能否到达ip地址。</p>
+<p>大多数手机的屏幕刷新频率是60HZ，如果在 1000&#x2F;60&#x3D;16.67ms 内没有将这一帧的任务执行完毕，就会发生丢帧现象，这便是用户感受到卡顿的原因。</p>
+<p>实现思路：创建一个子线程进行循环检测，每次检测时设置标记位为YES，然后派发任务到主线程中将标记位设置为NO。接着子线程休眠设定的阈值，判断标志位是否成功设置成NO，如果没有说明主线程发生了卡顿。</p>
+<p>主要代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.semaphore = dispatch_semaphore_create(<span class="number">0</span>);</span><br><span class="line">- (<span class="type">void</span>)main &#123;</span><br><span class="line">    <span class="comment">//判断是否需要上报</span></span><br><span class="line">    __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">    <span class="type">void</span> (^ verifyReport)(<span class="type">void</span>) = ^() &#123;</span><br><span class="line">        __<span class="keyword">strong</span> <span class="keyword">typeof</span>(weakSelf) strongSelf = weakSelf;</span><br><span class="line">        <span class="keyword">if</span> (strongSelf.reportInfo.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (strongSelf.handler) &#123;</span><br><span class="line">                <span class="type">double</span> responseTimeValue = floor([[<span class="built_in">NSDate</span> date] timeIntervalSince1970] * <span class="number">1000</span>);</span><br><span class="line">                <span class="type">double</span> duration = responseTimeValue - strongSelf.startTimeValue;</span><br><span class="line">                <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                    <span class="built_in">NSLog</span>(<span class="string">@&quot;卡了%f,堆栈为--%@&quot;</span>, duration, strongSelf.reportInfo);</span><br><span class="line">                &#125;</span><br><span class="line">                strongSelf.handler(@&#123;</span><br><span class="line">                    <span class="string">@&quot;title&quot;</span>: [InsectUtil dateFormatNow].length &gt; <span class="number">0</span> ? [InsectUtil dateFormatNow] : <span class="string">@&quot;&quot;</span>,</span><br><span class="line">                    <span class="string">@&quot;duration&quot;</span>: [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%.2f&quot;</span>,duration],</span><br><span class="line">                    <span class="string">@&quot;content&quot;</span>: strongSelf.reportInfo</span><br><span class="line">                                   &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            strongSelf.reportInfo = <span class="string">@&quot;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (!<span class="keyword">self</span>.cancelled) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_isApplicationInActive) &#123;</span><br><span class="line">            <span class="keyword">self</span>.mainThreadBlock = <span class="literal">YES</span>;</span><br><span class="line">            <span class="keyword">self</span>.reportInfo = <span class="string">@&quot;&quot;</span>;</span><br><span class="line">            <span class="keyword">self</span>.startTimeValue = floor([[<span class="built_in">NSDate</span> date] timeIntervalSince1970] * <span class="number">1000</span>);</span><br><span class="line">            <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                <span class="keyword">self</span>.mainThreadBlock = <span class="literal">NO</span>;</span><br><span class="line">                dispatch_semaphore_signal(<span class="keyword">self</span>.semaphore);</span><br><span class="line">            &#125;);</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:(<span class="keyword">self</span>.threshold/<span class="number">1000</span>)];</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">self</span>.isMainThreadBlock) &#123;</span><br><span class="line">                <span class="keyword">self</span>.reportInfo = [InsectBacktraceLogger insect_backtraceOfMainThread];</span><br><span class="line">            &#125;</span><br><span class="line">            dispatch_semaphore_wait(<span class="keyword">self</span>.semaphore, DISPATCH_TIME_FOREVER);</span><br><span class="line">            <span class="comment">//卡顿超时情况;</span></span><br><span class="line">            verifyReport();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:(<span class="keyword">self</span>.threshold/<span class="number">1000</span>)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>美团<strong>Hertz实现思路：</strong></p>
+<p><strong>检测主线程每次执行消息循环的时间，当这一时间大于阈值时，就记为发生一次卡顿。</strong></p>
+<img src="/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/%E7%BE%8E%E5%9B%A2hertz%E6%96%B9%E6%A1%88.png" class="" title="美团hertz方案">
+
+<h2 id="runloop"><a href="#runloop" class="headerlink" title="runloop"></a>runloop</h2><p>RunLoop在<code>BeforeSources</code>和<code>AfterWaiting</code>后会进行任务的处理。可以在此时阻塞监控线程并设置超时时间，若超时后RunLoop的状态仍为RunLoop在<code>BeforeSources</code>或<code>AfterWaiting</code>，表明此时RunLoop仍然在处理任务，主线程发生了卡顿。</p>
+<ol>
+<li>我们需要创建一个 <code>CFRunLoopObserverContext</code> 观察者，且创建一个 <code>Observer</code>，并监控主线程状态的变化</li>
+<li>这个<code>Observer</code>会监听 <code>kCFRunLoopAllActivities</code>（所有状态改变），并在状态改变时执行 <code>runLoopObserverCallBack</code> 中的代码。</li>
+<li>创建一个子线程，使用while循环保活，并通过信号量阻塞该线程</li>
+<li>如果各状态切换没有发生阻塞，那么会及时发出信号量的激活信号，代码继续执行，不视为卡顿。反之各状态耗时过长，没有及时发出信号，则视为发生卡顿。</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)beginMonitor &#123;</span><br><span class="line">    <span class="keyword">self</span>.dispatchSemaphore = dispatch_semaphore_create(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 第一个监控，监控是否处于 运行状态</span></span><br><span class="line">    <span class="built_in">CFRunLoopObserverContext</span> context = &#123;<span class="number">0</span>, (__bridge <span class="type">void</span> *) <span class="keyword">self</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>&#125;;</span><br><span class="line">    <span class="keyword">self</span>.runLoopBeginObserver = <span class="built_in">CFRunLoopObserverCreate</span>(kCFAllocatorDefault,</span><br><span class="line">                                                        kCFRunLoopAllActivities,</span><br><span class="line">                                                        <span class="literal">YES</span>,</span><br><span class="line">                                                        LONG_MIN,</span><br><span class="line">                                                        &amp;myRunLoopBeginCallback,</span><br><span class="line">                                                        &amp;context);</span><br><span class="line">    <span class="comment">//  第二个监控，监控是否处于 睡眠状态</span></span><br><span class="line">    <span class="keyword">self</span>.runLoopEndObserver = <span class="built_in">CFRunLoopObserverCreate</span>(kCFAllocatorDefault,</span><br><span class="line">                                                      kCFRunLoopAllActivities,</span><br><span class="line">                                                      <span class="literal">YES</span>,</span><br><span class="line">                                                      LONG_MAX,</span><br><span class="line">                                                      &amp;myRunLoopEndCallback,</span><br><span class="line">                                                      &amp;context);</span><br><span class="line">    <span class="built_in">CFRunLoopAddObserver</span>(<span class="built_in">CFRunLoopGetMain</span>(), <span class="keyword">self</span>.runLoopBeginObserver, kCFRunLoopCommonModes);</span><br><span class="line">    <span class="built_in">CFRunLoopAddObserver</span>(<span class="built_in">CFRunLoopGetMain</span>(), <span class="keyword">self</span>.runLoopEndObserver, kCFRunLoopCommonModes);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建子线程监控</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">        <span class="comment">//子线程开启一个持续的loop用来进行监控</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">YES</span>) &#123;</span><br><span class="line">            <span class="type">long</span> semaphoreWait = dispatch_semaphore_wait(<span class="keyword">self</span>.dispatchSemaphore, dispatch_time(DISPATCH_TIME_NOW, <span class="number">17</span> * <span class="built_in">NSEC_PER_MSEC</span>));</span><br><span class="line">            <span class="keyword">if</span> (semaphoreWait != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!<span class="keyword">self</span>.runLoopBeginObserver || !<span class="keyword">self</span>.runLoopEndObserver) &#123;</span><br><span class="line">                    <span class="keyword">self</span>.timeoutCount = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">self</span>.dispatchSemaphore = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">self</span>.runLoopBeginActivity = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">self</span>.runLoopEndActivity = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">// 两个runloop的状态，BeforeSources和AfterWaiting这两个状态区间时间能够检测到是否卡顿</span></span><br><span class="line">                <span class="keyword">if</span> ((<span class="keyword">self</span>.runLoopBeginActivity == kCFRunLoopBeforeSources || <span class="keyword">self</span>.runLoopBeginActivity == kCFRunLoopAfterWaiting) ||</span><br><span class="line">                    (<span class="keyword">self</span>.runLoopEndActivity == kCFRunLoopBeforeSources || <span class="keyword">self</span>.runLoopEndActivity == kCFRunLoopAfterWaiting)) &#123;</span><br><span class="line">                    </span><br><span class="line">                    <span class="keyword">if</span> (++<span class="keyword">self</span>.timeoutCount &lt; <span class="number">3</span>) &#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">										<span class="comment">// 每监控到三次卡顿，就上报</span></span><br><span class="line">                    <span class="built_in">NSLog</span>(<span class="string">@&quot;调试：监测到卡顿&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">self</span>.timeoutCount = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 第一个监控，监控是否处于 运行状态</span></span><br><span class="line"><span class="type">void</span> myRunLoopBeginCallback(<span class="built_in">CFRunLoopObserverRef</span> observer, <span class="built_in">CFRunLoopActivity</span> activity, <span class="type">void</span> *info) &#123;</span><br><span class="line">    RunLoopMonitor2* lagMonitor = (__bridge RunLoopMonitor2 *)info;</span><br><span class="line">    lagMonitor.runLoopBeginActivity = activity;</span><br><span class="line">    dispatch_semaphore_t semaphore = lagMonitor.dispatchSemaphore;</span><br><span class="line">    dispatch_semaphore_signal(semaphore); <span class="comment">// 发出信号</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//  第二个监控，监控是否处于 休眠状态</span></span><br><span class="line"><span class="type">void</span> myRunLoopEndCallback(<span class="built_in">CFRunLoopObserverRef</span> observer, <span class="built_in">CFRunLoopActivity</span> activity, <span class="type">void</span> *info) &#123;</span><br><span class="line">    RunLoopMonitor2* lagMonitor = (__bridge RunLoopMonitor2 *)info;</span><br><span class="line">    lagMonitor.runLoopEndActivity = activity;</span><br><span class="line">    dispatch_semaphore_t semaphore = lagMonitor.dispatchSemaphore;</span><br><span class="line">    dispatch_semaphore_signal(semaphore);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="stack-backtrace"><a href="#stack-backtrace" class="headerlink" title="stack backtrace"></a>stack backtrace</h2><p>代码质量不够好的方法可能会在一段时间内持续占用<code>CPU</code>的资源。</p>
+<p>如果在一段时间内，调用栈总是停留在执行某个地址指令的状态。由于函数调用会发生入栈行为，比对两次调用栈的符号信息，如果前者是后者的符号子集时，可以认为出现了<code>卡顿</code>：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">StackBacktrace</span> : <span class="title">NSThread</span></span></span><br><span class="line">......</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">StackBacktrace</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)main &#123;</span><br><span class="line">    [<span class="keyword">self</span> backtraceStack];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)backtraceStack &#123;</span><br><span class="line">    <span class="keyword">while</span> (!<span class="keyword">self</span>.cancelled) &#123;</span><br><span class="line">        <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">            <span class="built_in">NSSet</span> *curSymbols = [<span class="built_in">NSSet</span> setWithArray: [StackBacktrace backtraceMainThread]];</span><br><span class="line">            <span class="keyword">if</span> ([_saveSymbols isSubsetOfSet: curSymbols]) &#123;</span><br><span class="line">                ......</span><br><span class="line">            &#125;</span><br><span class="line">            _saveSymbols = curSymbols;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval: _interval];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="msgSend-observe"><a href="#msgSend-observe" class="headerlink" title="msgSend observe"></a>msgSend observe</h2><p><code>OC</code>方法的调用最终转换成<code>objc_msgSend</code>的调用执行，通过在函数前后插入自定义的函数调用，维护一个函数栈结构可以获取每一个<code>OC</code> 方法的调用耗时。这种方式比较适合在开发阶段分析代码是否耗时过长，以进行优化：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> save() \\</span></span><br><span class="line"><span class="meta">__asm volatile ( \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;stp x8, x9, [sp, #-16]!\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;stp x6, x7, [sp, #-16]!\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;stp x4, x5, [sp, #-16]!\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;stp x2, x3, [sp, #-16]!\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;stp x0, x1, [sp, #-16]!\\n&quot;</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> resume() \\</span></span><br><span class="line"><span class="meta">__asm volatile ( \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;ldp x0, x1, [sp], #16\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;ldp x2, x3, [sp], #16\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;ldp x4, x5, [sp], #16\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;ldp x6, x7, [sp], #16\\n&quot;</span> \\</span></span><br><span class="line"><span class="meta">    <span class="string">&quot;ldp x8, x9, [sp], #16\\n&quot;</span> );</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> call(b, value) \\</span></span><br><span class="line"><span class="meta">    __asm volatile (<span class="string">&quot;stp x8, x9, [sp, #-16]!\\n&quot;</span>); \\</span></span><br><span class="line"><span class="meta">    __asm volatile (<span class="string">&quot;mov x12, %0\\n&quot;</span> :: <span class="string">&quot;r&quot;</span>(value)); \\</span></span><br><span class="line"><span class="meta">    __asm volatile (<span class="string">&quot;ldp x8, x9, [sp], #16\\n&quot;</span>); \\</span></span><br><span class="line"><span class="meta">    __asm volatile (#b <span class="string">&quot; x12\\n&quot;</span>);</span></span><br><span class="line"></span><br><span class="line">__attribute__((__naked__)) <span class="function"><span class="type">static</span> <span class="type">void</span> <span class="title">hook_Objc_msgSend</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">save</span>()</span><br><span class="line">    <span class="function">__asm <span class="title">volatile</span> <span class="params">(<span class="string">&quot;mov x2, lr\\n&quot;</span>)</span></span>;</span><br><span class="line">    <span class="function">__asm <span class="title">volatile</span> <span class="params">(<span class="string">&quot;mov x3, x4\\n&quot;</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">call</span>(blr, &amp;push_msgSend)</span><br><span class="line">    <span class="built_in">resume</span>()</span><br><span class="line">    <span class="built_in">call</span>(blr, orig_objc_msgSend)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">save</span>()</span><br><span class="line">    <span class="built_in">call</span>(blr, &amp;pop_msgSend)</span><br><span class="line"></span><br><span class="line">    <span class="function">__asm <span class="title">volatile</span> <span class="params">(<span class="string">&quot;mov lr, x0\\n&quot;</span>)</span></span>;</span><br><span class="line">    <span class="built_in">resume</span>()</span><br><span class="line">    <span class="function">__asm <span class="title">volatile</span> <span class="params">(<span class="string">&quot;ret\\n&quot;</span>)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2020/03/21/iOS%E4%B9%8B%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%E6%96%B9%E6%A1%88/" title="iOS之卡顿检测方案">https://zhengry.github.io/2020/03/21/iOS之卡顿检测方案/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"><i class="fa fa-tag"></i> 性能优化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/07/LeetCode-5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" rel="prev" title="LeetCode-5.最长回文子串">
+                  <i class="fa fa-chevron-left"></i> LeetCode-5.最长回文子串
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/04/16/iOS%E4%B9%8BRuntime/" rel="next" title="iOS之Runtime">
+                  iOS之Runtime <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
