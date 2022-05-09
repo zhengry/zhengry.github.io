@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/block_insert.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/optimize_result.png">
 <meta property="article:published_time" content="2020-07-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-08T10:29:03.414Z">
+<meta property="article:modified_time" content="2022-05-09T06:19:31.899Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="性能优化">
 <meta name="twitter:card" content="summary">
@@ -271,12 +271,17 @@
 </li>
 <li><p>加载dyld，主要分为4步：</p>
 <p>（1）<strong>load dylibs</strong>：这一阶段<code>dyld</code>会分析应用依赖的<code>dylib</code>，找到其<code>Mach-O</code>文件，打开和读取这些文件并验证其有效性，接着会找到代码签名注册到内核，最后对<code>dylib</code>的每一个segment调用<code>mmap()</code>（在Linux中，使用mmap()用来在进程虚拟内存地址空间中分配地址空间，创建和物理内存的映射关系）。</p>
-<p>（2）<strong>rebase&#x2F;bind</strong>：进行rebase指针调整和bind符号绑定。</p>
+<p>（2）<strong>rebase&#x2F;bind</strong>：进行<code>rebase</code>指针调整和<code>bind</code>符号绑定。</p>
 <p>（3）<strong>ObjC setup</strong>：runtime运行时初始化。包括ObjC相关Class的注册、category注册、selector唯一性检查等。<span id="more"></span></p>
 <p>（4）<strong>Initializers</strong>：调用每个ObjC类与分类的<code>+load</code>方法，调用<code>attribute((constructor))</code>修饰的函数、创建C++静态全局变量。</p>
 </li>
 <li><p>main函数执行后：</p>
 <p>从 main 函数执行开始，到 appDelegate 的 <code>didFinishLaunchingWithOptions</code>方法里首屏渲染相关方法执行完成。即，从main函数执行到设置<code>self.window.rootViewController</code>执行完成的阶段</p>
+<p>在<code>dylib</code>的加载过程中系统为了安全考虑引入了<code>ASLR</code>（<code>Address Space Layout Randomization</code>）技术和代码签名。</p>
+<p>ASLR技术：镜像<code>Image</code>、可执行文件、<code>dylib</code>、<code>bundle</code>在加载的时候会在其指向的地址（<code>preferred_address</code>）前面添加一个随机数偏差（<code>slide</code>），防止应用内部地址被定位。</p>
+<p>由于ASLR的存在，镜像（Image，包括可执件、 dylib和bundle）会在随机的地址上加载，和 之前指针指向的地址（<code>preferred_address</code>）会有个偏差（slide）， dyld需要修正这个偏差，来指向正确的 地址。</p>
+<p><code>Rebase</code>做的是将镜像读入内存，修正镜像内部的指针，性能消耗主要在 IO。</p>
+<p><code>Bind</code>做的是查询符号表，设置指向镜像外部的指针，性能消耗主要在CPU计算。</p>
 </li>
 </ol>
 <h2 id="如何测量pre-main阶段的耗时"><a href="#如何测量pre-main阶段的耗时" class="headerlink" title="如何测量pre-main阶段的耗时"></a>如何测量pre-main阶段的耗时</h2><ul>

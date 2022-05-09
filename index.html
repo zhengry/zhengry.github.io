@@ -438,7 +438,7 @@
 </li>
 <li><p>加载dyld，主要分为4步：</p>
 <p>（1）<strong>load dylibs</strong>：这一阶段<code>dyld</code>会分析应用依赖的<code>dylib</code>，找到其<code>Mach-O</code>文件，打开和读取这些文件并验证其有效性，接着会找到代码签名注册到内核，最后对<code>dylib</code>的每一个segment调用<code>mmap()</code>（在Linux中，使用mmap()用来在进程虚拟内存地址空间中分配地址空间，创建和物理内存的映射关系）。</p>
-<p>（2）<strong>rebase&#x2F;bind</strong>：进行rebase指针调整和bind符号绑定。</p>
+<p>（2）<strong>rebase&#x2F;bind</strong>：进行<code>rebase</code>指针调整和<code>bind</code>符号绑定。</p>
 <p>（3）<strong>ObjC setup</strong>：runtime运行时初始化。包括ObjC相关Class的注册、category注册、selector唯一性检查等。
           <!--noindex-->
             <div class="post-button">
