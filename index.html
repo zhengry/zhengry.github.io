@@ -426,7 +426,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="swift的派发机制"><a href="#swift的派发机制" class="headerlink" title="swift的派发机制"></a>swift的派发机制</h1><h2 id="静态派发-vs-动态派发"><a href="#静态派发-vs-动态派发" class="headerlink" title="静态派发 vs 动态派发"></a>静态派发 vs 动态派发</h2><p>根据函数调用能否在编译时或运行时确定，可以将派发机制分成两种类型：</p>
+          <h2 id="静态派发-vs-动态派发"><a href="#静态派发-vs-动态派发" class="headerlink" title="静态派发 vs 动态派发"></a>静态派发 vs 动态派发</h2><p>根据函数调用能否在编译时或运行时确定，可以将派发机制分成两种类型：</p>
 <ul>
 <li><code>静态派发</code>：在编译期的时候，编译器就知道要为某个方法调用某种实现。因此, 编译器可以执行某些优化，甚至在可能的情况下，可以将某些代码转换成<code>inline</code>函数，从而使整体执行速度异常快。</li>
 <li><code>动态派发</code>：一定量的运行时开销为代价，提高了语言的灵活性。在动态派发机制下，对于每个方法的调用，编译器必须在方法列表(<code>witness table</code>或<code>virtial table</code>)中查找执行方法的实现，如在运行时判断选择父类的实现，还是子类的实现。由于对象的内存都是在运行时分配的，因此只能在运行时执行检查。</li>
