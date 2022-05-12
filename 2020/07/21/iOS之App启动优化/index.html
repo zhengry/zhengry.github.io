@@ -30,10 +30,10 @@
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/launch_print.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/launch_print_info.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/launch_print_info_detail.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/page_fault.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/system_trace1.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/system_trace2.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/system_trace3.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/page_fault.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/txt_path.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/file_order.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/symbols_path.png">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/block_insert.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/optimize_result.png">
 <meta property="article:published_time" content="2020-07-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-09T06:19:31.899Z">
+<meta property="article:modified_time" content="2022-05-12T16:20:28.993Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="性能优化">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基本知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%AF%8F%E4%B8%AA%E9%98%B6%E6%AE%B5%E5%81%9A%E4%BA%86%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text">分析每个阶段做了做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%B5%8B%E9%87%8Fpre-main%E9%98%B6%E6%AE%B5%E7%9A%84%E8%80%97%E6%97%B6"><span class="nav-number">3.</span> <span class="nav-text">如何测量pre-main阶段的耗时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">我们可以做哪些优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%BA%93%E4%BC%98%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">动态库优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">iOS系统的内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92"><span class="nav-number">7.</span> <span class="nav-text">二进制重排</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">基本知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%AF%8F%E4%B8%AA%E9%98%B6%E6%AE%B5%E5%81%9A%E4%BA%86%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text">分析每个阶段做了做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%B5%8B%E9%87%8Fpre-main%E9%98%B6%E6%AE%B5%E7%9A%84%E8%80%97%E6%97%B6"><span class="nav-number">3.</span> <span class="nav-text">如何测量pre-main阶段的耗时</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">我们可以做哪些优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%BA%93%E4%BC%98%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">动态库优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92"><span class="nav-number">6.</span> <span class="nav-text">二进制重排</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E9%87%8D%E6%8E%92%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">6.1.</span> <span class="nav-text">二进制重排是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%9F%A5%E8%AF%86%EF%BC%9A%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E6%8A%80%E6%9C%AF"><span class="nav-number">6.2.</span> <span class="nav-text">准备知识：虚拟内存技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E7%BF%BB%E8%AF%91"><span class="nav-number">6.2.1.</span> <span class="nav-text">地址翻译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Page-Fault"><span class="nav-number">6.2.2.</span> <span class="nav-text">Page Fault</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%B5%8BPage-Fault"><span class="nav-number">6.3.</span> <span class="nav-text">检测Page Fault</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E7%9F%A5%E9%81%93%E6%96%B9%E6%B3%95%E7%AC%A6%E5%8F%B7%E7%9A%84%E9%A1%BA%E5%BA%8F%EF%BC%9F"><span class="nav-number">6.4.</span> <span class="nav-text">怎么知道方法符号的顺序？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A0%B9%E6%8D%AE%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%BF%9B%E8%A1%8C%E6%8E%92%E5%BA%8F"><span class="nav-number">6.5.</span> <span class="nav-text">怎么根据符号表进行排序</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -279,7 +279,7 @@
 <p>从 main 函数执行开始，到 appDelegate 的 <code>didFinishLaunchingWithOptions</code>方法里首屏渲染相关方法执行完成。即，从main函数执行到设置<code>self.window.rootViewController</code>执行完成的阶段</p>
 <p>在<code>dylib</code>的加载过程中系统为了安全考虑引入了<code>ASLR</code>（<code>Address Space Layout Randomization</code>）技术和代码签名。</p>
 <p>ASLR技术：镜像<code>Image</code>、可执行文件、<code>dylib</code>、<code>bundle</code>在加载的时候会在其指向的地址（<code>preferred_address</code>）前面添加一个随机数偏差（<code>slide</code>），防止应用内部地址被定位。</p>
-<p>由于ASLR的存在，镜像（Image，包括可执件、 dylib和bundle）会在随机的地址上加载，和 之前指针指向的地址（<code>preferred_address</code>）会有个偏差（slide）， dyld需要修正这个偏差，来指向正确的 地址。</p>
+<p>由于ASLR的存在，镜像（Image，包括可执件文件、 dylib和bundle）会在随机的地址上加载，和之前指针指向的地址（<code>preferred_address</code>）会有个偏差（slide）， dyld需要修正这个偏差，来指向正确的地址。</p>
 <p><code>Rebase</code>做的是将镜像读入内存，修正镜像内部的指针，性能消耗主要在 IO。</p>
 <p><code>Bind</code>做的是查询符号表，设置指向镜像外部的指针，性能消耗主要在CPU计算。</p>
 </li>
@@ -301,7 +301,7 @@
 <li>尽可能少使用静态初始化器(static修饰)。比如，Swift全局变量在使用前确保被初始化但不使用初始化器，而是在需要的时候使用<code>dispatch_once</code>；</li>
 <li>减少<code>load()</code>方法，或者不在它内部做耗时操作，尽量放到<code>initialize()</code>方法或者首屏渲染完成后再执行；</li>
 <li>减少加载启动后不会去使用的类或方法；少用C++全局变量；</li>
-<li>main()函数之后的操作中，除了首屏展示内容和必要的配置外，尽量延后其他操作。</li>
+<li><code>main()</code>函数之后的操作中，除了首屏展示内容和必要的配置外，尽量延后其他操作。</li>
 </ol>
 <h2 id="动态库优化"><a href="#动态库优化" class="headerlink" title="动态库优化"></a>动态库优化</h2><p>因为项目中集成了Swift的三方库，而Apple没有实现构建和链接具有Swift代码的静态库，所以必须使用<code>use_framework!</code>。</p>
 <p>因为Podfile中<code>use_framework!</code>指定项目强制使用动态库的形式加载所有第三方库，所以罪魁祸首就是<code>use_framework!</code>。</p>
@@ -317,27 +317,29 @@
 <p>更新：</p>
 <p>含有Swift代码的应用程序都需要附带特定的动态库版本代码，所以一般包含Swift代码的App的包要比纯OC的包体积大。</p>
 <p>在iOS13的系统上，App内不再包含Swift库，所以整体体积会比iOS13之前的要小。</p>
-<h2 id="iOS系统的内存管理"><a href="#iOS系统的内存管理" class="headerlink" title="iOS系统的内存管理"></a>iOS系统的内存管理</h2><p>iOS系统的内存是分页管理的，映射表不是以字节为单位，而是 <strong>以页为单位</strong>。</p>
+<h2 id="二进制重排"><a href="#二进制重排" class="headerlink" title="二进制重排"></a>二进制重排</h2><h3 id="二进制重排是什么"><a href="#二进制重排是什么" class="headerlink" title="二进制重排是什么"></a>二进制重排是什么</h3><p>由于虚拟内存技术会产生缺页中断（<code>Page Fault</code>），每页耗时有1微秒到0.8毫秒不等。由于启动时加载大量数据，如果产生大量缺页中断，时间叠加后用户会有明显感知。</p>
+<p>二进制重排就是把所有启动时候的代码都放在连续的前几页，这样就很大程度减少了启动时的缺页中断（<code>Page Fault</code>）从而优化启动速度。</p>
+<p>它的核心思想是：重新排列<strong>方法符号的顺序</strong>，将启动相关的方法排在最前面，从而减少<code>Page Fault</code>的数量。</p>
+<img src="/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/page_fault.png" class="" title="page_fault">
+
+<h3 id="准备知识：虚拟内存技术"><a href="#准备知识：虚拟内存技术" class="headerlink" title="准备知识：虚拟内存技术"></a>准备知识：虚拟内存技术</h3><p>系统的内存是分页管理的，映射表不是以字节为单位，而是 <strong>以页为单位</strong>。</p>
 <ul>
 <li><code>Linux</code>以<code>4K</code>为一页</li>
 <li><code>macOS</code>以<code>4K</code>为一页</li>
 <li><code>iOS</code>以<code>16K</code>一页</li>
 </ul>
-<p><strong>虚拟内存技术</strong></p>
 <p>早期的计算机不断启动应用，到达一定数量以后会报错，应用无法正常运行，必须先关闭前面的部分应用才能继续开启。</p>
 <p>这是因为早期计算机没有虚拟地址，一旦加载都会 <strong>全部加载到内存中</strong> 。一旦物理内存不够了，那么应用就无法继续开启。</p>
 <p>应用在内存中的排序都是顺序排列的，这样进程只需要把自己的地址尾部往后偏移一点就能访问到别的进程中的内存地址，相当不安全。</p>
 <p>用户使用时并不会使用到全部内存，如果 <code>App</code> 一启动就全部加载到内存中会浪费很多内存空间。 <strong>虚拟内存技术</strong> 的出现就是为了解决这个内存浪费问题。</p>
 <p><code>App</code> 启动后会认为自己已经获取到整个 <code>App</code> 运行所需的内存空间，但实际上并没有在物理内存上为他申请那么大的空间，只是生成了一张 <strong>虚拟内存和物理内存关联的表</strong> 。</p>
-<p><strong>地址翻译</strong></p>
-<p>当 <code>App</code> 需要使用某一块虚拟内存的地址时，会通过这张表查询该虚拟地址是否已经在物理内存中申请了空间。</p>
+<h4 id="地址翻译"><a href="#地址翻译" class="headerlink" title="地址翻译"></a>地址翻译</h4><p>当 <code>App</code> 需要使用某一块虚拟内存的地址时，会通过这张表查询该虚拟地址是否已经在物理内存中申请了空间。</p>
 <ul>
 <li>如果已经申请了，则通过表的记录访问物理内存地址；</li>
 <li>如果没有申请，则申请一块物理内存空间并记录在表中（<code>Page Fault</code>）。</li>
 </ul>
 <p>这个通过进程映射表映射到不同的物理内存空间的操作叫 <strong>地址翻译</strong> ，这个过程需要 <code>CPU</code> 和操作系统配合。</p>
-<p><strong>Page Fault</strong></p>
-<p>当数据未在物理内存会进行下列操作：</p>
+<h4 id="Page-Fault"><a href="#Page-Fault" class="headerlink" title="Page Fault"></a>Page Fault</h4><p>当数据未在物理内存会进行下列操作：</p>
 <ul>
 <li>系统阻塞该进程</li>
 <li>将磁盘中对应<code>Page</code>的数据加载到内存</li>
@@ -349,11 +351,7 @@
 <li>如果没有就覆盖其他进程的数据</li>
 <li>具体覆盖由操作系统处理</li>
 </ul>
-<h2 id="二进制重排"><a href="#二进制重排" class="headerlink" title="二进制重排"></a>二进制重排</h2><p>虚拟内存技术会产生缺页中断（<code>Page Fault</code>），这个过程是个耗时操作。</p>
-<p>每页耗时也有很大差距，1微秒到0.8毫秒不等。</p>
-<p>使用过程中对这点耗时感觉不明显，但是启动时加载大量数据，如果产生大量缺页中断（<code>Page Fault</code>），时间叠加后用户会有明显感知。</p>
-<p><strong>检测PageFault</strong></p>
-<p>使用Xcode的<code>Instruments</code>工具中的<u>system trace</u>模板</p>
+<h3 id="检测Page-Fault"><a href="#检测Page-Fault" class="headerlink" title="检测Page Fault"></a>检测Page Fault</h3><p>使用Xcode的<code>Instruments</code>工具中的<u>system trace</u>模板</p>
 <ol>
 <li><p>手机连接到电脑</p>
 </li>
@@ -370,15 +368,7 @@
 
 <img src="/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/system_trace3.png" class="" title="system_trace3"></li>
 </ol>
-<p><strong>二进制重排</strong></p>
-<p>概念：把所有启动时候的代码都放在连续的前几页，这样就很大程度减少了启动时的缺页中断（<code>Page Fault</code>）从而优化启动速度。</p>
-<p>核心思想：重新排列<strong>方法符号的顺序</strong>，将启动相关的方法排在最前面，从而减少<code>Page Fault</code>的数量。</p>
-<img src="/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/page_fault.png" class="" title="page_fault">
-
-
-
-<p><strong>怎么知道方法符号的顺序？</strong></p>
-<p>步骤：</p>
+<h3 id="怎么知道方法符号的顺序？"><a href="#怎么知道方法符号的顺序？" class="headerlink" title="怎么知道方法符号的顺序？"></a>怎么知道方法符号的顺序？</h3><p>步骤：</p>
 <ol>
 <li><p>在<code>Xcode</code>的配置中 <code>Target -&gt; Build Setting -&gt; Linking</code>将<code>Write Link Map File</code>设置为<code>YES</code>，编译项目</p>
 </li>
@@ -399,8 +389,7 @@
 <p>Symbols后面是方法的执行顺序：</p>
 <img src="/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/symbols_path.png" class="" title="symbols"></li>
 </ol>
-<p><strong>怎么根据符号表进行排序</strong></p>
-<p><code>Xcode</code>提供了排列符号的设置给开发者，设置 <code>order_file</code> 即可。</p>
+<h3 id="怎么根据符号表进行排序"><a href="#怎么根据符号表进行排序" class="headerlink" title="怎么根据符号表进行排序"></a>怎么根据符号表进行排序</h3><p><code>Xcode</code>提供了排列符号的设置给开发者，设置 <code>order_file</code> 即可。</p>
 <ol>
 <li><p>如何设置<code>order_file</code></p>
 <ol>

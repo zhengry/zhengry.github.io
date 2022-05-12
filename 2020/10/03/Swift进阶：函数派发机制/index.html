@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhengry.github.io/2020/10/03/Swift%E8%BF%9B%E9%98%B6%EF%BC%9A%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/swift-table-dispatch.png">
 <meta property="article:published_time" content="2020-10-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-12T12:06:18.932Z">
+<meta property="article:modified_time" content="2022-05-12T16:03:19.167Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="Runtime">
 <meta name="twitter:card" content="summary">
@@ -118,7 +118,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%B4%BE%E5%8F%91-vs-%E5%8A%A8%E6%80%81%E6%B4%BE%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">静态派发 vs 动态派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%9E%8B%E8%AF%AD%E8%A8%80%E7%9A%84%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">编译型语言的函数派发方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E6%96%B9%E6%B3%95%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">Swift方法派发机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%89%E7%9B%B4%E6%8E%A5%E6%B4%BE%E5%8F%91"><span class="nav-number">3.1.</span> <span class="nav-text">1）直接派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%89%E5%87%BD%E6%95%B0%E8%A1%A8%E6%B4%BE%E5%8F%91"><span class="nav-number">3.2.</span> <span class="nav-text">2）函数表派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%EF%BC%89%E6%B6%88%E6%81%AF%E6%B4%BE%E5%8F%91"><span class="nav-number">3.3.</span> <span class="nav-text">3）消息派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%EF%BC%89%E5%8D%8F%E8%AE%AEProtocol"><span class="nav-number">3.4.</span> <span class="nav-text">4）协议Protocol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%EF%BC%89NSObject%E7%B1%BB"><span class="nav-number">3.5.</span> <span class="nav-text">4）NSObject类</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%B4%BE%E5%8F%91-vs-%E5%8A%A8%E6%80%81%E6%B4%BE%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">静态派发 vs 动态派发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%9E%8B%E8%AF%AD%E8%A8%80%E7%9A%84%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">编译型语言的函数派发方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E6%96%B9%E6%B3%95%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">Swift方法派发机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%B4%BE%E5%8F%91"><span class="nav-number">3.1.</span> <span class="nav-text">直接派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%A1%A8%E6%B4%BE%E5%8F%91"><span class="nav-number">3.2.</span> <span class="nav-text">函数表派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%B4%BE%E5%8F%91"><span class="nav-number">3.3.</span> <span class="nav-text">消息派发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSObject%E7%B1%BB%E7%9A%84%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="nav-number">3.4.</span> <span class="nav-text">NSObject类的派发机制</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -274,9 +274,9 @@
 <p>函数表派发和消息派发属于<code>动态派发</code></p>
 <p>Swift支持上面三种函数派发方式，Swift编译器会根据不同的情况选择不同的派发方式，基于性能考虑优先选择性能高的派发方式。</p>
 <h2 id="Swift方法派发机制"><a href="#Swift方法派发机制" class="headerlink" title="Swift方法派发机制"></a><strong>Swift方法派发机制</strong></h2><p>这里先只讨论纯Swift对象（非继承自NSObject），继承自OC类的比较特殊，放到后面讨论</p>
-<h3 id="1）直接派发"><a href="#1）直接派发" class="headerlink" title="1）直接派发"></a>1）<strong>直接派发</strong></h3><p>在Swift中，下面方法会被编译为直接派发，在ARM64上调用方法会被编译为<code>bl 函数地址</code></p>
+<h3 id="直接派发"><a href="#直接派发" class="headerlink" title="直接派发"></a>直接派发</h3><p>在Swift中，下面方法会被编译为直接派发，在ARM64上调用方法会被编译为<code>bl 函数地址</code></p>
 <ol>
-<li><p><code>全局函数</code></p>
+<li><p>全局函数</p>
 </li>
 <li><p>使用<code>static</code>声明的所有方法</p>
 </li>
@@ -290,27 +290,33 @@
 <li><p><code>extension</code>中没有使用<code>@objc</code>修饰的实例方法</p>
 </li>
 </ol>
-<h3 id="2）函数表派发"><a href="#2）函数表派发" class="headerlink" title="2）函数表派发"></a>2）<strong>函数表派发</strong></h3><p>只有引用类型才支持函数表派发，在Swift中，类的方法默认使用函数派发的方式，Swift的函数表叫<code>witness table</code>（其他语言叫<code>virtual table</code>）</p>
+<h3 id="函数表派发"><a href="#函数表派发" class="headerlink" title="函数表派发"></a>函数表派发</h3><ol>
+<li><p>引用类型的函数派发</p>
+<p>只有引用类型才支持函数表派发，在Swift中，类的方法默认使用函数派发的方式，Swift的函数表叫<code>witness table</code>（其他语言叫<code>virtual table</code>），特点如下：</p>
 <ul>
-<li>每个子类都有它自己的表结构</li>
-<li>对于类中每个重写的方法，都有不同的函数指针</li>
-<li>当子类添加新方法时，这些方法指针会添加在表数组的末尾</li>
-<li>最后，编译器在运行时使用此表来查找调用函数的实现</li>
-</ul>
+<li><p>每个子类都有它自己的表结构</p>
+</li>
+<li><p>对于类中每个重写的方法，都有不同的函数指针</p>
+</li>
+<li><p>当子类添加新方法时，这些方法指针会添加在表数组的末尾</p>
+</li>
+<li><p>最后，编译器在运行时使用此表来查找调用函数的实现</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ParentClass</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">method1</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">method2</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ChildClass</span>: <span class="title class_">ParentClass</span> &#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">func</span> <span class="title function_">method2</span>() &#123;&#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">method3</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj <span class="operator">=</span> <span class="type">ChildClass</span>()</span><br><span class="line">obj.method2()</span><br></pre></td></tr></table></figure>
 
-<p>内存结构示意图：</p>
-<img src="/2020/10/03/Swift%E8%BF%9B%E9%98%B6%EF%BC%9A%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/swift-table-dispatch.png" class="" title="函数派发">
-
-<h3 id="3）消息派发"><a href="#3）消息派发" class="headerlink" title="3）消息派发"></a>3）<strong>消息派发</strong></h3><p>Swift支持和OC混编，支持有限的Runtime运行时（主要是为了和OC混编）；</p>
+<p>上述示例的内存结构示意图：</p>
+<img src="/2020/10/03/Swift%E8%BF%9B%E9%98%B6%EF%BC%9A%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%9C%BA%E5%88%B6/swift-table-dispatch.png" class="" title="函数派发"></li>
+</ul>
+</li>
+<li><p>Protocol的函数派发</p>
+<p>协议所指向的对象，只有在运行时才能确定类型，Swift对于协议默认都使用<code>函数表派发</code>，协议可以为<code>struct</code>提供多态的支持</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Line</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> drawable1: <span class="type">Drawable</span> <span class="operator">=</span> <span class="type">Line</span>()</span><br><span class="line"><span class="keyword">let</span> drawable2: <span class="type">Drawable</span> <span class="operator">=</span> <span class="type">Point</span>()</span><br><span class="line"></span><br><span class="line">drawable1.draw()        <span class="comment">// 使用函数表派发</span></span><br><span class="line">drawable1.draw()        <span class="comment">// 使用函数表派发</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="消息派发"><a href="#消息派发" class="headerlink" title="消息派发"></a>消息派发</h3><p>Swift支持和OC混编，支持有限的Runtime运行时（主要是为了和OC混编）；</p>
 <p>对了纯Swift类，为了可以给OC调用，可以在方法前面加上<code>dynamic</code>来支持消息派发（标记为<code>dynamic</code>的变量&#x2F;函数会隐式的加上<code>@objc</code>关键字）,它会使用OC的Runtime机制：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ParentClass</span> &#123;</span><br><span class="line">    <span class="keyword">dynamic</span> <span class="keyword">func</span> <span class="title function_">method2</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>当消息被派发时，运行时会顺着继承关系向上查找被调用的方法，为了能够提升消息派发的性能，一般都会先查找缓存。</p>
-<h3 id="4）协议Protocol"><a href="#4）协议Protocol" class="headerlink" title="4）协议Protocol"></a>4）<strong>协议Protocol</strong></h3><p>协议所指向的对象，只有在运行时才能确定类型，Swift对于协议默认都使用<code>函数表派发</code>，协议可以为<code>struct</code>提供多态的支持：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protocol</span> <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Line</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>: <span class="title class_">Drawable</span> &#123;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">draw</span>() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> drawable1: <span class="type">Drawable</span> <span class="operator">=</span> <span class="type">Line</span>()</span><br><span class="line"><span class="keyword">let</span> drawable2: <span class="type">Drawable</span> <span class="operator">=</span> <span class="type">Point</span>()</span><br><span class="line"></span><br><span class="line">drawable1.draw()        <span class="comment">// 使用函数表派发</span></span><br><span class="line">drawable1.draw()        <span class="comment">// 使用函数表派发</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4）NSObject类"><a href="#4）NSObject类" class="headerlink" title="4）NSObject类"></a>4）<strong>NSObject类</strong></h3><p>这里指继承自NSObject的类（UIView, UIButton等）</p>
+<h3 id="NSObject类的派发机制"><a href="#NSObject类的派发机制" class="headerlink" title="NSObject类的派发机制"></a>NSObject类的派发机制</h3><p>这里指继承自NSObject的类（UIView, UIButton等）</p>
 <ul>
 <li>对于普通的实例方法，使用函数表派发</li>
 <li>对于使用<code>@objc</code>声明的方法，会暴露给ObjectiveC，在Swift中调用时是函数表派发，在OC中则是消息派发（参考Swift Runtime机制）</li>

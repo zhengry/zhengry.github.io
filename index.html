@@ -526,8 +526,7 @@
 <li>从Swift基类<code>SwiftObject</code>派生的类（<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/main/docs/ABI/TypeLayout.rst">在定义类时没有指定基类时，默认会从基类SwiftObject派生</a>）</li>
 </ul>
 <p>Swift中类的实例对象都是在堆内存中创建的。系统会为类提供一个默认的<code>init</code>构造函数，如果想自定义构造函数，需要重写重载<code>init</code>函数。</p>
-<p>Swift中类的实例对象的构建：</p>
-<ul>
+<h3 id="类的实例对象的构建"><a href="#类的实例对象的构建" class="headerlink" title="类的实例对象的构建"></a>类的实例对象的构建</h3><ul>
 <li><p>不像OC那样将<code>alloc</code>和<code>init</code>分开调用；</p>
 </li>
 <li><p>直接使用 <code>类型(初始化参数)</code> 来完成实例对象的创建：<code>let lily = Person(&quot;Lily&quot;)</code></p>

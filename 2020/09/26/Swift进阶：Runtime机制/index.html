@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Swift类的对象创建和销毁Swift中可以定义两种类：  从NSObject或者其派生类派生的类（NSObject体系的子类） 从Swift基类SwiftObject派生的类（在定义类时没有指定基类时，默认会从基类SwiftObject派生）  Swift中类的实例对象都是在堆内存中创建的。系统会为类提供一个默认的init构造函数，如果想自定义构造函数，需要重写重载init函数。 Swift中类">
+    <meta name="description" content="Swift类的对象创建和销毁Swift中可以定义两种类：  从NSObject或者其派生类派生的类（NSObject体系的子类） 从Swift基类SwiftObject派生的类（在定义类时没有指定基类时，默认会从基类SwiftObject派生）  Swift中类的实例对象都是在堆内存中创建的。系统会为类提供一个默认的init构造函数，如果想自定义构造函数，需要重写重载init函数。 类的实例对象的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift进阶：Runtime机制">
 <meta property="og:url" content="https://zhengry.github.io/2020/09/26/Swift%E8%BF%9B%E9%98%B6%EF%BC%9ARuntime%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="Swift类的对象创建和销毁Swift中可以定义两种类：  从NSObject或者其派生类派生的类（NSObject体系的子类） 从Swift基类SwiftObject派生的类（在定义类时没有指定基类时，默认会从基类SwiftObject派生）  Swift中类的实例对象都是在堆内存中创建的。系统会为类提供一个默认的init构造函数，如果想自定义构造函数，需要重写重载init函数。 Swift中类">
+<meta property="og:description" content="Swift类的对象创建和销毁Swift中可以定义两种类：  从NSObject或者其派生类派生的类（NSObject体系的子类） 从Swift基类SwiftObject派生的类（在定义类时没有指定基类时，默认会从基类SwiftObject派生）  Swift中类的实例对象都是在堆内存中创建的。系统会为类提供一个默认的init构造函数，如果想自定义构造函数，需要重写重载init函数。 类的实例对象的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-12T09:46:56.887Z">
+<meta property="article:modified_time" content="2022-05-12T16:02:03.944Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="Runtime">
 <meta name="twitter:card" content="summary">
@@ -116,7 +116,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81"><span class="nav-number">1.</span> <span class="nav-text">Swift类的对象创建和销毁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">Swift类中的对象方法调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E4%BC%98%E5%8C%96%E5%85%B3%E9%97%AD%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B"><span class="nav-number">3.</span> <span class="nav-text">编译链接优化关闭的情况下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC%E5%92%8CSwift%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B7%E7%BC%96%E8%B0%83%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">OC和Swift函数的混编调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84Swift%E6%96%B9%E6%B3%95%E5%AE%9A%E4%B9%89%E5%92%8C%E8%B0%83%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">开启编译链接优化后的Swift方法定义和调用</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81"><span class="nav-number">1.</span> <span class="nav-text">Swift类的对象创建和销毁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9E%84%E5%BB%BA"><span class="nav-number">1.1.</span> <span class="nav-text">类的实例对象的构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.2.</span> <span class="nav-text">Swift对象的生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%86"><span class="nav-number">2.</span> <span class="nav-text">Swift类中的对象方法调用的区分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">关闭编译链接优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OC%E7%B1%BB%E7%9A%84%E6%B4%BE%E7%94%9F%E7%B1%BB%E5%B9%B6%E9%87%8D%E5%86%99%E4%BA%86%E5%9F%BA%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">OC类的派生类并重写了基类的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extension%E4%B8%AD%E5%AE%9A%E4%B9%89%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">extension中定义的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E5%AE%9A%E4%B9%89%E7%9A%84%E5%B8%B8%E8%A7%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">类中定义的常规方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8F%98%E5%8C%96"><span class="nav-number">3.4.</span> <span class="nav-text">Swift函数调用的一些变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E7%9A%84%E7%B1%BB%E4%B8%AD%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E7%9A%84%E8%AE%BF%E9%97%AE"><span class="nav-number">3.5.</span> <span class="nav-text">Swift的类中成员变量的访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.6.</span> <span class="nav-text">Swift结构体中的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E6%96%B9%E6%B3%95%E5%8F%8A%E5%85%A8%E5%B1%80%E5%87%BD%E6%95%B0"><span class="nav-number">3.7.</span> <span class="nav-text">类方法及全局函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E7%BC%96%E8%AF%91%E9%93%BE%E6%8E%A5%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">开启编译链接优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC%E5%92%8CSwift%E4%B8%AD%E5%87%BD%E6%95%B0%E7%9A%84%E6%B7%B7%E7%BC%96%E8%B0%83%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">OC和Swift中函数的混编调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">5.1.</span> <span class="nav-text">Swift权限修饰符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#objc-objc-Type-%E5%92%8C-objcMembers"><span class="nav-number">5.2.</span> <span class="nav-text">@objc , @objc(Type)和 @objcMembers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift%E8%B0%83%E7%94%A8OC"><span class="nav-number">5.3.</span> <span class="nav-text">Swift调用OC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OC%E8%B0%83%E7%94%A8Swift"><span class="nav-number">5.4.</span> <span class="nav-text">OC调用Swift</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -251,8 +251,7 @@
 <li>从Swift基类<code>SwiftObject</code>派生的类（<a target="_blank" rel="noopener" href="https://github.com/apple/swift/blob/main/docs/ABI/TypeLayout.rst">在定义类时没有指定基类时，默认会从基类SwiftObject派生</a>）</li>
 </ul>
 <p>Swift中类的实例对象都是在堆内存中创建的。系统会为类提供一个默认的<code>init</code>构造函数，如果想自定义构造函数，需要重写重载<code>init</code>函数。</p>
-<p>Swift中类的实例对象的构建：</p>
-<ul>
+<h3 id="类的实例对象的构建"><a href="#类的实例对象的构建" class="headerlink" title="类的实例对象的构建"></a>类的实例对象的构建</h3><ul>
 <li><p>不像OC那样将<code>alloc</code>和<code>init</code>分开调用；</p>
 </li>
 <li><p>直接使用 <code>类型(初始化参数)</code> 来完成实例对象的创建：<code>let lily = Person(&quot;Lily&quot;)</code></p>
@@ -264,40 +263,36 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 定义了一个类 */</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">	<span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">name</span>: <span class="type">String</span>)&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 编译生成的对象内存分配创建和初始化函数 */</span></span><br><span class="line"><span class="type">Person</span> <span class="operator">*</span> <span class="type">XXX</span>.<span class="type">Person</span>.__allocating_init(swift_class classPerson, <span class="type">String</span> name)&#123;</span><br><span class="line">	<span class="type">Person</span> <span class="operator">*</span>obj <span class="operator">=</span> swift_allocObject(classPerson); <span class="comment">// 分配内存</span></span><br><span class="line">	obj-&gt;<span class="keyword">init</span>(name); <span class="comment">// 调用初始化函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 编译时还会生成对象的析构和内存销毁函数 */</span></span><br><span class="line"><span class="type">XXX</span>.<span class="type">Person__deallocating_deinit</span>(<span class="type">Person</span> <span class="operator">*</span>obj) &#123;</span><br><span class="line">	obj-&gt;<span class="keyword">deinit</span>(); <span class="comment">// 调用析构函数</span></span><br><span class="line">	swift_deallocClassInstance(obj); <span class="comment">// 销毁对象分配的内存</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>其中的<code>swift_class</code>就是从<code>objc_class</code>派生出来的，是用于描述类信息的结构体。</p>
-<p><strong>Swift对象的生命周期</strong></p>
-<p>像OC的对象一样通过引用计数来控制的。</p>
+</li>
+</ul>
+<h3 id="Swift对象的生命周期"><a href="#Swift对象的生命周期" class="headerlink" title="Swift对象的生命周期"></a>Swift对象的生命周期</h3><p>在Swift中，实例对象的生命周期也是通过引用计数来控制的。</p>
 <ul>
-<li>当对象创建时，引用计数为1</li>
+<li>当对象创建时，引用计数为1；</li>
 <li>对对象赋值操作，会调用<code>swift_retain</code>函数来增加引用计数；</li>
 <li>对象不再被访问，会调用<code>swift_release</code>函数来减少引用计数；</li>
 <li>当对象引用计数变成0时，最终通过<code>模块名.类名__deallocating_deinit</code>函数对对象析构和销毁。</li>
 </ul>
-</li>
-</ul>
-<h2 id="Swift类中的对象方法调用"><a href="#Swift类中的对象方法调用" class="headerlink" title="Swift类中的对象方法调用"></a>Swift类中的对象方法调用</h2><p>Swift中的类定义的方法分为三类：</p>
+<h2 id="Swift类中的对象方法调用的区分"><a href="#Swift类中的对象方法调用的区分" class="headerlink" title="Swift类中的对象方法调用的区分"></a>Swift类中的对象方法调用的区分</h2><p>Swift中的类定义的方法分为三类：</p>
 <ul>
 <li>OC类的派生类并重写了基类的方法</li>
-<li>extension中定义的方法</li>
+<li><code>extension</code>中定义的方法</li>
 <li>类中定义的常规方法</li>
 </ul>
 <p>方法的调用需要区分为两种情况：</p>
 <ul>
-<li>编译链接优化关闭的情况下</li>
-<li>编译链接优化打开的情况下</li>
+<li>关闭编译链接优化</li>
+<li>开启编译链接优化：release模式下默认开启</li>
 </ul>
-<h2 id="编译链接优化关闭的情况下"><a href="#编译链接优化关闭的情况下" class="headerlink" title="编译链接优化关闭的情况下"></a>编译链接优化关闭的情况下</h2><p><strong>I）OC类的派生类并重写了基类的方法</strong></p>
-<p>在Swift中使用了OC类，并重写了基类的方法，这些重写的方法定义信息还是会保存在类的Class结构体中，在调用上还是采用OC语言的<code>Runtime</code>机制来实现，也就是通过<code>objc_msgSend</code>来调用。比如Swift中使用<code>UIViewController</code>并重写了<code>viewDidLoad</code>方法。</p>
+<h2 id="关闭编译链接优化"><a href="#关闭编译链接优化" class="headerlink" title="关闭编译链接优化"></a>关闭编译链接优化</h2><h3 id="OC类的派生类并重写了基类的方法"><a href="#OC类的派生类并重写了基类的方法" class="headerlink" title="OC类的派生类并重写了基类的方法"></a>OC类的派生类并重写了基类的方法</h3><p>在Swift中使用了OC类，并重写了基类的方法，这些重写的方法定义信息还是会保存在类的Class结构体中，在调用上还是采用OC语言的<code>Runtime</code>机制来实现，也就是通过<code>objc_msgSend</code>来调用。比如Swift中使用<code>UIViewController</code>并重写了<code>viewDidLoad</code>方法。</p>
 <p>在Swift中使用了OC类，但在这个类中定义了一个新方法，那就是<strong>在类中定义的常规方法</strong>这一类了。</p>
-<p><strong>2）extension中定义的方法</strong></p>
-<ul>
+<h3 id="extension中定义的方法"><a href="#extension中定义的方法" class="headerlink" title="extension中定义的方法"></a>extension中定义的方法</h3><ul>
 <li>在Swift类的<code>extension</code>中定义的方法（重写OC基类的方法除外）的调用是在编译时就决定；</li>
 <li>在调用这种对象方法时，方法调用指令中的函数地址将会以硬编码的形式存在；</li>
 <li>这些方法的符号信息都不会保存到类的描述信息中——这也是Swift中派生类无法重写基类的extension中定义的方法的原因——<code>extension</code>中的方法调用是硬编码完成的，无法支持多态！</li>
 <li>在<code>extension</code>中定义的方法无法在运行时做任何的替换和改变；</li>
 <li><code>extension</code>中可以重写OC基类的方法，但不能重写Swift类中定义的方法。</li>
 </ul>
-<p><strong>3）类中定义的常规方法</strong></p>
-<p>在Swift中的定义的常规方法的调用机制和C++中的虚函数调用机制相似。</p>
+<h3 id="类中定义的常规方法"><a href="#类中定义的常规方法" class="headerlink" title="类中定义的常规方法"></a>类中定义的常规方法</h3><p>在Swift中的定义的常规方法的调用机制和C++中的虚函数调用机制相似。</p>
 <ul>
 <li><p>swift为每个类都建立了一个被称为续表的数据结构，这个数据保存着类中所有的常规的成员方法函数的地址；</p>
 </li>
@@ -313,8 +308,7 @@
 <p>伪代码：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">CB</span> <span class="operator">*</span>objB <span class="operator">=</span> <span class="type">CB</span>.__allocating_init(classCB);</span><br><span class="line">objB-&gt;isa <span class="operator">=</span> <span class="operator">&amp;</span>classCB;</span><br><span class="line">asm(<span class="string">&quot;mov x20, objB&quot;</span>);</span><br><span class="line">objB-&gt;isa-&gt;vtable[<span class="number">0</span>](<span class="number">10</span>);</span><br><span class="line">objB-&gt;isa-&gt;vtable[<span class="number">1</span>](<span class="number">10</span>,<span class="number">20</span>);</span><br><span class="line">objB-&gt;isa-&gt;vtable[<span class="number">2</span>]();</span><br><span class="line">objB-&gt;isa-&gt;vtable[<span class="number">3</span>]();</span><br></pre></td></tr></table></figure></li>
 </ul>
-<p><strong>4）Swift函数调用的一些变化：</strong></p>
-<ol>
+<h3 id="Swift函数调用的一些变化"><a href="#Swift函数调用的一些变化" class="headerlink" title="Swift函数调用的一些变化"></a>Swift函数调用的一些变化</h3><ol>
 <li><p>Swift类的常规方法中没有两个隐藏的参数<code>self</code>和<code>_cmd</code>了。</p>
 <p>那么方法调用时对象如何被引用和传递呢？</p>
 <p>其他语言中一般情况下对象总是作为方法的第一个参数，在编译阶段，将对象放到<code>x0</code>这个寄存器中（arm64）；</p>
@@ -333,61 +327,21 @@
 <p>命名修饰会带上模块名：***$s&lt;模块名长度&gt;&lt;模块名&gt;&lt;类名长度&gt;&lt;类名&gt;C&lt;方法名长度&gt;&lt;方法名&gt;yy&lt;参数类型1&gt;*&lt;参数类型2&gt;_&lt;参数类型N&gt;F**</p>
 </li>
 </ol>
-<p><strong>5）Swift的类中成员变量的访问</strong></p>
-<ul>
+<h3 id="Swift的类中成员变量的访问"><a href="#Swift的类中成员变量的访问" class="headerlink" title="Swift的类中成员变量的访问"></a>Swift的类中成员变量的访问</h3><ul>
 <li>Swift中，每个实例对象开始部分是一个<code>isa</code>成员，指向类的描述信息；</li>
 <li>类中定义的属性或变量会根据定义的顺序一次排列在<code>isa</code>后面；</li>
 <li>系统会对每个成员变量生成<code>set</code>&#x2F;<code>get</code>两个函数并保存到虚函数表中，所有对对象成员变量的方法的调用都会转化为通过虚函数表来执行<code>set</code>&#x2F;<code>get</code>对应的方法。</li>
 </ul>
-<p><strong>6）Swift结构体中的方法</strong></p>
-<ul>
+<h3 id="Swift结构体中的方法"><a href="#Swift结构体中的方法" class="headerlink" title="Swift结构体中的方法"></a>Swift结构体中的方法</h3><ul>
 <li>Swift的结构体的内存结构中并没有地方保存结构体的信息（不存在<code>isa</code>成员），所以结构体中的方法是不支持多态的；</li>
 <li>结构体中的所有方法调用都是在编译时硬编码来实现的，所以结构体不支持派生，也不支持<code>override</code></li>
 </ul>
-<p><strong>7）类方法及全局函数</strong></p>
-<ul>
+<h3 id="类方法及全局函数"><a href="#类方法及全局函数" class="headerlink" title="类方法及全局函数"></a>类方法及全局函数</h3><ul>
 <li>Swift中的类方法和全局函数一样，因为不存在对象作为参数，因此在调用类方法时不存在将对象保存到<code>x20</code>寄存器；源代码定义的函数的参数在编译时也不会插入附加的参数。</li>
 <li>类方法和全局函数也会被重命名修饰，所以全局函数和类方法支持同名但参数不同的函数定义；</li>
 <li>类方法和全局函数的调用都是在编译链接时刻硬编码为函数地址来调用的。</li>
 </ul>
-<h2 id="OC和Swift函数的混编调用"><a href="#OC和Swift函数的混编调用" class="headerlink" title="OC和Swift函数的混编调用"></a>OC和Swift函数的混编调用</h2><p><strong>1）Swift权限修饰符</strong></p>
-<ul>
-<li><code>open</code>：可以在任何地方被访问、继承、重写</li>
-<li><code>public</code>：可以在任何地方被访问，在其他模块中不能被继承和重写</li>
-<li><code>internal</code> ：默认权限，在整个模块内都可以被访问。</li>
-<li><code>fileprivate</code>：其修饰的属性可以在同一个文件被访问、继承和重写</li>
-<li><code>private</code>：其修饰的<strong>属性</strong>和<strong>方法</strong>只能在本类被访问和使用。</li>
-</ul>
-<p><strong>2）@objc , @objc(Type)和 @objcMembers</strong></p>
-<ul>
-<li><code>@objc</code>：用于当前类可以在OC中使用</li>
-<li><code>@objc(Type)</code>：可以给Swift类重命名, 可以在OC中通过<code>Runtime</code>获取类</li>
-<li><code>@objcMembers</code>：用于当前类、子类、类扩展和子类扩展的所有属性和方法都加上<code>@objc</code></li>
-</ul>
-<p><strong>3）Swift调用OC</strong></p>
-<ul>
-<li>需要为工程创建一个桥接文件：<code>项目名称-Bridging-Header.h</code>；</li>
-<li>Swift中要调用的OC方法都需要在这个头文件中声明</li>
-</ul>
-<p><strong>4）OC调用Swift</strong></p>
-<ul>
-<li>由于Swift和OC的函数调用ABI规则不同，所以OC只能创建Swift中从NSObject类中派生的类；</li>
-<li>方法的调用只能调用NSObject及其派生类中的所有方法，以及被声明为<code>@objc</code>关键字的Swift对象方法；</li>
-<li>在OC中调用Swift的类和方法时，需要在OC中添加<code>#import “项目名-Swift.h”</code>；</li>
-</ul>
-<p>Swift方法添加<code>@objc</code>关键字时，在编译时会生成两个函数：</p>
-<ul>
-<li><p>一个是本体函数：供Swift内部调用</p>
-</li>
-<li><p>一个是跳板函数(<code>trampoline</code>)：供OC调用</p>
-<p>该函数信息会记录在OC的运行时类结构体中，跳板函数的实现会对参数的传递规则进行转换——把<code>x0</code>寄存器的值(<code>self</code>)赋值给<code>x20</code>寄存器，然后把其他参数按照Swift函数参数规则转化，最后再执行本体函数调用。</p>
-<p>源代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Swift源代码 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Swift类定义</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyUIView</span>:<span class="title class_">UIView</span> &#123;</span><br><span class="line">  <span class="keyword">@objc</span>    </span><br><span class="line">  <span class="keyword">open</span> <span class="keyword">func</span> <span class="title function_">foo</span>()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> obj <span class="operator">=</span> <span class="type">MyUIView</span>()</span><br><span class="line">  obj.foo()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** OC源代码 */</span></span><br><span class="line">#<span class="keyword">import</span> &quot;工程-Swift.h&quot;</span><br><span class="line"></span><br><span class="line">void main() &#123;</span><br><span class="line">  <span class="type">MyUIView</span> <span class="operator">*</span>obj <span class="operator">=</span> [<span class="type">MyUIView</span> new];</span><br><span class="line">  [obj foo];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>伪代码：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Swift类描述 */</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">swift_class</span> &#123;</span><br><span class="line">    <span class="operator">...</span> </span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">method_t</span>  <span class="title class_">methods</span>[1];</span><br><span class="line">    ... </span><br><span class="line">    <span class="title class_">IMP</span> <span class="title class_">vtable</span>[1]; // 虚函数表</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/** 类定义 */</span><br><span class="line"><span class="title class_">struct</span> <span class="title class_">MyUIView</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">swift_class</span> *<span class="title class_">isa</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** 本体函数<span class="title class_">foo</span>的实现 */</span><br><span class="line"><span class="title class_">void</span> <span class="title class_">foo</span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 跳板函数的实现 */</span></span><br><span class="line">void trampoline_foo(id <span class="keyword">self</span>, <span class="type">SEL</span> _cmd)&#123;</span><br><span class="line">     asm(<span class="string">&quot;mov x20, x0&quot;</span>);</span><br><span class="line">     <span class="keyword">self</span>-&gt;isa-&gt;vtable[<span class="number">0</span>](); <span class="comment">//这里调用本体函数foo</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 类的描述信息构建，这些都是在编译代码时就明确了并且保存在数据段中。 */</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">swift_class</span> <span class="title class_">classMyUIView</span>;</span><br><span class="line"><span class="title class_">classMyUIView</span>.<span class="title class_">methods</span>[0] = &#123;<span class="string">&quot;foo&quot;</span>, <span class="operator">&amp;</span>trampoline_foo&#125;;</span><br><span class="line">classMyUIView.vtable[<span class="number">0</span>] <span class="operator">=</span> &#123;<span class="operator">&amp;</span>foo&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Swift代码部分 */</span></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">MyUIView</span> <span class="operator">*</span>obj <span class="operator">=</span> <span class="type">MyUIView</span>.__allocating_init(classMyUIView);</span><br><span class="line">  obj-&gt;isa <span class="operator">=</span> <span class="operator">&amp;</span>classMyUIView;</span><br><span class="line">   asm(<span class="string">&quot;mov x20, obj&quot;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="comment">/** Swift中foo的调用是通过虚函数表间接调用 */</span></span><br><span class="line">   obj-&gt;isa-&gt;vtable[<span class="number">0</span>]();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** OC代码部分 */</span></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">MyUIView</span> <span class="operator">*</span>obj <span class="operator">=</span> objc_msgSend(objc_msgSend(classMyUIView, <span class="string">&quot;alloc&quot;</span>), <span class="string">&quot;init&quot;</span>);</span><br><span class="line">  obj-&gt;isa <span class="operator">=</span> <span class="operator">&amp;</span>classMyUIView;</span><br><span class="line">  <span class="comment">/** OC中对foo的调用还是用objc_msgSend来执行调用。 */</span></span><br><span class="line">  <span class="comment">/** 因为objc_msgSend最终会找到methods中的方法结构并调用trampoline_foo, trampoline_foo内部会调用foo的本体 */</span></span><br><span class="line">  objc_msgSend(obj, <span class="meta">@selector</span>(foo));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="开启编译链接优化后的Swift方法定义和调用"><a href="#开启编译链接优化后的Swift方法定义和调用" class="headerlink" title="开启编译链接优化后的Swift方法定义和调用"></a>开启编译链接优化后的Swift方法定义和调用</h2><p>主要变化：弱化了通过虚函数表来进行间接方法调用的实现，而是大量使用内联的方式来处理方法函数的调用。</p>
+<h2 id="开启编译链接优化"><a href="#开启编译链接优化" class="headerlink" title="开启编译链接优化"></a>开启编译链接优化</h2><p>主要变化：弱化了通过虚函数表来进行间接方法调用的实现，而是大量使用内联的方式来处理方法函数的调用。</p>
 <ol>
 <li><p>函数实现换成内联函数模式：对象方法的调用不再通过虚函数表来间接调用，而是将函数的调用改为直接将内联函数生成的机器码进行拷贝处理。</p>
 <p>优点：</p>
@@ -405,10 +359,46 @@
 </li>
 </ol>
 <p>对比：</p>
-<p>采用编译链接优化：链接时如果发现一个函数没有被任何地方调用或者引用，链接器就会把这个函数的实现代码整个体删除；</p>
-<p>采用虚函数表：需要把一个类的所有方法的函数都存放到类的虚函数表中，而不管类中的函数是否又被调用。通过虚函数表的形式间接调用时无法在编译连接时明确那个函数是否会被调用。</p>
+<ul>
+<li>采用编译链接优化：链接时如果发现一个函数没有被任何地方调用或者引用，链接器就会把这个函数的实现代码整个体删除；</li>
+<li>采用虚函数表：需要把一个类的所有方法的函数都存放到类的虚函数表中，而不管类中的函数是否又被调用。通过虚函数表的形式间接调用时无法在编译连接时明确那个函数是否会被调用。</li>
+</ul>
 <p>所以，采用虚函数表的形式可能会增加程序的体积。</p>
 <p>关于系统编译器如何平衡将虚函数表间接调用转换为内联模式带来的程序体积增大，则不得而知。</p>
+<h2 id="OC和Swift中函数的混编调用"><a href="#OC和Swift中函数的混编调用" class="headerlink" title="OC和Swift中函数的混编调用"></a>OC和Swift中函数的混编调用</h2><h3 id="Swift权限修饰符"><a href="#Swift权限修饰符" class="headerlink" title="Swift权限修饰符"></a>Swift权限修饰符</h3><ul>
+<li><code>open</code>：可以在任何地方被访问、继承、重写</li>
+<li><code>public</code>：可以在任何地方被访问，在其他模块中不能被继承和重写</li>
+<li><code>internal</code> ：默认权限，在整个模块内都可以被访问。</li>
+<li><code>fileprivate</code>：其修饰的属性可以在同一个文件被访问、继承和重写</li>
+<li><code>private</code>：其修饰的<strong>属性</strong>和<strong>方法</strong>只能在本类被访问和使用。</li>
+</ul>
+<h3 id="objc-objc-Type-和-objcMembers"><a href="#objc-objc-Type-和-objcMembers" class="headerlink" title="@objc , @objc(Type)和 @objcMembers"></a>@objc , @objc(Type)和 @objcMembers</h3><ul>
+<li><code>@objc</code>：用于当前类可以在OC中使用</li>
+<li><code>@objc(Type)</code>：可以给Swift类重命名, 可以在OC中通过<code>Runtime</code>获取类</li>
+<li><code>@objcMembers</code>：用于当前类、子类、类扩展和子类扩展的所有属性和方法都加上<code>@objc</code></li>
+</ul>
+<h3 id="Swift调用OC"><a href="#Swift调用OC" class="headerlink" title="Swift调用OC"></a>Swift调用OC</h3><ul>
+<li>需要为工程创建一个桥接文件：<code>项目名称-Bridging-Header.h</code>；</li>
+<li>Swift中要调用的OC方法都需要在这个头文件中声明</li>
+</ul>
+<h3 id="OC调用Swift"><a href="#OC调用Swift" class="headerlink" title="OC调用Swift"></a>OC调用Swift</h3><ul>
+<li>由于Swift和OC的函数调用ABI规则不同，所以OC只能创建Swift中从NSObject类中派生的类；</li>
+<li>方法的调用只能调用NSObject及其派生类中的所有方法，以及被声明为<code>@objc</code>关键字的Swift对象方法；</li>
+<li>Swift中需要开放函数权限为<code>open</code>或<code>public</code>；</li>
+<li>在OC中调用Swift的类和方法时，需要在OC中添加<code>#import “项目名-Swift.h”</code>；</li>
+</ul>
+<p>Swift方法添加<code>@objc</code>关键字时，在编译时会生成两个函数：</p>
+<ul>
+<li><p>一个是本体函数：供Swift内部调用</p>
+</li>
+<li><p>一个是跳板函数(<code>trampoline</code>)：供OC调用</p>
+<p>该函数信息会记录在OC的运行时类结构体中，跳板函数的实现会对参数的传递规则进行转换——把<code>x0</code>寄存器的值(<code>self</code>)赋值给<code>x20</code>寄存器，然后把其他参数按照Swift函数参数规则转化，最后再执行本体函数调用。</p>
+<p>源代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Swift源代码 */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//Swift类定义</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyUIView</span>:<span class="title class_">UIView</span> &#123;</span><br><span class="line">  <span class="keyword">@objc</span>    </span><br><span class="line">  <span class="keyword">open</span> <span class="keyword">func</span> <span class="title function_">foo</span>()&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> obj <span class="operator">=</span> <span class="type">MyUIView</span>()</span><br><span class="line">  obj.foo()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** OC源代码 */</span></span><br><span class="line">#<span class="keyword">import</span> &quot;工程-Swift.h&quot;</span><br><span class="line"></span><br><span class="line">void main() &#123;</span><br><span class="line">  <span class="type">MyUIView</span> <span class="operator">*</span>obj <span class="operator">=</span> [<span class="type">MyUIView</span> new];</span><br><span class="line">  [obj foo];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>伪代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Swift类描述 */</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">swift_class</span> &#123;</span><br><span class="line">    <span class="operator">...</span> </span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">method_t</span>  <span class="title class_">methods</span>[1];</span><br><span class="line">    ... </span><br><span class="line">    <span class="title class_">IMP</span> <span class="title class_">vtable</span>[1]; // 虚函数表</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/** 类定义 */</span><br><span class="line"><span class="title class_">struct</span> <span class="title class_">MyUIView</span> &#123;</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">swift_class</span> *<span class="title class_">isa</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** 本体函数<span class="title class_">foo</span>的实现 */</span><br><span class="line"><span class="title class_">void</span> <span class="title class_">foo</span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 跳板函数的实现 */</span></span><br><span class="line">void trampoline_foo(id <span class="keyword">self</span>, <span class="type">SEL</span> _cmd)&#123;</span><br><span class="line">     asm(<span class="string">&quot;mov x20, x0&quot;</span>);</span><br><span class="line">     <span class="keyword">self</span>-&gt;isa-&gt;vtable[<span class="number">0</span>](); <span class="comment">//这里调用本体函数foo</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 类的描述信息构建，这些都是在编译代码时就明确了并且保存在数据段中。 */</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">swift_class</span> <span class="title class_">classMyUIView</span>;</span><br><span class="line"><span class="title class_">classMyUIView</span>.<span class="title class_">methods</span>[0] = &#123;<span class="string">&quot;foo&quot;</span>, <span class="operator">&amp;</span>trampoline_foo&#125;;</span><br><span class="line">classMyUIView.vtable[<span class="number">0</span>] <span class="operator">=</span> &#123;<span class="operator">&amp;</span>foo&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Swift代码部分 */</span></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">MyUIView</span> <span class="operator">*</span>obj <span class="operator">=</span> <span class="type">MyUIView</span>.__allocating_init(classMyUIView);</span><br><span class="line">  obj-&gt;isa <span class="operator">=</span> <span class="operator">&amp;</span>classMyUIView;</span><br><span class="line">   asm(<span class="string">&quot;mov x20, obj&quot;</span>);</span><br><span class="line"></span><br><span class="line">   <span class="comment">/** Swift中foo的调用是通过虚函数表间接调用 */</span></span><br><span class="line">   obj-&gt;isa-&gt;vtable[<span class="number">0</span>]();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** OC代码部分 */</span></span><br><span class="line">void main()</span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">MyUIView</span> <span class="operator">*</span>obj <span class="operator">=</span> objc_msgSend(objc_msgSend(classMyUIView, <span class="string">&quot;alloc&quot;</span>), <span class="string">&quot;init&quot;</span>);</span><br><span class="line">  obj-&gt;isa <span class="operator">=</span> <span class="operator">&amp;</span>classMyUIView;</span><br><span class="line">  <span class="comment">/** OC中对foo的调用还是用objc_msgSend来执行调用。 */</span></span><br><span class="line">  <span class="comment">/** 因为objc_msgSend最终会找到methods中的方法结构并调用trampoline_foo, trampoline_foo内部会调用foo的本体 */</span></span><br><span class="line">  objc_msgSend(obj, <span class="meta">@selector</span>(foo));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
 
     </div>
 

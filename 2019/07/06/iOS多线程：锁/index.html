@@ -20,12 +20,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="什么是线程同步技术？ 同步，就是协同步调，按预定的先后顺序进行 最常见的线程同步技术就是加锁。 锁是什么？锁是一种保证多线程并发执行安全的方式，避免同一时间多个线程同时读取并修改一个值而产生混乱。 例子：火车站多窗口卖票 加锁最重要的就是保证锁是同一把，才能加锁成功。 锁的分类从大的方向讲有两种锁：互斥锁和自旋锁。">
+    <meta name="description" content="锁是什么？锁是一种保证多线程并发执行安全的方式，避免同一时间多个线程同时读取并修改一个值而产生混乱。 例子：火车站多窗口卖票 加锁最重要的就是保证锁是同一把，才能加锁成功。 锁的分类从大的方向讲有两种锁：互斥锁和自旋锁。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS多线程：锁">
 <meta property="og:url" content="https://zhengry.github.io/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="什么是线程同步技术？ 同步，就是协同步调，按预定的先后顺序进行 最常见的线程同步技术就是加锁。 锁是什么？锁是一种保证多线程并发执行安全的方式，避免同一时间多个线程同时读取并修改一个值而产生混乱。 例子：火车站多窗口卖票 加锁最重要的就是保证锁是同一把，才能加锁成功。 锁的分类从大的方向讲有两种锁：互斥锁和自旋锁。">
+<meta property="og:description" content="锁是什么？锁是一种保证多线程并发执行安全的方式，避免同一时间多个线程同时读取并修改一个值而产生混乱。 例子：火车站多窗口卖票 加锁最重要的就是保证锁是同一把，才能加锁成功。 锁的分类从大的方向讲有两种锁：互斥锁和自旋锁。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhengry.github.io/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB.png">
 <meta property="og:image" content="https://zhengry.github.io/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/%E9%94%81%E7%9A%84%E6%95%88%E7%8E%87.png">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://zhengry.github.io/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/NSCondition.jpg">
 <meta property="og:image" content="https://zhengry.github.io/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/NSConditionLock.jpg">
 <meta property="article:published_time" content="2019-07-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-06T15:45:10.778Z">
+<meta property="article:modified_time" content="2022-05-12T16:04:39.873Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
@@ -128,7 +128,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">锁是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">锁的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83"><span class="nav-number">3.</span> <span class="nav-text">性能比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">锁的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSLock%E3%80%81NSCondition%E3%80%81NSConditionLock%E3%80%81NSRecursiveLock"><span class="nav-number">5.</span> <span class="nav-text">NSLock、NSCondition、NSConditionLock、NSRecursiveLock</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">锁是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">锁的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81%E5%92%8C%E8%87%AA%E6%97%8B%E9%94%81%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="nav-number">2.1.</span> <span class="nav-text">互斥锁和自旋锁的对比：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text">自旋锁的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81%E5%92%8C%E4%BA%92%E6%96%A5%E9%94%81%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.3.</span> <span class="nav-text">自旋锁和互斥锁的适用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83"><span class="nav-number">3.</span> <span class="nav-text">性能比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">锁的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E6%97%8B%E9%94%81OSSpinLock"><span class="nav-number">4.1.</span> <span class="nav-text">自旋锁OSSpinLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#os-unfair-lock"><span class="nav-number">4.2.</span> <span class="nav-text">os_unfair_lock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex"><span class="nav-number">4.3.</span> <span class="nav-text">pthread_mutex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex-%E9%80%92%E5%BD%92%E9%94%81"><span class="nav-number">4.4.</span> <span class="nav-text">pthread_mutex-递归锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pthread-mutex-%E6%9D%A1%E4%BB%B6%E9%94%81"><span class="nav-number">4.5.</span> <span class="nav-text">pthread_mutex-条件锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSLock%E3%80%81NSRecursiveLock"><span class="nav-number">4.6.</span> <span class="nav-text">NSLock、NSRecursiveLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSCondition%EF%BC%88%E5%AF%B9mutex%E5%92%8Ccond%E7%9A%84%E5%B0%81%E8%A3%85%EF%BC%89"><span class="nav-number">4.7.</span> <span class="nav-text">NSCondition（对mutex和cond的封装）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSConditionLock"><span class="nav-number">4.8.</span> <span class="nav-text">NSConditionLock</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatch-semaphore-%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="nav-number">4.9.</span> <span class="nav-text">dispatch_semaphore 信号量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronize%EF%BC%88%E5%AF%B9mutex%E7%9A%84%E5%B0%81%E8%A3%85%EF%BC%89"><span class="nav-number">4.10.</span> <span class="nav-text">@synchronize（对mutex的封装）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#atomic"><span class="nav-number">4.11.</span> <span class="nav-text">atomic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">4.12.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -257,10 +257,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><strong>什么是线程同步技术？</strong></p>
-<p>同步，就是协同步调，按预定的先后顺序进行</p>
-<p>最常见的线程同步技术就是加锁。</p>
-<h2 id="锁是什么？"><a href="#锁是什么？" class="headerlink" title="锁是什么？"></a>锁是什么？</h2><p>锁是一种保证多线程并发执行安全的方式，避免同一时间多个线程同时读取并修改一个值而产生混乱。</p>
+        <h2 id="锁是什么？"><a href="#锁是什么？" class="headerlink" title="锁是什么？"></a>锁是什么？</h2><p>锁是一种保证多线程并发执行安全的方式，避免同一时间多个线程同时读取并修改一个值而产生混乱。</p>
 <p>例子：火车站多窗口卖票</p>
 <p><strong>加锁最重要的就是保证锁是同一把，才能加锁成功。</strong></p>
 <h2 id="锁的分类"><a href="#锁的分类" class="headerlink" title="锁的分类"></a>锁的分类</h2><p>从大的方向讲有两种锁：互斥锁和自旋锁。</p>
@@ -268,19 +265,16 @@
 
 <span id="more"></span>
 
-<p>互斥锁和自旋锁的对比：</p>
-<ul>
+<h3 id="互斥锁和自旋锁的对比："><a href="#互斥锁和自旋锁的对比：" class="headerlink" title="互斥锁和自旋锁的对比："></a>互斥锁和自旋锁的对比：</h3><ul>
 <li>互斥锁：如果共享数据已经有其他线程加锁了，线程会进入休眠状态等待锁（休眠）。一旦被访问的资源被解锁，等待资源的线程会被唤醒。</li>
 <li>自旋锁：如果共享数据已经有其他线程加锁了，线程会以死循环的方式等待锁（忙等）。一旦被访问的资源被解锁，等待资源的线程会立即执行。</li>
 </ul>
-<p><strong>自旋锁的特点：</strong></p>
-<ol>
+<h3 id="自旋锁的特点"><a href="#自旋锁的特点" class="headerlink" title="自旋锁的特点"></a>自旋锁的特点</h3><ol>
 <li>自旋锁的性能高于互斥锁，因为响应速度快</li>
 <li>自旋锁虽然会一直自旋等待获取锁，但不会一直占用CPU，超过了操作系统分配的时间片会被强制挂起</li>
 <li>自旋锁如果不能保证所有线程都是同一优先级，则可能会造成死锁（拿不到锁）。</li>
 </ol>
-<p><strong>自旋锁和互斥锁的使用场景：</strong></p>
-<ol>
+<h3 id="自旋锁和互斥锁的适用场景"><a href="#自旋锁和互斥锁的适用场景" class="headerlink" title="自旋锁和互斥锁的适用场景"></a>自旋锁和互斥锁的适用场景</h3><ol>
 <li>优先使用自旋锁的场景：<ul>
 <li>预计线程等待锁的时间很短</li>
 <li>加锁的代码（临界区）经常被调用，但是竞争情况很少</li>
@@ -300,9 +294,7 @@
 <h2 id="性能比较"><a href="#性能比较" class="headerlink" title="性能比较"></a>性能比较</h2><p>自旋锁、信号量、普通锁、递归锁、条件锁、@synchronized、atomic</p>
 <img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/%E9%94%81%E7%9A%84%E6%95%88%E7%8E%87.png" class="" title="锁的效率">
 
-<h2 id="锁的使用"><a href="#锁的使用" class="headerlink" title="锁的使用"></a>锁的使用</h2><ol>
-<li><p><strong>自旋锁OSSpinLock</strong></p>
-<ul>
+<h2 id="锁的使用"><a href="#锁的使用" class="headerlink" title="锁的使用"></a>锁的使用</h2><h3 id="自旋锁OSSpinLock"><a href="#自旋锁OSSpinLock" class="headerlink" title="自旋锁OSSpinLock"></a>自旋锁OSSpinLock</h3><ul>
 <li><p>等待锁的线程会处于忙等状态，等待其他线程释放锁，一直占用CPU资源；</p>
 </li>
 <li><p>不需要手动销毁；</p>
@@ -313,57 +305,46 @@
 </blockquote>
 <img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/OSSpinLock.png" class="" title="OSSpinLock"></li>
 </ul>
-</li>
-<li><p><strong><code>os_unfair_lock</code></strong></p>
-<p>（互斥锁，iOS10以后取代<code>OSSpinLock</code>的锁）</p>
+<h3 id="os-unfair-lock"><a href="#os-unfair-lock" class="headerlink" title="os_unfair_lock"></a><code>os_unfair_lock</code></h3><p>（互斥锁，iOS10以后取代<code>OSSpinLock</code>的锁）</p>
 <ul>
 <li><p><code>os_unfair_lock</code>是个low level lock（低级锁），等待os_unfair_lock锁的线程会处于休眠状态。</p>
 </li>
 <li><p>使用： <code>#import &lt;os/lock.h&gt;</code></p>
 <img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/os_unfair_lock.png" class="" title="os_unfair_lock"></li>
 </ul>
-</li>
-<li><p><strong><code>pthread_mutex</code></strong></p>
-<ul>
+<h3 id="pthread-mutex"><a href="#pthread-mutex" class="headerlink" title="pthread_mutex"></a><code>pthread_mutex</code></h3><ul>
 <li>是C底层的互斥锁。</li>
 <li>属性可以传空(NULL)</li>
 <li>需要 <code>#import &lt;pthread.h&gt;</code></li>
 <li>需要手动销毁</li>
 </ul>
 <img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/pthread_mutext_%E6%99%AE%E9%80%9A%E9%94%81.jpg" class="" title="pthread_mutext_普通锁">
-</li>
-<li><p><strong>pthread_mutex-递归锁</strong></p>
-<ul>
+
+<h3 id="pthread-mutex-递归锁"><a href="#pthread-mutex-递归锁" class="headerlink" title="pthread_mutex-递归锁"></a>pthread_mutex-递归锁</h3><ul>
 <li>允许重复加锁</li>
 <li>加锁次数跟解锁次数要保持一致</li>
 <li>同一条线程才能使用递归锁，多个线程时仍然会等待锁的释放</li>
 </ul>
 <img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/pthread_mutex_%E9%80%92%E5%BD%92%E9%94%81.jpg" class="" title="pthread_mutex_递归锁">
-</li>
-<li><p><strong>pthread_mutex-条件锁</strong></p>
-<img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/pthread_mutex_%E6%9D%A1%E4%BB%B6%E9%94%81.jpg" class="" title="pthread_mutex_条件锁">
-</li>
-<li><p><strong>NSLock、NSRecursiveLock</strong></p>
-<img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/NSLock+NSRecursiveLock.jpg" class="" title="NSLock+NSRecursiveLock">
-</li>
-<li><p><strong>NSCondition（对mutex和cond的封装）</strong></p>
-<img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/pthread_mutex_%E6%9D%A1%E4%BB%B6%E9%94%81.jpg" class="" title="pthread_mutex_条件锁">
-</li>
-<li><p><strong>NSConditionLock</strong></p>
-<p>对NSCondition的进一步封装，可以设置具体的条件值</p>
+
+<h3 id="pthread-mutex-条件锁"><a href="#pthread-mutex-条件锁" class="headerlink" title="pthread_mutex-条件锁"></a>pthread_mutex-条件锁</h3><img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/pthread_mutex_%E6%9D%A1%E4%BB%B6%E9%94%81.jpg" class="" title="pthread_mutex_条件锁">
+
+<h3 id="NSLock、NSRecursiveLock"><a href="#NSLock、NSRecursiveLock" class="headerlink" title="NSLock、NSRecursiveLock"></a>NSLock、NSRecursiveLock</h3><img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/NSLock+NSRecursiveLock.jpg" class="" title="NSLock+NSRecursiveLock">
+
+<h3 id="NSCondition（对mutex和cond的封装）"><a href="#NSCondition（对mutex和cond的封装）" class="headerlink" title="NSCondition（对mutex和cond的封装）"></a>NSCondition（对mutex和cond的封装）</h3><img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/pthread_mutex_%E6%9D%A1%E4%BB%B6%E9%94%81.jpg" class="" title="pthread_mutex_条件锁">
+
+<h3 id="NSConditionLock"><a href="#NSConditionLock" class="headerlink" title="NSConditionLock"></a>NSConditionLock</h3><p>对NSCondition的进一步封装，可以设置具体的条件值</p>
 <img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/NSCondition.jpg" class="" title="NSCondition">
-</li>
-<li><p><strong>dispatch_semaphore 信号量</strong></p>
-<ul>
+
+<h3 id="dispatch-semaphore-信号量"><a href="#dispatch-semaphore-信号量" class="headerlink" title="dispatch_semaphore 信号量"></a>dispatch_semaphore 信号量</h3><ul>
 <li>信号量的初始值，可以用来控制线程并发访问的最大数量；</li>
 <li>信号量的初始值为1，代表同时只允许一条线程访问资源，保证线程同步</li>
 <li>在没有等待情况出现时，它的性能比<code>pthread_mutex</code>还要高；但一旦有等待情况出现时，性能就会下降很多。</li>
 <li>相比<code>OSSpinLock</code>，它的优势在于等待时不会消耗CPU资源。</li>
 </ul>
 <img src="/2019/07/06/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B%EF%BC%9A%E9%94%81/NSConditionLock.jpg" class="" title="NSConditionLock">
-</li>
-<li><p><strong>@synchronize（对mutex的封装）</strong></p>
-<p><code>@synchronized（object）</code>中，<code>object</code>是一个互斥信号量。</p>
+
+<h3 id="synchronize（对mutex的封装）"><a href="#synchronize（对mutex的封装）" class="headerlink" title="@synchronize（对mutex的封装）"></a>@synchronize（对mutex的封装）</h3><p><code>@synchronized（object）</code>中，<code>object</code>是一个互斥信号量。</p>
 <ul>
 <li><code>@synchronized(nil)</code>不起任何作用</li>
 <li><code>synchronized</code>中通过将传入的<code>object</code>作为<code>key</code>，到系统维护的一个的哈希表中取出对应的<code>mutex</code>来进行加锁。**</li>
@@ -372,16 +353,13 @@
 <p>直接将<code>self</code>传入<code>@synchronized</code>中，容易导致死锁的出现：</p>
 <p>​    原因是<code>self</code>很可能会被外部对象访问，被用作<code>key</code>来生成锁，两个公共锁交替使用的场景就容易出现死锁。</p>
 <p>​    正确的做法是传入一个类内部维护的NSObject对象，而且这个对象是对外不可见的。</p>
-</li>
-<li><p><strong>atomic</strong></p>
-</li>
-</ol>
-<ul>
+<h3 id="atomic"><a href="#atomic" class="headerlink" title="atomic"></a>atomic</h3><ul>
 <li><code>atomic</code>用于保证属性<code>setter</code>、<code>getter</code>的原子操作，相当于在<code>setter</code>、<code>getter</code>内部加了线程同步的锁。</li>
 <li><code>atomic</code>只能保障<code>setter</code>、<code>getter</code>内部的操作的原子性，不能保证数据操作的原子性，因此不能保证数据安全。</li>
 <li>在iOS设备上<code>setter</code>和<code>getter</code>的操作很多，使用<code>atomic</code>性能会比较差。</li>
 </ul>
-<h2 id="NSLock、NSCondition、NSConditionLock、NSRecursiveLock"><a href="#NSLock、NSCondition、NSConditionLock、NSRecursiveLock" class="headerlink" title="NSLock、NSCondition、NSConditionLock、NSRecursiveLock"></a><code>NSLock</code>、<code>NSCondition</code>、<code>NSConditionLock</code>、<code>NSRecursiveLock</code></h2><ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><code>NSLock</code>、<code>NSCondition</code>、<code>NSConditionLock</code>、<code>NSRecursiveLock</code></p>
+<ul>
 <li>都是基于<code>pthread_mutex</code>封装的面向对象的锁。</li>
 <li>都遵守<code>NSLocking</code>协议，该协议提供了加锁和解锁的方法。</li>
 <li>初始化<code>NSConditionLock</code>时需要指定当前<code>condition</code>的值，比如初始化的<code>condition</code>设置为0，三个线程加锁时会匹配这个condition，只有是0的才能加锁成功。解锁时也需要给定一个<code>condition</code>，可以自己随便定义，然后继续寻找匹配<code>condition</code>的线程加锁…依此类推直到加解锁完所有任务。根据<code>NSConditionLock</code>的这种特性，可以用来做多线程任务之间的依赖。</li>
