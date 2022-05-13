@@ -20,18 +20,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。 iOS的编译器LLVMLLVM采用三相设计：  前端负责词法分析、语法分析、生成中间代码； 后端以中间代码作为输入，进行与架构无">
+    <meta name="description" content="对于编译型语言来说，从源码到可执行文件需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。 iOS的编译器LLVMLLVM采用三相设计：  前端负责词法分析、语法分析、生成中间代码； 后端以中间代码作为输入，进行与架构无关的代码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS进阶：编译">
 <meta property="og:url" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/index.html">
 <meta property="og:site_name" content="Baylee的技术博客">
-<meta property="og:description" content="对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。 iOS的编译器LLVMLLVM采用三相设计：  前端负责词法分析、语法分析、生成中间代码； 后端以中间代码作为输入，进行与架构无">
+<meta property="og:description" content="对于编译型语言来说，从源码到可执行文件需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。 iOS的编译器LLVMLLVM采用三相设计：  前端负责词法分析、语法分析、生成中间代码； 后端以中间代码作为输入，进行与架构无关的代码">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/llvm.png">
 <meta property="og:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/build.png">
-<meta property="og:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/clang_swift.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/clang_swiftc.png">
 <meta property="article:published_time" content="2020-08-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-13T09:03:18.619Z">
+<meta property="article:modified_time" content="2022-05-13T09:25:08.024Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="编译">
 <meta name="twitter:card" content="summary">
@@ -249,14 +249,14 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。</p>
+        <p>对于编译型语言来说，从源码到可执行文件需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。</p>
 <h2 id="iOS的编译器LLVM"><a href="#iOS的编译器LLVM" class="headerlink" title="iOS的编译器LLVM"></a>iOS的编译器LLVM</h2><p>LLVM采用三相设计：</p>
 <ul>
 <li>前端负责词法分析、语法分析、生成中间代码；</li>
 <li>后端以中间代码作为输入，进行与架构无关的代码优化，接着针对不同架构生成不同的机器码。</li>
 <li>前后端依赖统一格式的中间代码（IR），使得前后端可以独立的变化。新增一门语言只需要修改前端，而新增一个 CPU 架构只需要修改后端即可</li>
 </ul>
-<p>Objective-C&#x2F;C&#x2F;C++ 使用的编译器前端是<code>clang</code>，swift 是<code>swift</code>，后端都是 LLVM。<span id="more"></span></p>
+<p>Objective-C&#x2F;C&#x2F;C++ 使用的编译器前端是<code>Clang</code>，swift 是<code>swiftc</code>，后端都是 LLVM。<span id="more"></span></p>
 <img src="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/llvm.png" class="" title="llvm结构">
 
 <p>其实中间代码可以被省略，抽象语法树可以直接转化为目标代码(汇编代码)。然而，不同的 CPU 的汇编语法并不一致，因此一种比较高效的做法是先生成语言无关、CPU 也无关的中间代码，然后再生成对应各个 CPU 的汇编代码。</p>
@@ -285,7 +285,7 @@
 <ul>
 <li>将所有的<code>#define</code>删除，并展开所有的宏定义</li>
 <li>处理所有条件预编译指令，比如<code>#if，#ifdef，#elif，#else，#endif</code></li>
-<li>处理<code>#include</code>预编译指令，将被包含的文件插入到该预编译指令的位置。</li>
+<li>处理<code>#include</code>预编译指令，将被包含的文件插入到该预编译指令的位置</li>
 <li>删除所有的注释<code>//</code>和<code>/**/</code></li>
 <li>添加行号和文件名标识，比如<code>#2 “hello.c” 2。</code></li>
 <li>保留所有的<code>#pragma</code>编译器指令</li>
@@ -297,7 +297,7 @@
 <ol>
 <li>词法分析：源代码的字符序列分割成一个个<code>token</code>（关键字、标识符、字面量、特殊符号），比如把标识符放到符号表。</li>
 <li>语法分析：生成抽象语法树 AST，此时运算符号的优先级确定了；有些符号具有多重含义也确定了，比如“*”是乘号还是对指针取内容；表达式不合法、括号不匹配等，都会报错。</li>
-<li>语义分析（静态分析）：分析类型声明和匹配问题。比如整型和字符串相加，肯定会报错。中间语言生成：CodeGen根据AST自顶向下遍历逐步翻译成 LLVM IR，并且在编译期就可以确定的表达式进行优化，比如代码里t1&#x3D;2+6，可以优化t1&#x3D;8。（假如开启了bitcode）</li>
+<li>语义分析（静态分析）：分析类型声明和匹配问题。比如整型和字符串相加，肯定会报错。中间语言生成：CodeGen根据AST自顶向下遍历逐步翻译成 LLVM IR，并且对在编译期就可以确定的表达式进行优化，比如代码里t1&#x3D;2+6，可以优化t1&#x3D;8。（假如开启了bitcode）</li>
 <li>目标代码生成与优化：根据中间语言生成依赖具体机器的汇编语言。并优化汇编语言。这个过程中，假如有变量且定义在同一个编译单元里，那给这个变量分配空间，确定变量的地址。假如变量或者函数不定义在这个编译单元，得链接时候，才能确定地址。</li>
 </ol>
 <h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>汇编器是将汇编代码转变成机器可以执行的指令，每一个汇编语句几乎对应一条机器令。</p>
@@ -326,19 +326,14 @@
 <p>链接器就是靠着重定位表来知道哪些地方需要被重定位的。每个可能存在重定位的段都会有对应的重定位表。在链接阶段，链接器会根据重定位表中，需要重定位的内容，去别的目标文件中找到地址并进行重定位。</p>
 <h2 id="Swift编译流程差异"><a href="#Swift编译流程差异" class="headerlink" title="Swift编译流程差异"></a>Swift编译流程差异</h2><p>不同于OC使用<code>Clang</code>作为编译器前端，Swift自定义了编译器前端Swiftc。</p>
 <p>相比OC的编译过程，Swift新增了对<code>SIL</code>(<code>Swift Intermediate Language</code>)的处理。<code>SIL</code>是Swift引入的新的高级中间语言，用以实现更高级别的优化。</p>
-<img src="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/clang_swift.png" class="" title="clang和swift编译器前端">
+<img src="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/clang_swiftc.png" class="" title="clang和swift编译器前端">
 
 <p>Swift编译流程：</p>
-<ul>
-<li><p>Swift源码经过词法分析、语法分析、语义分析后生成<code>AST</code>。</p>
-</li>
-<li><p><code>SILGen</code>获取<code>AST</code>后生成<code>Raw SIL</code>；</p>
-</li>
-<li><p>经过分析和优化后再生成<code>Canonical SIL</code>。</p>
-</li>
-<li><p>最后<code>IRGen</code>再将<code>Canonical SIL</code>转化为<code>LLVM IR</code>交给优化器和后端处理。</p>
-</li>
-</ul>
+<ol>
+<li>Swift源码经过词法分析、语法分析、语义分析后生成<code>AST</code>。</li>
+<li><code>SILGen</code>获取<code>AST</code>后生成未优化、代码量巨大的<code>Raw SIL</code>；再经过分析和优化后再生成更简洁的<code>Canonical SIL</code>。</li>
+<li>最后<code>IRGen</code>再将<code>Canonical SIL</code>转化为<code>LLVM IR</code>交给优化器和后端处理。</li>
+</ol>
 <h2 id="iOS程序详细编译过程"><a href="#iOS程序详细编译过程" class="headerlink" title="iOS程序详细编译过程"></a>iOS程序详细编译过程</h2><ol>
 <li>写入辅助文件：将项目的文件结构对应表、将要执行的脚本、项目依赖库的文件结构对应表写成文件，方便后面使用；并且创建一个 <code>.app</code> 包，后面编译后的文件都会被放入包中；</li>
 <li>运行预设脚本：<code>Cocoapods</code> 会预设一些脚本，当然你也可以自己预设一些脚本来运行。这些脚本都在 <code>Build Phases</code>中可以看到；</li>

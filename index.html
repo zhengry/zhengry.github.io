@@ -705,14 +705,14 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。</p>
+          <p>对于编译型语言来说，从源码到可执行文件需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。</p>
 <h2 id="iOS的编译器LLVM"><a href="#iOS的编译器LLVM" class="headerlink" title="iOS的编译器LLVM"></a>iOS的编译器LLVM</h2><p>LLVM采用三相设计：</p>
 <ul>
 <li>前端负责词法分析、语法分析、生成中间代码；</li>
 <li>后端以中间代码作为输入，进行与架构无关的代码优化，接着针对不同架构生成不同的机器码。</li>
 <li>前后端依赖统一格式的中间代码（IR），使得前后端可以独立的变化。新增一门语言只需要修改前端，而新增一个 CPU 架构只需要修改后端即可</li>
 </ul>
-<p>Objective-C&#x2F;C&#x2F;C++ 使用的编译器前端是<code>clang</code>，swift 是<code>swift</code>，后端都是 LLVM。
+<p>Objective-C&#x2F;C&#x2F;C++ 使用的编译器前端是<code>Clang</code>，swift 是<code>swiftc</code>，后端都是 LLVM。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/#more" rel="contents">
