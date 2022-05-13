@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">184</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">185</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">184</span>
+          <span class="site-state-item-count">185</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,99 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/08/07/iOS%E4%B9%8B%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/08/07/iOS%E4%B9%8B%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/" class="post-title-link" itemprop="url">iOS之响应者链</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-07 00:00:00" itemprop="dateCreated datePublished" datetime="2018-08-07T00:00:00+08:00">2018-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="事件传递："><a href="#事件传递：" class="headerlink" title="事件传递："></a>事件传递：</h2><ol>
+<li>当触摸到屏幕时会生成一个Touch Event(触摸事件)，添加到UIApplication管理的事件队列中；</li>
+<li>UIApplication会从事件队列中依次取出事件来分发到应响应的视图去处理；</li>
+<li>当触摸事件被UIApplication发出后，会从程序的keyWindow开始，然后依次向上传递，包括各种视图控制器以及视图，最后找到合适的处理该事件的视图来响应。</li>
+</ol>
+<p>涉及的两个方法</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br><span class="line">-(<span class="type">BOOL</span>)pointInSide:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event;</span><br></pre></td></tr></table></figure>
+
+<h2 id="传递过程中的函数调用"><a href="#传递过程中的函数调用" class="headerlink" title="传递过程中的函数调用"></a>传递过程中的函数调用</h2><p>当<code>UIApplication</code>发送事件到<code>keyWindow</code>时，<code>keyWindow</code>会调用<code>-hitTest:withEvent:</code>方法来寻找最适合处理事件的视图，当事件传递到某个视图时：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/08/07/iOS%E4%B9%8B%E5%93%8D%E5%BA%94%E8%80%85%E9%93%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1096,97 +1189,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/12/09/URL%20Scheme/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/10/17/UINavigationBar%E5%92%8CUIBarButtonItem%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/10/17/UINavigationBar%E5%92%8CUIBarButtonItem%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">UINavigationBar和UIBarButtonItem相关设置</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-10-17 00:00:00" itemprop="dateCreated datePublished" datetime="2017-10-17T00:00:00+08:00">2017-10-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="UINavigationBar设置纯色背景"><a href="#UINavigationBar设置纯色背景" class="headerlink" title="UINavigationBar设置纯色背景"></a>UINavigationBar设置纯色背景</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[nav.navigationBar setBarTintColor:MAIN_COLOR];</span><br><span class="line">[nav.navigationBar setTintColor:MAIN_COLOR];</span><br></pre></td></tr></table></figure>
-
-<p>问题：导航条颜色透明度不是1，颜色略淡。</p>
-<p>####UINavigationBar设置为图片</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIImage</span> *bgImage = [[<span class="built_in">UIImage</span> createImageWithColor:MAIN_COLOR] resizableImageWithCapInsets:<span class="built_in">UIEdgeInsetsZero</span> resizingMode:<span class="built_in">UIImageResizingModeStretch</span>];</span><br><span class="line">[[<span class="built_in">UINavigationBar</span> appearance] setBackgroundImage:bgImage forBarMetrics:<span class="built_in">UIBarMetricsDefault</span>];    </span><br></pre></td></tr></table></figure>
-
-<p>注意设置为图片后controller视图的位置变化：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/10/17/UINavigationBar%E5%92%8CUIBarButtonItem%E7%9B%B8%E5%85%B3%E8%AE%BE%E7%BD%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
