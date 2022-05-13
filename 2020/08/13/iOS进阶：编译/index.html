@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-my.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-my.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-my.png">
+  <link rel="mask-icon" href="/images/logo-my.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。 iOS的编译器LLVMLLVM采用三相设计：  前端负责词法分析、语法分析、生成中间代码； 后端以中间代码作为输入，进行与架构无">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS进阶：编译">
+<meta property="og:url" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/index.html">
+<meta property="og:site_name" content="Baylee的技术博客">
+<meta property="og:description" content="对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。 iOS的编译器LLVMLLVM采用三相设计：  前端负责词法分析、语法分析、生成中间代码； 后端以中间代码作为输入，进行与架构无">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/llvm.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/build.png">
+<meta property="og:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/clang_swift.png">
+<meta property="article:published_time" content="2020-08-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-05-13T09:03:18.619Z">
+<meta property="article:author" content="Baylee">
+<meta property="article:tag" content="编译">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/llvm.png">
+
+
+<link rel="canonical" href="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/","path":"2020/08/13/iOS进阶：编译/","title":"iOS进阶：编译"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS进阶：编译 | Baylee的技术博客</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Baylee的技术博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">184</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS%E7%9A%84%E7%BC%96%E8%AF%91%E5%99%A8LLVM"><span class="nav-number">1.</span> <span class="nav-text">iOS的编译器LLVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">编译过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%88%E9%A2%84%E7%BC%96%E8%AF%91%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">预处理（预编译）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">2.2.</span> <span class="nav-text">编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%87%E7%BC%96"><span class="nav-number">2.3.</span> <span class="nav-text">汇编</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5"><span class="nav-number">2.4.</span> <span class="nav-text">链接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B%E5%B7%AE%E5%BC%82"><span class="nav-number">3.</span> <span class="nav-text">Swift编译流程差异</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS%E7%A8%8B%E5%BA%8F%E8%AF%A6%E7%BB%86%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">iOS程序详细编译过程</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Baylee"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Baylee</p>
+  <div class="site-description" itemprop="description">凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">184</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhengry" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhengry" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ruyanzheng@126.com" title="E-Mail → mailto:ruyanzheng@126.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/zhengry" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS进阶：编译 | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS进阶：编译
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-13 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-13T00:00:00+08:00">2020-08-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。</p>
+<h2 id="iOS的编译器LLVM"><a href="#iOS的编译器LLVM" class="headerlink" title="iOS的编译器LLVM"></a>iOS的编译器LLVM</h2><p>LLVM采用三相设计：</p>
+<ul>
+<li>前端负责词法分析、语法分析、生成中间代码；</li>
+<li>后端以中间代码作为输入，进行与架构无关的代码优化，接着针对不同架构生成不同的机器码。</li>
+<li>前后端依赖统一格式的中间代码（IR），使得前后端可以独立的变化。新增一门语言只需要修改前端，而新增一个 CPU 架构只需要修改后端即可</li>
+</ul>
+<p>Objective-C&#x2F;C&#x2F;C++ 使用的编译器前端是<code>clang</code>，swift 是<code>swift</code>，后端都是 LLVM。<span id="more"></span></p>
+<img src="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/llvm.png" class="" title="llvm结构">
+
+<p>其实中间代码可以被省略，抽象语法树可以直接转化为目标代码(汇编代码)。然而，不同的 CPU 的汇编语法并不一致，因此一种比较高效的做法是先生成语言无关、CPU 也无关的中间代码，然后再生成对应各个 CPU 的汇编代码。</p>
+<p>中间代码是编译器前端和后端的分界线。编译器前端负责把源码转换成中间代码，编译器后端负责把中间代码转换成汇编代码。</p>
+<p>目标代码也可以叫做汇编代码。由于中间代码已经非常接近于实际的汇编代码，它几乎可以直接被转化。主要的工作量在于兼容各种 CPU 以及填写模板。在最终生成的汇编代码中，不仅有汇编命令，也有一些对文件的说明。</p>
+<h2 id="编译过程"><a href="#编译过程" class="headerlink" title="编译过程"></a>编译过程</h2><p>在iOS中，从源码到生成可执行文件的过程：</p>
+<ul>
+<li>预处理（Propressing）：生成预处理文件——&gt;<code>.i</code>文件</li>
+<li>编译（Compilation）：生成汇编文件——&gt;<code>.s</code>文件</li>
+<li>汇编（Assembly）: 生成目标文件——&gt;<code>.o</code>文件</li>
+<li>链接（Linking）：链接相关静态库生成可执行文件——Mach-O文件</li>
+</ul>
+<p>编译器负责的部分：<code>词法分析</code>、<code>语法分析</code>、<code>生成中间代码</code>和<code>生成目标代码</code></p>
+<img src="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/build.png" class="" title="编译过程">
+
+<h3 id="预处理（预编译）"><a href="#预处理（预编译）" class="headerlink" title="预处理（预编译）"></a>预处理（预编译）</h3><p>预编译过程主要处理源代码文件中以”<code>#</code>”开头的预编译指令。比如<code>#include、#define</code>等</p>
+<p>预处理的实现有很多种：</p>
+<ul>
+<li>有的编译器会在词法分析前先进行预处理，替换掉所有<code>#</code>开头的宏，比如Clang；</li>
+<li>有的编译器则是在词法分析的过程中进行预处理。当分析到 <code>#</code> 开头的单词时才进行替换，比如GCC。</li>
+</ul>
+<p>源代码文件和相关的头文件被预编译器<code>cpp</code>预编译成一个<code>.i</code>文件。经过预编译后的文件<code>（.i文件）</code>不包含任何宏定义，因为所有的宏已经被展开，并且包含的文件也已经插入到<code>.i文件</code>中。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/<span class="regexp">/ 预编译指令</span></span><br><span class="line"><span class="regexp">clang -E main.m -o main.i</span></span><br></pre></td></tr></table></figure>
+
+<p>预编译处理规则：</p>
+<ul>
+<li>将所有的<code>#define</code>删除，并展开所有的宏定义</li>
+<li>处理所有条件预编译指令，比如<code>#if，#ifdef，#elif，#else，#endif</code></li>
+<li>处理<code>#include</code>预编译指令，将被包含的文件插入到该预编译指令的位置。</li>
+<li>删除所有的注释<code>//</code>和<code>/**/</code></li>
+<li>添加行号和文件名标识，比如<code>#2 “hello.c” 2。</code></li>
+<li>保留所有的<code>#pragma</code>编译器指令</li>
+</ul>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>编译过程就是把预处理完的文件进行一系列的：<code>词法分析</code>、<code>语法分析</code>、<code>语义分析</code>及<code>优化</code>后生成相应的汇编代码文件。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/<span class="regexp">/ 编译指令</span></span><br><span class="line"><span class="regexp">clang -S main.i -o main.s</span></span><br></pre></td></tr></table></figure>
+
+<p>过程：</p>
+<ol>
+<li>词法分析：源代码的字符序列分割成一个个<code>token</code>（关键字、标识符、字面量、特殊符号），比如把标识符放到符号表。</li>
+<li>语法分析：生成抽象语法树 AST，此时运算符号的优先级确定了；有些符号具有多重含义也确定了，比如“*”是乘号还是对指针取内容；表达式不合法、括号不匹配等，都会报错。</li>
+<li>语义分析（静态分析）：分析类型声明和匹配问题。比如整型和字符串相加，肯定会报错。中间语言生成：CodeGen根据AST自顶向下遍历逐步翻译成 LLVM IR，并且在编译期就可以确定的表达式进行优化，比如代码里t1&#x3D;2+6，可以优化t1&#x3D;8。（假如开启了bitcode）</li>
+<li>目标代码生成与优化：根据中间语言生成依赖具体机器的汇编语言。并优化汇编语言。这个过程中，假如有变量且定义在同一个编译单元里，那给这个变量分配空间，确定变量的地址。假如变量或者函数不定义在这个编译单元，得链接时候，才能确定地址。</li>
+</ol>
+<h3 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h3><p>汇编器是将汇编代码转变成机器可以执行的指令，每一个汇编语句几乎对应一条机器令。</p>
+<p>它没复杂的语法，也没有语义，也不需要做指令优化，只是根据汇编指令和机器指令的对照表一一翻译。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 由汇编文件生成目标文件</span></span><br><span class="line">clang -c main.s -o main.o</span><br></pre></td></tr></table></figure>
+
+<p>汇编器会接收汇编代码，将它转换成二进制的机器码，生成目标文件(后缀是<code> .o</code>)，机器码可以直接被 CPU 识别并执行。</p>
+<p>最终的目标文件(机器码)也是分段的，主要有以下三个原因:</p>
+<ol>
+<li>分段可以将数据和代码区分开。其中代码只读，数据可写，方便权限管理，避免指令被改写，提高安全性。</li>
+<li>现代 CPU 一般有自己的数据缓存和指令缓存，区分存储有助于提高缓存命中率。</li>
+<li>当多个进程同时运行时，他们的指令可以被共享，这样能节省内存。</li>
+</ol>
+<p>段分离我们并不遥远，比如命令行中的 <code>objcopy</code>自行添加自定义的段名，C 语言的 <code>__attribute((section(段名)))__</code>可以把变量定义在某个特定名称的段中。</p>
+<p>对于一个目标文件来说，文件的最开头(也叫作 ELF 头)记录了目标文件的基本信息，程序入口地址，以及段表的位置，相当于是对文件的整体描述。段表记录了每个段的段名，长度，偏移量。比较常用的段有:</p>
+<ul>
+<li><code>.strtab</code> 段: 字符串长度不定，分开存放浪费空间(因为需要内存对齐)，因此可以统一放到字符串表(也就是 .strtab 段)中进行管理。字符串之间用<code>\\0</code> 分割，所以凡是引用字符串的地方用一个数字就可以代表。</li>
+<li><code>.symtab</code>: 表示符号表。符号表统一管理所有符号，比如变量名，函数名。符号表可以理解为一个表格，每行都有符号名(数字)、符号类型和符号值(存储地址)</li>
+<li><code>.rel</code> 段: 它表示一系列重定位表。这个表主要在链接时用到</li>
+</ul>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>链接就是将目标文件（.o文件）与其中调用的外部函数所在的目标文件通过重定位关联起来。</p>
+<p>链接过程主要包括地址和空间分配、符号决议和重定位。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang main.o -o main</span><br></pre></td></tr></table></figure>
+
+<p>在一个目标文件中，不可能所有变量和函数都定义在文件内部。比如，<code>main</code>函数中调用<code>print</code>函数时，<code>print</code> 函数就是一个被调用的外部函数，此时就需要把 <code>main.o</code> 这个目标文件和包含了 <code>print</code> 函数实现的目标文件链接起来。函数调用对应到汇编其实是 <code>jump</code> 指令，后面写上被调用函数的地址，但在生成 <code>main.o</code> 的过程中， <code>print()</code> 函数的地址并不知道，所以只能先用 <code>0</code> 来代替，直到最后链接时，才会修改成真实的地址。</p>
+<p>链接器就是靠着重定位表来知道哪些地方需要被重定位的。每个可能存在重定位的段都会有对应的重定位表。在链接阶段，链接器会根据重定位表中，需要重定位的内容，去别的目标文件中找到地址并进行重定位。</p>
+<h2 id="Swift编译流程差异"><a href="#Swift编译流程差异" class="headerlink" title="Swift编译流程差异"></a>Swift编译流程差异</h2><p>不同于OC使用<code>Clang</code>作为编译器前端，Swift自定义了编译器前端Swiftc。</p>
+<p>相比OC的编译过程，Swift新增了对<code>SIL</code>(<code>Swift Intermediate Language</code>)的处理。<code>SIL</code>是Swift引入的新的高级中间语言，用以实现更高级别的优化。</p>
+<img src="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/clang_swift.png" class="" title="clang和swift编译器前端">
+
+<p>Swift编译流程：</p>
+<ul>
+<li><p>Swift源码经过词法分析、语法分析、语义分析后生成<code>AST</code>。</p>
+</li>
+<li><p><code>SILGen</code>获取<code>AST</code>后生成<code>Raw SIL</code>；</p>
+</li>
+<li><p>经过分析和优化后再生成<code>Canonical SIL</code>。</p>
+</li>
+<li><p>最后<code>IRGen</code>再将<code>Canonical SIL</code>转化为<code>LLVM IR</code>交给优化器和后端处理。</p>
+</li>
+</ul>
+<h2 id="iOS程序详细编译过程"><a href="#iOS程序详细编译过程" class="headerlink" title="iOS程序详细编译过程"></a>iOS程序详细编译过程</h2><ol>
+<li>写入辅助文件：将项目的文件结构对应表、将要执行的脚本、项目依赖库的文件结构对应表写成文件，方便后面使用；并且创建一个 <code>.app</code> 包，后面编译后的文件都会被放入包中；</li>
+<li>运行预设脚本：<code>Cocoapods</code> 会预设一些脚本，当然你也可以自己预设一些脚本来运行。这些脚本都在 <code>Build Phases</code>中可以看到；</li>
+<li>编译文件：针对每一个文件进行编译，生成可执行文件 <code>Mach-O</code>，这过程 <code>LLVM</code> 的完整流程，前端、优化器、后端；</li>
+<li>链接文件：将项目中的多个可执行文件合并成一个文件；</li>
+<li>拷贝资源文件：将项目中的资源文件拷贝到目标包；</li>
+<li>编译、链接 <code>storyboard</code> 文件：将编译后的 <code>storyboard</code> 文件链接成一个文件；</li>
+<li>编译 <code>Asset</code> 文件：我们的图片如果使用 <code>Assets.xcassets</code> 来管理图片，那么这些图片将会被编译成机器码，除了 <code>icon</code> 和 <code>launchImage</code>；</li>
+<li>运行 <code>Cocoapods</code> 脚本：将在编译项目之前已经编译好的依赖库和相关资源拷贝到包中。</li>
+<li>将 <code>Swift</code> 标准库拷贝到包中</li>
+<li>对包进行签名</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Baylee
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/" title="iOS进阶：编译">https://zhengry.github.io/2020/08/13/iOS进阶：编译/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E8%AF%91/" rel="tag"><i class="fa fa-tag"></i> 编译</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/" rel="prev" title="iOS之App启动优化">
+                  <i class="fa fa-chevron-left"></i> iOS之App启动优化
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/08/29/block%E5%92%8C%E9%97%AD%E5%8C%85%E5%AF%B9%E5%80%BC%E7%9A%84%E6%8D%95%E8%8E%B7%E5%B7%AE%E5%BC%82/" rel="next" title="block和闭包对值的捕获差异">
+                  block和闭包对值的捕获差异 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2014 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa-solid fa-book"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Baylee</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

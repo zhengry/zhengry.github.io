@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">183</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">184</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">183</span>
+          <span class="site-state-item-count">184</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -138,7 +138,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -654,6 +654,98 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/" class="post-title-link" itemprop="url">iOS进阶：编译</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-13 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-13T00:00:00+08:00">2020-08-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>对于编译型语言来说，从源码到可执行文件的大致上需要经过编译、汇编和链接三个步骤。编译器接收源代码，输出目标代码(也就是汇编代码)，汇编器接收汇编代码，输出由机器码组成的目标文件(二进制格式，.o 后缀)，最后链接器将各个目标文件链接起来，执行重定位，最终生成可执行文件。</p>
+<h2 id="iOS的编译器LLVM"><a href="#iOS的编译器LLVM" class="headerlink" title="iOS的编译器LLVM"></a>iOS的编译器LLVM</h2><p>LLVM采用三相设计：</p>
+<ul>
+<li>前端负责词法分析、语法分析、生成中间代码；</li>
+<li>后端以中间代码作为输入，进行与架构无关的代码优化，接着针对不同架构生成不同的机器码。</li>
+<li>前后端依赖统一格式的中间代码（IR），使得前后端可以独立的变化。新增一门语言只需要修改前端，而新增一个 CPU 架构只需要修改后端即可</li>
+</ul>
+<p>Objective-C&#x2F;C&#x2F;C++ 使用的编译器前端是<code>clang</code>，swift 是<code>swift</code>，后端都是 LLVM。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/13/iOS%E8%BF%9B%E9%98%B6%EF%BC%9A%E7%BC%96%E8%AF%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/07/21/iOS%E4%B9%8BApp%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1009,104 +1101,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/05/01/iOS%E4%B9%8B%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2020/04/18/iOS%E4%B9%8BCategory/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/04/18/iOS%E4%B9%8BCategory/" class="post-title-link" itemprop="url">iOS之Category</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-04-18 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-18T00:00:00+08:00">2020-04-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Category的底层结构"><a href="#Category的底层结构" class="headerlink" title="Category的底层结构"></a>Category的底层结构</h2><p>编译后的分类信息都保存在<code>category_t</code>结构体中（定义在<code>objc-runtime-new.h</code>中）：</p>
-<img src="/2020/04/18/iOS%E4%B9%8BCategory/category_t.jpg" class="" title="category结构">
-
-<h2 id="Category的加载处理过程"><a href="#Category的加载处理过程" class="headerlink" title="Category的加载处理过程"></a>Category的加载处理过程</h2><p><code>Category</code>中的方法是在程序运行时通过<code>runtime</code>动态地将分类中的方法合并到类对象、元类对象中。</p>
-<ol>
-<li>通过Runtime加载某个类的所有<code>Category</code>数据（方法、属性、协议）；</li>
-<li>把所有<code>Category</code>的方法、属性、协议数据，合并到一个大数组中，参与编译的<code>Category</code>数据，会放在数组的前面</li>
-<li>将合并后的分类数据（方法、属性、协议），插入到类原来数据的前面</li>
-</ol>
-<h2 id="Category的实现原理"><a href="#Category的实现原理" class="headerlink" title="Category的实现原理"></a>Category的实现原理</h2><ul>
-<li>Category编译之后的底层结构是<code>struct category_t</code>；</li>
-<li>里面存储着分类的对象方法、类方法、属性、协议信息。</li>
-<li>在程序运行时，<code>runtime</code>会将<code>Category</code>的数据合并到类信息中（类对象、元类对象中）</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/18/iOS%E4%B9%8BCategory/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
