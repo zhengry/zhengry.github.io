@@ -525,10 +525,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h5 id="元类型"><a href="#元类型" class="headerlink" title="元类型"></a>元类型</h5><p>元类型就是类型的类型。元类型表述为metaType。</p>
-<h5 id="Type和-self"><a href="#Type和-self" class="headerlink" title=".Type和.self"></a>.Type和.self</h5><p>Swift中元类型用<code>.Type</code>表示。比如<code>Int.Type</code>就是<code>Int</code>的元类型。</p>
+          <h2 id="元类型"><a href="#元类型" class="headerlink" title="元类型"></a>元类型</h2><p>元类型就是类型的类型。元类型表述为<code>metaType</code>。</p>
+<h2 id="Type和-self"><a href="#Type和-self" class="headerlink" title=".Type和.self"></a>.Type和.self</h2><p>Swift中元类型用<code>.Type</code>表示。比如<code>Int.Type</code>就是<code>Int</code>的元类型。</p>
 <p>类型和值有着不同的形式，比如说5是个<code>Int</code>类型的值。</p>
-<p><strong><code>.Type</code>是类型的元类型；类型的<code>.self</code>是元类型的值，也就是类型本身。</strong>
+<p><strong><code>.Type</code>是类型的元类型；类型的<code>.self</code>是元类型的值，也就是类型本身。</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> metaTypeValue: <span class="type">Int</span>.<span class="keyword">Type</span> <span class="operator">=</span> <span class="type">Int</span>.<span class="keyword">self</span></span><br><span class="line"><span class="comment">// metaTypeValue就是Int</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="元类型在Swift中的应用"><a href="#元类型在Swift中的应用" class="headerlink" title="元类型在Swift中的应用"></a>元类型在Swift中的应用</h2><p>在Swift中，获得元类型后可以访问静态变量和静态方法。我们经常使用元类型，比如在<code>tableView</code>中的<code>AnyClass</code>：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">register</span>(<span class="type">AnyClass</span>?, <span class="params">forCellReuseIdentifier</span>: <span class="type">String</span>)</span><br><span class="line">tableView.register(<span class="type">UITableViewCell</span>.<span class="keyword">self</span>, forCellReuseIdentifier: <span class="string">&quot;cell&quot;</span>)</span><br><span class="line"><span class="comment">//AnyClass</span></span><br><span class="line"><span class="keyword">typealias</span> <span class="type">AnyClass</span> <span class="operator">=</span> <span class="type">AnyObject</span>.<span class="keyword">Type</span></span><br></pre></td></tr></table></figure>
+
+<p><code>AnyClass</code>就是一个任意类型元类型的别名。
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/12/08/Swift%E4%B8%AD%E7%9A%84%E5%85%83%E7%B1%BB%E5%9E%8B%EF%BC%9A.Type%E4%B8%8E.self/#more" rel="contents">
