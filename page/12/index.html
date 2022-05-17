@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">186</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">16</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">187</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-count">187</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -138,7 +138,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -180,6 +180,106 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/09/06/iOS%E4%B8%AD%E7%9A%84nil%E3%80%81Nil%E3%80%81NULL%E5%92%8CNSNull/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/09/06/iOS%E4%B8%AD%E7%9A%84nil%E3%80%81Nil%E3%80%81NULL%E5%92%8CNSNull/" class="post-title-link" itemprop="url">iOS中的nil、Nil、NULL和NSNull</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-06 00:00:00" itemprop="dateCreated datePublished" datetime="2018-09-06T00:00:00+08:00">2018-09-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="nil"><a href="#nil" class="headerlink" title="nil"></a>nil</h2><ul>
+<li>表示空对象</li>
+<li>所有<code>retain</code>相关的操作都会引起程序崩溃</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *array = [NSMutableArray array];</span><br><span class="line">NSMutableDictionary *dic = [NSMutableDictionary dictionary];</span><br><span class="line"></span><br><span class="line">id obj = nil;</span><br><span class="line">[array addObject: obj]; // crash</span><br><span class="line">[dic setObject:obj forKey:@&quot;name&quot;]; // crash</span><br></pre></td></tr></table></figure>
+
+<h2 id="Nil"><a href="#Nil" class="headerlink" title="Nil"></a>Nil</h2><ul>
+<li>完全等同于<code>nil</code></li>
+<li>常用于类置空，表示一个类的空指针</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">id obj = nil;</span><br><span class="line">if (obj == nil) &#123;</span><br><span class="line">	NSLog(@&quot; obj 为空&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class classA = Nil;</span><br><span class="line">if (classA == Nil) &#123;</span><br><span class="line">	NSLog(@&quot;classA 为空类&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="NULL"><a href="#NULL" class="headerlink" title="NULL"></a>NULL</h2><ul>
+<li>指向基本数据类型和c类型的空指针</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int *point = NULL;</span><br></pre></td></tr></table></figure>
+
+<h2 id="NSNull"><a href="#NSNull" class="headerlink" title="NSNull"></a>NSNull</h2><ul>
+<li>通常表示集合中的类型</li>
+<li><code>[NSNull null]</code>是一个对象，拥有有效的内存地址</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *array = [NSMutableArray array];</span><br><span class="line">NSMutableDictionary *dic = [NSMutableDictionary dictionary];</span><br><span class="line"></span><br><span class="line">id obj = nil;</span><br><span class="line">if (obj == nil) &#123;</span><br><span class="line">	obj = [NSNull null];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[array adObject: obj]; // it&#x27;s OK</span><br><span class="line">[dic setObject:obj forKey:@&quot;name&quot;]; // it&#x27;s OK</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1108,94 +1208,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/03/19/iOS%E4%B8%AD%E5%AF%B9%E6%95%B0%E7%BB%84%E8%BF%9B%E8%A1%8CKVO/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" class="post-title-link" itemprop="url">Swift3到Swift4的一些坑</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="一、Substring"><a href="#一、Substring" class="headerlink" title="一、Substring"></a>一、Substring</h4><p>Swift 4 中有一个很大的变化就是<strong>String</strong>可以当做<strong>Collection</strong>来用，并不是因为<strong>String</strong>实现了<strong>Collection</strong>协议，而是<strong>String</strong>本身增加了很多<strong>Collection</strong>协议中的方法，使得<strong>String</strong> 在使用时看上去就是个<strong>Collection</strong>。 </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> string <span class="operator">=</span> <span class="string">&quot;IamBaylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.prefix(<span class="number">3</span>))		<span class="comment">//&quot;Iam&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.suffix(<span class="number">6</span>))		<span class="comment">//&quot;Baylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.dropFirst())	<span class="comment">//&quot;amBaylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.dropLast())	<span class="comment">//&quot;IamBayle&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>比如上面的样例，我们使用一些<strong>Collection</strong>协议的方法对字符串进行截取，只不过它们的返回结果不是<strong>String</strong>类型，而是 Swift4 新增的<strong>Substring</strong>类型。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
