@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">187</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">188</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">187</span>
+          <span class="site-state-item-count">188</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -180,6 +180,94 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/05/13/collectionView%E6%B3%A8%E5%86%8Ccell%E5%92%8C%E7%AD%9B%E9%80%89%E9%A1%B9%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/05/13/collectionView%E6%B3%A8%E5%86%8Ccell%E5%92%8C%E7%AD%9B%E9%80%89%E9%A1%B9%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">collectionView注册cell和筛选项问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-13 00:00:00" itemprop="dateCreated datePublished" datetime="2017-05-13T00:00:00+08:00">2017-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="使用xib创建的cell、header、footer的register问题"><a href="#使用xib创建的cell、header、footer的register问题" class="headerlink" title="使用xib创建的cell、header、footer的register问题"></a>使用xib创建的cell、header、footer的register问题</h4><p>通常向collectionView注册cell、header、footer时，我们会使用：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[collectionView registerClass:[<span class="built_in">UICollectionViewCell</span> <span class="keyword">class</span>] forCellWithReuseIdentifier:cellId];</span><br><span class="line"></span><br><span class="line">[collectionView registerClass:[<span class="built_in">UICollectionReusableView</span> <span class="keyword">class</span>] forSupplementaryViewOfKind:<span class="built_in">UICollectionElementKindSectionHeader</span> withReuseIdentifier:headerId];</span><br><span class="line"></span><br><span class="line">[collectionView registerClass:[<span class="built_in">UICollectionReusableView</span> <span class="keyword">class</span>] forSupplementaryViewOfKind:<span class="built_in">UICollectionElementKindSectionFooter</span> withReuseIdentifier:footerId];</span><br></pre></td></tr></table></figure>
+
+<p>但是，如果cell、header、footer是使用xib创建的，就会发现这样注册到collectionView，collectionView的内容展示不出来。这时候就需要使用Nib文件来实现：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/05/13/collectionView%E6%B3%A8%E5%86%8Ccell%E5%92%8C%E7%AD%9B%E9%80%89%E9%A1%B9%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -951,94 +1039,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/12/07/Equatable%E5%92%8CComparable/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/12/03/Swift%E4%B9%8B%E9%80%83%E9%80%B8%E9%97%AD%E5%8C%85%E5%92%8C%E9%9D%9E%E9%80%83%E9%80%B8%E9%97%AD%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/12/03/Swift%E4%B9%8B%E9%80%83%E9%80%B8%E9%97%AD%E5%8C%85%E5%92%8C%E9%9D%9E%E9%80%83%E9%80%B8%E9%97%AD%E5%8C%85/" class="post-title-link" itemprop="url">Swift之逃逸闭包和非逃逸闭包</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-12-03 00:00:00" itemprop="dateCreated datePublished" datetime="2016-12-03T00:00:00+08:00">2016-12-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>逃逸：一个函数的闭包可能会在该函数返回后被调用，闭包逃脱出了接收它作为参数的函数的作用域。</p>
-<p>非逃逸闭包是不可能产生循环强引用的闭包，不需要显式引用self，所以可以隐式地调用self的属性和方法。</p>
-<p>以函数参数形式声明的闭包默认是非逃逸的；其他场景中的闭包是逃逸的。</p>
-<p>如果把闭包保存到属性中，意味着可以在函数返回后调用它，也就是说闭包会逃脱出函数的作用域：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/12/03/Swift%E4%B9%8B%E9%80%83%E9%80%B8%E9%97%AD%E5%8C%85%E5%92%8C%E9%9D%9E%E9%80%83%E9%80%B8%E9%97%AD%E5%8C%85/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
