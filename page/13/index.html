@@ -189,180 +189,6 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/03/19/iOS%E4%B8%AD%E5%AF%B9%E6%95%B0%E7%BB%84%E8%BF%9B%E8%A1%8CKVO/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/03/19/iOS%E4%B8%AD%E5%AF%B9%E6%95%B0%E7%BB%84%E8%BF%9B%E8%A1%8CKVO/" class="post-title-link" itemprop="url">iOS中对数组进行KVO</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-03-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-03-19T00:00:00+08:00">2018-03-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>iOS中，KVO的基本原理是重写了被观察属性的setter方法。所以一般情况下只有通过调用setter方法对值进行改变才会触发KVO，直接访问实例变量修改值是不会触发KVO的。</p>
-<p>对于NSMutableArray来说，当调用addObject、removeObject时，并不会触发它的setter方法。所以要KVO一个NSMutableArray，就需要用到<code>(NSMutableArray *)mutableArrayValueForKey:(NSString *)key</code>方法：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/03/19/iOS%E4%B8%AD%E5%AF%B9%E6%95%B0%E7%BB%84%E8%BF%9B%E8%A1%8CKVO/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/" class="post-title-link" itemprop="url">Swift3到Swift4的一些坑</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-02-19 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-19T00:00:00+08:00">2018-02-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="一、Substring"><a href="#一、Substring" class="headerlink" title="一、Substring"></a>一、Substring</h4><p>Swift 4 中有一个很大的变化就是<strong>String</strong>可以当做<strong>Collection</strong>来用，并不是因为<strong>String</strong>实现了<strong>Collection</strong>协议，而是<strong>String</strong>本身增加了很多<strong>Collection</strong>协议中的方法，使得<strong>String</strong> 在使用时看上去就是个<strong>Collection</strong>。 </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> string <span class="operator">=</span> <span class="string">&quot;IamBaylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.prefix(<span class="number">3</span>))		<span class="comment">//&quot;Iam&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.suffix(<span class="number">6</span>))		<span class="comment">//&quot;Baylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.dropFirst())	<span class="comment">//&quot;amBaylee&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string.dropLast())	<span class="comment">//&quot;IamBayle&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>比如上面的样例，我们使用一些<strong>Collection</strong>协议的方法对字符串进行截取，只不过它们的返回结果不是<strong>String</strong>类型，而是 Swift4 新增的<strong>Substring</strong>类型。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/02/19/Swift3%E5%88%B0Swift4%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/12/09/URL%20Scheme/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1046,6 +872,181 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/06/21/WKWebview%E8%87%AA%E9%80%82%E5%BA%94/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/05/13/collectionView%E6%B3%A8%E5%86%8Ccell%E5%92%8C%E7%AD%9B%E9%80%89%E9%A1%B9%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/05/13/collectionView%E6%B3%A8%E5%86%8Ccell%E5%92%8C%E7%AD%9B%E9%80%89%E9%A1%B9%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">collectionView注册cell和筛选项问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-05-13 00:00:00" itemprop="dateCreated datePublished" datetime="2017-05-13T00:00:00+08:00">2017-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="使用xib创建的cell、header、footer的register问题"><a href="#使用xib创建的cell、header、footer的register问题" class="headerlink" title="使用xib创建的cell、header、footer的register问题"></a>使用xib创建的cell、header、footer的register问题</h4><p>通常向collectionView注册cell、header、footer时，我们会使用：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[collectionView registerClass:[<span class="built_in">UICollectionViewCell</span> <span class="keyword">class</span>] forCellWithReuseIdentifier:cellId];</span><br><span class="line"></span><br><span class="line">[collectionView registerClass:[<span class="built_in">UICollectionReusableView</span> <span class="keyword">class</span>] forSupplementaryViewOfKind:<span class="built_in">UICollectionElementKindSectionHeader</span> withReuseIdentifier:headerId];</span><br><span class="line"></span><br><span class="line">[collectionView registerClass:[<span class="built_in">UICollectionReusableView</span> <span class="keyword">class</span>] forSupplementaryViewOfKind:<span class="built_in">UICollectionElementKindSectionFooter</span> withReuseIdentifier:footerId];</span><br></pre></td></tr></table></figure>
+
+<p>但是，如果cell、header、footer是使用xib创建的，就会发现这样注册到collectionView，collectionView的内容展示不出来。这时候就需要使用Nib文件来实现：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/05/13/collectionView%E6%B3%A8%E5%86%8Ccell%E5%92%8C%E7%AD%9B%E9%80%89%E9%A1%B9%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2017/04/27/present%E4%B8%80%E4%B8%AAxib%20controller%E4%BA%A7%E7%94%9Fframe%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2017/04/27/present%E4%B8%80%E4%B8%AAxib%20controller%E4%BA%A7%E7%94%9Fframe%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">present一个xib controller产生frame错误的问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-04-27 00:00:00" itemprop="dateCreated datePublished" datetime="2017-04-27T00:00:00+08:00">2017-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>最近写项目时，发现了一个问题：</p>
+<p>使用<code>presentViewController</code>方法present到一个包含childViewControllers的<em>containerController</em>时，<em>containerController</em>的childViewConroller是一个xib创建的<em>viewControllerA</em>，present之后，<em>ViewControllerA</em>的frame等于<em>ViewControllerA</em>的xib尺寸，而不是屏幕大小（比如，ViewControllerA的xib尺寸是375x667，在7 Plus上展示的时候，得到的<em>ViewControllerA</em>仍然是375x667）；而同样是作为childViewController的<em>ViewControllerB</em>用纯代码创建，则能够按照屏幕尺寸正确展示。</p>
+<h4 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2017/04/27/present%E4%B8%80%E4%B8%AAxib%20controller%E4%BA%A7%E7%94%9Fframe%E9%94%99%E8%AF%AF%E7%9A%84%E9%97%AE%E9%A2%98/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
