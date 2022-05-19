@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">189</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">195</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">17</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,18 +127,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">189</span>
+          <span class="site-state-item-count">195</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -189,7 +189,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/04/28/RunLoop%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/24/iOS10%E6%96%B0%E7%89%B9%E6%80%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -207,7 +207,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/04/28/RunLoop%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">RunLoop基础</a>
+          <a href="/2016/10/24/iOS10%E6%96%B0%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">iOS10新特性</a>
         </h2>
 
         <div class="post-meta-container">
@@ -218,7 +218,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2016-04-28 00:00:00" itemprop="dateCreated datePublished" datetime="2016-04-28T00:00:00+08:00">2016-04-28</time>
+      <time title="创建时间：2016-10-24 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-24T00:00:00+08:00">2016-10-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -240,10 +240,11 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>RunLoop是让线程能随时处理事件但不退出的机制。RunLoop 实际上是一个对象，这个对象管理了其需要处理的事件和消息，并提供了一个入口函数来执行Event Loop 的逻辑。
+          <h4 id="1、SiriKit"><a href="#1、SiriKit" class="headerlink" title="1、SiriKit"></a>1、SiriKit</h4><p>SiriKit 提供一全套从语音识别到代码处理，最后向用户展示结果的流程。Apple 加入了一套全新的框架 Intents.framework 来表示 Siri 获取并解析的结果。你的应用需要提供一些关键字表明可以接受相关输入，而 Siri 扩展只需要监听系统识别的用户意图 (intent)，作出合适的响应，修改以及实际操作，最后通过 IntentsUI.framework 提供反馈。 在 iOS 10 中，我们只能用 SiriKit 来做六类事情，分别是：语音和视频通话、发送消息、发送或接收付款、搜索照片、约车、管理健身。如果你的应用恰好正在处理这些领域的问题的话，添加 Intents Extension 的支持会是很棒的选择。它将提高用户使用你的应用的可能性，也能让用户在其他像是地图这样的系统级应用中使用你的服务。</p>
+<h4 id="2、-iMessage-App-Extension"><a href="#2、-iMessage-App-Extension" class="headerlink" title="2、 iMessage App Extension"></a>2、 iMessage App Extension</h4><p>在 iOS 10 里面开发者可以给 Message.app 提供两种 App Extension，分别是可以提供一个表情包（没错，英文名就叫 Sticker Pack），和一个自定义的界面，用于表情搜索等。添加了新的贴纸包，自动转换颜文字，发送全屏效果等功能。Xcode 8 中添加了Messages Application模板。同时，模拟器甚至还开发了新的双人对话模式，以供开发者调试这类 app。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/04/28/RunLoop%E5%9F%BA%E7%A1%80/#more" rel="contents">
+              <a class="btn" href="/2016/10/24/iOS10%E6%96%B0%E7%89%B9%E6%80%A7/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -274,7 +275,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/03/27/dispatch_once()%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -292,7 +293,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/03/27/dispatch_once()%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">dispatch_once()工作原理</a>
+          <a href="/2016/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">iOS编译原理和过程</a>
         </h2>
 
         <div class="post-meta-container">
@@ -303,7 +304,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2016-03-27 00:00:00" itemprop="dateCreated datePublished" datetime="2016-03-27T00:00:00+08:00">2016-03-27</time>
+      <time title="创建时间：2016-10-21 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-21T00:00:00+08:00">2016-10-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -325,10 +326,11 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>在iOS开发中，为保证单例在整个程序运行中只被初始化一次，单线程的时候，通过静态变量可以实现；但是多线程的出现，使得在极端条件下，单例也可能返回了不同的对象。如在单例初始化完成前，多个进程同时访问单例，那么这些进程可能都获得了不同的单例对象。苹果提供了 <code>dispatch_once(dispatch_once_t *predicate,dispatch_block_t block);</code>函数来避免这个问题。在实现单例类的时候，我们通常会下面的代码来初始化单例：
+          <h4 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h4><p>先了解一下编译器相关的LLVM和Clang：</p>
+<h5 id="LLVM"><a href="#LLVM" class="headerlink" title="LLVM"></a>LLVM</h5><p>LLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/03/27/dispatch_once()%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/#more" rel="contents">
+              <a class="btn" href="/2016/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -359,7 +361,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/03/24/iOS%E4%B9%8Bgif%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/19/%E7%BD%91%E7%BB%9C%EF%BC%9AUDP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -377,7 +379,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/03/24/iOS%E4%B9%8Bgif%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">gif动画效果实现方式</a>
+          <a href="/2016/10/19/%E7%BD%91%E7%BB%9C%EF%BC%9AUDP/" class="post-title-link" itemprop="url">网络：UDP</a>
         </h2>
 
         <div class="post-meta-container">
@@ -388,7 +390,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2016-03-24 00:00:00" itemprop="dateCreated datePublished" datetime="2016-03-24T00:00:00+08:00">2016-03-24</time>
+      <time title="创建时间：2016-10-19 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-19T00:00:00+08:00">2016-10-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -396,7 +398,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
+          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
         </span>
     </span>
 
@@ -410,630 +412,702 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>gif 图片的展示方式有几种：webView方法、逐桢展示、第三方</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/03/24/iOS%E4%B9%8Bgif%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/02/24/nib%E6%96%87%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/02/24/nib%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">nib文件</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-02-24 00:00:00" itemprop="dateCreated datePublished" datetime="2016-02-24T00:00:00+08:00">2016-02-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p> Nib文件是一种特殊类型的资源文件，它用于保存iPhone OS或Mac OS X应用程序的用户接口。Nib文件是Interface  Builder文档。通常您会使用Interface  Builder设计应用程序的可视部分－例如窗口或视图。有些时候，您可能也用它来配置一些不可视的对象，例如控制器对象（用于管理窗口和视图）。实际上，所有这些操作都是在编辑一份Interface  Builder文档，即在创建一份对象图。保存文件的时候，就是将该对象图进行归档，加载文件的时候，就是将对象图进行解档。</p>
-<p> Nib文件—也就是对象图－可以包含占位对象，这种对象用于指涉存在于文档之外的对象。这些对象虽然不在文档中，但却可能含有文档内对象的引用，或者被文档内的对象引用。文件拥有者就是一种特殊的占位对象。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/02/24/nib%E6%96%87%E4%BB%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/02/02/setObject%EF%BC%9AforKey%EF%BC%9A%E5%92%8CsetValue%EF%BC%9AforKey%EF%BC%9A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/02/02/setObject%EF%BC%9AforKey%EF%BC%9A%E5%92%8CsetValue%EF%BC%9AforKey%EF%BC%9A/" class="post-title-link" itemprop="url">setObject：forKey：和setValue：forKey：</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-02-02 00:00:00" itemprop="dateCreated datePublished" datetime="2016-02-02T00:00:00+08:00">2016-02-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在使用<code>NSMutableDictionary</code>和<code>NSUserDefaults</code>时，经常会用到<code>setValue:forKey</code>或<code>setObject:forKey</code>两个方法，这两个方法的区别是什么，什么时候用<code>setValue:forKey</code>?什么时候用<code>setObject:forKey</code>呢？</p>
-<p>先看下字典中<code>setObject:forKey:</code> 、<code> setValue:forKey:</code>、 <code>setValue:forKeyPath:</code> 的标准调用语句：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSMutableDictionary</span> *dict = [[<span class="built_in">NSMutableDictionary</span> alloc] init];</span><br><span class="line">[dict setValue:(<span class="keyword">nullable</span> <span class="type">id</span>) forKeyPath:(<span class="keyword">nonnull</span> <span class="built_in">NSString</span> *)];</span><br><span class="line">[dict setValue:(<span class="keyword">nullable</span> <span class="type">id</span>) forKey:(<span class="keyword">nonnull</span> <span class="built_in">NSString</span> *)];</span><br><span class="line">[dict setObject:(<span class="keyword">nonnull</span> <span class="type">id</span>) forKey:(<span class="keyword">nonnull</span> <span class="type">id</span>&lt;<span class="built_in">NSCopying</span>&gt;)];</span><br></pre></td></tr></table></figure>
-
-<p>可以看出：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/02/02/setObject%EF%BC%9AforKey%EF%BC%9A%E5%92%8CsetValue%EF%BC%9AforKey%EF%BC%9A/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/01/01/iOS%E4%B9%8BKVC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/01/01/iOS%E4%B9%8BKVC/" class="post-title-link" itemprop="url">iOS之KVC</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-01-01 00:00:00" itemprop="dateCreated datePublished" datetime="2016-01-01T00:00:00+08:00">2016-01-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>KVC，即是指 Key Value Coding，一个非正式的 Protocol，提供一种机制来间接访问对象的属性。KVC是实现KVO的基础。</p>
-<p>一个对象拥有某些属性。比如一个<code>Person</code>对象有一个<code>name</code>和一个<code>address</code>属性。则<code>Person</code>对象分别有一个value对应他的<code>name</code>和<code>address</code>的key。 key只是一个字符串，它对应的值可以是任意类型的对象。从最基础的层次上看，KVC 有两个方法：一个是设置key的值，另一个是获取key的值。如下面的例子：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="type">void</span>)changePerson:(Person *)p name:(<span class="built_in">NSString</span> *)newName</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// using the KVC accessor (getter) method</span></span><br><span class="line">    <span class="built_in">NSString</span> *originalName = [p valueForKey:<span class="string">@&quot;name&quot;</span>];</span><br><span class="line">    <span class="comment">// using the KVC  accessor (setter) method.</span></span><br><span class="line">    [p setValue:newName forKey:<span class="string">@&quot;name&quot;</span>];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;Changed %@&#x27;s name to: %@&quot;</span>, originalName, newName);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/01/01/iOS%E4%B9%8BKVC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/01/01/iOS%E4%B9%8BKVO%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2016/01/01/iOS%E4%B9%8BKVO%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">iOS之KVO实现原理</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2016-01-01 00:00:00" itemprop="dateCreated datePublished" datetime="2016-01-01T00:00:00+08:00">2016-01-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>当观察某对象A时，KVO机制动态创建一个对象A当前类的子类，并为这个新的子类重写被观察属性keyPath的<code>setter</code>方法。<code>setter</code>方法负责通知观察对象该属性的改变状况。</p>
-<p>Apple 使用了isa混写（isa-swizzling）来实现 KVO 。当观察对象A时，KVO机制动态创建一个新的名为： <code>NSKVONotifying_A</code>的新类，该类继承自对象A的本类，且KVO为<code>NSKVONotifying_A</code>重写被观察属性的setter方法，setter方法会负责在调用原<code>setter</code>方法之前和之后，通知所有观察对象该属性值的更改情况。</p>
-<ol>
-<li><p>NSKVONotifying_A类</p>
-<p>在KVO过程中，被观察对象的<code>isa</code>指针从指向原来的A类，被KVO机制修改为指向<u>系统新创建的子类</u>——<code>NSKVONotifying_A</code>类，来<u>实现当前类属性值改变的监听</u>；
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/01/01/iOS%E4%B9%8BKVO%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/12/28/iOS%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9D%9E%E9%87%8E%E6%8C%87%E9%92%88%E7%B1%BBcrash%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/12/28/iOS%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9D%9E%E9%87%8E%E6%8C%87%E9%92%88%E7%B1%BBcrash%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">iOS中常见的非野指针类crash总结</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2015-12-28 00:00:00" itemprop="dateCreated datePublished" datetime="2015-12-28T00:00:00+08:00">2015-12-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="集合类Crash"><a href="#集合类Crash" class="headerlink" title="集合类Crash"></a>集合类Crash</h4><h5 id="数组越界"><a href="#数组越界" class="headerlink" title="数组越界"></a>数组越界</h5><p>从数组中取某个index的元素时，先对index和数组元素个数进行判断：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(index &lt; <span class="keyword">self</span>.array.count)&#123;</span><br><span class="line">  <span class="type">id</span> obj = <span class="keyword">self</span>.array[index];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><em>注意：在使用数组时，要特别注意对边界条件的判断</em>。</p>
-<h5 id="向数组中插入空对象"><a href="#向数组中插入空对象" class="headerlink" title="向数组中插入空对象"></a>向数组中插入空对象</h5><p>向数组中插入数据时，先判断是否为nil
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/12/28/iOS%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%9D%9E%E9%87%8E%E6%8C%87%E9%92%88%E7%B1%BBcrash%E6%80%BB%E7%BB%93/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/12/28/iOS%E4%B9%8BKVO%20Tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/12/28/iOS%E4%B9%8BKVO%20Tips/" class="post-title-link" itemprop="url">iOS之KVO Tips</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2015-12-28 00:00:00" itemprop="dateCreated datePublished" datetime="2015-12-28T00:00:00+08:00">2015-12-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ol>
-<li><p><code>key</code>或<code>keypath</code>匹配</p>
-<p><code>addObserver: forKeyPath: options: context:</code>的“keypath”和<code>setValue: forKey</code>的“key”或<code>setValue: forKeyPath:</code>的“keyPath”或setter方法对应的属性名保持一致，<code>observeValueForKeyPath: ofObject: change: context: </code>方法才会被触发。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//self.student.name</span></span><br><span class="line">[<span class="keyword">self</span>.student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@&quot;name&quot;</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>];</span><br><span class="line"></span><br><span class="line">[<span class="keyword">self</span>.student setName:<span class="string">@&quot;baylee&quot;</span>];<span class="comment">//student有&quot;name&quot;属性或成员变量</span></span><br><span class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@&quot;baylee&quot;</span> forKey:<span class="string">@&quot;name&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//self.student有teacher属性，teacher有个className属性</span></span><br><span class="line">[<span class="keyword">self</span>.student addObserver:<span class="keyword">self</span> forKeyPath:<span class="string">@&quot;teacher.className&quot;</span> options:<span class="built_in">NSKeyValueObservingOptionNew</span> | <span class="built_in">NSKeyValueObservingOptionOld</span> context:<span class="literal">NULL</span>]; </span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.student.teacher.className = <span class="string">@&quot;english&quot;</span>;</span><br><span class="line">[<span class="keyword">self</span>.student setValue:<span class="string">@&quot;english&quot;</span> forKeyPath:<span class="string">@&quot;teacher.className&quot;</span>];</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/12/28/iOS%E4%B9%8BKVO%20Tips/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/12/23/static%E5%92%8Cconst/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/12/23/static%E5%92%8Cconst/" class="post-title-link" itemprop="url">static和const</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2015-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2015-12-23T00:00:00+08:00">2015-12-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="static-的两大作用"><a href="#static-的两大作用" class="headerlink" title="static 的两大作用"></a>static 的两大作用</h2><ol>
-<li><p>控制存储方式</p>
-<p><code>static</code>被引入以告知编译器，将变量存储在程式的静态存储区而非栈上空间。</p>
-<ul>
-<li><p>引出原因：函数内部定义的变量，在程式执行到他的定义处时，编译器为他在栈上分配空间，函数在栈上分配的空间在此函数执行结束时会释放掉，这样就产生了一个问题: 如果想将函数中此变量的值保存至下一次调用时，怎么实现？ </p>
-<p>最容易想到的方法是定义一个全局的变量，但定义为一个全局变量有许多缺点，最明显的缺点是破坏了此变量的访问范围（使得在此函数中定义的变量，不仅仅受此函数控制）。</p>
+          <p>UDP：User Datagram Protocol，用户数据报协议。</p>
+<h2 id="UDP特点"><a href="#UDP特点" class="headerlink" title="UDP特点"></a>UDP特点</h2><ul>
+<li><p>不建立连接</p>
+<p>传输数据之前源端和终端不建立连接，发送数据时就简单地抓取来自应用程序的数据，并尽可能快地把它扔到网络上；</p>
+<p>在发送端，UDP传送数据的速度只受应用程序生成数据的速度、计算机的能力和传输带宽的限制；</p>
+<p>在接收端，UDP把每个消息段放在队列中，应用程序每次从队列中读取一个消息段；</p>
+<p>由于传输数据不建立连接，因此也就不需要维护连接状态，包括收发状态等，因此一台服务器可以同时向多个客户端传输相同的消息。</p>
 </li>
-<li><p>解决方案：因此c++ 中引入了<code>static</code>，用他来修饰变量，他能够指示编译器将此变量在程式的静态存储区分配空间保存，这样即实现了目的，又使得此变量的存取范围不变。
+<li><p>简单：在发送端和接收端没有连接状态，每个数据报都是独立被处理的</p>
+</li>
+<li><p>开销小：UDP的首部很短，只有8个字节，相对于TCP的20个字节额外开销很小</p>
+</li>
+<li><p>无拥塞控制和流量控制：UDP可以尽可能快地发送报文；吞吐量只受应用程序生成数据的速率、传输带宽、源端和终端主机性能的限制。</p>
+</li>
+<li><p>UDP使用尽最大努力交付，可能丢失、可能乱序。</p>
+</li>
+<li><p>UDP是面向报文的：发送方的UDP对应用程序来的报文在添加首部后就向下交付给IP层，既不拆分，也不合并，而是保留这些报文的边界。因此，应用程序需要选择合适的报文大小。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2015/12/23/static%E5%92%8Cconst/#more" rel="contents">
+              <a class="btn" href="/2016/10/19/%E7%BD%91%E7%BB%9C%EF%BC%9AUDP/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/17/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/17/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Swift值类型和引用类型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-17 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-17T00:00:00+08:00">2016-10-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Swift中，基本类型（Array、Dictionary、Int、String等）都是值类型，它们都是用结构体实现的。在使用Swift时，应优先使用struct实现数据建模，只在需要的时候才使用class。</p>
+<p>不能改变声明为常量的值类型实例的属性。</p>
+<p>可以改变声明为常量的引用类型实例的属性。</p>
+<p>Swift在语言层面没有提供深复制的支持，所以Swift中的复制是浅复制。</p>
+<p>Swift对值类型的赋值行为会不会对性能产生影响？答案是取决于数据和用法。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/17/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/15/nil%E5%90%88%E5%B9%B6%E8%BF%90%E7%AE%97%E7%AC%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/15/nil%E5%90%88%E5%B9%B6%E8%BF%90%E7%AE%97%E7%AC%A6/" class="post-title-link" itemprop="url">nil合并运算符</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-15 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-15T00:00:00+08:00">2016-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name : <span class="type">String</span>? <span class="operator">=</span> <span class="literal">nil</span></span><br><span class="line">name<span class="operator">?</span>.append(<span class="string">&quot;baylee&quot;</span>)</span><br><span class="line"><span class="keyword">let</span> nameDes <span class="operator">=</span> name <span class="operator">??</span> <span class="string">&quot;zry&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>对于可选实例<code>name</code>，如果<code>name</code>有值，将<code>name</code>赋值给<code>nameDes</code>，如果<code>name</code>为nil，赋值<code>&quot;zry&quot;</code>给<code>nameDes</code></p>
+<p>??为nil合并运算符，左边必须是可空实例，右边必须是非可空的同类型实例。如果左边为nil，则返回右边的值，否则返回左边的值。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/15/nil%E5%90%88%E5%B9%B6%E8%BF%90%E7%AE%97%E7%AC%A6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9A%90%E5%BC%8F%E5%B1%95%E5%BC%80%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9A%90%E5%BC%8F%E5%B1%95%E5%BC%80%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Swift可空类型和隐式展开可空类型</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-14 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-14T00:00:00+08:00">2016-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="可空类型"><a href="#可空类型" class="headerlink" title="可空类型"></a>可空类型</h4><p>可空类型指某个实例可能没有值，任何类型都可以用可空类型来说明一个实例可能是nil。可空类型让Swift这门语言更加安全。</p>
+<p>一个可能为nil的实例应该被声明为可空类型。<u>没有被声明为可空类型的实例不可能为nil。</u></p>
+<ol>
+<li><p>声明时在类型后加<code>?</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCodeString: <span class="type">String</span>?</span><br><span class="line">errorCodeString <span class="operator">=</span> <span class="string">&quot;404&quot;</span></span><br><span class="line"><span class="built_in">print</span>(errorCodeString)</span><br><span class="line"><span class="comment">//打印结果是Optional(&quot;404&quot;)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问时需要强制展开，实例后加<code>!</code>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E5%92%8C%E9%9A%90%E5%BC%8F%E5%B1%95%E5%BC%80%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">Swift可空链式调用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-14 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-14T00:00:00+08:00">2016-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>可空链式调用和可空实例绑定区别：可空链式调用允许程序员把多个查询串联为一个可空实例的值。如果链式调用中的每个可空实例都包含之，那么每个调用都会成功。整个查询链会返回期望类型的可空实例。如果查询链式中的任意可空实例是nil，那么整个链式调用会返回nil。</p>
+<p>示例：如果遇到404错误，就用自定义错误码及展示给用户的错误描述代替</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> errorCodeString : <span class="type">String</span>!</span><br><span class="line">errorCodeString <span class="operator">=</span> <span class="string">&quot;404&quot;</span></span><br><span class="line"><span class="keyword">var</span> errorDescription: <span class="type">String</span>?</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> theError <span class="operator">=</span> errorCodeString, <span class="keyword">let</span> errorCodeInteger <span class="operator">=</span> <span class="type">Int</span>(theError), errorCodeInteger <span class="operator">==</span> <span class="number">404</span> &#123;</span><br><span class="line">   errorDescription <span class="operator">=</span> <span class="string">&quot;<span class="subst">\(errorCodeInteger <span class="operator">+</span> <span class="number">200</span>)</span>: resource was not found&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> upcaseDescription <span class="operator">=</span> errorDescription<span class="operator">?</span>.uppercased()</span><br></pre></td></tr></table></figure>
+
+<p>重点在于最后一句代码！！！
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/14/Swift%E5%8F%AF%E7%A9%BA%E9%93%BE%E5%BC%8F%E8%B0%83%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/14/%E7%BD%91%E7%BB%9C%EF%BC%9ATCP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/14/%E7%BD%91%E7%BB%9C%EF%BC%9ATCP/" class="post-title-link" itemprop="url">网络：TCP</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-14 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-14T00:00:00+08:00">2016-10-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="TCP特点"><a href="#TCP特点" class="headerlink" title="TCP特点"></a>TCP特点</h2><ul>
+<li>点对点：一个发送方，一个接收方</li>
+<li>可靠的、按顺序的字节流：没有报文边界</li>
+<li>管道化（流水线）：TCP拥塞控制和流量控制设置窗口大小（GBN和SR）</li>
+<li>发送和接收缓存</li>
+<li>全双工数据：在同一连接中数据双向流动</li>
+<li>面向连接：在数据交换之前，通过握手（交换控制报文）初始化发送方、接收方的状态变量</li>
+<li>有拥塞控制：发送方不会淹没接收方</li>
+</ul>
+<h2 id="TCP报文结构"><a href="#TCP报文结构" class="headerlink" title="TCP报文结构"></a>TCP报文结构</h2><img src="/2016/10/14/%E7%BD%91%E7%BB%9C%EF%BC%9ATCP/tcp_segment.png" class="" title="TCP报文结构">
+
+<ul>
+<li>序号：报文段首字节在字节流的编号</li>
+<li>确认号：期望从另一方收到的下一个字节的序号，是个<strong>累计确认</strong>（ACK n表示确认n-1及以前的字节）</li>
+<li>序号和确认号都是以<strong>字节</strong>为单位的，用来实现可靠数据传输服务</li>
+<li>接收窗口：表示愿意接收的字节数量，用于流量控制</li>
+<li>可选与边长的选项字段：用于发送方和接收方协商最大报文长度MSS</li>
+<li>标志字段：<ul>
+<li>ACK：表示该报文段包含一个对已被成功接收报文段的确认</li>
+<li>RST、SYN、FIN用于连接的建立和拆除</li>
+</ul>
+</li>
+<li>接收方如何处理乱序的报文段是没有规定的</li>
+</ul>
+<p>关于序号和确认号：</p>
+<p>TCP把数据看成是一个无结构的、有序的字节流。所以TCP的序号和确认号都是建立在传送的字节流之上，而不是建立在传送的报文段的序号之上。</p>
+<h2 id="TCP的三次握手和四次挥手"><a href="#TCP的三次握手和四次挥手" class="headerlink" title="TCP的三次握手和四次挥手"></a>TCP的三次握手和四次挥手</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><img src="/2016/10/14/%E7%BD%91%E7%BB%9C%EF%BC%9ATCP/tcp_hand.jpg" class="" title="TCP三次握手">
+
+<ol>
+<li>客户端TCP向服务器TCP发送一个建立连接的请求，将自己的初始序号（随机选择的，不一定是从0开始的）发送给对方；<ul>
+<li>客户端的TCP会向服务器端发送一个特殊的TCP报文段。这个报文段不包含应用层数据。</li>
+<li>该报文段的首部中的一个标志位SYN被置为1，这个报文因此被称为SYN报文段</li>
+<li>客户端会随机选择一个初始序号放置于该SYN报文段的<strong>序号</strong>字段中</li>
+<li>该报文段会被封装在一个IP数据报中发送给服务器</li>
+</ul>
+</li>
+<li>服务端TCP向客户端TCP发送一个建立连接的确认，并把自己的初始序号发送给客户端TCP；<ul>
+<li>服务器接收到IP数据报后，从数据包中提取 出SYN报文段，为该TCP连接分配TCP缓存和变量，并向该客户端TCP发送允许连接的报文段</li>
+<li>报文段包含内容：<ul>
+<li>SYN被置为1</li>
+<li>报文段首部的确认序号字段为接收到的序号+1</li>
+<li>服务端选择自己的的初始序号，并放到报文段首部的序号字段中</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>客户端向服务端发送对服务端的初始序号的确认<ul>
+<li>客户端收到SYN+ACK报文段后，客户端也要给该连接分配缓存和变量。并向服务器发送对服务器允许连接的报文段进行确认的报文段（可以携带数据）。</li>
+<li>此时连接建立完成，SYN比特被置为0</li>
+</ul>
+</li>
+</ol>
+<p>客户和服务器主机可以开始互相发送包含数据的报文段了，以后每一个报文段中，SYN比特都将被置为0。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/14/%E7%BD%91%E7%BB%9C%EF%BC%9ATCP/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/13/Swift%E7%B1%BB%E5%88%9D%E5%A7%8B%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/13/Swift%E7%B1%BB%E5%88%9D%E5%A7%8B%E5%8C%96/" class="post-title-link" itemprop="url">Swift类初始化</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-13 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-13T00:00:00+08:00">2016-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="默认初始化方法"><a href="#默认初始化方法" class="headerlink" title="默认初始化方法"></a>默认初始化方法</h4><ol>
+<li>类没有成员初始化方法；</li>
+<li>类拥有空初始化方法条件：类的所有属性都有默认值 &amp;&amp; 没有自定义初始化方法。</li>
+</ol>
+<h4 id="自定义初始化方法"><a href="#自定义初始化方法" class="headerlink" title="自定义初始化方法"></a>自定义初始化方法</h4><ol>
+<li><p>指定初始化方法</p>
+<ul>
+<li>指定初始化方法用关键字<code>init</code>表示；</li>
+<li>如果有父类，则子类的指定初始化方法必须调用父类的指定初始化方法。</li>
+<li>子类在初始化方法的最后调用父类的初始化方法。因为子类的初始化方法负责为自己引入的所有属性赋值，子类属性赋值后，再调用父类的初始化方法，以便父类初始化自己的属性。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/13/Swift%E7%B1%BB%E5%88%9D%E5%A7%8B%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/" class="post-title-link" itemprop="url">Autoreleasepool中的对象什么时候释放</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-10-12 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-12T00:00:00+08:00">2016-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><code>[obj autorelease];</code>的实质是：</p>
+<p>向autoreleasepool中添加<code>obj</code>，即 <code>[pool addObject:obj];</code></p>
+<p>autoreleasepool在被废弃的时候会向pool中所有发送过<code>autorelease</code>的对象发送<code>release</code>消息，对象的引用计数减1。（并不一定就会被释放，可能引用计数减1后仍然&gt;0）</p>
+<p>对于每一个Runloop， 系统会隐式创建一个Autorelease pool，这样所有的release pool会构成一个象CallStack一样的一个栈式结构，在每一个Runloop结束时，当前栈顶的Autorelease pool会被销毁，这样这个pool里的每个Object会被release。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1057,7 +1131,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>

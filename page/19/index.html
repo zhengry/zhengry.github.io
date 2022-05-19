@@ -82,7 +82,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">189</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">195</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">17</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
   </ul>
 </nav>
 
@@ -127,18 +127,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">189</span>
+          <span class="site-state-item-count">195</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -189,7 +189,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/12/03/%E6%95%B0%E7%BB%84%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/09/%E7%BD%91%E7%BB%9C%EF%BC%9AHTTPS%E9%80%9A%E4%BF%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -207,7 +207,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/12/03/%E6%95%B0%E7%BB%84%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">数组类型的请求参数处理</a>
+          <a href="/2016/10/09/%E7%BD%91%E7%BB%9C%EF%BC%9AHTTPS%E9%80%9A%E4%BF%A1/" class="post-title-link" itemprop="url">网络：HTTPS通信</a>
         </h2>
 
         <div class="post-meta-container">
@@ -218,7 +218,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2015-12-03 22:07:56" itemprop="dateCreated datePublished" datetime="2015-12-03T22:07:56+08:00">2015-12-03</time>
+      <time title="创建时间：2016-10-09 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-09T00:00:00+08:00">2016-10-09</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -226,7 +226,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
+          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
         </span>
     </span>
 
@@ -240,11 +240,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>某个请求参数为数组类型时，不能直接将array作为请求参数的键值，需要将数组转成jsonString再进行请求：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (imgs.count) &#123;</span><br><span class="line">       <span class="built_in">NSError</span> *error;</span><br><span class="line">       <span class="built_in">NSData</span> *jsonData = [<span class="built_in">NSJSONSerialization</span> dataWithJSONObject:imgs</span><br><span class="line">                                                          options:kNilOptions</span><br><span class="line">                                                            error:&amp;error];</span><br><span class="line">       <span class="built_in">NSString</span> *jsonString = [[<span class="built_in">NSString</span> alloc] initWithData:jsonData</span><br><span class="line">                                                    encoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">       [dic setValue:jsonString forKey:<span class="string">@&quot;imageList&quot;</span>];</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+          <h4 id="HTTP缺点"><a href="#HTTP缺点" class="headerlink" title="HTTP缺点"></a>HTTP缺点</h4><p>HTTP协议中没有加密机制，所以HTTP通信中有如下缺点：</p>
+<ul>
+<li>通信使用明文，内容可能会被窃听</li>
+<li>不验证通信方的身份，有可能是伪装的通信方</li>
+<li>无法证明报文的完整性（正确性），可能已经被篡改</li>
+<li>即使通信内容经过加密处理，加密后的通信内容还是会被看到</li>
+</ul>
+<h4 id="什么是HTTPS"><a href="#什么是HTTPS" class="headerlink" title="什么是HTTPS"></a>什么是HTTPS</h4><p>HTTP协议中虽然没有加密机制，但可以通过和SSL（Secure Socket Layer，安全套接层）或TLS（Transport Layer Security，安全传输协议）的组合使用，加密HTTP的通信内容。用SSL建立安全通信线路后，就可以在这条线路上进行HTTP通信了。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2015/12/03/%E6%95%B0%E7%BB%84%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E5%A4%84%E7%90%86/#more" rel="contents">
+              <a class="btn" href="/2016/10/09/%E7%BD%91%E7%BB%9C%EF%BC%9AHTTPS%E9%80%9A%E4%BF%A1/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -275,7 +281,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/10/08/Swift%E7%BB%93%E6%9E%84%E4%BD%93%E5%88%9D%E5%A7%8B%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -293,7 +299,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/" class="post-title-link" itemprop="url">iOS编译原理和过程</a>
+          <a href="/2016/10/08/Swift%E7%BB%93%E6%9E%84%E4%BD%93%E5%88%9D%E5%A7%8B%E5%8C%96/" class="post-title-link" itemprop="url">Swift结构体初始化</a>
         </h2>
 
         <div class="post-meta-container">
@@ -304,7 +310,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2015-10-21 00:00:00" itemprop="dateCreated datePublished" datetime="2015-10-21T00:00:00+08:00">2015-10-21</time>
+      <time title="创建时间：2016-10-08 00:00:00" itemprop="dateCreated datePublished" datetime="2016-10-08T00:00:00+08:00">2016-10-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -312,7 +318,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
         </span>
     </span>
 
@@ -326,11 +332,14 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h4 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h4><p>先了解一下编译器相关的LLVM和Clang：</p>
-<h5 id="LLVM"><a href="#LLVM" class="headerlink" title="LLVM"></a>LLVM</h5><p>LLVM是构架编译器(compiler)的框架系统，以C++编写而成，可以作为多种语言编译器的后台来使用，用于优化以
+          <p>初始化方法的基本目的是给类型的所有存储属性赋值，以便新实例可用。编译器会强制要求新实例的存储属性有值。如果没有为自定义结构体提供初始化方法，就必须通过默认值或成员初始化方法提供必要的值。</p>
+<p>初始化方法一般形式：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">CustomType</span>&#123;</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">someValue</span>: <span class="type">SomeType</span>)&#123;</span><br><span class="line">        <span class="comment">//初始化代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化方法用关键字<code>init</code>表示，没有返回值，也不加<code>function</code>关键字。不同的初始化方法根据参数名及其类型的不同来区分。
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2015/10/21/iOS%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%92%8C%E8%BF%87%E7%A8%8B/#more" rel="contents">
+              <a class="btn" href="/2016/10/08/Swift%E7%BB%93%E6%9E%84%E4%BD%93%E5%88%9D%E5%A7%8B%E5%8C%96/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -361,7 +370,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/27/%E7%BD%91%E7%BB%9C%EF%BC%9AHTTP%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -379,7 +388,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/" class="post-title-link" itemprop="url">Autoreleasepool中的对象什么时候释放</a>
+          <a href="/2016/09/27/%E7%BD%91%E7%BB%9C%EF%BC%9AHTTP%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">网络：HTTP基础</a>
         </h2>
 
         <div class="post-meta-container">
@@ -390,7 +399,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2015-10-12 00:00:00" itemprop="dateCreated datePublished" datetime="2015-10-12T00:00:00+08:00">2015-10-12</time>
+      <time title="创建时间：2016-09-27 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-27T00:00:00+08:00">2016-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -398,7 +407,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
         </span>
     </span>
 
@@ -412,13 +421,20 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><code>[obj autorelease];</code>的实质是：</p>
-<p>向autoreleasepool中添加<code>obj</code>，即 <code>[pool addObject:obj];</code></p>
-<p>autoreleasepool在被废弃的时候会向pool中所有发送过<code>autorelease</code>的对象发送<code>release</code>消息，对象的引用计数减1。（并不一定就会被释放，可能引用计数减1后仍然&gt;0）</p>
-<p>对于每一个Runloop， 系统会隐式创建一个Autorelease pool，这样所有的release pool会构成一个象CallStack一样的一个栈式结构，在每一个Runloop结束时，当前栈顶的Autorelease pool会被销毁，这样这个pool里的每个Object会被release。
+          <p>在TCP&#x2F;IP协议族中跟HTTP协议有三个密不可分的协议。</p>
+<h4 id="IP协议（网络层）"><a href="#IP协议（网络层）" class="headerlink" title="IP协议（网络层）"></a>IP协议（网络层）</h4><ol>
+<li><p>TCP&#x2F;IP协议族中的IP指的的就是网际<strong>协议</strong>（不是IP地址哦）。</p>
+<p>IP协议的作用是把各种数据包传送给对方。而要保证确实传送到对方那里，需要满足各类条件。其中两个重要的条件是IP地址和MAC地址（Media Access Control Address）。</p>
+<ul>
+<li>IP地址：指明了节点被分配到的地址。</li>
+<li>MAC地址：指网卡所属的固定地址。</li>
+</ul>
+<p><strong>IP地址可以和MAC地址进行配对。IP地址可变换，但MAC地址基本不会更改。</strong></p>
+</li>
+<li><p>使用ARP协议凭借MAC地址进行通信
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2015/10/12/Autoreleasepool%E4%B8%AD%E7%9A%84%E5%AF%B9%E8%B1%A1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%87%8A%E6%94%BE/#more" rel="contents">
+              <a class="btn" href="/2016/09/27/%E7%BD%91%E7%BB%9C%EF%BC%9AHTTP%E5%9F%BA%E7%A1%80/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -449,7 +465,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/09/03/CocoaPods%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/13/Swift%E4%B9%8B%E9%87%8D%E5%86%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -467,7 +483,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/09/03/CocoaPods%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">CocoaPods工作原理</a>
+          <a href="/2016/09/13/Swift%E4%B9%8B%E9%87%8D%E5%86%99/" class="post-title-link" itemprop="url">Swift之重写</a>
         </h2>
 
         <div class="post-meta-container">
@@ -478,7 +494,353 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2015-09-03 00:00:00" itemprop="dateCreated datePublished" datetime="2015-09-03T00:00:00+08:00">2015-09-03</time>
+      <time title="创建时间：2016-09-13 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-13T00:00:00+08:00">2016-09-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h4 id="子类中访问父类的方法、属性及下标"><a href="#子类中访问父类的方法、属性及下标" class="headerlink" title="子类中访问父类的方法、属性及下标"></a>子类中访问父类的方法、属性及下标</h4><ul>
+<li>访问父类的方法：<code>super.someMethod()</code></li>
+<li>访问父类的属性：<code>super.someProperty</code></li>
+<li>访问父类的下标：<code>super[someIndex]</code>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/09/13/Swift%E4%B9%8B%E9%87%8D%E5%86%99/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/09/Swift%E4%B8%AD%E7%9A%84%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/09/09/Swift%E4%B8%AD%E7%9A%84%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91/" class="post-title-link" itemprop="url">Swift中的一等公民</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-09 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-09T00:00:00+08:00">2016-09-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>一等公民含义：</p>
+<blockquote>
+<p>In programming language design, a first-class citizen (also type, object, entity, or value) in a given programming language is an entity which supports all the operations generally available to other entities.These operations typically include being passed as an argument, returned from a function, and assigned to a variable.</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/08/Swift%E4%B9%8B%E5%B1%9E%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/09/08/Swift%E4%B9%8B%E5%B1%9E%E6%80%A7/" class="post-title-link" itemprop="url">Swift之属性</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-08 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-08T00:00:00+08:00">2016-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>知识点：<strong>存储属性、计算属性（setter、getter）、类型属性、属性观察（property observation）、属性访问控制</strong>。</p>
+<h4 id="存储属性"><a href="#存储属性" class="headerlink" title="存储属性"></a>存储属性</h4><p>存储属性就是存储在特定类或结构体实例里的常量或变量。只能用于类和结构体。分为变量存储属性和常量存储属性。</p>
+<p>定义存储属性的时候指定默认值，也可以在构造过程中设置或修改存储属性的值，甚至修改常量存储属性的值。</p>
+<p><strong>关于构造过程中常量属性的修改说明：</strong></p>
+<p>你可以在构造过程中的任意时间点给常量属性指定一个值，只要在构造过程结束时是一个确定的值。一旦常量属性被赋值，它将永远不可修改。对于类的实例，它的常量属性只能在定义它的类的构造过程中修改，不能在子类中修改。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/09/08/Swift%E4%B9%8B%E5%B1%9E%E6%80%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/" class="post-title-link" itemprop="url">Swift之类和结构体</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-07 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-07T00:00:00+08:00">2016-09-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在Swift中，类和结构体既相似又各有不同。</p>
+<p>基本知识点：<strong>基本语法、类型方法、mutating方法、类和结构体异同点、类和结构体的选择</strong>。</p>
+<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><ol>
+<li><p>结构体和类都可以添加属性和方法
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/09/07/Swift%E4%B9%8B%E7%B1%BB%E5%92%8C%E7%BB%93%E6%9E%84%E4%BD%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/09/03/CocoaPods%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/09/03/CocoaPods%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">CocoaPods工作原理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-09-03 00:00:00" itemprop="dateCreated datePublished" datetime="2016-09-03T00:00:00+08:00">2016-09-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -531,7 +893,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/08/27/iOS%E4%B8%AD%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E5%B9%B6%E4%BF%AE%E6%94%B9%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7/">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/07/21/Swift%E9%97%AD%E5%8C%85%E5%9F%BA%E7%A1%80%E8%A6%81%E7%82%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -549,7 +911,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/08/27/iOS%E4%B8%AD%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E5%B9%B6%E4%BF%AE%E6%94%B9%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7/" class="post-title-link" itemprop="url">iOS中如何访问并修改一个类的私有属性</a>
+          <a href="/2016/07/21/Swift%E9%97%AD%E5%8C%85%E5%9F%BA%E7%A1%80%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">Swift闭包基础要点</a>
         </h2>
 
         <div class="post-meta-container">
@@ -560,7 +922,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2015-08-27 00:00:00" itemprop="dateCreated datePublished" datetime="2015-08-27T00:00:00+08:00">2015-08-27</time>
+      <time title="创建时间：2016-07-21 00:00:00" itemprop="dateCreated datePublished" datetime="2016-07-21T00:00:00+08:00">2016-07-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -568,7 +930,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
         </span>
     </span>
 
@@ -582,369 +944,108 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>要访问一个类的私有属性，很容易想到使用KVC，其实还有种方法就是利用runtime。但runtime有个短板在于，在ARC下，不支持对基本数据类型的变量进行修改。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/08/27/iOS%E4%B8%AD%E5%A6%82%E4%BD%95%E8%AE%BF%E9%97%AE%E5%B9%B6%E4%BF%AE%E6%94%B9%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/08/11/DPI%E4%B8%8EPPI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/08/11/DPI%E4%B8%8EPPI/" class="post-title-link" itemprop="url">DPI与PPI</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2015-08-11 00:00:00" itemprop="dateCreated datePublished" datetime="2015-08-11T00:00:00+08:00">2015-08-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li><p>DPI是每英寸的点数，可以简单理解为点的密度。</p>
-</li>
-<li><p>PPI是每英寸的像素数，可以简单理解为像素密度。</p>
-</li>
-</ul>
-<p>点和像素有区别吗？很多时候，一个点 ＝ 一个像素。但是，并不尽然，如iPhone的视网膜屏幕，它一个点包含了四个像素，大大提高了显示清晰度。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/08/11/DPI%E4%B8%8EPPI/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/06/30/initialize%E5%92%8Cload%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/06/30/initialize%E5%92%8Cload%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">initialize和load方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2015-06-30 00:00:00" itemprop="dateCreated datePublished" datetime="2015-06-30T00:00:00+08:00">2015-06-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="initialize方法"><a href="#initialize方法" class="headerlink" title="initialize方法"></a>initialize方法</h4><ul>
-<li><p>当程序向一个类或者它的子类第一次发消息的时候，runtime会向该类发送<code>initialize</code>消息。</p>
-</li>
-<li><p>如果super class之前没有收到过<code>initialize</code>消息，会首先调用<code>super class</code>的<code>initialize</code>，然后才当前<code>class</code>的<code>initialize</code>.</p>
-</li>
-<li><p>如果当前类没有实现initializie，则对当前class的initialize会转发调用super class的initialize，所以会出现一个initialize的实现被多次调用的情况，为了避免这种情况，可以采用如下写法：
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/06/30/initialize%E5%92%8Cload%E6%96%B9%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/06/11/github%E9%85%8D%E7%BD%AESSH-keys/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/06/11/github%E9%85%8D%E7%BD%AESSH-keys/" class="post-title-link" itemprop="url">github配置SSH keys</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2015-06-11 00:00:00" itemprop="dateCreated datePublished" datetime="2015-06-11T00:00:00+08:00">2015-06-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="实操步骤："><a href="#实操步骤：" class="headerlink" title="实操步骤："></a>实操步骤：</h4><ol>
-<li><p>判断是否已有SSH</p>
-<p><code>cd ~/.ssh</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/06/11/github%E9%85%8D%E7%BD%AESSH-keys/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2015/04/24/FMDB%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Baylee">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Baylee的技术博客">
-      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Baylee的技术博客">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2015/04/24/FMDB%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">FMDB使用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2015-04-24 00:00:00" itemprop="dateCreated datePublished" datetime="2015-04-24T00:00:00+08:00">2015-04-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" itemprop="url" rel="index"><span itemprop="name">杂七杂八</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><code>FMDB</code>以OC的方式封装了<code>SQLite</code>的C语言API。所以相对使用底层语言实现的<code>Sqlite</code>来说，<code>FMDB</code>主要有以下优点：</p>
+          <p>闭包是自包含的函数代码块，可以捕获和存储其所在上下文中任意常量和变量的引用，被称为包裹常量和变量。Swift会自动管理在捕获过程中涉及的内存操作。</p>
+<p>闭包的形式：</p>
 <ul>
-<li><p>使用起来更加面向对象，省去了很多麻烦、冗余的C语言代码；</p>
-</li>
-<li><p>对比苹果自带的<code>Core Data</code>框架，更加轻量级和灵活；</p>
-</li>
-<li><p>提供了多线程安全的数据库操作方法，有效地防止数据混乱。
+<li>全局函数：一个有名字但不会捕获任何值的闭包</li>
+<li>嵌套函数：一个有名字并可以捕获其封闭函数域内值的闭包</li>
+<li>闭包表达式：一个利用轻量级语法所写的可以捕获上下文中变量或常量值的匿名闭包
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2015/04/24/FMDB%E4%BD%BF%E7%94%A8/#more" rel="contents">
+              <a class="btn" href="/2016/07/21/Swift%E9%97%AD%E5%8C%85%E5%9F%BA%E7%A1%80%E8%A6%81%E7%82%B9/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zhengry.github.io/2016/07/18/Swift%E7%9A%84ARC%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Baylee">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Baylee的技术博客">
+      <meta itemprop="description" content="凡心所向 &nbsp;&nbsp;&nbsp;素履所往生如逆旅 &nbsp;&nbsp;&nbsp;一苇以航">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Baylee的技术博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2016/07/18/Swift%E7%9A%84ARC%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">Swift的ARC机制</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-07-18 00:00:00" itemprop="dateCreated datePublished" datetime="2016-07-18T00:00:00+08:00">2016-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>Swift中的ARC机制和Objective-C类似。每次创建一个类的新的实例的时候，ARC会分配一块内存在存储该实例信息，内存中会包含实例的类型信息以及这个实例所有相关的存储型属性的值。当实例不再被使用时，ARC会释放所占用的内存。</p>
+<p>鉴定一个实例是否被释放的方法：<br>在析构函数中添加打印信息，若实例被置为nil后，没有打印析构函数信息，则实例仍然存在引用，没有被销毁。</p>
+<h2 id="解决类实例之间的循环强引用"><a href="#解决类实例之间的循环强引用" class="headerlink" title="解决类实例之间的循环强引用"></a>解决类实例之间的循环强引用</h2><p>根据使用场景不同有三种解决方法：</p>
+<ul>
+<li>弱引用</li>
+<li>无主引用</li>
+<li>无主引用与隐式解析可选属性结合</li>
+</ul>
+<p>弱引用和无主引用都不会保持所引用的实例，从而实现在循环引用中的一个实例引用而另一个实例不保持强引用。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/07/18/Swift%E7%9A%84ARC%E6%9C%BA%E5%88%B6/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -968,7 +1069,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span>
+    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
