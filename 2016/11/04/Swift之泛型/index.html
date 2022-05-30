@@ -15,8 +15,8 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://lib.baomitu.com/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
@@ -28,7 +28,7 @@
 <meta property="og:description" content="泛型就是适用于任意类型、灵活可重用的函数及类型。泛型可以避免代码的重复。比如Swift的数组、字典、可选类型。 泛型数据结构比如自定义一个名stack（栈）函数： 123456789struct IntStack&amp;#123;    var items &#x3D; [Int]()    mutating func push(_ item: Int)&amp;#123;        items.append(ite">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2016-11-03T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-07T15:31:59.628Z">
+<meta property="article:modified_time" content="2022-05-23T15:24:31.467Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="Swift基础">
 <meta name="twitter:card" content="summary">
@@ -156,7 +156,7 @@
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://lib.baomitu.com/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -257,7 +257,7 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stackStrings <span class="operator">=</span> <span class="type">Stack</span>&lt;<span class="type">String</span>&gt;()</span><br><span class="line">stackStrings.push(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">stackStrings.push(<span class="string">&quot;age&quot;</span>)</span><br><span class="line"><span class="keyword">let</span> fromtheTop <span class="operator">=</span> stackStrings.pop()</span><br></pre></td></tr></table></figure>
 
 <h4 id="泛型函数和方法"><a href="#泛型函数和方法" class="headerlink" title="泛型函数和方法"></a>泛型函数和方法</h4><p>比如实现一个交换函数：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span>  <span class="title function_">swapTwoInts</span>(<span class="keyword">_</span> <span class="params">a</span>: <span class="keyword">inout</span> <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">b</span>: <span class="keyword">inout</span> <span class="type">Int</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> temp <span class="operator">=</span> a</span><br><span class="line">    a <span class="operator">=</span> b</span><br><span class="line">    b <span class="operator">=</span> temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someInt <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">var</span> anotherInt <span class="operator">=</span> <span class="number">5</span></span><br><span class="line">swapTwoInts(<span class="operator">&amp;</span>someInt, <span class="operator">&amp;</span>anotherInt)</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">swapTwoInts</span>(<span class="keyword">_</span> <span class="params">a</span>: <span class="keyword">inout</span> <span class="type">Int</span>, <span class="keyword">_</span> <span class="params">b</span>: <span class="keyword">inout</span> <span class="type">Int</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> temp <span class="operator">=</span> a</span><br><span class="line">    a <span class="operator">=</span> b</span><br><span class="line">    b <span class="operator">=</span> temp</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> someInt <span class="operator">=</span> <span class="number">3</span></span><br><span class="line"><span class="keyword">var</span> anotherInt <span class="operator">=</span> <span class="number">5</span></span><br><span class="line">swapTwoInts(<span class="operator">&amp;</span>someInt, <span class="operator">&amp;</span>anotherInt)</span><br></pre></td></tr></table></figure>
 
 <p>把上面的函数改写成泛型函数：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> <span class="title function_">swapTwoValues</span>&lt;<span class="type">T</span>&gt;(<span class="keyword">_</span> <span class="params">a</span>: <span class="keyword">inout</span> <span class="type">T</span>, <span class="keyword">_</span> <span class="params">b</span>: <span class="keyword">inout</span> <span class="type">T</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> temp <span class="operator">=</span> a</span><br><span class="line">    a <span class="operator">=</span> b</span><br><span class="line">    b <span class="operator">=</span> temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -361,7 +361,7 @@
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://lib.baomitu.com/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   

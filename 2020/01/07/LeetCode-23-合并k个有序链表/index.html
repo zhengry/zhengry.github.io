@@ -15,8 +15,8 @@
 
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://lib.baomitu.com/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://lib.baomitu.com/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zhengry.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.11.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
@@ -28,7 +28,7 @@
 <meta property="og:description" content="题目描述给你一个链表数组，每个链表都已经按升序排列。 请你将所有链表合并到一个升序链表中，返回合并后的链表。 示例： 12345678910输入：lists &#x3D; [[1,4,5],[1,3,4],[2,6]]输出：[1,1,2,3,4,4,5,6]解释：链表数组如下：[  1-&gt;4-&gt;5,  1-&gt;3-&gt;4,  2-&gt;6]将它们合并到一个有序链表中得到。1-&gt;1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-05-17T15:05:04.080Z">
+<meta property="article:modified_time" content="2022-05-23T03:33:08.878Z">
 <meta property="article:author" content="Baylee">
 <meta property="article:tag" content="LeetCode">
 <meta name="twitter:card" content="summary">
@@ -156,7 +156,7 @@
       </span>
   </div>
   <div class="cc-license site-overview-item animated" itemprop="license">
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdn.jsdelivr.net/npm/@creativecommons/vocabulary@2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://lib.baomitu.com/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
   </div>
 
 
@@ -255,8 +255,20 @@
 <span id="more"></span>
 
 <p><strong>提示</strong> </p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k <span class="operator">==</span> lists.length</span><br><span class="line"><span class="number">0</span> <span class="operator">&lt;=</span> k <span class="operator">&lt;=</span> <span class="number">10</span><span class="operator">^</span><span class="number">4</span></span><br><span class="line"><span class="number">0</span> <span class="operator">&lt;=</span> lists[i].length <span class="operator">&lt;=</span> <span class="number">500</span></span><br><span class="line"><span class="operator">-</span><span class="number">10</span><span class="operator">^</span><span class="number">4</span> <span class="operator">&lt;=</span> lists[i][j] <span class="operator">&lt;=</span> <span class="number">10</span><span class="operator">^</span><span class="number">4</span></span><br><span class="line">lists[i] 按 升序 排列</span><br><span class="line">lists[i].length 的总和不超过 <span class="number">10</span><span class="operator">^</span><span class="number">4</span></span><br></pre></td></tr></table></figure>
-
+<ul>
+<li><p><code>k == lists.length</code></p>
+</li>
+<li><p><code>0 &lt;= k &lt;= 10^4</code></p>
+</li>
+<li><p>&#96;&#96;0 &lt;&#x3D; lists[i].length &lt;&#x3D; 500&#96;</p>
+</li>
+<li><p><code>-10^4 &lt;= lists[i][j] &lt;= 10^4</code></p>
+</li>
+<li><p><code>lists[i] </code>按 升序 排列</p>
+</li>
+<li><p><code>lists[i].length</code> 的总和不超过 10^4</p>
+</li>
+</ul>
 <h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p><strong>归并思想</strong></p>
 <p>如果是两个有序链表合并，我们可能会利用归并排序合并阶段的思想：准备双指针分别放在两个链表头，每次取出较小的一个元素加入新的大链表，将其指针后移，继续比较，这样我们出去的都是最小的元素，自然就完成了排序。</p>
 <p>其实只要遍历链表数组，取出开头的两个链表，按照上述思路合并，然后新链表再与后一个继续合并，如此循环，直到全部合并完成。但是，这样太浪费时间了。</p>
@@ -346,7 +358,7 @@
   </footer>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://lib.baomitu.com/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
